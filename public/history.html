@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Lịch Sử Nộp Bài - NEO ONLINE JUDGE</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- CORE STYLE --- */
+        :root { --bg: #05070a; --card: #0f1115; --neon: #00f3ff; --pink: #ff0055; --green: #0aff60; --gold: #ffd700; --border: rgba(255,255,255,0.1); }
+        body { background: var(--bg); color: #fff; font-family: 'Inter', sans-serif; margin: 0; padding-bottom: 50px; 
+            background-image: linear-gradient(rgba(0, 243, 255, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 243, 255, 0.03) 1px, transparent 1px); background-size: 40px 40px; }
+
+        /* NAV */
+        .cyber-nav { background: rgba(0, 0, 0, 0.9); border-bottom: 1px solid var(--neon); padding: 0 30px; height: 60px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 1000; backdrop-filter: blur(10px); font-family: 'JetBrains Mono'; }
+        .nav-links { display: flex; gap: 30px; }
+        .nav-links a { text-decoration: none; color: #8b9bb4; font-size: 0.9rem; transition: 0.3s; font-weight: 600; }
+        .nav-links a:hover, .nav-links a.active { color: #fff; text-shadow: 0 0 8px #fff; }
+
+        /* CONTAINER */
+        .container { max-width: 1000px; margin: 40px auto; padding: 0 20px; }
+        .page-title { font-family: 'JetBrains Mono'; color: var(--neon); font-size: 2rem; margin-bottom: 30px; text-shadow: 0 0 15px rgba(0, 243, 255, 0.3); display: flex; align-items: center; gap: 15px; }
+
+        /* TABLE STYLE */
+        .history-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+        table { width: 100%; border-collapse: collapse; font-family: 'JetBrains Mono'; font-size: 0.9rem; }
+        th { text-align: left; padding: 18px 25px; background: rgba(0, 243, 255, 0.05); color: var(--neon); text-transform: uppercase; font-size: 0.8rem; border-bottom: 1px solid var(--border); }
+        td { padding: 15px 25px; border-bottom: 1px solid #222; vertical-align: middle; color: #ccc; }
+        tr:hover { background: rgba(255,255,255,0.03); }
+        
+        .score-badge { display: inline-block; padding: 5px 10px; border-radius: 4px; font-weight: bold; min-width: 40px; text-align: center; }
+        .score-100 { background: rgba(10, 255, 96, 0.15); color: var(--green); border: 1px solid var(--green); box-shadow: 0 0 10px rgba(10, 255, 96, 0.2); }
+        .score-low { background: rgba(255, 0, 85, 0.15); color: var(--pink); border: 1px solid var(--pink); }
+        .score-mid { background: rgba(255, 215, 0, 0.15); color: var(--gold); border: 1px solid var(--gold); }
+        
+        .type-tag { font-size: 0.7rem; padding: 2px 6px; border-radius: 3px; border: 1px solid #444; margin-right: 8px; vertical-align: middle; }
+        .btn-view { background: transparent; border: 1px solid #444; color: #888; padding: 6px 12px; border-radius: 4px; cursor: pointer; transition: 0.3s; font-family: inherit; font-size: 0.8rem; }
+        .btn-view:hover { border-color: var(--neon); color: var(--neon); background: rgba(0, 243, 255, 0.1); }
+
+        /* MODAL VIEW CODE */
+        .modal-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index: 2000; display:none; justify-content:center; align-items:center; backdrop-filter: blur(5px); }
+        .modal-box { background: #0f1115; width: 800px; max-width:90%; border: 1px solid var(--neon); border-radius: 12px; display: flex; flex-direction: column; max-height: 90vh; box-shadow: 0 0 50px rgba(0, 243, 255, 0.15); }
+        .modal-head { padding: 15px 20px; background: rgba(0, 243, 255, 0.1); border-bottom: 1px solid #333; display: flex; justify-content: space-between; align-items: center; }
+        .code-area { flex: 1; padding: 20px; overflow-y: auto; background: #05070a; color: #a5d6ff; font-family: 'JetBrains Mono', monospace; margin: 0; white-space: pre-wrap; font-size: 0.9rem; line-height: 1.5; }
+        .btn-close { background: none; border: none; color: #fff; font-size: 1.5rem; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <nav class="cyber-nav">
+        <div style="font-weight:800; color:var(--neon); font-size:1.2rem">[ NEO ONLINE JUDGE ]</div>
+        <div class="nav-links">
+            <a href="problems.html">KHO BÀI TẬP</a>
+            <a href="about.html">★ GIỚI THIỆU</a>
+            <a href="videos.html">VIDEO</a>
+            <a href="contest.html">PHÒNG THI</a>
+            <a href="history.html" class="active">LỊCH SỬ</a>
+            <a href="rank.html">BXH TOP 10</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1 class="page-title"><i class="fa-solid fa-clock-rotate-left"></i> NHẬT KÝ CODE</h1>
+        
+        <div class="history-card">
+            <table>
+                <thead>
+                    <tr>
+                        <th width="15%">Thời gian</th>
+                        <th width="35%">Bài toán</th>
+                        <th width="15%">Ngôn ngữ</th>
+                        <th width="15%">Điểm số</th>
+                        <th width="20%" style="text-align:right">Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody id="hist-list">
+                    <tr><td colspan="5" style="text-align:center; padding:30px">Đang tải dữ liệu...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div id="modal-code" class="modal-overlay">
+        <div class="modal-box">
+            <div class="modal-head">
+                <span style="color:var(--neon); font-weight:bold; font-family:'JetBrains Mono'"><i class="fa-solid fa-code"></i> SOURCE CODE VIEW</span>
+                <button class="btn-close" onclick="closeModal()">×</button>
+            </div>
+            <pre id="code-content" class="code-area"></pre>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyAQ79PPCmufVgJ312WxRXkFNG4rBb322SU",
+            authDomain: "neo-online-judge.firebaseapp.com",
+            databaseURL: "https://neo-online-judge-default-rtdb.firebaseio.com",
+            projectId: "neo-online-judge",
+            storageBucket: "neo-online-judge.firebasestorage.app",
+            messagingSenderId: "42094197302",
+            appId: "1:42094197302:web:a6e4bf9e06f0cc18077697"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+        const auth = firebase.auth();
+        let currentUser = null;
+
+        auth.onAuthStateChanged(user => {
+            if(!user) window.location.href = "index.html";
+            currentUser = user;
+            loadHistory();
+        });
+
+        async function loadHistory() {
+            const tbody = document.getElementById('hist-list');
+            const myHistory = [];
+
+            // 1. Lấy dữ liệu từ Luyện tập (submissions)
+            const snap1 = await db.ref('submissions').orderByChild('uid').equalTo(currentUser.uid).once('value');
+            if(snap1.exists()) {
+                const data = snap1.val();
+                Object.keys(data).forEach(key => {
+                    myHistory.push({ ...data[key], id: key, type: 'practice' });
+                });
+            }
+
+            // 2. Lấy dữ liệu từ Phòng thi (contest_submissions)
+            const snap2 = await db.ref('contest_submissions').orderByChild('uid').equalTo(currentUser.uid).once('value');
+            if(snap2.exists()) {
+                const data = snap2.val();
+                Object.keys(data).forEach(key => {
+                    myHistory.push({ ...data[key], id: key, type: 'contest' });
+                });
+            }
+
+            // 3. Sắp xếp: Mới nhất lên đầu
+            myHistory.sort((a, b) => b.timestamp - a.timestamp);
+
+            // 4. Hiển thị
+            tbody.innerHTML = "";
+            if(myHistory.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding:30px">Bạn chưa nộp bài nào cả.</td></tr>`;
+                return;
+            }
+
+            myHistory.forEach(item => {
+                const date = new Date(item.timestamp).toLocaleString('vi-VN');
+                
+                // Style cho điểm số
+                let scoreClass = 'score-low';
+                let score = item.score !== undefined ? item.score : 'Pending';
+                if(score == 100) scoreClass = 'score-100';
+                else if(score > 0) scoreClass = 'score-mid';
+
+                // Tag phân loại
+                let typeHtml = item.type === 'contest' 
+                    ? `<span class="type-tag" style="color:var(--gold); border-color:var(--gold)">THI</span>` 
+                    : `<span class="type-tag" style="color:#888">TẬP</span>`;
+                
+                const codeSafe = encodeURIComponent(item.code);
+
+                tbody.innerHTML += `
+                    <tr>
+                        <td style="color:#666; font-size:0.8rem">${date}</td>
+                        <td>${typeHtml} <b style="color:#fff">${item.problem_id}</b></td>
+                        <td style="text-transform:uppercase; color:var(--neon)">${item.language}</td>
+                        <td><span class="score-badge ${scoreClass}">${score}</span></td>
+                        <td style="text-align:right">
+                            <button class="btn-view" onclick="viewCode('${codeSafe}')">
+                                <i class="fa-regular fa-eye"></i> XEM CODE
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        function viewCode(encodedCode) {
+            const code = decodeURIComponent(encodedCode);
+            document.getElementById('code-content').textContent = code;
+            document.getElementById('modal-code').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('modal-code').style.display = 'none';
+        }
+    </script>
+</body>
+</html>

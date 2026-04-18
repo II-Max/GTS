@@ -1,0 +1,63 @@
+# ============================================================================
+# Docker Compose Configuration for NEO ONLINE JUDGE
+# ============================================================================
+# Usage:
+#   docker-compose up -d          # Start services
+#   docker-compose logs -f         # View logs
+#   docker-compose down           # Stop services
+# ============================================================================
+
+version: '3.8'
+
+services:
+  # Judge Server
+  judge:
+    build: .
+    container_name: neo-judge-server
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - DB_URL=${DB_URL}
+      - CRED_PATH=/app/service-account.json
+      - JUDGE_TIMEOUT=3
+      - LOG_LEVEL=INFO
+    volumes:
+      - ./service-account.json:/app/service-account.json:ro
+      - ./logs:/app/logs
+    restart: unless-stopped
+    networks:
+      - neo-network
+
+  # Optional: Redis for Queue System
+  redis:
+    image: redis:7-alpine
+    container_name: neo-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    restart: unless-stopped
+    networks:
+      - neo-network
+
+  # Optional: Firebase Emulator (for local development)
+  firebase-emulator:
+    image: andreysenov/firebase-emulator:latest
+    container_name: neo-firebase-emulator
+    ports:
+      - "9000:9000"  # Emulator Suite UI
+      - "5001:5001"  # Database Emulator
+    environment:
+      - FIREBASE_DATABASE_EMULATOR_HOST=localhost:5001
+    restart: unless-stopped
+    networks:
+      - neo-network
+    # Uncomment for production use
+    # profiles:
+    #   - dev
+
+volumes:
+  redis_data:
+
+networks:
+  neo-network:
+    driver: bridge

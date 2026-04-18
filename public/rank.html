@@ -2,165 +2,179 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Bảng Xếp Hạng Top 10</title>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&display=swap" rel="stylesheet">
+    <title>Bảng Xếp Hạng - NEO ONLINE JUDGE</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
-        body { background: #05070a; color: #fff; font-family: 'JetBrains Mono', monospace; margin: 0; }
-        
-        /* MENU */
-        .cyber-nav { background: rgba(0,0,0,0.9); border-bottom: 1px solid #00f3ff; padding: 0 30px; height: 60px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 1000; backdrop-filter: blur(5px); }
-        .nav-links a { text-decoration: none; color: #8b9bb4; margin-left: 20px; transition: 0.3s; }
-        .nav-links a.active { color: #fff; text-shadow: 0 0 5px #fff; }
+        /* --- CORE STYLE --- */
+        :root { --bg: #05070a; --card: #0f1115; --neon: #00f3ff; --pink: #ff0055; --green: #0aff60; --gold: #ffd700; --border: rgba(255,255,255,0.1); }
+        body { background: var(--bg); color: #fff; font-family: 'Inter', sans-serif; margin: 0; padding-bottom: 50px; 
+            background-image: linear-gradient(rgba(0, 243, 255, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 243, 255, 0.03) 1px, transparent 1px); background-size: 40px 40px; }
+
+        /* NAV */
+        .cyber-nav { background: rgba(0, 0, 0, 0.9); border-bottom: 1px solid var(--neon); padding: 0 30px; height: 60px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 1000; backdrop-filter: blur(10px); font-family: 'JetBrains Mono'; }
+        .nav-links { display: flex; gap: 30px; }
+        .nav-links a { text-decoration: none; color: #8b9bb4; font-size: 0.9rem; transition: 0.3s; font-weight: 600; }
+        .nav-links a:hover, .nav-links a.active { color: #fff; text-shadow: 0 0 8px #fff; }
 
         /* CONTAINER */
-        .container { max-width: 900px; margin: 50px auto; padding: 0 20px; text-align: center; }
-        .rank-title { font-size: 2.5rem; color: #00f3ff; text-shadow: 0 0 20px #00f3ff; margin-bottom: 40px; text-transform: uppercase; letter-spacing: 3px; }
+        .container { max-width: 800px; margin: 40px auto; padding: 0 20px; }
+        .page-header { text-align: center; margin-bottom: 40px; }
+        .page-title { font-family: 'JetBrains Mono'; color: var(--gold); font-size: 2.5rem; text-shadow: 0 0 20px rgba(255, 215, 0, 0.4); margin: 0; }
+        .page-subtitle { color: #888; margin-top: 10px; font-size: 0.9rem; }
+
+        /* RANK CARD */
+        .rank-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; box-shadow: 0 10px 40px rgba(0,0,0,0.5); }
         
-        /* TABLE STYLE */
-        .rank-table { 
-            width: 100%; border-collapse: separate; border-spacing: 0 10px; 
-        }
-        .rank-table th { 
-            text-align: left; padding: 15px 20px; color: #8b9bb4; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 1px;
-        }
-        .rank-row { background: #111625; transition: 0.3s; }
-        .rank-row:hover { transform: scale(1.02); background: #1a2133; }
-        .rank-row td { padding: 15px 20px; vertical-align: middle; border-top: 1px solid #2a3b55; border-bottom: 1px solid #2a3b55; }
-        .rank-row td:first-child { border-left: 1px solid #2a3b55; border-radius: 8px 0 0 8px; }
-        .rank-row td:last-child { border-right: 1px solid #2a3b55; border-radius: 0 8px 8px 0; }
-
-        /* USER INFO */
-        .user-cell { display: flex; align-items: center; gap: 15px; }
-        .u-avatar { width: 40px; height: 40px; border-radius: 50%; border: 2px solid #333; object-fit: cover; }
-        .u-name { font-weight: bold; font-size: 1.1rem; }
-
+        .rank-item { display: flex; align-items: center; padding: 20px 30px; border-bottom: 1px solid #222; transition: 0.2s; }
+        .rank-item:last-child { border-bottom: none; }
+        .rank-item:hover { background: rgba(255, 255, 255, 0.03); transform: scale(1.01); }
+        
         /* TOP 3 STYLES */
-        .rank-1 .rank-num { font-size: 1.5rem; color: #ffd700; text-shadow: 0 0 10px #ffd700; }
-        .rank-1 .u-avatar { border-color: #ffd700; box-shadow: 0 0 10px #ffd700; }
-        .rank-1 .u-name { color: #ffd700; text-shadow: 0 0 5px #ffd700; }
+        .rank-item.top-1 { background: linear-gradient(90deg, rgba(255, 215, 0, 0.1), transparent); border-left: 4px solid var(--gold); }
+        .rank-item.top-2 { background: linear-gradient(90deg, rgba(192, 192, 192, 0.1), transparent); border-left: 4px solid silver; }
+        .rank-item.top-3 { background: linear-gradient(90deg, rgba(205, 127, 50, 0.1), transparent); border-left: 4px solid #cd7f32; }
 
-        .rank-2 .rank-num { font-size: 1.4rem; color: #c0c0c0; text-shadow: 0 0 10px #c0c0c0; }
-        .rank-2 .u-avatar { border-color: #c0c0c0; }
-        .rank-2 .u-name { color: #c0c0c0; }
+        .r-pos { width: 50px; font-size: 1.5rem; font-weight: 800; color: #444; font-family: 'JetBrains Mono'; }
+        .top-1 .r-pos { color: var(--gold); text-shadow: 0 0 10px var(--gold); }
+        .top-2 .r-pos { color: silver; }
+        .top-3 .r-pos { color: #cd7f32; }
 
-        .rank-3 .rank-num { font-size: 1.3rem; color: #cd7f32; text-shadow: 0 0 10px #cd7f32; }
-        .rank-3 .u-avatar { border-color: #cd7f32; }
-        .rank-3 .u-name { color: #cd7f32; }
-
+        .r-info { flex: 1; display: flex; align-items: center; gap: 15px; }
+        .r-avatar { width: 45px; height: 45px; border-radius: 50%; border: 2px solid #333; object-fit: cover; }
+        .top-1 .r-avatar { border-color: var(--gold); box-shadow: 0 0 15px var(--gold); }
+        
+        .r-name { font-weight: bold; font-size: 1.1rem; color: #fff; }
+        .r-stats { text-align: right; }
+        .r-score { font-family: 'JetBrains Mono'; font-size: 1.2rem; color: var(--neon); font-weight: bold; }
+        .r-solved { font-size: 0.8rem; color: #666; }
     </style>
 </head>
 <body>
+
     <nav class="cyber-nav">
-        <div style="color:#00f3ff; font-weight:bold; font-size:1.2rem">[ NEO ONLINE JUDGE ]</div>
+        <div style="font-weight:800; color:var(--neon); font-size:1.2rem">[ NEO ONLINE JUDGE ]</div>
         <div class="nav-links">
             <a href="problems.html">KHO BÀI TẬP</a>
             <a href="about.html">★ GIỚI THIỆU</a>
-            <a href="documents.html">TÀI LIỆU</a>
-            <a href="videos.html">VIDEO</a>
+            <a href="contest.html">PHÒNG THI</a>
+            <a href="history.html">LỊCH SỬ</a>
             <a href="rank.html" class="active">BXH TOP 10</a>
         </div>
     </nav>
 
     <div class="container">
-        <h1 class="rank-title">🏆 Hall of Fame 🏆</h1>
-        <table class="rank-table">
-            <thead>
-                <tr>
-                    <th width="10%">#</th>
-                    <th width="50%">Học Sinh</th>
-                    <th width="20%">Số bài</th>
-                    <th width="20%" style="text-align:right">Tổng điểm</th>
-                </tr>
-            </thead>
-            <tbody id="rank-body">
-                <tr><td colspan="4" style="text-align:center; padding:30px; color:#888">Đang tải dữ liệu...</td></tr>
-            </tbody>
-        </table>
+        <div class="page-header">
+            <h1 class="page-title"><i class="fa-solid fa-trophy"></i> HALL OF FAME</h1>
+            <div class="page-subtitle">Bảng vinh danh những lập trình viên xuất sắc nhất hệ thống</div>
+        </div>
+
+        <div class="rank-card" id="rank-list">
+            <div style="padding:40px; text-align:center; color:#666">Đang tính toán điểm số...</div>
+        </div>
     </div>
 
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
     <script>
-        // CONFIG CHUẨN CỦA BẠN (Đã điền sẵn)
         const firebaseConfig = {
-            apiKey: "AIzaSyDV2kn1Cmg_7VcZRr6KXrqIsRVwPva6Dm8",
-            authDomain: "khkt2025-2026.firebaseapp.com",
-            databaseURL: "https://khkt2025-2026-default-rtdb.firebaseio.com",
-            projectId: "khkt2025-2026",
-            storageBucket: "khkt2025-2026.firebasestorage.app",
-            messagingSenderId: "826139105664",
-            appId: "1:826139105664:web:130efecd1b7c4f702d4965"
+            apiKey: "AIzaSyAQ79PPCmufVgJ312WxRXkFNG4rBb322SU",
+            authDomain: "neo-online-judge.firebaseapp.com",
+            databaseURL: "https://neo-online-judge-default-rtdb.firebaseio.com",
+            projectId: "neo-online-judge",
+            storageBucket: "neo-online-judge.firebasestorage.app",
+            messagingSenderId: "42094197302",
+            appId: "1:42094197302:web:a6e4bf9e06f0cc18077697"
         };
         firebase.initializeApp(firebaseConfig);
-        
-        firebase.database().ref('submissions').on('value', snap => {
-            const data = snap.val();
-            if(!data) { document.getElementById('rank-body').innerHTML = "<tr><td colspan='4' style='text-align:center; padding:20px'>Chưa có dữ liệu</td></tr>"; return; }
+        const db = firebase.database();
 
-            // 1. Tổng hợp dữ liệu
-            const users = {};
+        
+        async function loadRank() {
+            const listDiv = document.getElementById('rank-list');
+            
+            const usersSnap = await db.ref('users').once('value');
+            const usersMap = usersSnap.val() || {};
+
+            const subSnap = await db.ref('submissions').once('value');
+            if(!subSnap.exists()) {
+                listDiv.innerHTML = `<div style="padding:30px; text-align:center">Chưa có dữ liệu xếp hạng.</div>`;
+                return;
+            }
+
+            const data = subSnap.val();
+            const userScores = {};
+
             Object.values(data).forEach(s => {
                 if(s.status !== 'completed') return;
                 
-                // Khởi tạo user nếu chưa có
-                if(!users[s.uid]) {
-                    users[s.uid] = { 
-                        // Lấy tên và avatar mới nhất (nếu có), nếu không thì dùng mặc định
-                        name: s.name || "Ẩn danh", 
-                        avatar: s.avatar || `https://ui-avatars.com/api/?name=${s.name || 'User'}&background=random`,
-                        total: 0, 
-                        solved: 0, 
-                        probs: {} 
+                const uid = s.uid;
+                if(!uid) return;
+
+                if(!userScores[uid]) {
+                    let displayName = s.name || (usersMap[uid] ? usersMap[uid].name : `User_${uid.substr(0,4)}`);
+                    
+                    userScores[uid] = { 
+                        uid: uid,
+                        name: displayName,
+                        problems: {},
+                        total: 0,
+                        solvedCount: 0
                     };
                 }
-                
-                // Cập nhật tên/avatar nếu bài nộp này mới hơn (đơn giản hóa là lấy bài nộp bất kỳ có data)
-                if(s.name) users[s.uid].name = s.name;
-                if(s.avatar) users[s.uid].avatar = s.avatar;
 
-                // Tính điểm cao nhất cho từng bài
-                if(!users[s.uid].probs[s.problem_id] || parseInt(s.score) > users[s.uid].probs[s.problem_id]) {
-                    users[s.uid].probs[s.problem_id] = parseInt(s.score);
+                const currentBest = userScores[uid].problems[s.problem_id] || 0;
+                const newScore = parseInt(s.score);
+                
+                if(newScore > currentBest) {
+                    userScores[uid].problems[s.problem_id] = newScore;
                 }
             });
 
-            // 2. Tính tổng điểm và Sắp xếp
-            const ranking = Object.values(users).map(u => {
-                let total = 0, solved = 0;
-                Object.values(u.probs).forEach(s => { 
-                    total += s; 
-                    if(s === 100) solved++; 
+            const rankArray = Object.values(userScores).map(u => {
+                let sum = 0;
+                let count = 0;
+                Object.values(u.problems).forEach(sc => {
+                    sum += sc;
+                    if(sc === 100) count++;
                 });
-                return { name: u.name, avatar: u.avatar, total, solved };
-            }).sort((a,b) => b.total - a.total).slice(0, 10); // Lấy Top 10
+                return { ...u, total: sum, solvedCount: count };
+            });
 
-            // 3. Render ra HTML
-            const tbody = document.getElementById('rank-body');
-            tbody.innerHTML = "";
-            
-            ranking.forEach((u, i) => {
-                let rankClass = "";
-                let medal = "";
-                
-                if(i === 0) { rankClass = "rank-1"; medal = "👑"; }
-                else if(i === 1) { rankClass = "rank-2"; medal = "🥈"; }
-                else if(i === 2) { rankClass = "rank-3"; medal = "🥉"; }
+            rankArray.sort((a, b) => {
+                if(b.total !== a.total) return b.total - a.total;
+                return b.solvedCount - a.solvedCount;
+            });
 
-                tbody.innerHTML += `
-                    <tr class="rank-row ${rankClass}">
-                        <td class="rank-num">#${i+1}</td>
-                        <td>
-                            <div class="user-cell">
-                                <img src="${u.avatar}" class="u-avatar">
-                                <span class="u-name">${medal} ${u.name}</span>
-                            </div>
-                        </td>
-                        <td style="color:#00f3ff; font-weight:bold">${u.solved}</td>
-                        <td style="text-align:right; color:#0aff60; font-weight:bold; font-size:1.2rem">${u.total}</td>
-                    </tr>
+            listDiv.innerHTML = "";
+            rankArray.slice(0, 10).forEach((u, index) => {
+                const rank = index + 1;
+                let topClass = "";
+                if(rank === 1) topClass = "top-1";
+                if(rank === 2) topClass = "top-2";
+                if(rank === 3) topClass = "top-3";
+
+                const avatarUrl = `https://ui-avatars.com/api/?name=${u.name}&background=random&color=fff`;
+
+                listDiv.innerHTML += `
+                    <div class="rank-item ${topClass}">
+                        <div class="r-pos">#${rank}</div>
+                        <div class="r-info">
+                            <img class="r-avatar" src="${avatarUrl}">
+                            <div class="r-name">${u.name}</div>
+                        </div>
+                        <div class="r-stats">
+                            <div class="r-score">${u.total} PTS</div>
+                            <div class="r-solved">Hoàn thành: ${u.solvedCount} bài</div>
+                        </div>
+                    </div>
                 `;
             });
-        });
+        }
+
+        loadRank();
     </script>
 </body>
 </html>

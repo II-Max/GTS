@@ -2,91 +2,149 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Thư Viện Tài Liệu Số</title>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    
-    <style>
-        /* --- 1. GIAO DIỆN CHUNG --- */
-        :root { --bg: #05070a; --card: #111625; --neon: #00f3ff; --pink: #ff0055; --green: #0aff60; }
-        body { background: var(--bg); color: #fff; font-family: 'JetBrains Mono', monospace; margin: 0; }
-        
-        /* MENU */
-        .cyber-nav { background: rgba(0,0,0,0.95); border-bottom: 1px solid var(--neon); padding: 0 30px; height: 60px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
-        .nav-links a { text-decoration: none; color: #8b9bb4; margin-left: 20px; transition: 0.3s; font-size: 0.9rem; }
-        .nav-links a.active { color: #fff; text-shadow: 0 0 5px #fff; border-bottom: 2px solid var(--pink); padding-bottom: 5px; }
+    <title>Thư Viện Tài Liệu - NEO ONLINE JUDGE</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-        /* DANH SÁCH TÀI LIỆU */
+    <style>
+        /* CORE STYLE */
+        :root { --bg: #05070a; --card: #111625; --neon: #00f3ff; --pink: #ff0055; --green: #0aff60; --gold: #ffd700; }
+        body { background: var(--bg); color: #fff; font-family: 'Inter', sans-serif; margin: 0; padding-bottom: 100px; }
+        .cyber-nav { background: rgba(0,0,0,0.95); border-bottom: 1px solid var(--neon); padding: 0 30px; height: 60px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; font-family: 'JetBrains Mono'; }
+        .nav-links a { text-decoration: none; color: #8b9bb4; margin-left: 20px; transition: 0.3s; font-size: 0.9rem; }
+        .nav-links a:hover, .nav-links a.active { color: #fff; text-shadow: 0 0 5px #fff; }
         .container { max-width: 1000px; margin: 30px auto; padding: 0 20px; }
-        .doc-item { 
-            background: var(--card); border: 1px solid #2a3b55; padding: 20px; margin-bottom: 15px; 
-            display: flex; align-items: center; justify-content: space-between; border-radius: 8px; transition: 0.3s; 
-        }
+
+        /* DASHBOARD */
+        .dashboard { background: #0f1115; border: 1px solid #2a3b55; border-radius: 12px; padding: 25px; margin-bottom: 30px; display: flex; align-items: center; box-shadow: 0 10px 30px rgba(0,0,0,0.3); font-family: 'JetBrains Mono'; }
+        .dash-profile { flex: 1.2; display: flex; flex-direction: column; gap: 10px; padding-right: 25px; border-right: 1px solid #333; }
+        .user-head { display: flex; align-items: center; gap: 15px; }
+        .d-avatar { width: 60px; height: 60px; border-radius: 50%; border: 2px solid var(--neon); object-fit: cover; }
+        .user-meta b { display: block; font-size: 1.1rem; color: #fff; margin-bottom: 5px; }
+        .role-badge { font-size: 0.7rem; padding: 3px 8px; border-radius: 4px; text-transform: uppercase; font-weight: bold; display: inline-block; }
+        .role-student { background: rgba(0, 132, 255, 0.2); color: #4dabf7; border: 1px solid #4dabf7; }
+        .role-teacher { background: rgba(255, 215, 0, 0.15); color: var(--gold); border: 1px solid var(--gold); text-shadow: 0 0 5px var(--gold); }
+        .user-stats-row { display: flex; align-items: center; gap: 10px; margin-top: 5px; }
+        .stat-badge { background: #1a1e26; padding: 5px 10px; border-radius: 4px; font-size: 0.8rem; border: 1px solid #333; color: var(--neon); }
+        .dash-stats { flex: 1.5; padding: 0 30px; border-right: 1px solid #333; }
+        .dash-title { font-size: 0.9rem; color: #888; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px; }
+        .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .stat-item { display: flex; align-items: center; gap: 10px; font-size: 0.85rem; color: #bbb; }
+        .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+        .stat-val { font-weight: bold; color: #fff; margin-left: auto; font-size: 1rem; }
+        .dash-chart { flex: 0.8; display: flex; justify-content: center; align-items: center; }
+        .chart-wrapper { width: 130px; height: 130px; position: relative; }
+
+        /* DOC LIST */
+        .doc-item { background: var(--card); border: 1px solid #2a3b55; padding: 20px; margin-bottom: 15px; display: flex; align-items: center; justify-content: space-between; border-radius: 8px; transition: 0.3s; font-family: 'JetBrains Mono'; }
         .doc-item:hover { border-color: var(--neon); transform: translateX(5px); box-shadow: 0 0 15px rgba(0,243,255,0.1); }
-        
         .doc-icon { font-size: 2.2rem; margin-right: 20px; color: var(--neon); width: 50px; text-align: center; }
         .doc-info h3 { margin: 0 0 5px 0; font-size: 1.1rem; }
         .doc-meta { font-size: 0.8rem; color: #888; }
-        
-        .btn-view { 
-            background: rgba(0, 243, 255, 0.1); color: var(--neon); border: 1px solid var(--neon); 
-            padding: 8px 25px; font-weight: bold; cursor: pointer; border-radius: 4px; transition: 0.3s;
-        }
+        .btn-view { background: rgba(0, 243, 255, 0.1); color: var(--neon); border: 1px solid var(--neon); padding: 8px 25px; font-weight: bold; cursor: pointer; border-radius: 4px; transition: 0.3s; font-family: inherit; }
         .btn-view:hover { background: var(--neon); color: #000; box-shadow: 0 0 10px var(--neon); }
 
-        /* --- MODAL XEM TÀI LIỆU (CẢI TIẾN) --- */
-        #doc-modal {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.95); z-index: 9999;
-            display: none; flex-direction: column;
-        }
-        
-        .modal-header {
-            height: 60px; background: #111; border-bottom: 1px solid var(--neon);
-            display: flex; justify-content: space-between; align-items: center; padding: 0 20px;
-        }
-        .modal-title { font-weight: bold; color: var(--neon); text-transform: uppercase; max-width: 60%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        
-        /* Nút công cụ trên header modal */
-        .modal-actions { display: flex; gap: 15px; align-items: center; }
-        .btn-external {
-            background: var(--pink); color: #fff; border: none; padding: 5px 15px; 
-            border-radius: 4px; cursor: pointer; font-size: 0.8rem; font-weight: bold; text-decoration: none;
-            display: flex; align-items: center; gap: 5px;
-        }
-        .btn-external:hover { background: #ff4d88; }
-        .close-btn { background: transparent; border: none; color: #fff; font-size: 2rem; cursor: pointer; line-height: 1; }
-        .close-btn:hover { color: var(--pink); }
+        .header-row { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #333; padding-bottom: 10px; margin-bottom: 20px; }
+        .btn-add { background: linear-gradient(45deg, #ffd700, #ffaa00); color: #000; border: none; padding: 8px 20px; border-radius: 4px; font-weight: bold; cursor: pointer; display: none; align-items: center; gap: 8px; transition: 0.3s; font-family: 'JetBrains Mono'; }
+        .btn-add:hover { transform: scale(1.05); box-shadow: 0 0 15px rgba(255, 215, 0, 0.4); }
 
+        /* MODAL */
+        .modal-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index: 2000; display:none; justify-content:center; align-items:center; backdrop-filter: blur(5px); }
+        .modal-box { background: #0f1115; width: 500px; border: 1px solid var(--gold); padding: 25px; border-radius: 8px; box-shadow: 0 0 30px rgba(255,215,0,0.2); }
+        .form-input { width: 100%; background: #1a1e26; border: 1px solid #333; color: white; padding: 10px; border-radius: 4px; margin-bottom: 15px; box-sizing: border-box; font-family: 'JetBrains Mono'; }
+        .btn-save { width: 100%; background: var(--gold); color: black; border:none; padding: 12px; font-weight:bold; cursor:pointer; font-family: 'JetBrains Mono'; }
+        .btn-close { float:right; background:none; border:none; color:white; font-size:1.5rem; cursor:pointer; }
+        
+        #doc-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 9999; display: none; flex-direction: column; }
+        .modal-header { height: 60px; background: #111; border-bottom: 1px solid var(--neon); display: flex; justify-content: space-between; align-items: center; padding: 0 20px; }
+        .modal-title { font-weight: bold; color: var(--neon); text-transform: uppercase; max-width: 60%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .modal-actions { display: flex; gap: 15px; align-items: center; }
+        .btn-external { background: var(--pink); color: #fff; border: none; padding: 5px 15px; border-radius: 4px; cursor: pointer; font-size: 0.8rem; font-weight: bold; text-decoration: none; display: flex; align-items: center; gap: 5px; font-family: 'JetBrains Mono';}
         .modal-body { flex: 1; position: relative; background: #000; }
         iframe { width: 100%; height: 100%; border: none; display: block; }
-        
-        /* Thông báo khi đang tải hoặc lỗi */
-        .loading-text {
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            color: #888; z-index: -1; text-align: center;
-        }
     </style>
 </head>
 <body>
 
     <nav class="cyber-nav">
-        <div style="color:var(--neon); font-weight:bold; font-size:1.2rem">[ NEO ONLINE JUDGE ]</div>
+        <div class="nav-brand">[ NEO ONLINE JUDGE ]</div>
         <div class="nav-links">
             <a href="problems.html">KHO BÀI TẬP</a>
             <a href="about.html">★ GIỚI THIỆU</a>
             <a href="documents.html" class="active">TÀI LIỆU</a>
             <a href="videos.html">VIDEO</a>
+            <a href="contest.html">PHÒNG THI</a>
+            <a href="history.html">LỊCH SỬ</a>
             <a href="rank.html">BXH TOP 10</a>
         </div>
     </nav>
 
     <div class="container">
-        <h2 style="border-bottom: 1px solid #333; padding-bottom: 10px; color: var(--neon)">
-            <i class="fa-solid fa-folder-open"></i> THƯ VIỆN TÀI LIỆU SỐ
-        </h2>
+        
+        <div class="dashboard">
+            <div class="dash-profile">
+                <div class="user-head">
+                    <img id="d-ava" class="d-avatar" src="">
+                    <div class="user-meta">
+                        <b id="d-name">Loading...</b>
+                        <span id="role-display" class="role-badge role-student">Checking...</span>
+                    </div>
+                </div>
+                <div class="user-stats-row">
+                    <div class="stat-badge"><i class="fa-solid fa-trophy"></i> <span id="d-score">0</span> ĐIỂM</div>
+                    <div class="stat-badge" style="color:var(--pink); border-color:var(--pink)">
+                        <i class="fa-solid fa-ranking-star"></i> <span id="d-rank">#--</span>
+                    </div>
+                </div>
+            </div>
+            <div class="dash-stats">
+                <div class="dash-title">TIẾN ĐỘ HỌC TẬP (CODING)</div>
+                <div class="stat-grid">
+                    <div class="stat-item"><span class="dot" style="background:var(--green)"></span> Hoàn thành <span class="stat-val" id="s-done">0</span></div>
+                    <div class="stat-item"><span class="dot" style="background:var(--pink)"></span> Làm sai <span class="stat-val" id="s-wrong">0</span></div>
+                </div>
+            </div>
+            <div class="dash-chart">
+                <div class="chart-wrapper"><canvas id="myChart"></canvas></div>
+            </div>
+        </div>
+
+        <div class="header-row">
+            <h2 style="color: var(--neon); margin:0; font-family:'JetBrains Mono'"><i class="fa-solid fa-folder-open"></i> THƯ VIỆN TÀI LIỆU SỐ</h2>
+            <button id="btn-add-doc" class="btn-add" onclick="document.getElementById('modal-add').style.display='flex'">
+                <i class="fa-solid fa-cloud-arrow-up"></i> UPLOAD TÀI LIỆU
+            </button>
+        </div>
+
         <div id="doc-list">
             <div style="text-align:center; padding:20px; color:#888">Đang tải dữ liệu từ máy chủ...</div>
+        </div>
+    </div>
+
+    <div id="modal-add" class="modal-overlay">
+        <div class="modal-box">
+            <button class="btn-close" onclick="document.getElementById('modal-add').style.display='none'">×</button>
+            <h3 style="color:var(--gold); margin-top:0; font-family:'JetBrains Mono'">UPLOAD TÀI LIỆU</h3>
+            
+            <label style="color:#888; display:block; margin:10px 0 5px">Tên tài liệu:</label>
+            <input type="text" id="t-title" class="form-input" placeholder="VD: Đề cương...">
+            
+            <label style="color:#888; display:block; margin:10px 0 5px">Link (Drive/PDF):</label>
+            <input type="text" id="t-url" class="form-input" placeholder="https://...">
+            
+            <label style="color:#888; display:block; margin:10px 0 5px">Loại file:</label>
+            <select id="t-type" class="form-input">
+                <option value="PDF">PDF</option>
+                <option value="DOCX">Word (DOC/DOCX)</option>
+                <option value="PPTX">PowerPoint (PPT/PPTX)</option>
+                <option value="XLSX">Excel</option>
+            </select>
+            
+            <label style="color:#888; display:block; margin:10px 0 5px">Mô tả ngắn:</label>
+            <input type="text" id="t-desc" class="form-input" placeholder="Mô tả nội dung...">
+            
+            <button class="btn-save" onclick="saveDoc()">LƯU TÀI LIỆU</button>
         </div>
     </div>
 
@@ -94,123 +152,169 @@
         <div class="modal-header">
             <span class="modal-title" id="modal-doc-title">Document Viewer</span>
             <div class="modal-actions">
-                <a id="btn-open-new" href="#" target="_blank" class="btn-external">
-                    <i class="fa-solid fa-up-right-from-square"></i> MỞ TAB MỚI
-                </a>
-                <button class="close-btn" onclick="closeModal()">×</button>
+                <a id="btn-open-new" href="#" target="_blank" class="btn-external"><i class="fa-solid fa-up-right-from-square"></i> TAB MỚI</a>
+                <button style="background:none; border:none; color:white; font-size:2rem; cursor:pointer" onclick="document.getElementById('doc-modal').style.display='none'">×</button>
             </div>
         </div>
         <div class="modal-body">
-            <div class="loading-text">
-                <i class="fa-solid fa-spinner fa-spin" style="font-size: 2rem; margin-bottom: 10px;"></i><br>
-                Đang tải nội dung...<br>
-                <small style="color:#555">(Nếu không xem được, hãy bấm nút "Mở Tab Mới" ở góc trên)</small>
-            </div>
             <iframe id="doc-frame" src=""></iframe>
         </div>
     </div>
 
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
     <script>
-        // CONFIG CHUẨN CỦA DỰ ÁN BẠN
         const firebaseConfig = {
-            apiKey: "AIzaSyDV2kn1Cmg_7VcZRr6KXrqIsRVwPva6Dm8",
-            authDomain: "khkt2025-2026.firebaseapp.com",
-            databaseURL: "https://khkt2025-2026-default-rtdb.firebaseio.com",
-            projectId: "khkt2025-2026",
-            storageBucket: "khkt2025-2026.firebasestorage.app",
-            messagingSenderId: "826139105664",
-            appId: "1:826139105664:web:130efecd1b7c4f702d4965"
+            apiKey: "AIzaSyAQ79PPCmufVgJ312WxRXkFNG4rBb322SU",
+            authDomain: "neo-online-judge.firebaseapp.com",
+            databaseURL: "https://neo-online-judge-default-rtdb.firebaseio.com",
+            projectId: "neo-online-judge",
+            storageBucket: "neo-online-judge.firebasestorage.app",
+            messagingSenderId: "42094197302",
+            appId: "1:42094197302:web:a6e4bf9e06f0cc18077697"
         };
         firebase.initializeApp(firebaseConfig);
-        
-        // TẢI DANH SÁCH TÀI LIỆU
-        firebase.database().ref('documents').once('value', snap => {
-            const data = snap.val();
-            const div = document.getElementById('doc-list');
-            div.innerHTML = "";
-            
-            if(data) {
-                Object.values(data).forEach(doc => {
-                    let iconClass = "fa-file";
-                    let color = "#fff";
-                    const type = doc.type.toUpperCase();
-                    
-                    if(type === 'PDF') { iconClass = "fa-file-pdf"; color = "#ff0055"; }
-                    else if(['DOC','DOCX'].includes(type)) { iconClass = "fa-file-word"; color = "#00f3ff"; }
-                    else if(['XLS','XLSX'].includes(type)) { iconClass = "fa-file-excel"; color = "#0aff60"; }
-                    else if(['PPT','PPTX'].includes(type)) { iconClass = "fa-file-powerpoint"; color = "#ffcc00"; }
-                    
-                    div.innerHTML += `
-                        <div class="doc-item">
-                            <div style="display:flex; align-items:center">
-                                <div class="doc-icon" style="color:${color}">
-                                    <i class="fa-solid ${iconClass}"></i>
-                                </div>
-                                <div class="doc-info">
-                                    <h3>${doc.title}</h3>
-                                    <div class="doc-meta">
-                                        <span style="border:1px solid #444; padding:2px 6px; border-radius:4px; font-size:0.7rem">${type}</span> 
-                                        | ${doc.date}
-                                    </div>
-                                    <div style="font-size:0.85rem; color:#aaa; margin-top:5px;">${doc.desc}</div>
-                                </div>
-                            </div>
-                            <button class="btn-view" onclick="viewDocument('${doc.url}', '${type}', '${doc.title}')">
-                                <i class="fa-regular fa-eye"></i> XEM NGAY
-                            </button>
-                        </div>
-                    `;
-                });
-            } else { 
-                div.innerHTML = "<div style='text-align:center; padding:30px; color:#666'>Chưa có tài liệu nào.</div>"; 
+        const db = firebase.database();
+        const auth = firebase.auth();
+        let currentUser = null;
+        let chartInstance = null;
+
+        auth.onAuthStateChanged(user => {
+            if(!user) window.location.href = "index.html";
+            else {
+                currentUser = user;
+                document.getElementById('d-name').innerText = user.displayName;
+                document.getElementById('d-ava').src = user.photoURL || "https://ui-avatars.com/api/?name=User";
+                checkRole();
+                loadStatsAndRank(); // Hàm tính Rank mới
+                loadDocs();
             }
         });
 
-        // --- HÀM XỬ LÝ XEM TÀI LIỆU THÔNG MINH ---
+        function checkRole() {
+            db.ref('users/' + currentUser.uid).on('value', snap => {
+                const role = (snap.val() && snap.val().role) ? snap.val().role : 'student';
+                const el = document.getElementById('role-display');
+                if (role === 'teacher') {
+                    el.className = 'role-badge role-teacher';
+                    el.innerHTML = '<i class="fa-solid fa-chalkboard-user"></i> GIÁO VIÊN';
+                    document.getElementById('btn-add-doc').style.display = 'flex';
+                } else {
+                    el.className = 'role-badge role-student';
+                    el.innerHTML = '<i class="fa-solid fa-graduation-cap"></i> HỌC SINH';
+                    document.getElementById('btn-add-doc').style.display = 'none';
+                }
+            });
+        }
+
+        function loadStatsAndRank() {
+            db.ref('submissions').on('value', snap => {
+                const data = snap.val();
+                if(!data) return;
+
+                // 1. Tính điểm toàn bộ User để xếp Rank
+                const allUserScores = {};
+                Object.values(data).forEach(s => {
+                    if(s.status !== 'completed') return;
+                    if(!allUserScores[s.uid]) allUserScores[s.uid] = {};
+                    const score = parseInt(s.score);
+                    if(!allUserScores[s.uid][s.problem_id] || score > allUserScores[s.uid][s.problem_id]) {
+                        allUserScores[s.uid][s.problem_id] = score;
+                    }
+                });
+
+                // 2. Điểm của User hiện tại
+                const myScores = allUserScores[currentUser.uid] || {};
+                let myTotalScore = 0, cDone = 0, cWrong = 0;
+                Object.values(myScores).forEach(sc => {
+                    myTotalScore += sc;
+                    if(sc === 100) cDone++; else if(sc===0) cWrong++;
+                });
+
+                document.getElementById('d-score').innerText = myTotalScore;
+                document.getElementById('s-done').innerText = cDone;
+                document.getElementById('s-wrong').innerText = cWrong;
+
+                // 3. Chart
+                const ctx = document.getElementById('myChart').getContext('2d');
+                if(chartInstance) chartInstance.destroy();
+                chartInstance = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: { labels: ['Hoàn thành', 'Chưa xong'], datasets: [{ data: [cDone, cWrong], backgroundColor: ['#0aff60', '#ff0055'], borderWidth: 0 }] },
+                    options: { responsive: true, maintainAspectRatio: false, cutout: '70%', plugins: { legend: {display: false} } }
+                });
+
+                // 4. Rank
+                const rankList = Object.keys(allUserScores).map(uid => {
+                    let total = 0; Object.values(allUserScores[uid]).forEach(sc => total += sc); return { uid, total };
+                }).sort((a,b) => b.total - a.total);
+
+                const me = rankList.find(u => u.uid === currentUser.uid);
+                if(me) {
+                    document.getElementById('d-rank').innerText = "#" + (rankList.indexOf(me) + 1);
+                }
+            });
+        }
+
+        function loadDocs() {
+            db.ref('documents').on('value', snap => {
+                const data = snap.val();
+                const div = document.getElementById('doc-list');
+                div.innerHTML = "";
+                if(data) {
+                    Object.values(data).forEach(doc => {
+                        let iconClass = "fa-file"; let color = "#fff";
+                        const type = doc.type.toUpperCase();
+                        if(type === 'PDF') { iconClass = "fa-file-pdf"; color = "#ff0055"; }
+                        else if(type.includes('DOC')) { iconClass = "fa-file-word"; color = "#00f3ff"; }
+                        else if(type.includes('XLS')) { iconClass = "fa-file-excel"; color = "#0aff60"; }
+                        else if(type.includes('PPT')) { iconClass = "fa-file-powerpoint"; color = "#ffcc00"; }
+                        
+                        div.innerHTML += `
+                            <div class="doc-item">
+                                <div style="display:flex; align-items:center">
+                                    <div class="doc-icon" style="color:${color}"><i class="fa-solid ${iconClass}"></i></div>
+                                    <div class="doc-info">
+                                        <h3>${doc.title}</h3>
+                                        <div class="doc-meta"><span style="border:1px solid #444; padding:2px 6px; border-radius:4px; font-size:0.7rem">${type}</span> | ${doc.date}</div>
+                                        <div style="font-size:0.85rem; color:#aaa; margin-top:5px;">${doc.desc}</div>
+                                    </div>
+                                </div>
+                                <button class="btn-view" onclick="viewDocument('${doc.url}', '${type}', '${doc.title}')"><i class="fa-regular fa-eye"></i> XEM NGAY</button>
+                            </div>`;
+                    });
+                } else { div.innerHTML = "<p>Chưa có tài liệu nào.</p>"; }
+            });
+        }
+
+        function saveDoc() {
+            const title = document.getElementById('t-title').value;
+            const url = document.getElementById('t-url').value;
+            const type = document.getElementById('t-type').value;
+            const desc = document.getElementById('t-desc').value;
+            if(!title || !url) return alert("Vui lòng nhập Tên và Link tài liệu!");
+            const dateStr = new Date().toLocaleDateString('vi-VN');
+            db.ref('documents').push({
+                title: title, url: url, type: type, desc: desc, date: dateStr, author: currentUser.email
+            }).then(() => {
+                alert("Upload thành công!"); document.getElementById('modal-add').style.display='none';
+            }).catch(e => alert("Lỗi (Chỉ giáo viên): " + e.message));
+        }
+
         function viewDocument(url, type, title) {
             const modal = document.getElementById('doc-modal');
             const frame = document.getElementById('doc-frame');
-            const titleEl = document.getElementById('modal-doc-title');
-            const btnOpenNew = document.getElementById('btn-open-new'); // Nút dự phòng
-            
-            titleEl.innerText = title;
-            btnOpenNew.href = url; // Gán link gốc cho nút mở tab mới
+            document.getElementById('modal-doc-title').innerText = title;
+            document.getElementById('btn-open-new').href = url;
             modal.style.display = 'flex';
-
-            // Xử lý link Google Drive (Chuyển view -> preview để nhúng tốt hơn)
             if (url.includes('drive.google.com')) {
-                let cleanUrl = url;
-                if(cleanUrl.includes('/view')) {
-                    cleanUrl = cleanUrl.replace('/view', '/preview');
-                } else if(cleanUrl.includes('/edit')) {
-                    cleanUrl = cleanUrl.replace('/edit', '/preview');
-                }
-                
-                // Nếu link chưa có /preview thì thêm vào (trường hợp link share id)
-                if (!cleanUrl.includes('/preview') && !cleanUrl.includes('export=')) {
-                     // Nếu dạng id=... thì giữ nguyên, nếu dạng file/d/... thì thêm preview
-                     if(cleanUrl.includes('/file/d/')) cleanUrl += '/preview';
-                }
-                
+                let cleanUrl = url.replace('/view', '/preview').replace('/edit', '/preview');
+                if(!cleanUrl.includes('/preview') && !cleanUrl.includes('export=')) cleanUrl += '/preview';
                 frame.src = cleanUrl;
-            } 
-            // Xử lý file Office (Word, Excel...) dùng Google Docs Viewer
-            else if (['DOC', 'DOCX', 'XLS', 'XLSX', 'PPT', 'PPTX'].includes(type.toUpperCase())) {
+            } else if (['DOC', 'DOCX', 'XLS', 'XLSX', 'PPT', 'PPTX'].includes(type.toUpperCase())) {
                 frame.src = `https://docs.google.com/gview?url=${encodeURIComponent(url)}&embedded=true`;
-            } 
-            // Các loại khác (PDF direct link)
-            else {
-                frame.src = url;
-            }
-        }
-
-        function closeModal() {
-            const modal = document.getElementById('doc-modal');
-            const frame = document.getElementById('doc-frame');
-            modal.style.display = 'none';
-            frame.src = "about:blank"; // Xóa trắng iframe để dừng tải
+            } else { frame.src = url; }
         }
     </script>
 </body>

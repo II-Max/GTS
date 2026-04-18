@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Phòng Thi Trực Tuyến</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root { --bg: #05070a; --card: #111625; --neon: #00f3ff; --pink: #ff0055; --green: #0aff60; --gold: #ffd700; }
+        body { background: var(--bg); color: #fff; font-family: 'Inter', sans-serif; margin: 0; padding-bottom: 50px; }
+        
+        #exam-ui { display: block; }
+        .room-header { background: #111; border-bottom: 2px solid var(--gold); padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; }
+        .room-title { font-family: 'JetBrains Mono'; font-size: 1.2rem; color: var(--gold); font-weight: bold; }
+        .timer-box { font-family: 'JetBrains Mono'; font-size: 1.5rem; color: var(--pink); border: 1px solid var(--pink); padding: 5px 15px; border-radius: 4px; background: rgba(255, 0, 85, 0.1); font-weight:bold; width: 120px; text-align: center; }
+        .btn-leave { background: #333; color: #fff; border: 1px solid #555; padding: 10px 20px; cursor: pointer; border-radius: 4px; font-weight: bold; }
+        .btn-end-now { background: var(--pink); color: #fff; border: none; padding: 10px 20px; cursor: pointer; border-radius: 4px; font-weight: bold; display: none; box-shadow: 0 0 10px var(--pink); }
+        .btn-end-now:hover { background: #d00045; }
+
+        .container { max-width: 1200px; margin: 30px auto; padding: 0 20px; display: flex; gap: 30px; }
+        .left-col { flex: 1; }
+        .right-col { flex: 1.2; background: #0f1115; border: 1px solid var(--gold); border-radius: 8px; padding: 20px; display: none; height: fit-content; }
+        
+        .prob-card { background: var(--card); border: 1px solid #2a3b55; padding: 20px; margin-bottom: 15px; border-radius: 8px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: 0.3s; }
+        .prob-card:hover { border-color: var(--neon); transform: translateX(5px); }
+        .prob-id { font-family: 'JetBrains Mono'; color: var(--neon); font-weight: bold; font-size: 1.1rem; }
+        .status-badge { font-size: 0.8rem; padding: 4px 10px; border-radius: 4px; background: #333; color: #888; font-weight: bold; }
+        .status-done { background: rgba(10, 255, 96, 0.2); color: var(--green); border: 1px solid var(--green); }
+
+        .lb-table { width: 100%; border-collapse: collapse; font-family: 'JetBrains Mono'; font-size: 0.9rem; }
+        .lb-table th { text-align: left; color: #888; padding-bottom: 15px; border-bottom: 1px solid #333; }
+        .lb-table td { padding: 12px 0; border-bottom: 1px solid #222; vertical-align: middle; }
+        .score-val { color: var(--gold); font-weight: bold; }
+        .btn-kick { background: transparent; border: 1px solid var(--pink); color: var(--pink); padding: 4px 10px; font-size: 0.75rem; cursor: pointer; border-radius: 4px; font-weight: bold; }
+
+        #result-ui { display: none; text-align: center; padding-top: 50px; animation: fadeIn 0.5s ease-in-out forwards; }
+        .final-title { font-size: 3rem; color: var(--gold); text-shadow: 0 0 20px var(--gold); margin-bottom: 10px; font-family: 'JetBrains Mono'; }
+        .final-sub { color: #888; margin-bottom: 40px; }
+        .rank-container { max-width: 800px; margin: 0 auto; background: #111; border: 2px solid var(--gold); border-radius: 15px; padding: 30px; box-shadow: 0 0 50px rgba(255, 215, 0, 0.1); }
+        .rank-table { width: 100%; border-collapse: collapse; }
+        .rank-table th { text-align: center; color: var(--neon); padding: 15px; border-bottom: 2px solid #333; font-size: 1.1rem; }
+        .rank-table td { padding: 15px; border-bottom: 1px solid #222; font-size: 1.1rem; font-weight: bold; }
+        .top-1 { color: #ffd700; text-shadow: 0 0 10px #ffd700; font-size: 1.3rem; }
+        .top-2 { color: #c0c0c0; }
+        .top-3 { color: #cd7f32; }
+        .btn-home { background: var(--neon); color: #000; border: none; padding: 15px 40px; font-size: 1.2rem; font-weight: bold; border-radius: 50px; cursor: pointer; margin-top: 40px; transition: 0.3s; font-family: 'JetBrains Mono'; }
+        .btn-home:hover { transform: scale(1.1); box-shadow: 0 0 30px var(--neon); }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+    <div id="exam-ui">
+        <div class="room-header">
+            <div class="room-title"><i class="fa-solid fa-dungeon"></i> PHÒNG: <span id="r-id" style="color:#fff; margin-left:5px">...</span></div>
+            <div style="display:flex; align-items:center; gap:15px">
+                <button id="btn-end" class="btn-end-now" onclick="endContestNow()"><i class="fa-solid fa-stop"></i> KẾT THÚC THI</button>
+                <div class="timer-box" id="timer">--:--</div>
+                <button class="btn-leave" onclick="leaveRoom()">RỜI PHÒNG</button>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="left-col">
+                <h3 style="border-bottom: 1px solid #333; padding-bottom: 10px; margin-top:0; color:#888">DANH SÁCH ĐỀ BÀI</h3>
+                <div id="prob-list"></div>
+            </div>
+            <div class="right-col" id="teacher-panel">
+                <h3 style="color:var(--gold); margin-top:0">GIÁM SÁT TRỰC TIẾP <i class="fa-solid fa-eye"></i></h3>
+                <table class="lb-table">
+                    <thead><tr><th>Học Sinh</th><th>Tiến độ</th><th>Điểm</th><th>Kick</th></tr></thead>
+                    <tbody id="lb-body"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div id="result-ui">
+        <h1 class="final-title">🏁 KẾT THÚC 🏁</h1>
+        <p class="final-sub">Kỳ thi đã khép lại. Dưới đây là bảng xếp hạng chính thức.</p>
+        <div class="rank-container">
+            <table class="rank-table">
+                <thead><tr><th>HẠNG</th><th>THÍ SINH</th><th>HOÀN THÀNH</th><th>TỔNG ĐIỂM</th></tr></thead>
+                <tbody id="final-rank-body"></tbody>
+            </table>
+        </div>
+        <button class="btn-home" onclick="window.location.href='problems.html'">
+            <i class="fa-solid fa-house"></i> QUAY VỀ MENU CHÍNH
+        </button>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyAQ79PPCmufVgJ312WxRXkFNG4rBb322SU",
+            authDomain: "neo-online-judge.firebaseapp.com",
+            databaseURL: "https://neo-online-judge-default-rtdb.firebaseio.com",
+            projectId: "neo-online-judge",
+            storageBucket: "neo-online-judge.firebasestorage.app",
+            messagingSenderId: "42094197302",
+            appId: "1:42094197302:web:a6e4bf9e06f0cc18077697"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+        const auth = firebase.auth();
+        
+        const params = new URLSearchParams(window.location.search);
+        const roomId = params.get('id');
+        let contestData = null;
+        let currentUser = null;
+        let timerInterval = null;
+        let currentSubRef = null;
+
+        if(!roomId) { alert("Lỗi ID!"); window.location.href = 'contest.html'; }
+        document.getElementById('r-id').innerText = roomId;
+
+        auth.onAuthStateChanged(user => {
+            if(!user) window.location.href = 'index.html';
+            currentUser = user;
+            initRoomListener();
+        });
+
+        function initRoomListener() {
+            db.ref('contests/' + roomId).on('value', snap => {
+                if(!snap.exists()) { alert("Phòng đã hủy!"); window.location.href = 'contest.html'; return; }
+                
+                contestData = snap.val();
+                const isOwner = (contestData.owner === currentUser.uid);
+
+                if (contestData.status === 'closed') {
+                    cleanup(); 
+                    showFinalResults(); 
+                    return; 
+                }
+
+                document.getElementById('exam-ui').style.display = 'block';
+                document.getElementById('result-ui').style.display = 'none';
+
+                if(isOwner) {
+                    setupTeacherView();
+                } else {
+                    setupStudentView();
+                }
+                
+                renderProblems(contestData.problems, isOwner);
+            });
+        }
+
+        function cleanup() {
+            if(timerInterval) clearInterval(timerInterval);
+            if(currentSubRef) currentSubRef.off(); 
+        }
+
+        function setupTeacherView() {
+            document.getElementById('teacher-panel').style.display = 'block';
+            document.getElementById('btn-end').style.display = 'block';
+            startTimer(contestData.created_at, contestData.duration, false);
+            monitorLiveBoard();
+        }
+
+        function setupStudentView() {
+            const myData = contestData.participants ? contestData.participants[currentUser.uid] : null;
+            if(!myData) { alert("Chưa tham gia!"); window.location.href = 'contest.html'; return; }
+            if(myData.status === 'kicked') { alert("Bạn đã bị KICK!"); window.location.href = 'problems.html'; return; }
+            startTimer(myData.joined_at, contestData.duration, true);
+            calculateMyScore();
+        }
+
+        function showFinalResults() {
+            document.getElementById('exam-ui').style.display = 'none'; 
+            document.getElementById('result-ui').style.display = 'block'; 
+            calculateFinalRank(); 
+        }
+
+        function calculateFinalRank() {
+            db.ref('contest_submissions').once('value', snap => {
+                const subs = snap.val();
+                const participants = contestData.participants || {};
+                const scores = {}; 
+                Object.keys(participants).forEach(uid => { scores[uid] = { name: participants[uid].name, total: 0, solved: 0, probMap: {} }; });
+
+                if(subs) {
+                    Object.values(subs).forEach(s => {
+                        if(s.contest_id === roomId && scores[s.uid]) {
+                            const sc = parseInt(s.score);
+                            // LOGIC: Lấy điểm cao nhất (Best Score)
+                            if(!scores[s.uid].probMap[s.problem_id] || sc > scores[s.uid].probMap[s.problem_id]) {
+                                scores[s.uid].probMap[s.problem_id] = sc;
+                            }
+                        }
+                    });
+                }
+
+                const ranking = Object.values(scores).map(u => {
+                    let t = 0, slv = 0;
+                    Object.values(u.probMap).forEach(p => { t += p; if(p===100) slv++; });
+                    return { ...u, total: t, solved: slv };
+                }).sort((a,b) => b.total - a.total);
+
+                const tbody = document.getElementById('final-rank-body');
+                tbody.innerHTML = "";
+                ranking.forEach((r, index) => {
+                    let rankDisplay = `#${index + 1}`;
+                    let rowClass = "";
+                    if(index === 0) { rankDisplay = "👑 TOP 1"; rowClass = "top-1"; }
+                    else if(index === 1) { rankDisplay = "🥈 TOP 2"; rowClass = "top-2"; }
+                    else if(index === 2) { rankDisplay = "🥉 TOP 3"; rowClass = "top-3"; }
+                    tbody.innerHTML += `<tr class="${rowClass}"><td>${rankDisplay}</td><td>${r.name}</td><td>${r.solved} / ${contestData.problems.length} Bài</td><td>${r.total} Điểm</td></tr>`;
+                });
+            });
+        }
+
+        function renderProblems(probIds, isOwner, bestScores = {}) {
+            const div = document.getElementById('prob-list');
+            div.innerHTML = "";
+            probIds.forEach(pid => {
+                let badgeHTML = "";
+                if(!isOwner) {
+                    const score = bestScores[pid] || 0;
+                    let badgeClass = "status-badge";
+                    if(score === 100) { badgeClass += " status-done"; }
+                    badgeHTML = `<span class="${badgeClass}">${score} điểm</span>`;
+                }
+                div.innerHTML += `<div class="prob-card" onclick="doProblem('${pid}')"><span class="prob-id">${pid}</span>${badgeHTML}</div>`;
+            });
+        }
+
+        function doProblem(pid) { window.location.href = `solve.html?id=${pid}&contest_id=${roomId}`; }
+
+        function calculateMyScore() {
+            // SỬA: Đổi từ .once() sang .on() để cập nhật điểm Realtime
+            db.ref('contest_submissions').orderByChild('uid').equalTo(currentUser.uid).on('value', snap => {
+                const subs = snap.val();
+                const bestScores = {};
+                if(subs) {
+                    Object.values(subs).forEach(s => {
+                        if(s.contest_id === roomId && contestData.problems.includes(s.problem_id)) {
+                            const sc = parseInt(s.score);
+                            // LOGIC: Nếu muốn điểm mới nhất (ghi đè), bỏ điều kiện sc > bestScores
+                            // Hiện tại: Giữ điểm cao nhất
+                            if(!bestScores[s.problem_id] || sc > bestScores[s.problem_id]) bestScores[s.problem_id] = sc;
+                        }
+                    });
+                }
+                renderProblems(contestData.problems, false, bestScores);
+            });
+        }
+
+        function monitorLiveBoard() {
+            if(currentSubRef) currentSubRef.off();
+            currentSubRef = db.ref('contest_submissions');
+            currentSubRef.on('value', snap => {
+                const subs = snap.val();
+                const participants = contestData.participants || {};
+                const scores = {}; 
+                Object.keys(participants).forEach(uid => {
+                    if(participants[uid].status !== 'kicked') scores[uid] = { uid:uid, name: participants[uid].name, total: 0, solved: 0, probMap: {} };
+                });
+                if(subs) {
+                    Object.values(subs).forEach(s => {
+                        if(s.contest_id === roomId && scores[s.uid]) {
+                            const sc = parseInt(s.score);
+                            if(!scores[s.uid].probMap[s.problem_id] || sc > scores[s.uid].probMap[s.problem_id]) scores[s.uid].probMap[s.problem_id] = sc;
+                        }
+                    });
+                }
+                const ranking = Object.values(scores).map(u => {
+                    let t = 0, slv = 0;
+                    Object.values(u.probMap).forEach(p => { t += p; if(p===100) slv++; });
+                    return { ...u, total: t, solved: slv };
+                }).sort((a,b) => b.total - a.total);
+
+                const tbody = document.getElementById('lb-body');
+                tbody.innerHTML = "";
+                ranking.forEach(r => {
+                    tbody.innerHTML += `<tr><td>${r.name}</td><td>${r.solved} bài</td><td class="score-val">${r.total}</td><td><button class="btn-kick" onclick="kickUser('${r.uid}')"><i class="fa-solid fa-ban"></i></button></td></tr>`;
+                });
+            });
+        }
+
+        function startTimer(startTime, durationMinutes, isStudent) {
+            if(timerInterval) clearInterval(timerInterval);
+            const endTime = startTime + (durationMinutes * 60 * 1000);
+            timerInterval = setInterval(() => {
+                const diff = endTime - Date.now();
+                if(diff <= 0) {
+                    clearInterval(timerInterval);
+                    document.getElementById('timer').innerText = "00:00:00";
+                    if(isStudent) { alert("Hết giờ làm bài!"); showFinalResults(); }
+                } else {
+                    const h = Math.floor(diff / 3600000);
+                    const m = Math.floor((diff % 3600000) / 60000);
+                    const s = Math.floor((diff % 60000) / 1000);
+                    document.getElementById('timer').innerText = `${h}:${m}:${s}`;
+                }
+            }, 1000);
+        }
+
+        function endContestNow() {
+            if(confirm("XÁC NHẬN KẾT THÚC THI?")) db.ref('contests/' + roomId).update({ status: 'closed' });
+        }
+        function kickUser(uid) { if(confirm("Kick user này?")) db.ref(`contests/${roomId}/participants/${uid}`).update({ status: 'kicked' }); }
+        function leaveRoom() { if(confirm("Rời phòng?")) window.location.href = 'contest.html'; }
+    </script>
+</body>
+</html>
