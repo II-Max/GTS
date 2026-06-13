@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -299,6 +300,309 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
     <script>
+=======
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luyện Tập Code & Mentor AI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;600;700&family=Consolas:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-dark: #121212;
+            --panel-bg: #1e1e1e;
+            --text-main: #e0e0e0;
+            --accent: #007bff;
+            --neon: #00ffcc;
+            --border: #333;
+            
+            /* Màu độ khó */
+            --diff-easy: #00c853;   /* Xanh lá */
+            --diff-med: #ffab00;    /* Vàng cam */
+            --diff-hard: #d50000;   /* Đỏ */
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* HEADER */
+        header {
+            background: var(--panel-bg);
+            padding: 10px 20px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .header-left { display: flex; align-items: center; gap: 15px; }
+        .btn-back {
+            background: #333; color: #fff; border: 1px solid #555;
+            padding: 8px 15px; border-radius: 5px; cursor: pointer;
+            text-decoration: none; font-size: 14px; display: flex; align-items: center; gap: 5px;
+            transition: 0.2s;
+        }
+        .btn-back:hover { background: #555; }
+        h2 { margin: 0; font-size: 18px; color: var(--accent); }
+
+        /* LAYOUT CHÍNH */
+        .container { display: flex; flex: 1; overflow: hidden; }
+
+        /* --- CỘT TRÁI: ĐỀ BÀI (GIAO DIỆN MỚI) --- */
+        .left-panel {
+            width: 40%;
+            padding: 25px;
+            border-right: 1px solid var(--border);
+            overflow-y: auto;
+            background: #181818;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* 1. Tiêu đề & Độ khó */
+        .problem-header {
+            border-bottom: 1px solid #333;
+            padding-bottom: 15px;
+        }
+        .problem-title-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        #problem-title {
+            margin: 0;
+            color: #fff;
+            font-size: 22px;
+            font-weight: 700;
+        }
+        .difficulty-badge {
+            font-size: 12px;
+            font-weight: bold;
+            padding: 4px 10px;
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            background: #333; /* Màu mặc định */
+            color: #fff;
+        }
+
+        /* 2. Nội dung câu hỏi */
+        .problem-description {
+            font-size: 15px;
+            line-height: 1.6;
+            color: #ccc;
+            white-space: pre-wrap; /* Giữ định dạng xuống dòng */
+        }
+
+        /* 3. Input / Output Mẫu */
+        .io-section {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 10px;
+        }
+        .io-row {
+            display: flex;
+            gap: 15px;
+        }
+        .io-box {
+            flex: 1;
+            background: #000;
+            border: 1px solid #333;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        .io-header {
+            background: #222;
+            padding: 5px 10px;
+            font-size: 12px;
+            font-weight: bold;
+            color: #888;
+            border-bottom: 1px solid #333;
+            text-transform: uppercase;
+        }
+        .io-content {
+            padding: 10px;
+            font-family: 'Consolas', monospace;
+            font-size: 14px;
+            color: var(--neon);
+            white-space: pre;
+            overflow-x: auto;
+        }
+
+        /* --- CỘT PHẢI: CODE EDITOR --- */
+        .right-panel {
+            width: 60%;
+            display: flex;
+            flex-direction: column;
+            background: var(--panel-bg);
+        }
+
+        .editor-toolbar {
+            padding: 10px;
+            background: #252526;
+            display: flex;
+            gap: 10px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        select, button {
+            padding: 8px 12px; border: none; border-radius: 4px;
+            cursor: pointer; font-weight: 600;
+        }
+        button.btn-run { background: #28a745; color: white; }
+        button.btn-run:hover { background: #218838; }
+
+        button.btn-ai {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: white;
+            box-shadow: 0 0 10px rgba(100, 100, 255, 0.4);
+            transition: 0.3s;
+        }
+        button.btn-ai:hover { transform: translateY(-2px); box-shadow: 0 0 15px rgba(100, 100, 255, 0.7); }
+
+        textarea#code {
+            flex: 1; background: #1e1e1e; color: #d4d4d4;
+            border: none; padding: 15px;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 14px; resize: none; outline: none; line-height: 1.5;
+        }
+
+        #output-log {
+            padding: 15px; height: 150px; background: #111;
+            border-top: 1px solid #333; overflow: auto;
+            font-family: 'Consolas', monospace; color: #bbb;
+        }
+
+        /* --- MODAL AI --- */
+        #ai-modal {
+            display: none; position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            justify-content: center; align-items: center;
+            z-index: 9999; backdrop-filter: blur(5px);
+        }
+        #ai-content {
+            background: #1e1e1e; padding: 2px; border-radius: 12px;
+            width: 650px; max-width: 90%;
+            box-shadow: 0 0 25px rgba(0, 255, 255, 0.15);
+        }
+        .ai-inner-box {
+            background: #1e1e1e; padding: 25px; border-radius: 10px;
+            color: #fff; max-height: 75vh; overflow-y: auto;
+        }
+        .rgb-wrapper { width: 100%; text-align: center; padding: 40px 0; }
+        .rgb-line {
+            height: 6px; width: 100%;
+            background: linear-gradient(90deg, #ff0000, #ffff00, #00ff00, #00ffff, #0000ff, #ff00ff, #ff0000);
+            background-size: 400% 100%; animation: rgb-run 1.5s linear infinite;
+            border-radius: 10px; margin-bottom: 25px;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.6);
+        }
+        @keyframes rgb-run { 0% { background-position: 100% 0; } 100% { background-position: 0 0; } }
+        .loading-text { font-size: 16px; letter-spacing: 2px; color: #fff; text-transform: uppercase; animation: blink 1.2s infinite; }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+        .ai-response-text { font-size: 16px; line-height: 1.7; color: #e0e0e0; text-align: left; }
+        .ai-response-text b { color: var(--neon); font-weight: 700; }
+        .ai-response-text ul { margin-left: 20px; }
+        .ai-response-text li { margin-bottom: 10px; }
+        .btn-close-ai {
+            background: #333; color: #fff; border: 1px solid #555;
+            padding: 10px 30px; margin-top: 25px; border-radius: 6px;
+            transition: 0.2s; cursor: pointer;
+        }
+        .btn-close-ai:hover { background: #555; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-left">
+            <button onclick="window.history.back()" class="btn-back">
+                <i class="fa-solid fa-arrow-left"></i> Quay lại
+            </button>
+            <h2><i class="fa-solid fa-code"></i> HỆ THỐNG CHẤM BÀI</h2>
+        </div>
+        <div id="user-info">Đang tải...</div>
+    </header>
+
+    <div class="container">
+        
+        <div class="left-panel">
+            
+            <div class="problem-header">
+                <div class="problem-title-row">
+                    <h1 id="problem-title">Đang tải đề...</h1>
+                    <span id="difficulty-badge" class="difficulty-badge">...</span>
+                </div>
+            </div>
+
+            <div id="desc" class="problem-description">
+                Đang kết nối cơ sở dữ liệu...
+            </div>
+
+            <div class="io-section">
+                <div class="io-row">
+                    <div class="io-box">
+                        <div class="io-header">Input Mẫu</div>
+                        <div id="problem-input" class="io-content">...</div>
+                    </div>
+                    <div class="io-box">
+                        <div class="io-header">Output Mẫu</div>
+                        <div id="problem-output" class="io-content">...</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="right-panel">
+            <div class="editor-toolbar">
+                <select id="language">
+                    <option value="python">Python</option>
+                    <option value="cpp">C++</option>
+                    <option value="java">Java</option>
+                    <option value="pascal">Pascal</option>
+                </select>
+                <button class="btn-run" onclick="submitCode()">
+                    <i class="fa-solid fa-play"></i> CHẤM BÀI
+                </button>
+                <button id="btn-ai" class="btn-ai" onclick="askAI()">
+                    <i class="fa-solid fa-robot"></i> AI GỢI Ý (BETA)
+                </button>
+            </div>
+            
+            <textarea id="code" placeholder="Nhập code của bạn tại đây..."></textarea>
+            
+            <div id="output-log">
+                Kết quả chấm sẽ hiện ở đây...
+            </div>
+        </div>
+    </div>
+
+    <div id="ai-modal">
+        <div id="ai-content"></div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
+    <script>
+>>>>>>> 42795a7b37f52a94db846762b5038dd9d6c08e0a
         const firebaseConfig = {
             apiKey: "AIzaSyAQ79PPCmufVgJ312WxRXkFNG4rBb322SU",
             authDomain: "neo-online-judge.firebaseapp.com",
@@ -307,6 +611,7 @@
             storageBucket: "neo-online-judge.firebasestorage.app",
             messagingSenderId: "42094197302",
             appId: "1:42094197302:web:a6e4bf9e06f0cc18077697"
+<<<<<<< HEAD
         };
         if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
@@ -505,4 +810,204 @@
         }
     </script>
 </body>
+=======
+        };
+        if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+        const auth = firebase.auth();
+
+        let currentUser = null;
+        let currentProblemId = "bai1"; 
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const contestId = urlParams.get('contest_id'); 
+        const MODE = contestId ? 'CONTEST' : 'PRACTICE';
+        
+        const btnAI = document.getElementById('btn-ai');
+        if (MODE === 'CONTEST') {
+            if(btnAI) btnAI.style.display = 'none';
+        }
+        
+        const pid = urlParams.get('id');
+        if(pid) currentProblemId = pid;
+
+        function loadProblem() {
+            let problemRef = db.ref(`problems/${currentProblemId}`);
+
+            problemRef.once('value').then(snap => {
+                if(snap.exists()) {
+                    const data = snap.val();
+                    const prefix = MODE === 'CONTEST' ? `<span style="color:orange">[BÀI THI]</span> ` : "";
+                    
+                    document.getElementById('problem-title').innerHTML = prefix + data.title;
+                    document.getElementById('desc').innerText = data.description;
+                    document.getElementById('problem-input').innerText = data.example_input || "(Không có input)";
+                    document.getElementById('problem-output').innerText = data.example_output || "(Không có output)";
+
+                    const diffBadge = document.getElementById('difficulty-badge');
+                    let level = data.difficulty || data.level || "Dễ"; 
+                    diffBadge.innerText = level;
+
+                    if (level === 'Dễ' || level === 'Easy') {
+                        diffBadge.style.backgroundColor = 'var(--diff-easy)';
+                        diffBadge.style.color = '#fff';
+                    } else if (level === 'Trung Bình' || level === 'Medium') {
+                        diffBadge.style.backgroundColor = 'var(--diff-med)';
+                        diffBadge.style.color = '#000';
+                    } else if (level === 'Khó' || level === 'Hard') {
+                        diffBadge.style.backgroundColor = 'var(--diff-hard)';
+                        diffBadge.style.color = '#fff';
+                    } else {
+                        diffBadge.style.backgroundColor = '#555';
+                    }
+
+                } else {
+                    document.getElementById('problem-title').innerText = "⚠️ Không tìm thấy đề bài!";
+                    document.getElementById('desc').innerText = "Vui lòng kiểm tra lại đường dẫn.";
+                }
+            }).catch(error => {
+                console.error("Lỗi tải đề:", error);
+                document.getElementById('desc').innerText = "Lỗi kết nối Firebase.";
+            });
+        }
+        
+        loadProblem();
+
+        auth.onAuthStateChanged(user => {
+            if (user) {
+                currentUser = user;
+                document.getElementById('user-info').innerHTML = `<i class="fa-solid fa-user"></i> ${user.displayName || user.email}`;
+            } else {
+                document.getElementById('user-info').innerHTML = "Chưa đăng nhập";
+            }
+        });
+
+        function submitCode() {
+            if(!currentUser) return alert("Vui lòng đăng nhập để nộp bài!");
+            
+            const code = document.getElementById('code').value;
+            const lang = document.getElementById('language').value;
+            const subId = Date.now().toString();
+
+            document.getElementById('output-log').innerHTML = "⏳ Đang chấm bài...";
+
+            let submissionRef;
+            let submitData = {
+                uid: currentUser.uid,
+                problem_id: currentProblemId,
+                code: code,
+                language: lang,
+                status: 'pending',
+                timestamp: firebase.database.ServerValue.TIMESTAMP
+            };
+
+            if (MODE === 'CONTEST') {
+                submitData.contest_id = contestId;
+                submissionRef = db.ref('contest_submissions/' + subId);
+            } else {
+                submissionRef = db.ref('submissions/' + subId);
+            }
+
+            submissionRef.set(submitData);
+
+            submissionRef.on('value', snap => {
+                const data = snap.val();
+                if(data && data.status === 'completed') {
+                    const color = data.score == 100 ? '#00ffcc' : (data.score > 0 ? 'orange' : '#ff5555');
+                    document.getElementById('output-log').innerHTML = `
+                        <div style="border-bottom:1px solid #333; padding-bottom:5px; margin-bottom:5px;">
+                            <b>KẾT QUẢ: </b> <span style="color:${color}; font-size:18px">${data.score}/100</span>
+                        </div>
+                        <div style="font-size:13px; line-height:1.5">
+                            ${data.message.replace(/\n/g, '<br>')}
+                        </div>
+                    `;
+                    submissionRef.off();
+                }
+            });
+        }
+
+        function askAI() {
+            if (MODE === 'CONTEST') return alert("Tính năng AI bị vô hiệu hóa trong phòng thi!");
+
+            const codeEditor = document.getElementById('code');
+            const descElement = document.getElementById('desc');
+            
+            if (!codeEditor || !descElement) return alert("Lỗi giao diện.");
+            const code = codeEditor.value;
+            const desc = descElement.innerText;
+            
+            if(!code.trim()) return alert("Bạn chưa viết dòng code nào cả!");
+
+            const modal = document.getElementById('ai-modal');
+            const content = document.getElementById('ai-content');
+            
+            if (modal && content) {
+                modal.style.display = 'flex';
+                content.innerHTML = `
+                    <div class="ai-inner-box">
+                        <div class="rgb-wrapper">
+                            <div class="rgb-line"></div>
+                            <div class="loading-text">
+                                <i class="fa-solid fa-brain"></i> Mentor đang phân tích...
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            try {
+                const reqId = Date.now().toString();
+                const ref = db.ref('ai_requests/' + reqId);
+
+                ref.set({
+                    uid: currentUser ? currentUser.uid : "anonymous",
+                    name: currentUser ? currentUser.displayName : "User",
+                    code: code,
+                    problem_desc: desc, 
+                    status: 'pending',
+                    timestamp: firebase.database.ServerValue.TIMESTAMP
+                });
+
+                ref.on('value', snap => {
+                    const data = snap.val();
+                    if(data && data.status === 'completed') {
+                        let text = data.response || "Không có phản hồi.";
+                        text = text.replace(/\n/g, '<br>');
+                        text = text.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
+                        text = text.replace(/- /g, '• ');
+
+                        content.innerHTML = `
+                            <div class="ai-inner-box">
+                                <h3 style="color:#00ffcc; text-align:center; margin-top:0;">
+                                    <i class="fa-solid fa-lightbulb"></i> GỢI Ý CỦA MENTOR
+                                </h3>
+                                <div class="ai-response-text">${text}</div>
+                                <div style="text-align:center">
+                                    <button class="btn-close-ai" onclick="document.getElementById('ai-modal').style.display='none'">
+                                        Đã hiểu
+                                    </button>
+                                </div>
+                            </div>
+                        `;
+                        ref.off();
+                    } else if (data && data.status === 'error') {
+                         content.innerHTML = `
+                            <div class="ai-inner-box" style="text-align:center">
+                                <h3 style="color:#ff5555">LỖI</h3>
+                                <p>${data.response}</p>
+                                <button class="btn-close-ai" onclick="document.getElementById('ai-modal').style.display='none'">Đóng</button>
+                            </div>
+                        `;
+                        ref.off();
+                    }
+                });
+            } catch (e) {
+                alert("Lỗi kết nối: " + e.message);
+                modal.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+>>>>>>> 42795a7b37f52a94db846762b5038dd9d6c08e0a
 </html>

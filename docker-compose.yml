@@ -1,15 +1,25 @@
 # ============================================================================
+<<<<<<< HEAD
 # NEO ONLINE JUDGE v2.0 - Docker Compose
 # ============================================================================
 # Usage:
 #   docker-compose up -d           # Start services
 #   docker-compose logs -f judge   # View logs
 #   docker-compose down            # Stop services
+=======
+# Docker Compose Configuration for NEO ONLINE JUDGE
+# ============================================================================
+# Usage:
+#   docker-compose up -d          # Start services
+#   docker-compose logs -f         # View logs
+#   docker-compose down           # Stop services
+>>>>>>> 42795a7b37f52a94db846762b5038dd9d6c08e0a
 # ============================================================================
 
 version: '3.8'
 
 services:
+<<<<<<< HEAD
   # --- Judge Server ---
   judge:
     build: .
@@ -29,6 +39,26 @@ services:
       - redis
 
   # --- Redis Queue System ---
+=======
+  # Judge Server
+  judge:
+    build: .
+    container_name: neo-judge-server
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - DB_URL=${DB_URL}
+      - CRED_PATH=/app/service-account.json
+      - JUDGE_TIMEOUT=3
+      - LOG_LEVEL=INFO
+    volumes:
+      - ./service-account.json:/app/service-account.json:ro
+      - ./logs:/app/logs
+    restart: unless-stopped
+    networks:
+      - neo-network
+
+  # Optional: Redis for Queue System
+>>>>>>> 42795a7b37f52a94db846762b5038dd9d6c08e0a
   redis:
     image: redis:7-alpine
     container_name: neo-redis
@@ -39,14 +69,20 @@ services:
     restart: unless-stopped
     networks:
       - neo-network
+<<<<<<< HEAD
     profiles:
       - full
 
   # --- Firebase Emulator (local dev only) ---
+=======
+
+  # Optional: Firebase Emulator (for local development)
+>>>>>>> 42795a7b37f52a94db846762b5038dd9d6c08e0a
   firebase-emulator:
     image: andreysenov/firebase-emulator:latest
     container_name: neo-firebase-emulator
     ports:
+<<<<<<< HEAD
       - "9000:9000"
       - "5001:5001"
     restart: unless-stopped
@@ -54,6 +90,18 @@ services:
       - neo-network
     profiles:
       - dev
+=======
+      - "9000:9000"  # Emulator Suite UI
+      - "5001:5001"  # Database Emulator
+    environment:
+      - FIREBASE_DATABASE_EMULATOR_HOST=localhost:5001
+    restart: unless-stopped
+    networks:
+      - neo-network
+    # Uncomment for production use
+    # profiles:
+    #   - dev
+>>>>>>> 42795a7b37f52a94db846762b5038dd9d6c08e0a
 
 volumes:
   redis_data:
