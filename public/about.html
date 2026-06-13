@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Báo Cáo Dự Án - NEO ONLINE JUDGE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+
+    <style>
+        :root {
+            --primary: #00f3ff;
+            --secondary: #bc13fe;
+            --accent: #00ff41;
+            --bg: #050505;
+            --glass: rgba(20, 20, 30, 0.7);
+            --border: 1px solid rgba(0, 243, 255, 0.2);
+        }
+
+        body {
+            background-color: var(--bg);
+            color: #e0e0e0;
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(188, 19, 254, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(0, 243, 255, 0.1) 0%, transparent 20%);
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Orbitron', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 0;
+        }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            border-bottom: 2px solid var(--primary);
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            color: #fff;
+            text-shadow: 0 0 20px var(--primary), 0 0 40px var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            color: var(--primary);
+            max-width: 800px;
+        }
+
+        .scroll-down {
+            position: absolute;
+            bottom: 30px;
+            animation: bounce 2s infinite;
+            color: var(--secondary);
+            font-size: 2rem;
+        }
+
+        /* --- CONTAINER --- */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 50px 20px;
+        }
+
+        /* --- SECTIONS --- */
+        .section {
+            margin-bottom: 100px;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease-out;
+        }
+
+        .section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            color: var(--secondary);
+            border-left: 5px solid var(--primary);
+            padding-left: 20px;
+            margin-bottom: 40px;
+            text-shadow: 0 0 10px rgba(188, 19, 254, 0.5);
+        }
+
+        /* --- CARDS --- */
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            background: var(--glass);
+            border: var(--border);
+            padding: 30px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary);
+            box-shadow: 0 0 20px rgba(0, 243, 255, 0.2);
+        }
+
+        .card i {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+
+        .card h3 {
+            color: #fff;
+        }
+
+        /* --- TECH STACK --- */
+        .tech-badges {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .badge {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid #333;
+            padding: 10px 25px;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: bold;
+            color: var(--accent);
+        }
+
+        /* --- DIAGRAM --- */
+        .diagram-box {
+            background: rgba(0,0,0,0.6);
+            border: 1px dashed var(--primary);
+            padding: 20px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            text-align: center;
+            padding: 40px;
+            border-top: 1px solid #333;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-20px);}
+            60% {transform: translateY(-10px);}
+        }
+    </style>
+</head>
+<body>
+
+    <div class="hero">
+        <h1>NEO ONLINE JUDGE</h1>
+        <p>Hệ thống Chấm điểm & Mentor Lập trình AI Thông minh</p>
+        <div style="margin-top: 20px; font-size: 1rem; color: #888;">Project Report NEO ONLINE JUDGE</div>
+        <div class="scroll-down"><i class="fas fa-chevron-down"></i></div>
+    </div>
+
+    <div class="container">
+
+        <div class="section" id="overview">
+            <h2 class="section-title">1. Tổng Quan Dự Án</h2>
+            <div class="card">
+                <p>
+                    Trong kỷ nguyên Chuyển đổi số và Giáo dục 4.0, việc học lập trình đang trở nên cấp thiết. Tuy nhiên,
+                    các hệ thống chấm bài truyền thống thường khô khan,
+                    thiếu tương tác và đặc biệt là thiếu sự hướng dẫn chi tiết khi học sinh gặp lỗi.
+                    <b>NEO ONLINE JUDGE</b> là một nền tảng web chấm điểm lập trình trực tuyến (Online Judge) thế hệ mới.
+                    Không chỉ dừng lại ở việc chấm Đúng/Sai, hệ thống tích hợp Trí tuệ nhân tạo (AI Mentor) để đóng vai trò
+                    như một người gia sư riêng, giải thích lỗi sai và gợi ý hướng sửa bài theo thời gian thực 24/7.
+                </p>
+                <p>
+                    <strong>Mục tiêu cốt lõi:</strong> Biến việc học lập trình từ "Thử & Sai" (Trial & Error) thành "Thử & Hiểu" (Trial & Understand).
+                </p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">2. Tính Năng Nổi Bật</h2>
+            <div class="grid-3">
+                <div class="card">
+                    <i class="fas fa-gavel"></i>
+                    <h3>Core Judge Đa Ngôn Ngữ</h3>
+                    <p>Hệ thống chấm điểm tự động hỗ trợ <strong>Python, C++, Pascal, Java</strong>. Tốc độ xử lý < 3s, phát hiện chính xác lỗi biên dịch, lỗi logic và lỗi thời gian.</p>
+                </div>
+                <div class="card">
+                    <i class="fas fa-robot" style="color: var(--secondary)"></i>
+                    <h3>AI Mentor Thông Minh</h3>
+                    <p>Tích hợp <strong>OpenAI GPT-4o</strong>. AI không giải bài hộ mà phân tích code, chỉ ra lỗi sai và đưa ra gợi ý (Hint) giúp học sinh tự tư duy sửa bài.</p>
+                </div>
+                <div class="card">
+                    <i class="fas fa-bolt" style="color: var(--accent)"></i>
+                    <h3>Real-time & Cyberpunk</h3>
+                    <p>Giao diện Neon hiện đại tạo hứng thú học tập. Cập nhật kết quả chấm và bảng xếp hạng tức thì nhờ công nghệ Firebase Realtime.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">3. Kiến Trúc Hệ Thống & Luồng Dữ Liệu</h2>
+            <p style="margin-bottom: 20px;">Mô hình hoạt động khép kín đảm bảo tính ổn định và bảo mật.</p>
+            
+            <div class="diagram-box">
+                <div class="mermaid">
+                    graph LR
+                        %% Style Definitions
+                        classDef user fill:#000,stroke:#00f3ff,stroke-width:2px,color:#fff
+                        classDef cloud fill:#1a1a1a,stroke:#bc13fe,stroke-width:2px,color:#fff
+                        classDef server fill:#1a1a1a,stroke:#00ff41,stroke-width:2px,color:#fff
+
+                        subgraph Client Side
+                            U[Học Sinh / Browser]:::user
+                        end
+
+                        subgraph Cloud Layer
+                            FB[(Firebase Database)]:::cloud
+                        end
+
+                        subgraph Backend Server
+                            PY[Python Judge Script]:::server
+                            CMP[Compiler Engine]:::server
+                        end
+
+                        subgraph Artificial Intelligence
+                            AI[OpenAI API (GPT-4o)]:::cloud
+                        end
+
+                        %% Data Flow
+                        U -- "1. Nộp Code" --> FB
+                        FB -- "2. Sync Data" --> PY
+                        PY -- "3. Biên Dịch & Chấm" --> CMP
+                        CMP -- "4. Kết Quả" --> PY
+                        PY -- "5. Gửi code lỗi" --> AI
+                        AI -- "6. Gợi ý sửa bài" --> PY
+                        PY -- "7. Cập nhật DB" --> FB
+                        FB -- "8. Hiển thị Realtime" --> U
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">4. Công Nghệ Sử Dụng</h2>
+            <div class="tech-badges">
+                <div class="badge"><i class="fab fa-python"></i> Python 3 Backend</div>
+                <div class="badge"><i class="fas fa-fire"></i> Firebase Realtime DB</div>
+                <div class="badge"><i class="fas fa-brain"></i> OpenAI GPT-4o-mini</div>
+                <div class="badge"><i class="fab fa-html5"></i> HTML5/JS Frontend</div>
+                <div class="badge"><i class="fas fa-terminal"></i> GCC Compiler</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">5. Ý Nghĩa Thực Tiễn</h2>
+            <div class="grid-3">
+                <div class="card" style="border-left: 3px solid var(--accent)">
+                    <h3>Đối với Học sinh</h3>
+                    <ul style="padding-left: 20px;">
+                        <li>Được hỗ trợ sửa những lỗi sai và gợi ý bởi AI 24/24.</li>
+                        <li>Cung cấp những nhận xét, chỉnh sửa tối ưu.</li>
+                        <li>Hệ thống chuyên nghiệp nhiều công nghệ, tiện ích.</li>
+                    </ul>
+                </div>
+                <div class="card" style="border-left: 3px solid var(--primary)">
+                    <h3>Đối với Giáo viên</h3>
+                    <ul style="padding-left: 20px;">
+                        <li>Được hỗ trợ bởi hệ thống chấm hoàn toàn tự động và chính xác 100%.</li>
+                        <li>Quản lý học sinh, xếp hạng. Từ đó nắm bắt được tiến độ học tập</li>
+                        <li>Hệ thống phòng thi chuyên nghiệp chính xác.</li>
+                    </ul>
+                </div>
+                <div class="card" style="border-left: 3px solid var(--secondary)">
+                    <h3>Tính Kinh Tế</h3>
+                    <ul style="padding-left: 20px;">
+                        <li>Hệ thống web-app hoàn toàn miễn phí. Hệ thống xử lý bài tập bằng AI qua API tích kiệm, tốc độ cao.</li>
+                        <li>Dễ dàng triển khai và mở rộng tùy thuộc vào quy mô và nhu cầu.</li>
+                        <li>Hệ thống chấm, AI chiếm rất ít tài nguyên máy.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+        <p>NEO ONLINE JUDGE &copy; 2025</p>
+        <p style="color: #444;">Developed by Phạm Văn Chung - KHKT Project</p>
+    </footer>
+
+    <script>
+        // Init Mermaid Diagram
+        mermaid.initialize({ 
+            startOnLoad: true, 
+            theme: 'dark',
+            flowchart: { curve: 'basis' } 
+        });
+
+        // Scroll Animation Script
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.section').forEach(section => {
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>

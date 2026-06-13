@@ -1,0 +1,49 @@
+# ============================================================================
+# NEO ONLINE JUDGE - Git Ignore Rules
+# ============================================================================
+
+# --- Environment & Secrets ---
+.env
+.env.*.local
+service-account.json
+*.pem
+*.key
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.pyo
+*.egg-info/
+dist/
+build/
+*.egg
+.eggs/
+venv/
+.venv/
+env/
+
+# --- Logs & Temp ---
+logs/
+*.log
+temp_*
+
+# --- IDE ---
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# --- Docker ---
+.docker/
+docker-compose.override.yml
+
+# --- Coverage & Reports ---
+htmlcov/
+.coverage
+.coverage.*
+coverage.xml
+*.coverage
+coverage/
