@@ -12,7 +12,7 @@ NEO ONLINE JUDGE lÃ  ná»n táº£ng há»c láº­p trÃ¬nh tÆ°Æ¡ng tÃ¡c, cho phÃ©p há»
 ### Kiáº¿n TrÃºc Má»›i (v2.0)
 
 ```
-NEO-ONLINE-JUDGE/
+NEO-ONLINE-JUDGE/1
 â”‚
 â”œâ”€â”€ judge.py                  # Entry point (giá»¯ nguyÃªn Ä‘á»ƒ tÆ°Æ¡ng thÃ­ch)
 â”œâ”€â”€ backend/                  # Backend modular
@@ -110,100 +110,100 @@ docker-compose up -d
 =======
 # ?? NEO ONLINE JUDGE
 
-**NEO ONLINE JUDGE** là m?t n?n t?ng h?c l?p tr?nh týõng tác ðý?c t?i ýu cho ngý?i dùng Vi?t Nam, k?t h?p tính nãng ch?m bài t? ð?ng, hý?ng d?n AI, và môi trý?ng thi ð?u l?p tr?nh tr?c tuy?n.
+**NEO ONLINE JUDGE** lï¿½ m?t n?n t?ng h?c l?p tr?nh tï¿½ï¿½ng tï¿½c ï¿½ï¿½?c t?i ï¿½u cho ngï¿½?i dï¿½ng Vi?t Nam, k?t h?p tï¿½nh nï¿½ng ch?m bï¿½i t? ï¿½?ng, hï¿½?ng d?n AI, vï¿½ mï¿½i trï¿½?ng thi ï¿½?u l?p tr?nh tr?c tuy?n.
 
 ---
 
 ## ?? M?c L?c
-- [? Tính Nãng](#-tính-nãng)
-- [??? Công Ngh? S? D?ng](#?-công-ngh?-s?-d?ng)
-- [?? C?u Trúc D? Án](#-c?u-trúc-d?-án)
-- [?? Cài Ð?t & Ch?y](#-cài-ð?t--ch?y)
-- [?? Hý?ng D?n S? D?ng](#-hý?ng-d?n-s?-d?ng)
+- [? Tï¿½nh Nï¿½ng](#-tï¿½nh-nï¿½ng)
+- [??? Cï¿½ng Ngh? S? D?ng](#?-cï¿½ng-ngh?-s?-d?ng)
+- [?? C?u Trï¿½c D? ï¿½n](#-c?u-trï¿½c-d?-ï¿½n)
+- [?? Cï¿½i ï¿½?t & Ch?y](#-cï¿½i-ï¿½?t--ch?y)
+- [?? Hï¿½?ng D?n S? D?ng](#-hï¿½?ng-d?n-s?-d?ng)
 - [?? C?u H?nh Firebase](#-c?u-h?nh-firebase)
-- [?? G?i ? Nâng C?p](#-g?i-?-nâng-c?p)
-- [?? Ðóng Góp](#-ðóng-góp)
-- [?? Gi?y Phép](#-gi?y-phép)
+- [?? G?i ? Nï¿½ng C?p](#-g?i-?-nï¿½ng-c?p)
+- [?? ï¿½ï¿½ng Gï¿½p](#-ï¿½ï¿½ng-gï¿½p)
+- [?? Gi?y Phï¿½p](#-gi?y-phï¿½p)
 
 ---
 
-## ? Tính Nãng
+## ? Tï¿½nh Nï¿½ng
 
 ### ?? Cho H?c Sinh
-- ? **Luy?n T?p**: Gi?i các bài toán l?p tr?nh và nh?n ði?m t?c th?
-- ?? **AI Mentor**: Nh?n nh?n xét, g?i ? t? AI (GPT-4o-mini) mà không c?n ðáp án ð?y ð?
-- ?? **Theo D?i Ti?n Ð?**: Xem l?ch s? submissions và ði?m s?
-- ?? **B?ng X?p H?ng**: So sánh k?t qu? v?i nh?ng ngý?i dùng khác
-- ?? **Ch? Ð? Thi Ð?u**: Tham gia các cu?c thi l?p tr?nh tr?c tuy?n
+- ? **Luy?n T?p**: Gi?i cï¿½c bï¿½i toï¿½n l?p tr?nh vï¿½ nh?n ï¿½i?m t?c th?
+- ?? **AI Mentor**: Nh?n nh?n xï¿½t, g?i ? t? AI (GPT-4o-mini) mï¿½ khï¿½ng c?n ï¿½ï¿½p ï¿½n ï¿½?y ï¿½?
+- ?? **Theo D?i Ti?n ï¿½?**: Xem l?ch s? submissions vï¿½ ï¿½i?m s?
+- ?? **B?ng X?p H?ng**: So sï¿½nh k?t qu? v?i nh?ng ngï¿½?i dï¿½ng khï¿½c
+- ?? **Ch? ï¿½? Thi ï¿½?u**: Tham gia cï¿½c cu?c thi l?p tr?nh tr?c tuy?n
 
-### ????? Cho Giáo Viên/Admin
-- ?? **Qu?n L? Ð? Bài**: T?o, ch?nh s?a bài toán v?i các test case
-- ?? **Ch?m Ði?m T? Ð?ng**: H? th?ng t? ð?ng ch?m bài 24/7
-- ?? **Giám Sát Thi Ð?u**: Qu?n l? các cu?c thi và k?t qu? sinh viên
-- ?? **Thý Vi?n Bài T?p**: Lýu tr? hàng trãm bài toán phân lo?i theo c?p ð?
+### ????? Cho Giï¿½o Viï¿½n/Admin
+- ?? **Qu?n L? ï¿½? Bï¿½i**: T?o, ch?nh s?a bï¿½i toï¿½n v?i cï¿½c test case
+- ?? **Ch?m ï¿½i?m T? ï¿½?ng**: H? th?ng t? ï¿½?ng ch?m bï¿½i 24/7
+- ?? **Giï¿½m Sï¿½t Thi ï¿½?u**: Qu?n l? cï¿½c cu?c thi vï¿½ k?t qu? sinh viï¿½n
+- ?? **Thï¿½ Vi?n Bï¿½i T?p**: Lï¿½u tr? hï¿½ng trï¿½m bï¿½i toï¿½n phï¿½n lo?i theo c?p ï¿½?
 
-### ?? Ð?c Ði?m N?i B?t
-- **?? UI Cyberpunk**: Giao di?n hi?n ð?i, b?t m?t v?i hi?u ?ng neon
-- **???? H? Tr? Ti?ng Vi?t**: Toàn b? n?i dung ðý?c b?n ð?a hóa
-- **? Real-time**: C?p nh?t k?t qu? ch?m ði?m t?c th?
-- **?? Responsive**: Ho?t ð?ng t?t trên desktop, tablet, mobile
+### ?? ï¿½?c ï¿½i?m N?i B?t
+- **?? UI Cyberpunk**: Giao di?n hi?n ï¿½?i, b?t m?t v?i hi?u ?ng neon
+- **???? H? Tr? Ti?ng Vi?t**: Toï¿½n b? n?i dung ï¿½ï¿½?c b?n ï¿½?a hï¿½a
+- **? Real-time**: C?p nh?t k?t qu? ch?m ï¿½i?m t?c th?
+- **?? Responsive**: Ho?t ï¿½?ng t?t trï¿½n desktop, tablet, mobile
 - **?? B?o M?t**: Firebase Authentication & Database Rules
 
 ---
 
-## ??? Công Ngh? S? D?ng
+## ??? Cï¿½ng Ngh? S? D?ng
 
 ### Backend
-| Công Ngh? | M?c Ðích | Phiên B?n |
+| Cï¿½ng Ngh? | M?c ï¿½ï¿½ch | Phiï¿½n B?n |
 |-----------|---------|----------|
-| **Python** | Backend Judge, x? l? biên d?ch & ch?m ði?m | 3.8+ |
-| **Firebase Realtime DB** | Lýu tr? d? li?u submissions, problems, users | Latest |
+| **Python** | Backend Judge, x? l? biï¿½n d?ch & ch?m ï¿½i?m | 3.8+ |
+| **Firebase Realtime DB** | Lï¿½u tr? d? li?u submissions, problems, users | Latest |
 | **Firebase Admin SDK** | Qu?n l? d? li?u t? backend | Latest |
-| **OpenAI API** | AI Mentor - nh?n xét code | GPT-4o-mini |
+| **OpenAI API** | AI Mentor - nh?n xï¿½t code | GPT-4o-mini |
 
 ### Frontend
-| Công Ngh? | M?c Ðích |
+| Cï¿½ng Ngh? | M?c ï¿½ï¿½ch |
 |-----------|---------|
-| **HTML5** | Markup c?u trúc |
+| **HTML5** | Markup c?u trï¿½c |
 | **CSS3** | Styling & Animation (Cyberpunk UI) |
 | **JavaScript (Vanilla)** | Interactivity & Real-time Updates |
 | **Firebase SDK** | K?t n?i Realtime Database |
 
-### H? Tr? Ngôn Ng? L?p Tr?nh
+### H? Tr? Ngï¿½n Ng? L?p Tr?nh
 - ? **Python** - Ch?y tr?c ti?p
-- ? **C++** - Biên d?ch v?i g++
-- ?? **C**, **Java**, **JavaScript** - C?n thêm h? tr?
+- ? **C++** - Biï¿½n d?ch v?i g++
+- ?? **C**, **Java**, **JavaScript** - C?n thï¿½m h? tr?
 
 ---
 
-## ?? C?u Trúc D? Án
+## ?? C?u Trï¿½c D? ï¿½n
 
 ```
 NEO-ONLINE-JUDGE/
 ??? judge.py                      # ?? Backend Judge Server (Core)
 ??? public/
 ?   ??? index.html               # ?? Trang ch? (Cyberpunk Gateway)
-?   ??? problems.html            # ?? Danh sách bài toán
+?   ??? problems.html            # ?? Danh sï¿½ch bï¿½i toï¿½n
 ?   ??? solve.html               # ?? So?n th?o & submit code
-?   ??? contest.html             # ?? Danh sách cu?c thi
-?   ??? contest_room.html        # ?? Ph?ng thi ð?u
+?   ??? contest.html             # ?? Danh sï¿½ch cu?c thi
+?   ??? contest_room.html        # ?? Ph?ng thi ï¿½?u
 ?   ??? rank.html                # ?? B?ng x?p h?ng
 ?   ??? history.html             # ?? L?ch s? submissions
-?   ??? guide.html               # ?? Hý?ng d?n s? d?ng
-?   ??? videos.html              # ?? Video hý?ng d?n
-?   ??? documents.html           # ?? Tài li?u
-?   ??? about.html               # ?? V? d? án
+?   ??? guide.html               # ?? Hï¿½?ng d?n s? d?ng
+?   ??? videos.html              # ?? Video hï¿½?ng d?n
+?   ??? documents.html           # ?? Tï¿½i li?u
+?   ??? about.html               # ?? V? d? ï¿½n
 ??? KEY/
-?   ??? resources.json           # ?? D? li?u tài nguyên (API keys, config)
+?   ??? resources.json           # ?? D? li?u tï¿½i nguyï¿½n (API keys, config)
 ??? .git/                        # Version control
 
 ```
 
 ---
 
-## ?? Cài Ð?t & Ch?y
+## ?? Cï¿½i ï¿½?t & Ch?y
 
-### Yêu C?u H? Th?ng
+### Yï¿½u C?u H? Th?ng
 - **Python 3.8+**
 - **g++ compiler** (cho C++ support)
 - **Internet connection** (k?t n?i Firebase & OpenAI)
@@ -214,34 +214,34 @@ git clone https://github.com/II-Max/NEO-ONLINE-JUDGE.git
 cd NEO-ONLINE-JUDGE
 ```
 
-### 2?? Cài Ð?t Dependencies
+### 2?? Cï¿½i ï¿½?t Dependencies
 ```bash
 pip install -r requirements.txt
 ```
 
-*(N?u chýa có `requirements.txt`, ch?y:)*
+*(N?u chï¿½a cï¿½ `requirements.txt`, ch?y:)*
 ```bash
 pip install firebase-admin requests
 ```
 
 ### 3?? C?u H?nh Firebase
 - T?o file `service-account.json` t? Firebase Console
-- Ð?t file vào thý m?c g?c c?a d? án
+- ï¿½?t file vï¿½o thï¿½ m?c g?c c?a d? ï¿½n
 - C?p nh?t `DB_URL` trong `judge.py` n?u c?n
 
 ### 4?? C?u H?nh OpenAI API
 - L?y API key t? [platform.openai.com](https://platform.openai.com)
 - C?p nh?t `OPENAI_API_KEY` trong `judge.py`
 
-### 5?? Kh?i Ð?ng Judge Server
+### 5?? Kh?i ï¿½?ng Judge Server
 ```bash
 python judge.py
 ```
 
-**Output mong ð?i:**
+**Output mong ï¿½?i:**
 ```
->> [SYSTEM] Ðang kh?i ð?ng NEO JUDGE CORE...
-   -> [OK] K?t n?i Firebase thành công.
+>> [SYSTEM] ï¿½ang kh?i ï¿½?ng NEO JUDGE CORE...
+   -> [OK] K?t n?i Firebase thï¿½nh cï¿½ng.
 
 ?? SERVER START (Mode: Independent Scoring)
 ?? AI Model: gpt-4o-mini
@@ -278,43 +278,43 @@ python -m http.server 8000
     â”œâ”€â”€ user_id, problem_desc, code
     â””â”€â”€ status, response
 =======
-## ?? Hý?ng D?n S? D?ng
+## ?? Hï¿½?ng D?n S? D?ng
 
 ### ????? Cho H?c Sinh
 
-#### ?? Gi?i Bài T?p
-1. Ði ð?n **"LUY?N T?P"** ? Ch?n bài toán
+#### ?? Gi?i Bï¿½i T?p
+1. ï¿½i ï¿½?n **"LUY?N T?P"** ? Ch?n bï¿½i toï¿½n
 2. So?n code trong tr?nh so?n th?o
-3. Click **"SUBMIT"** ð? n?p bài
-4. Xem k?t qu? ch?m ði?m t?c th? (Ðúng/Sai test cases)
+3. Click **"SUBMIT"** ï¿½? n?p bï¿½i
+4. Xem k?t qu? ch?m ï¿½i?m t?c th? (ï¿½ï¿½ng/Sai test cases)
 
 #### ?? S? D?ng AI Mentor
-1. Sau khi submit bài, click **"YÊU C?U AI"**
-2. AI s? phân tích code c?a b?n
-3. Nh?n ðý?c g?i ?, không ph?i ðáp án ð?y ð?
-4. C?i thi?n k? nãng l?p tr?nh
+1. Sau khi submit bï¿½i, click **"Yï¿½U C?U AI"**
+2. AI s? phï¿½n tï¿½ch code c?a b?n
+3. Nh?n ï¿½ï¿½?c g?i ?, khï¿½ng ph?i ï¿½ï¿½p ï¿½n ï¿½?y ï¿½?
+4. C?i thi?n k? nï¿½ng l?p tr?nh
 
-#### ?? Xem Ti?n Ð?
+#### ?? Xem Ti?n ï¿½?
 - **L?CH S?**: Xem t?t c? submissions
-- **X?P H?NG**: So sánh ði?m v?i ngý?i khác
+- **X?P H?NG**: So sï¿½nh ï¿½i?m v?i ngï¿½?i khï¿½c
 
-#### ?? Tham Gia Thi Ð?u
-1. Vào **"THI Ð?U"** ? Ch?n cu?c thi
+#### ?? Tham Gia Thi ï¿½?u
+1. Vï¿½o **"THI ï¿½?U"** ? Ch?n cu?c thi
 2. Click **"THAM GIA"**
-3. Gi?i các bài trong khung th?i gian quy ð?nh
+3. Gi?i cï¿½c bï¿½i trong khung th?i gian quy ï¿½?nh
 4. Xem b?ng x?p h?ng cu?c thi
 
-### ????? Cho Qu?n Tr? Viên
+### ????? Cho Qu?n Tr? Viï¿½n
 
-#### ? Thêm Bài T?p
-1. Vào Firebase Console
+#### ? Thï¿½m Bï¿½i T?p
+1. Vï¿½o Firebase Console
 2. T?o document trong collection `problems`
-3. C?u trúc:
+3. C?u trï¿½c:
    ```json
    {
      "id": "problem_001",
-     "title": "Tính T?ng Hai S?",
-     "description": "Nh?p hai s? a và b, tính t?ng",
+     "title": "Tï¿½nh T?ng Hai S?",
+     "description": "Nh?p hai s? a vï¿½ b, tï¿½nh t?ng",
      "level": "d?",
      "language_support": ["python", "cpp"],
      "testcases": [
@@ -325,30 +325,30 @@ python -m http.server 8000
    ```
 
 #### ?? T?o Cu?c Thi
-1. Vào Firebase Console
+1. Vï¿½o Firebase Console
 2. T?o document trong collection `contests`
-3. Thêm thông tin: `title`, `start_time`, `end_time`, `problems`
+3. Thï¿½m thï¿½ng tin: `title`, `start_time`, `end_time`, `problems`
 
 ---
 
 ## ?? C?u H?nh Firebase
 
-### Quy C?u Trúc Database
+### Quy C?u Trï¿½c Database
 ```
 neo-online-judge-default-rtdb/
-??? users/                        # Thông tin ngý?i dùng
+??? users/                        # Thï¿½ng tin ngï¿½?i dï¿½ng
 ?   ??? {uid}/
 ?       ??? name
 ?       ??? email
 ?       ??? score
 ?       ??? join_date
-??? problems/                     # Thý vi?n bài t?p
+??? problems/                     # Thï¿½ vi?n bï¿½i t?p
 ?   ??? {problem_id}/
 ?       ??? title
 ?       ??? description
 ?       ??? testcases[]
 ?       ??? level
-??? submissions/                  # N?p bài luy?n t?p
+??? submissions/                  # N?p bï¿½i luy?n t?p
 ?   ??? {submission_id}/
 ?       ??? user_id
 ?       ??? problem_id
@@ -357,16 +357,16 @@ neo-online-judge-default-rtdb/
 ?       ??? status: "pending" | "completed"
 ?       ??? score
 ?       ??? message
-??? contest_submissions/          # N?p bài thi ð?u
+??? contest_submissions/          # N?p bï¿½i thi ï¿½?u
 ?   ??? {submission_id}/
-?       ??? [týõng t? submissions]
-??? contests/                     # Danh sách cu?c thi
+?       ??? [tï¿½ï¿½ng t? submissions]
+??? contests/                     # Danh sï¿½ch cu?c thi
 ?   ??? {contest_id}/
 ?       ??? title
 ?       ??? start_time
 ?       ??? end_time
 ?       ??? problems[]
-??? ai_requests/                  # Yêu c?u AI Mentor
+??? ai_requests/                  # Yï¿½u c?u AI Mentor
     ??? {request_id}/
         ??? user_id
         ??? code
@@ -384,13 +384,13 @@ neo-online-judge-default-rtdb/
 - GitHub Issues: https://github.com/II-Max/NEO-ONLINE-JUDGE/issues
 - Email: phamvanchung2k7@gmail.com
 =======
-## ?? G?i ? Nâng C?p
+## ?? G?i ? Nï¿½ng C?p
 
-### ?? **Tier 1: B?o M?t & ?n Ð?nh (C?p Ð?: Cao)**
+### ?? **Tier 1: B?o M?t & ?n ï¿½?nh (C?p ï¿½?: Cao)**
 
 1. **?? B?o V? API Key**
    ```python
-   # ? HI?N T?I (Không an toàn): API key hardcode
+   # ? HI?N T?I (Khï¿½ng an toï¿½n): API key hardcode
    OPENAI_API_KEY = "sk-xxx..."
 
    # ? C?P NH?T: S? d?ng environment variables
@@ -408,12 +408,12 @@ neo-online-judge-default-rtdb/
    CRED_PATH=./service-account.json
    ```
 
-2. **??? Xác Th?c & Phân Quy?n**
-   - Thêm Firebase Authentication
-   - Ki?m tra user permissions trý?c khi ch?m bài
-   - Ngãn ch?n cheating (gi?i h?n submission/phút)
+2. **??? Xï¿½c Th?c & Phï¿½n Quy?n**
+   - Thï¿½m Firebase Authentication
+   - Ki?m tra user permissions trï¿½?c khi ch?m bï¿½i
+   - Ngï¿½n ch?n cheating (gi?i h?n submission/phï¿½t)
 
-3. **?? X? L? L?i T?t Hõn**
+3. **?? X? L? L?i T?t Hï¿½n**
    ```python
    # ? Logging chi ti?t
    import logging
@@ -421,17 +421,17 @@ neo-online-judge-default-rtdb/
    logger = logging.getLogger(__name__)
 
    # Thay v?: print(f"L?i: {e}")
-   # Dùng: logger.error(f"L?i Firebase: {e}", exc_info=True)
+   # Dï¿½ng: logger.error(f"L?i Firebase: {e}", exc_info=True)
    ```
 
 ---
 
-### ?? **Tier 2: M? R?ng Ch?c Nãng (C?p Ð?: Cao)**
+### ?? **Tier 2: M? R?ng Ch?c Nï¿½ng (C?p ï¿½?: Cao)**
 
-4. **?? H? Tr? Thêm Ngôn Ng?**
+4. **?? H? Tr? Thï¿½m Ngï¿½n Ng?**
    ```python
    def compile_code(lang, filename, code):
-       # Thêm: Java, JavaScript, Go, Rust...
+       # Thï¿½m: Java, JavaScript, Go, Rust...
 
        if lang == 'java':
            with open(f"{filename}.java", "w") as f: f.write(code)
@@ -444,18 +444,18 @@ neo-online-judge-default-rtdb/
    ```
 
 5. **?? H? Tr? Multiple File Submissions**
-   - Cho phép n?p multiple files (header files, class files)
+   - Cho phï¿½p n?p multiple files (header files, class files)
    - H? tr? project-based problems
 
 6. **?? H? Th?ng Tutorial & Streaming**
-   - Tích h?p YouTube tutorials
+   - Tï¿½ch h?p YouTube tutorials
    - Support livestream coding sessions
 
 ---
 
-### ?? **Tier 3: Hi?u Nãng & DevOps (C?p Ð?: Trung-Cao)**
+### ?? **Tier 3: Hi?u Nï¿½ng & DevOps (C?p ï¿½?: Trung-Cao)**
 
-7. **? T?i Ýu Performance**
+7. **? T?i ï¿½u Performance**
    ```python
    # ? S? d?ng Queue (Redis) thay v? polling
    import redis
@@ -489,17 +489,17 @@ neo-online-judge-default-rtdb/
    ```
 
 9. **?? Monitoring & Logging**
-   - Tích h?p Sentry cho error tracking
+   - Tï¿½ch h?p Sentry cho error tracking
    - CloudWatch logs
    - Prometheus metrics
 
 ---
 
-### ?? **Tier 4: C?i Thi?n UX/UI (C?p Ð?: Trung)**
+### ?? **Tier 4: C?i Thi?n UX/UI (C?p ï¿½?: Trung)**
 
 10. **?? Frontend Modernization**
     - Migrate sang React/Vue.js
-    - Code editor tích h?p (Monaco Editor)
+    - Code editor tï¿½ch h?p (Monaco Editor)
     - Real-time collaboration (code pairing)
 
 11. **?? Mobile App**
@@ -512,35 +512,35 @@ neo-online-judge-default-rtdb/
 
 ---
 
-### ?? **Tier 5: AI & Machine Learning (C?p Ð?: Cao)**
+### ?? **Tier 5: AI & Machine Learning (C?p ï¿½?: Cao)**
 
 13. **?? Advanced AI Features**
     ```python
-    # Tích h?p multiple AI models
+    # Tï¿½ch h?p multiple AI models
     MODELS = {
         'gpt-4': 'Chi ti?t, logic ph?c t?p',
-        'gpt-4-turbo': 'Cân b?ng t?c ð?/ch?t lý?ng',
-        'claude-3': 'Phân tích chuyên sâu',
+        'gpt-4-turbo': 'Cï¿½n b?ng t?c ï¿½?/ch?t lï¿½?ng',
+        'claude-3': 'Phï¿½n tï¿½ch chuyï¿½n sï¿½u',
         'llama-2': 'Open source alternative'
     }
     ```
 
-14. **?? Phân Tích & Recommendations**
-    - D? ðoán ði?m d?a vào l?ch s?
-    - G?i ? bài t?p phù h?p level
+14. **?? Phï¿½n Tï¿½ch & Recommendations**
+    - D? ï¿½oï¿½n ï¿½i?m d?a vï¿½o l?ch s?
+    - G?i ? bï¿½i t?p phï¿½ h?p level
     - Analytics dashboard
 
 15. **?? Plagiarism Detection**
-    - So sánh code similarity
+    - So sï¿½nh code similarity
     - Detect copy-paste
 
 ---
 
-## ?? Checklist Nâng C?p Ýu Tiên
+## ?? Checklist Nï¿½ng C?p ï¿½u Tiï¿½n
 
-| Ýu Tiên | Tính Nãng | Th?i Gian | Khó Ð? |
+| ï¿½u Tiï¿½n | Tï¿½nh Nï¿½ng | Th?i Gian | Khï¿½ ï¿½? |
 |---------|----------|----------|---------|
-| ?? Cao | B?o v? API keys | 30 phút | D? |
+| ?? Cao | B?o v? API keys | 30 phï¿½t | D? |
 | ?? Cao | Logging & Error Handling | 1 gi? | D? |
 | ?? Cao | Authentication | 2 gi? | Trung |
 | ?? Cao | C/Java/JS Support | 3 gi? | Trung |
@@ -551,14 +551,14 @@ neo-online-judge-default-rtdb/
 
 ---
 
-## ?? B?t Ð?u V?i Tier 1
+## ?? B?t ï¿½?u V?i Tier 1
 
-### Bý?c 1: T?o `.env` file
+### Bï¿½?c 1: T?o `.env` file
 ```bash
 touch .env
 ```
 
-### Bý?c 2: C?p nh?t `judge.py`
+### Bï¿½?c 2: C?p nh?t `judge.py`
 ```python
 import os
 from dotenv import load_dotenv
@@ -571,18 +571,18 @@ OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
 CURRENT_MODEL = os.getenv('MODEL', 'gpt-4o-mini')
 ```
 
-### Bý?c 3: Cài Ð?t Dependencies
+### Bï¿½?c 3: Cï¿½i ï¿½?t Dependencies
 ```bash
 pip install python-dotenv
 ```
 
 ---
 
-## ?? Ðóng Góp
+## ?? ï¿½ï¿½ng Gï¿½p
 
-Chúng tôi hoan nghênh các ðóng góp t? c?ng ð?ng!
+Chï¿½ng tï¿½i hoan nghï¿½nh cï¿½c ï¿½ï¿½ng gï¿½p t? c?ng ï¿½?ng!
 
-### Cách Ðóng Góp
+### Cï¿½ch ï¿½ï¿½ng Gï¿½p
 1. Fork repository
 2. T?o feature branch: `git checkout -b feature/amazing-feature`
 3. Commit changes: `git commit -m 'Add amazing feature'`
@@ -590,20 +590,20 @@ Chúng tôi hoan nghênh các ðóng góp t? c?ng ð?ng!
 5. Open Pull Request
 
 ### Code Style
-- Tuân theo PEP 8 (Python)
+- Tuï¿½n theo PEP 8 (Python)
 - S? d?ng meaningful variable names
-- Thêm comments cho logic ph?c t?p
-- Test trý?c khi PR
+- Thï¿½m comments cho logic ph?c t?p
+- Test trï¿½?c khi PR
 
 ---
 
-## ?? Gi?y Phép
+## ?? Gi?y Phï¿½p
 
-D? án này ðý?c c?p phép dý?i MIT License - xem file [LICENSE](LICENSE) ð? bi?t chi ti?t.
+D? ï¿½n nï¿½y ï¿½ï¿½?c c?p phï¿½p dï¿½?i MIT License - xem file [LICENSE](LICENSE) ï¿½? bi?t chi ti?t.
 
 ---
 
-## ?? Liên H? & H? Tr?
+## ?? Liï¿½n H? & H? Tr?
 
 - ?? Email: support@neo-judge.io
 - ?? Issues: [GitHub Issues](https://github.com/II-Max/NEO-ONLINE-JUDGE/issues)
@@ -612,7 +612,7 @@ D? án này ðý?c c?p phép dý?i MIT License - xem file [LICENSE](LICENSE) ð? bi?t c
 
 ---
 
-## ?? C?m Õn
+## ?? C?m ï¿½n
 
 - **Firebase** - Backend as a Service
 - **OpenAI** - AI Mentor Engine
