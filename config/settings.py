@@ -48,5 +48,15 @@ class Settings:
     PORT: int = int(os.getenv("PORT", "5000"))
     DEBUG: bool = os.getenv("DEBUG", "false").lower() == "true"
 
+    # === Authentication ===
+    JWT_SECRET_KEY: str = os.getenv("JWT_SECRET_KEY", "neo-judge-secret-change-in-production")
+    JWT_ALGORITHM: str = "HS256"
+    JWT_EXPIRY_HOURS: int = int(os.getenv("JWT_EXPIRY_HOURS", "24"))
+
+    # === OAuth Providers ===
+    GOOGLE_CLIENT_ID: str = os.getenv("GOOGLE_CLIENT_ID", "AIzaSyAQ79PPCmufVgJ312WxRXkFNG4rBb322SU")
+    GITHUB_CLIENT_ID: str = os.getenv("GITHUB_CLIENT_ID", "")
+    GITHUB_CLIENT_SECRET: str = os.getenv("GITHUB_CLIENT_SECRET", "")
+
 
 settings = Settings()

@@ -1,0 +1,422 @@
+[
+  {
+    "id": "bai01",
+    "title": "Tổng Hai Số",
+    "description": "Cho hai số nguyên a và b. Hãy tính và in ra tổng của chúng.\n\nYêu cầu:\n- Đọc hai số nguyên a, b từ một dòng, cách nhau bởi dấu cách.\n- In ra một số nguyên duy nhất là tổng a + b.",
+    "level": "Easy",
+    "example_input": "3 5",
+    "example_output": "8",
+    "tutorial_vid": "",
+    "test_cases": [
+      {"input": "3 5", "output": "8"},
+      {"input": "0 0", "output": "0"},
+      {"input": "-1 1", "output": "0"},
+      {"input": "100 200", "output": "300"},
+      {"input": "-50 -30", "output": "-80"},
+      {"input": "1000000 2000000", "output": "3000000"},
+      {"input": "7 -3", "output": "4"},
+      {"input": "0 999", "output": "999"},
+      {"input": "-999 999", "output": "0"},
+      {"input": "123 456", "output": "579"}
+    ]
+  },
+  {
+    "id": "bai02",
+    "title": "Số Chẵn Hay Lẻ",
+    "description": "Cho một số nguyên n. Hãy kiểm tra n là số chẵn hay số lẻ.\n\nYêu cầu:\n- Đọc một số nguyên n.\n- In ra 'CHAN' nếu n là số chẵn, in ra 'LE' nếu n là số lẻ.",
+    "level": "Easy",
+    "example_input": "4",
+    "example_output": "CHAN",
+    "tutorial_vid": "",
+    "test_cases": [
+      {"input": "4", "output": "CHAN"},
+      {"input": "7", "output": "LE"},
+      {"input": "0", "output": "CHAN"},
+      {"input": "-2", "output": "CHAN"},
+      {"input": "-3", "output": "LE"},
+      {"input": "1", "output": "LE"},
+      {"input": "100", "output": "CHAN"},
+      {"input": "99", "output": "LE"},
+      {"input": "1000000", "output": "CHAN"},
+      {"input": "999999", "output": "LE"}
+    ]
+  },
+  {
+    "id": "bai03",
+    "title": "Kiểm Tra Số Nguyên Tố",
+    "description": "Cho một số nguyên n (n >= 2). Hãy kiểm tra n có phải là số nguyên tố không.\n\nSố nguyên tố là số lớn hơn 1 và chỉ chia hết cho 1 và chính nó.\n\nYêu cầu:\n- Đọc số nguyên n.\n- In ra 'YES' nếu n là số nguyên tố, 'NO' nếu không phải.",
+    "level": "Easy",
+    "example_input": "7",
+    "example_output": "YES",
+    "tutorial_vid": "",
+    "test_cases": [
+      {"input": "7", "output": "YES"},
+      {"input": "4", "output": "NO"},
+      {"input": "2", "output": "YES"},
+      {"input": "1", "output": "NO"},
+      {"input": "97", "output": "YES"},
+      {"input": "100", "output": "NO"},
+      {"input": "13", "output": "YES"},
+      {"input": "25", "output": "NO"},
+      {"input": "3", "output": "YES"},
+      {"input": "49", "output": "NO"}
+    ]
+  },
+  {
+    "id": "bai04",
+    "title": "FizzBuzz",
+    "description": "Cho số nguyên n. In ra từ 1 đến n, nhưng:\n- Với bội số của 3: in 'Fizz'\n- Với bội số của 5: in 'Buzz'\n- Với bội số của cả 3 và 5: in 'FizzBuzz'\n- Trường hợp còn lại: in số đó\n\nMỗi giá trị trên một dòng.",
+    "level": "Easy",
+    "example_input": "15",
+    "example_output": "1\n2\nFizz\n4\nBuzz\nFizz\n7\n8\nFizz\nBuzz\n11\nFizz\n13\n14\nFizzBuzz",
+    "tutorial_vid": "",
+    "test_cases": [
+      {"input": "5", "output": "1\n2\nFizz\n4\nBuzz"},
+      {"input": "15", "output": "1\n2\nFizz\n4\nBuzz\nFizz\n7\n8\nFizz\nBuzz\n11\nFizz\n13\n14\nFizzBuzz"},
+      {"input": "1", "output": "1"},
+      {"input": "3", "output": "1\n2\nFizz"},
+      {"input": "10", "output": "1\n2\nFizz\n4\nBuzz\nFizz\n7\n8\nFizz\nBuzz"},
+      {"input": "6", "output": "1\n2\nFizz\n4\nBuzz\nFizz"},
+      {"input": "20", "output": "1\n2\nFizz\n4\nBuzz\nFizz\n7\n8\nFizz\nBuzz\n11\nFizz\n13\n14\nFizzBuzz\n16\n17\nFizz\n19\nBuzz"},
+      {"input": "9", "output": "1\n2\nFizz\n4\nBuzz\nFizz\n7\n8\nFizz"},
+      {"input": "30", "output": "1\n2\nFizz\n4\nBuzz\nFizz\n7\n8\nFizz\nBuzz\n11\nFizz\n13\n14\nFizzBuzz\n16\n17\nFizz\n19\nBuzz\nFizz\n22\n23\nFizz\nBuzz\n26\nFizz\n28\n29\nFizzBuzz"},
+      {"input": "2", "output": "1\n2"}
+    ]
+  },
+  {
+    "id": "bai05",
+    "title": "Tổng Chữ Số",
+    "description": "Cho một số nguyên dương n. Hãy tính tổng các chữ số của n.\n\nVí dụ: n = 1234 → tổng chữ số = 1 + 2 + 3 + 4 = 10\n\nYêu cầu:\n- Đọc số nguyên dương n (1 ≤ n ≤ 10^9).\n- In ra tổng các chữ số của n.",
+    "level": "Easy",
+    "example_input": "1234",
+    "example_output": "10",
+    "tutorial_vid": "",
+    "test_cases": [
+      {"input": "1234", "output": "10"},
+      {"input": "9", "output": "9"},
+      {"input": "100", "output": "1"},
+      {"input": "999", "output": "27"},
+      {"input": "1000000000", "output": "1"},
+      {"input": "123456789", "output": "45"},
+      {"input": "55", "output": "10"},
+      {"input": "11111", "output": "5"},
+      {"input": "987654321", "output": "45"},
+      {"input": "1", "output": "1"}
+    ]
+  },
+  {
+    "id": "bai06",
+    "title": "Đảo Ngược Chuỗi",
+    "description": "Cho một chuỗi ký tự s. Hãy in ra chuỗi sau khi đảo ngược thứ tự các ký tự.\n\nVí dụ: 'hello' → 'olleh'\n\nYêu cầu:\n- Đọc một chuỗi s (không có khoảng trắng, độ dài 1–100).\n- In ra chuỗi đã được đảo ngược.",
+    "level": "Easy",
+    "example_input": "hello",
+    "example_output": "olleh",
+    "tutorial_vid": "",
+    "test_cases": [
+      {"input": "hello", "output": "olleh"},
+      {"input": "abcde", "output": "edcba"},
+      {"input": "a", "output": "a"},
+      {"input": "racecar", "output": "racecar"},
+      {"input": "NEO", "output": "OEN"},
+      {"input": "12345", "output": "54321"},
+      {"input": "python", "output": "nohtyp"},
+      {"input": "az", "output": "za"},
+      {"input": "algorithm", "output": "mhtirogla"},
+      {"input": "xyz", "output": "zyx"}
+    ]
+  },
+  {
+    "id": "bai07",
+    "title": "Kiểm Tra Palindrome",
+    "description": "Cho một chuỗi ký tự s. Kiểm tra xem s có phải là palindrome không.\n\nPalindrome là chuỗi đọc xuôi và ngược đều giống nhau.\nVí dụ: 'racecar', 'level', 'madam' là palindrome.\n\nYêu cầu:\n- Đọc một chuỗi s (chỉ gồm chữ thường, độ dài 1–100).\n- In ra 'YES' nếu là palindrome, 'NO' nếu không phải.",
+    "level": "Easy",
+    "example_input": "racecar",
+    "example_output": "YES",
+    "tutorial_vid": "",
+    "test_cases": [
+      {"input": "racecar", "output": "YES"},
+      {"input": "hello", "output": "NO"},
+      {"input": "a", "output": "YES"},
+      {"input": "level", "output": "YES"},
+      {"input": "madam", "output": "YES"},
+      {"input": "ab", "output": "NO"},
+      {"input": "abba", "output": "YES"},
+      {"input": "abcba", "output": "YES"},
+      {"input": "abcd", "output": "NO"},
+      {"input": "aaaa", "output": "YES"}
+    ]
+  },
+  {
+    "id": "bai08",
+    "title": "Dãy Fibonacci",
+    "description": "Dãy Fibonacci được định nghĩa như sau:\n- F(1) = 1, F(2) = 1\n- F(n) = F(n-1) + F(n-2) với n > 2\n\nCho số nguyên n, hãy in ra phần tử thứ n của dãy Fibonacci.\n\nYêu cầu:\n- Đọc số nguyên n (1 ≤ n ≤ 40).\n- In ra F(n).",
+    "level": "Easy",
+    "example_input": "10",
+    "example_output": "55",
+    "tutorial_vid": "",
+    "test_cases": [
+      {"input": "1", "output": "1"},
+      {"input": "2", "output": "1"},
+      {"input": "5", "output": "5"},
+      {"input": "10", "output": "55"},
+      {"input": "15", "output": "610"},
+      {"input": "20", "output": "6765"},
+      {"input": "30", "output": "832040"},
+      {"input": "40", "output": "102334155"},
+      {"input": "3", "output": "2"},
+      {"input": "7", "output": "13"}
+    ]
+  },
+  {
+    "id": "bai09",
+    "title": "Sắp Xếp Nổi Bọt",
+    "description": "Hãy thực hiện thuật toán Bubble Sort để sắp xếp mảng số nguyên theo thứ tự tăng dần.\n\nThuật toán Bubble Sort: Duyệt qua mảng nhiều lần, mỗi lần so sánh hai phần tử liền kề và hoán đổi nếu chúng sai thứ tự.\n\nYêu cầu:\n- Dòng 1: số nguyên n (1 ≤ n ≤ 100)\n- Dòng 2: n số nguyên cách nhau bởi dấu cách\n- In ra mảng đã sắp xếp trên một dòng, cách nhau bởi dấu cách.",
+    "level": "Medium",
+    "example_input": "5\n5 3 8 1 9",
+    "example_output": "1 3 5 8 9",
+    "tutorial_vid": "",
+    "test_cases": [
+      {"input": "5\n5 3 8 1 9", "output": "1 3 5 8 9"},
+      {"input": "1\n42", "output": "42"},
+      {"input": "3\n3 2 1", "output": "1 2 3"},
+      {"input": "5\n1 2 3 4 5", "output": "1 2 3 4 5"},
+      {"input": "4\n4 4 4 4", "output": "4 4 4 4"},
+      {"input": "6\n-3 -1 -5 0 2 -2", "output": "-5 -3 -2 -1 0 2"},
+      {"input": "7\n10 7 8 9 1 5 3", "output": "1 3 5 7 8 9 10"},
+      {"input": "2\n2 1", "output": "1 2"},
+      {"input": "5\n0 0 1 0 0", "output": "0 0 0 0 1"},
+      {"input": "4\n100 -100 50 -50", "output": "-100 -50 50 100"}
+    ]
+  },
+  {
+    "id": "bai10",
+    "title": "Tìm Kiếm Nhị Phân",
+    "description": "Cho một mảng n số nguyên đã được sắp xếp tăng dần và một số nguyên x. Hãy tìm vị trí của x trong mảng bằng thuật toán tìm kiếm nhị phân.\n\nTìm kiếm nhị phân: So sánh x với phần tử giữa, thu hẹp phạm vi tìm kiếm về nửa trái hoặc nửa phải.\n\nYêu cầu:\n- Dòng 1: n (số phần tử) và x (cần tìm)\n- Dòng 2: n số nguyên tăng dần\n- In ra vị trí (1-indexed) của x trong mảng, hoặc -1 nếu không tìm thấy.",
+    "level": "Medium",
+    "example_input": "5 7\n1 3 5 7 9",
+    "example_output": "4",
+    "tutorial_vid": "",
+    "test_cases": [
+      {"input": "5 7\n1 3 5 7 9", "output": "4"},
+      {"input": "5 6\n1 3 5 7 9", "output": "-1"},
+      {"input": "1 1\n1", "output": "1"},
+      {"input": "6 4\n1 2 3 4 5 6", "output": "4"},
+      {"input": "5 1\n1 3 5 7 9", "output": "1"},
+      {"input": "5 9\n1 3 5 7 9", "output": "5"},
+      {"input": "7 10\n2 5 8 10 15 20 25", "output": "4"},
+      {"input": "3 5\n1 3 7", "output": "-1"},
+      {"input": "4 0\n0 1 2 3", "output": "1"},
+      {"input": "6 100\n10 20 30 40 50 60", "output": "-1"}
+    ]
+  },
+  {
+    "id": "bai11",
+    "title": "Tổng Cặp Bằng K",
+    "description": "Cho mảng n số nguyên và một số nguyên k. Hãy đếm số cặp (i, j) với i < j sao cho a[i] + a[j] = k.\n\nGợi ý: Sử dụng kỹ thuật Two Pointers sau khi sắp xếp mảng.\n\nYêu cầu:\n- Dòng 1: n và k\n- Dòng 2: n số nguyên (các phần tử của mảng)\n- In ra số lượng cặp thỏa mãn.",
+    "level": "Medium",
+    "example_input": "5 9\n1 2 3 4 5",
+    "example_output": "2",
+    "tutorial_vid": "",
+    "test_cases": [
+      {"input": "5 9\n1 2 3 4 5", "output": "2"},
+      {"input": "4 5\n1 2 3 4", "output": "2"},
+      {"input": "3 10\n1 2 3", "output": "0"},
+      {"input": "5 0\n-2 -1 0 1 2", "output": "2"},
+      {"input": "6 6\n1 2 3 4 5 6", "output": "2"},
+      {"input": "4 8\n4 4 4 4", "output": "6"},
+      {"input": "5 3\n1 1 1 1 2", "output": "4"},
+      {"input": "1 5\n5", "output": "0"},
+      {"input": "6 7\n1 2 3 4 5 6", "output": "3"},
+      {"input": "5 -1\n-3 -2 -1 1 2", "output": "2"}
+    ]
+  },
+  {
+    "id": "bai12",
+    "title": "Dãy Con Tăng Dài Nhất (LIS)",
+    "description": "Cho mảng n số nguyên. Tìm độ dài của dãy con tăng dần dài nhất (Longest Increasing Subsequence - LIS).\n\nDãy con là tập các phần tử không nhất thiết liên tiếp nhưng giữ nguyên thứ tự ban đầu.\n\nVí dụ: [3, 10, 2, 1, 20] → LIS = [3, 10, 20] → độ dài = 3\n\nYêu cầu:\n- Dòng 1: n (1 ≤ n ≤ 1000)\n- Dòng 2: n số nguyên\n- In ra độ dài LIS.",
+    "level": "Medium",
+    "example_input": "5\n3 10 2 1 20",
+    "example_output": "3",
+    "tutorial_vid": "",
+    "test_cases": [
+      {"input": "5\n3 10 2 1 20", "output": "3"},
+      {"input": "8\n10 9 2 5 3 7 101 18", "output": "4"},
+      {"input": "5\n1 2 3 4 5", "output": "5"},
+      {"input": "5\n5 4 3 2 1", "output": "1"},
+      {"input": "1\n100", "output": "1"},
+      {"input": "6\n2 3 3 2 3 1", "output": "2"},
+      {"input": "7\n1 3 6 7 9 4 10", "output": "6"},
+      {"input": "4\n1 1 1 1", "output": "1"},
+      {"input": "6\n0 1 0 3 2 3", "output": "4"},
+      {"input": "5\n3 5 6 2 5", "output": "3"}
+    ]
+  },
+  {
+    "id": "bai13",
+    "title": "Leo Cầu Thang (DP)",
+    "description": "Bạn cần leo n bậc thang. Mỗi bước có thể leo 1 bậc hoặc 2 bậc.\nHỏi có bao nhiêu cách khác nhau để lên đến đỉnh?\n\nVí dụ: n = 3 → có 3 cách: (1+1+1), (1+2), (2+1)\n\nYêu cầu:\n- Đọc số nguyên n (1 ≤ n ≤ 40)\n- In ra số cách leo cầu thang.",
+    "level": "Medium",
+    "example_input": "5",
+    "example_output": "8",
+    "tutorial_vid": "",
+    "test_cases": [
+      {"input": "1", "output": "1"},
+      {"input": "2", "output": "2"},
+      {"input": "3", "output": "3"},
+      {"input": "5", "output": "8"},
+      {"input": "10", "output": "89"},
+      {"input": "15", "output": "987"},
+      {"input": "20", "output": "10946"},
+      {"input": "30", "output": "1346269"},
+      {"input": "4", "output": "5"},
+      {"input": "40", "output": "165580141"}
+    ]
+  },
+  {
+    "id": "bai14",
+    "title": "Kiểm Tra Ngoặc Hợp Lệ",
+    "description": "Cho một chuỗi chỉ gồm các ký tự '(', ')', '{', '}', '[', ']'. Kiểm tra xem chuỗi có hợp lệ không.\n\nChuỗi hợp lệ khi:\n1. Ngoặc mở phải đóng bởi cùng loại ngoặc.\n2. Ngoặc mở phải đóng theo đúng thứ tự.\n\nGợi ý: Dùng cấu trúc dữ liệu Stack.\n\nYêu cầu:\n- Đọc chuỗi s (độ dài 1–100)\n- In ra 'YES' nếu hợp lệ, 'NO' nếu không.",
+    "level": "Medium",
+    "example_input": "()[]{}",
+    "example_output": "YES",
+    "tutorial_vid": "",
+    "test_cases": [
+      {"input": "()", "output": "YES"},
+      {"input": "()[]{}", "output": "YES"},
+      {"input": "(]", "output": "NO"},
+      {"input": "([)]", "output": "NO"},
+      {"input": "{[]}", "output": "YES"},
+      {"input": "", "output": "YES"},
+      {"input": "(", "output": "NO"},
+      {"input": "((()))", "output": "YES"},
+      {"input": "{[()]}", "output": "YES"},
+      {"input": "}{", "output": "NO"}
+    ]
+  },
+  {
+    "id": "bai15",
+    "title": "Kiểm Tra Anagram",
+    "description": "Hai chuỗi là anagram của nhau nếu chúng chứa cùng các ký tự với cùng số lần xuất hiện (thứ tự không quan trọng).\n\nVí dụ: 'anagram' và 'nagaram' là anagram; 'rat' và 'car' không phải anagram.\n\nYêu cầu:\n- Dòng 1: chuỗi s\n- Dòng 2: chuỗi t\n- In ra 'YES' nếu là anagram, 'NO' nếu không.",
+    "level": "Medium",
+    "example_input": "anagram\nnagaram",
+    "example_output": "YES",
+    "tutorial_vid": "",
+    "test_cases": [
+      {"input": "anagram\nnagaram", "output": "YES"},
+      {"input": "rat\ncar", "output": "NO"},
+      {"input": "listen\nsilent", "output": "YES"},
+      {"input": "hello\nworld", "output": "NO"},
+      {"input": "abc\ncba", "output": "YES"},
+      {"input": "a\na", "output": "YES"},
+      {"input": "ab\nba", "output": "YES"},
+      {"input": "abc\nabc", "output": "YES"},
+      {"input": "abc\ndef", "output": "NO"},
+      {"input": "aab\nbaa", "output": "YES"}
+    ]
+  },
+  {
+    "id": "bai16",
+    "title": "Bài Toán Balo 0/1",
+    "description": "Có n món đồ, mỗi món có trọng lượng w[i] và giá trị v[i]. Balo chứa được tối đa W kg. Mỗi món chỉ được chọn 1 lần (0 hoặc 1). Tìm giá trị lớn nhất có thể mang theo.\n\nYêu cầu:\n- Dòng 1: n (số món) và W (sức chứa balo)\n- n dòng tiếp theo: w[i] v[i]\n- In ra giá trị tối đa.",
+    "level": "Medium",
+    "example_input": "4 5\n1 1\n2 6\n3 10\n5 16",
+    "example_output": "17",
+    "tutorial_vid": "",
+    "test_cases": [
+      {"input": "4 5\n1 1\n2 6\n3 10\n5 16", "output": "17"},
+      {"input": "3 4\n4 3\n3 4\n2 3", "output": "7"},
+      {"input": "1 0\n2 5", "output": "0"},
+      {"input": "5 10\n2 6\n2 10\n3 12\n5 15\n7 13", "output": "28"},
+      {"input": "3 3\n1 2\n2 3\n3 4", "output": "5"},
+      {"input": "1 5\n3 10", "output": "10"},
+      {"input": "3 7\n1 1\n4 4\n3 3", "output": "5"},
+      {"input": "4 8\n2 3\n3 4\n4 5\n5 6", "output": "9"},
+      {"input": "2 5\n3 4\n4 5", "output": "5"},
+      {"input": "3 5\n2 3\n3 4\n4 5", "output": "7"}
+    ]
+  },
+  {
+    "id": "bai17",
+    "title": "Xâu Con Chung Dài Nhất (LCS)",
+    "description": "Cho hai chuỗi s và t. Tìm độ dài của xâu con chung dài nhất (Longest Common Subsequence - LCS).\n\nLCS là xâu con (không nhất thiết liên tiếp) xuất hiện trong cả hai chuỗi theo cùng thứ tự.\n\nVí dụ: LCS('ABCBDAB', 'BDCAB') = 4 (xâu 'BCAB' hoặc 'BDAB')\n\nYêu cầu:\n- Dòng 1: chuỗi s\n- Dòng 2: chuỗi t\n- In ra độ dài LCS.",
+    "level": "Hard",
+    "example_input": "ABCBDAB\nBDCAB",
+    "example_output": "4",
+    "tutorial_vid": "",
+    "test_cases": [
+      {"input": "ABCBDAB\nBDCAB", "output": "4"},
+      {"input": "ABC\nAC", "output": "2"},
+      {"input": "AGGTAB\nGXTXAYB", "output": "4"},
+      {"input": "ABCD\nACBD", "output": "3"},
+      {"input": "A\nA", "output": "1"},
+      {"input": "ABC\nDEF", "output": "0"},
+      {"input": "ABCDE\nACE", "output": "3"},
+      {"input": "MZJAWXU\nXMJYAUZ", "output": "4"},
+      {"input": "ABAB\nBABA", "output": "3"},
+      {"input": "AABCC\nDBACD", "output": "3"}
+    ]
+  },
+  {
+    "id": "bai18",
+    "title": "Đường Đi Ngắn Nhất BFS",
+    "description": "Cho một đồ thị vô hướng không có trọng số với n đỉnh và m cạnh. Tìm khoảng cách ngắn nhất từ đỉnh 1 đến đỉnh n (tính theo số cạnh).\n\nGợi ý: Sử dụng thuật toán BFS (Breadth-First Search).\n\nYêu cầu:\n- Dòng 1: n và m (số đỉnh và cạnh)\n- m dòng tiếp: mỗi dòng là một cạnh u v\n- In ra khoảng cách ngắn nhất từ 1 đến n. Nếu không đến được, in -1.",
+    "level": "Hard",
+    "example_input": "5 6\n1 2\n1 3\n2 4\n3 4\n4 5\n3 5",
+    "example_output": "3",
+    "tutorial_vid": "",
+    "test_cases": [
+      {"input": "5 6\n1 2\n1 3\n2 4\n3 4\n4 5\n3 5", "output": "3"},
+      {"input": "2 1\n1 2", "output": "1"},
+      {"input": "4 3\n1 2\n2 3\n3 4", "output": "3"},
+      {"input": "3 1\n1 2", "output": "-1"},
+      {"input": "6 7\n1 2\n1 3\n2 4\n3 4\n4 5\n5 6\n3 6", "output": "3"},
+      {"input": "4 4\n1 2\n2 3\n3 4\n1 4", "output": "1"},
+      {"input": "5 4\n1 2\n2 3\n3 4\n4 5", "output": "4"},
+      {"input": "1 0", "output": "0"},
+      {"input": "6 5\n1 2\n2 3\n3 4\n4 5\n5 6", "output": "5"},
+      {"input": "4 2\n1 2\n3 4", "output": "-1"}
+    ]
+  },
+  {
+    "id": "bai19",
+    "title": "Sắp Xếp Merge Sort",
+    "description": "Hãy cài đặt thuật toán Merge Sort để sắp xếp mảng số nguyên theo thứ tự tăng dần.\n\nMerge Sort sử dụng kỹ thuật Chia để Trị (Divide and Conquer):\n1. Chia mảng thành 2 nửa\n2. Đệ quy sắp xếp từng nửa\n3. Gộp hai nửa đã sắp xếp\n\nYêu cầu:\n- Dòng 1: n (1 ≤ n ≤ 10000)\n- Dòng 2: n số nguyên\n- In ra mảng đã sắp xếp.",
+    "level": "Hard",
+    "example_input": "6\n38 27 43 3 9 82",
+    "example_output": "3 9 27 38 43 82",
+    "tutorial_vid": "",
+    "test_cases": [
+      {"input": "6\n38 27 43 3 9 82", "output": "3 9 27 38 43 82"},
+      {"input": "1\n5", "output": "5"},
+      {"input": "5\n5 4 3 2 1", "output": "1 2 3 4 5"},
+      {"input": "5\n1 2 3 4 5", "output": "1 2 3 4 5"},
+      {"input": "4\n4 4 4 4", "output": "4 4 4 4"},
+      {"input": "7\n64 34 25 12 22 11 90", "output": "11 12 22 25 34 64 90"},
+      {"input": "8\n-5 -3 -1 -7 -2 -8 -6 -4", "output": "-8 -7 -6 -5 -4 -3 -2 -1"},
+      {"input": "2\n2 1", "output": "1 2"},
+      {"input": "6\n0 -1 5 2 -3 4", "output": "-3 -1 0 2 4 5"},
+      {"input": "5\n10 5 10 5 10", "output": "5 5 10 10 10"}
+    ]
+  },
+  {
+    "id": "bai20",
+    "title": "Cây Khung Nhỏ Nhất (Kruskal)",
+    "description": "Cho đồ thị vô hướng có trọng số với n đỉnh và m cạnh. Tìm tổng trọng số nhỏ nhất của cây khung (Minimum Spanning Tree - MST) bằng thuật toán Kruskal.\n\nGợi ý: Sắp xếp cạnh theo trọng số tăng dần, dùng Union-Find để kiểm tra chu trình.\n\nYêu cầu:\n- Dòng 1: n và m\n- m dòng tiếp: u v w (cạnh từ u đến v có trọng số w)\n- In ra tổng trọng số MST. Nếu đồ thị không liên thông, in -1.",
+    "level": "Hard",
+    "example_input": "4 5\n1 2 1\n1 3 4\n2 3 2\n2 4 5\n3 4 3",
+    "example_output": "6",
+    "tutorial_vid": "",
+    "test_cases": [
+      {"input": "4 5\n1 2 1\n1 3 4\n2 3 2\n2 4 5\n3 4 3", "output": "6"},
+      {"input": "2 1\n1 2 5", "output": "5"},
+      {"input": "3 3\n1 2 1\n2 3 2\n1 3 10", "output": "3"},
+      {"input": "4 4\n1 2 1\n2 3 1\n3 4 1\n4 1 1", "output": "3"},
+      {"input": "3 2\n1 2 3\n1 3 5", "output": "8"},
+      {"input": "5 7\n1 2 2\n1 3 3\n2 3 1\n2 4 1\n3 5 4\n4 5 3\n4 3 2", "output": "7"},
+      {"input": "3 1\n1 2 5", "output": "-1"},
+      {"input": "4 6\n1 2 1\n1 3 2\n1 4 3\n2 3 4\n2 4 5\n3 4 6", "output": "6"},
+      {"input": "4 3\n1 2 10\n2 3 20\n3 4 30", "output": "60"},
+      {"input": "5 4\n1 2 1\n2 3 2\n3 4 3\n4 5 4", "output": "10"}
+    ]
+  }
+]

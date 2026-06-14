@@ -1,7 +1,5 @@
 # ============================================================================
-<<<<<<< HEAD
-# NEO ONLINE JUDGE v2.0 - Docker Compose
-# ============================================================================
+=====================================================================
 # Usage:
 #   docker-compose up -d           # Start services
 #   docker-compose logs -f judge   # View logs
@@ -13,33 +11,12 @@
 #   docker-compose up -d          # Start services
 #   docker-compose logs -f         # View logs
 #   docker-compose down           # Stop services
->>>>>>> 42795a7b37f52a94db846762b5038dd9d6c08e0a
 # ============================================================================
 
 version: '3.8'
 
 services:
-<<<<<<< HEAD
-  # --- Judge Server ---
-  judge:
-    build: .
-    container_name: neo-judge-server
-    env_file:
-      - .env
-    environment:
-      - CRED_PATH=/app/service-account.json
-    volumes:
-      - ./service-account.json:/app/service-account.json:ro
-      - ./logs:/app/logs
-      - ./backend:/app/backend
-    restart: unless-stopped
-    networks:
-      - neo-network
-    depends_on:
-      - redis
 
-  # --- Redis Queue System ---
-=======
   # Judge Server
   judge:
     build: .
@@ -58,7 +35,6 @@ services:
       - neo-network
 
   # Optional: Redis for Queue System
->>>>>>> 42795a7b37f52a94db846762b5038dd9d6c08e0a
   redis:
     image: redis:7-alpine
     container_name: neo-redis
@@ -69,28 +45,14 @@ services:
     restart: unless-stopped
     networks:
       - neo-network
-<<<<<<< HEAD
-    profiles:
-      - full
 
-  # --- Firebase Emulator (local dev only) ---
-=======
 
   # Optional: Firebase Emulator (for local development)
->>>>>>> 42795a7b37f52a94db846762b5038dd9d6c08e0a
   firebase-emulator:
     image: andreysenov/firebase-emulator:latest
     container_name: neo-firebase-emulator
     ports:
-<<<<<<< HEAD
-      - "9000:9000"
-      - "5001:5001"
-    restart: unless-stopped
-    networks:
-      - neo-network
-    profiles:
-      - dev
-=======
+
       - "9000:9000"  # Emulator Suite UI
       - "5001:5001"  # Database Emulator
     environment:
@@ -101,7 +63,6 @@ services:
     # Uncomment for production use
     # profiles:
     #   - dev
->>>>>>> 42795a7b37f52a94db846762b5038dd9d6c08e0a
 
 volumes:
   redis_data:
@@ -109,3 +70,4 @@ volumes:
 networks:
   neo-network:
     driver: bridge
+

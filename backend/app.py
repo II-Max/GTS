@@ -1,29 +1,56 @@
 """
 NEO Online Judge - Application Entry Point
 Modern async-compatible judge server with modular architecture.
+Includes HTTP API server for authentication and user management.
 """
 
 import sys
 import time
+import threading
 from typing import Optional
+
+from flask import Flask
+from flask_cors import CORS
 
 from config.settings import settings
 from config.logging import setup_logging
 
 logger = setup_logging()
 
+# ======================================================================
+# Flask API Server
+# ======================================================================
+
+def create_api_app() -> Flask:
+    """Create and configure the Flask API application."""
+    app = Flask(__name__)
+    CORS(app, origins=settings.ALLOWED_ORIGINS)
+
+    # Register blueprints
+    from backend.routes.auth_routes import auth_bp
+    app.register_blueprint(auth_bp)
+
+    # Health check
+    @app.route("/api/health")
+    def health():
+        return {"status": "ok", "service": "NEO Online Judge", "version": "2.0"}
+
+    return app
+
 
 class JudgeApplication:
     """
     Main application that orchestrates:
-    1. Firebase polling for pending submissions
-    2. Code compilation and grading
-    3. AI Mentor request processing
+    1. HTTP API server (Flask) for auth & user management
+    2. Firebase polling for pending submissions
+    3. Code compilation and grading
+    4. AI Mentor request processing
     """
 
     def __init__(self):
         self.running = False
         self._firebase = None
+        self._api_app = create_api_app()
         self._init_services()
 
     def _init_services(self):
@@ -120,11 +147,25 @@ class JudgeApplication:
             logger.info(f"[AI] Completed for {user} (success={result['success']})")
 
     # ======================================================================
+    # HTTP API Server (chạy trên thread riêng)
+    # ======================================================================
+
+    def _run_api_server(self):
+        """Start Flask API server in a separate thread."""
+        logger.info(f"API server starting on {settings.HOST}:{settings.PORT}")
+        self._api_app.run(
+            host=settings.HOST,
+            port=settings.PORT,
+            debug=False,
+            use_reloader=False,
+        )
+
+    # ======================================================================
     # MAIN LOOP
     # ======================================================================
 
     def run(self):
-        """Start the main polling loop."""
+        """Start the judge server and API server."""
         self.running = True
 
         print(f"""
@@ -134,12 +175,18 @@ class JudgeApplication:
 ╠══════════════════════════════════════════════════╣
 ║  Mode:          Independent Scoring              ║
 ║  AI Model:      {settings.AI_MODEL:<34}║
+║  API Server:    {settings.HOST}:{settings.PORT:<28}║
 ║  Poll Interval: {settings.POLL_INTERVAL}s                               ║
 ║  Judge Timeout: {settings.JUDGE_TIMEOUT}s                               ║
 ║  Log Level:     {settings.LOG_LEVEL:<34}║
 ╚══════════════════════════════════════════════════╝
         """)
 
+        # Start API server in background thread
+        api_thread = threading.Thread(target=self._run_api_server, daemon=True)
+        api_thread.start()
+
+        # Main polling loop
         try:
             while self.running:
                 self._process_ai_requests()

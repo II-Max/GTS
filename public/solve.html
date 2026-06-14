@@ -1,1013 +1,760 @@
-<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Luyện Tập Code & Mentor AI</title>
+    <title>NEO Online Judge — Luyện Tập Code</title>
+    <meta name="description" content="Giải bài tập lập trình và nhận gợi ý từ AI Mentor.">
+    <link rel="stylesheet" href="css/neo-design.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;600;700&family=Consolas:wght@400;700&display=swap" rel="stylesheet">
-    
     <style>
-        :root {
-            --bg-dark: #121212;
-            --panel-bg: #1e1e1e;
-            --text-main: #e0e0e0;
-            --accent: #007bff;
-            --neon: #00ffcc;
-            --border: #333;
-            
-            /* Màu độ khó */
-            --diff-easy: #00c853;   /* Xanh lá */
-            --diff-med: #ffab00;    /* Vàng cam */
-            --diff-hard: #d50000;   /* Đỏ */
-        }
-
         body {
-            margin: 0;
-            font-family: 'Segoe UI', sans-serif;
-            background-color: var(--bg-dark);
-            color: var(--text-main);
-            height: 100vh;
             display: flex;
             flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+            background-image: none; /* No grid in editor mode */
         }
 
-        /* HEADER */
-        header {
-            background: var(--panel-bg);
-            padding: 10px 20px;
+        /* ── HEADER ── */
+        .solve-header {
+            height: 52px;
+            background: var(--bg-card);
             border-bottom: 1px solid var(--border);
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+            flex-shrink: 0;
+            gap: 12px;
         }
-        
-        .header-left { display: flex; align-items: center; gap: 15px; }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
         .btn-back {
-            background: #333; color: #fff; border: 1px solid #555;
-            padding: 8px 15px; border-radius: 5px; cursor: pointer;
-            text-decoration: none; font-size: 14px; display: flex; align-items: center; gap: 5px;
-            transition: 0.2s;
-        }
-        .btn-back:hover { background: #555; }
-        h2 { margin: 0; font-size: 18px; color: var(--accent); }
-
-        /* LAYOUT CHÍNH */
-        .container { display: flex; flex: 1; overflow: hidden; }
-
-        /* --- CỘT TRÁI: ĐỀ BÀI (GIAO DIỆN MỚI) --- */
-        .left-panel {
-            width: 40%;
-            padding: 25px;
-            border-right: 1px solid var(--border);
-            overflow-y: auto;
-            background: #181818;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        /* 1. Tiêu đề & Độ khó */
-        .problem-header {
-            border-bottom: 1px solid #333;
-            padding-bottom: 15px;
-        }
-        .problem-title-row {
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            gap: 10px;
-            flex-wrap: wrap;
+            gap: 6px;
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            padding: 6px 12px;
+            border-radius: var(--radius-sm);
+            font-size: 0.8rem;
+            font-family: var(--font-ui);
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.2s;
         }
-        #problem-title {
-            margin: 0;
-            color: #fff;
-            font-size: 22px;
-            font-weight: 700;
-        }
-        .difficulty-badge {
-            font-size: 12px;
-            font-weight: bold;
-            padding: 4px 10px;
-            border-radius: 4px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            background: #333; /* Màu mặc định */
-            color: #fff;
+        .btn-back:hover {
+            border-color: var(--border-hover);
+            color: var(--text-primary);
         }
 
-        /* 2. Nội dung câu hỏi */
-        .problem-description {
-            font-size: 15px;
-            line-height: 1.6;
-            color: #ccc;
-            white-space: pre-wrap; /* Giữ định dạng xuống dòng */
+        .problem-label {
+            font-family: var(--font-code);
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
-        /* 3. Input / Output Mẫu */
-        .io-section {
+        .header-user {
+            font-size: 0.8rem;
+            color: var(--text-muted);
             display: flex;
-            flex-direction: column;
-            gap: 15px;
-            margin-top: 10px;
+            align-items: center;
+            gap: 6px;
         }
-        .io-row {
+
+        /* ── MAIN LAYOUT ── */
+        .solve-container {
             display: flex;
-            gap: 15px;
-        }
-        .io-box {
             flex: 1;
-            background: #000;
-            border: 1px solid #333;
-            border-radius: 6px;
             overflow: hidden;
         }
-        .io-header {
-            background: #222;
-            padding: 5px 10px;
-            font-size: 12px;
-            font-weight: bold;
-            color: #888;
-            border-bottom: 1px solid #333;
-            text-transform: uppercase;
-        }
-        .io-content {
-            padding: 10px;
-            font-family: 'Consolas', monospace;
-            font-size: 14px;
-            color: var(--neon);
-            white-space: pre;
-            overflow-x: auto;
-        }
 
-        /* --- CỘT PHẢI: CODE EDITOR --- */
-        .right-panel {
-            width: 60%;
+        /* ── LEFT PANEL: Problem ── */
+        .left-panel {
+            width: 42%;
+            min-width: 320px;
+            border-right: 1px solid var(--border);
+            background: var(--bg-surface);
             display: flex;
             flex-direction: column;
-            background: var(--panel-bg);
+            overflow: hidden;
         }
 
-        .editor-toolbar {
-            padding: 10px;
-            background: #252526;
+        .problem-tabs {
             display: flex;
-            gap: 10px;
+            border-bottom: 1px solid var(--border);
+            padding: 0 20px;
+            background: var(--bg-card);
+            flex-shrink: 0;
+        }
+
+        .problem-tab {
+            padding: 11px 14px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            cursor: pointer;
+            border: none;
+            background: none;
+            font-family: var(--font-ui);
+            position: relative;
+            transition: color 0.2s;
+        }
+        .problem-tab:hover { color: var(--text-secondary); }
+        .problem-tab.active { color: var(--accent); }
+        .problem-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px; left: 0; right: 0;
+            height: 2px;
+            background: var(--accent);
+        }
+
+        .problem-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 24px;
+        }
+
+        /* Problem header */
+        .problem-header {
+            margin-bottom: 20px;
+            padding-bottom: 16px;
             border-bottom: 1px solid var(--border);
         }
 
-        select, button {
-            padding: 8px 12px; border: none; border-radius: 4px;
-            cursor: pointer; font-weight: 600;
+        .problem-title-row {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 8px;
         }
-        button.btn-run { background: #28a745; color: white; }
-        button.btn-run:hover { background: #218838; }
 
-        button.btn-ai {
-            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
-            color: white;
-            box-shadow: 0 0 10px rgba(100, 100, 255, 0.4);
-            transition: 0.3s;
+        #problem-title {
+            font-family: var(--font-code);
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin: 0;
+            line-height: 1.4;
         }
-        button.btn-ai:hover { transform: translateY(-2px); box-shadow: 0 0 15px rgba(100, 100, 255, 0.7); }
 
-        textarea#code {
-            flex: 1; background: #1e1e1e; color: #d4d4d4;
-            border: none; padding: 15px;
-            font-family: 'Consolas', 'Courier New', monospace;
-            font-size: 14px; resize: none; outline: none; line-height: 1.5;
+        /* Problem body */
+        .problem-section-title {
+            font-family: var(--font-code);
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-bottom: 10px;
+        }
+
+        #desc {
+            font-size: 0.9rem;
+            line-height: 1.7;
+            color: var(--text-secondary);
+            white-space: pre-wrap;
+            margin-bottom: 20px;
+        }
+
+        /* IO boxes */
+        .io-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        /* Constraints */
+        .constraints-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 14px;
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+        }
+
+        /* ── RIGHT PANEL: Editor ── */
+        .right-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: var(--bg-surface);
+            overflow: hidden;
+        }
+
+        /* Editor toolbar */
+        .editor-toolbar {
+            padding: 8px 12px;
+            background: var(--bg-card);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+
+        .lang-select {
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            color: var(--text-primary);
+            padding: 6px 10px;
+            font-family: var(--font-code);
+            font-size: 0.82rem;
+            cursor: pointer;
+            outline: none;
+        }
+        .lang-select:focus { border-color: var(--accent-border); }
+
+        .editor-spacer { flex: 1; }
+
+        /* Code textarea */
+        .code-editor {
+            flex: 1;
+            background: #0d1117;
+            color: #c9d1d9;
+            border: none;
+            padding: 16px;
+            font-family: 'JetBrains Mono', 'Consolas', 'Courier New', monospace;
+            font-size: 13.5px;
+            resize: none;
+            outline: none;
+            line-height: 1.6;
+            tab-size: 4;
+            overflow-y: auto;
+        }
+
+        /* Output panel */
+        .output-panel {
+            height: 160px;
+            background: var(--bg-base);
+            border-top: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0;
+        }
+
+        .output-header {
+            padding: 8px 14px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-shrink: 0;
+        }
+
+        .output-label {
+            font-family: var(--font-code);
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         #output-log {
-            padding: 15px; height: 150px; background: #111;
-            border-top: 1px solid #333; overflow: auto;
-            font-family: 'Consolas', monospace; color: #bbb;
+            flex: 1;
+            padding: 12px 14px;
+            overflow-y: auto;
+            font-family: var(--font-code);
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
         }
 
-        /* --- MODAL AI --- */
+        /* Score badge in output */
+        .score-display {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+
+        .score-num {
+            font-family: var(--font-code);
+            font-size: 1.4rem;
+            font-weight: 800;
+        }
+
+        /* ── AI MODAL ── */
         #ai-modal {
-            display: none; position: fixed; top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.85);
-            justify-content: center; align-items: center;
-            z-index: 9999; backdrop-filter: blur(5px);
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(8px);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            padding: 24px;
         }
-        #ai-content {
-            background: #1e1e1e; padding: 2px; border-radius: 12px;
-            width: 650px; max-width: 90%;
-            box-shadow: 0 0 25px rgba(0, 255, 255, 0.15);
+        #ai-modal.open { display: flex; }
+
+        .ai-box {
+            background: var(--bg-card);
+            border: 1px solid var(--ai-border);
+            border-radius: var(--radius-lg);
+            width: 100%;
+            max-width: 660px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 0 40px rgba(139,92,246,0.2);
+            animation: modal-in 0.2s ease;
         }
-        .ai-inner-box {
-            background: #1e1e1e; padding: 25px; border-radius: 10px;
-            color: #fff; max-height: 75vh; overflow-y: auto;
+
+        @keyframes modal-in {
+            from { opacity: 0; transform: scale(0.96) translateY(-12px); }
+            to   { opacity: 1; transform: scale(1) translateY(0); }
         }
-        .rgb-wrapper { width: 100%; text-align: center; padding: 40px 0; }
-        .rgb-line {
-            height: 6px; width: 100%;
-            background: linear-gradient(90deg, #ff0000, #ffff00, #00ff00, #00ffff, #0000ff, #ff00ff, #ff0000);
-            background-size: 400% 100%; animation: rgb-run 1.5s linear infinite;
-            border-radius: 10px; margin-bottom: 25px;
-            box-shadow: 0 0 15px rgba(0, 255, 255, 0.6);
+
+        .ai-header {
+            padding: 18px 24px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
-        @keyframes rgb-run { 0% { background-position: 100% 0; } 100% { background-position: 0 0; } }
-        .loading-text { font-size: 16px; letter-spacing: 2px; color: #fff; text-transform: uppercase; animation: blink 1.2s infinite; }
-        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
-        .ai-response-text { font-size: 16px; line-height: 1.7; color: #e0e0e0; text-align: left; }
-        .ai-response-text b { color: var(--neon); font-weight: 700; }
-        .ai-response-text ul { margin-left: 20px; }
-        .ai-response-text li { margin-bottom: 10px; }
-        .btn-close-ai {
-            background: #333; color: #fff; border: 1px solid #555;
-            padding: 10px 30px; margin-top: 25px; border-radius: 6px;
-            transition: 0.2s; cursor: pointer;
+
+        .ai-title {
+            font-family: var(--font-code);
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--ai-purple);
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
-        .btn-close-ai:hover { background: #555; }
+
+        .ai-body { padding: 24px; }
+
+        /* AI loading */
+        .ai-loading {
+            text-align: center;
+            padding: 32px 0;
+        }
+
+        .ai-progress {
+            height: 3px;
+            background: var(--bg-elevated);
+            border-radius: 2px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .ai-progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--ai-purple), var(--accent), var(--ai-purple));
+            background-size: 200% 100%;
+            animation: ai-progress 1.5s linear infinite;
+        }
+        @keyframes ai-progress { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+
+        .ai-loading-text {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            animation: blink-ai 1.2s ease-in-out infinite;
+        }
+        @keyframes blink-ai { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+        /* AI response */
+        .ai-response {
+            font-size: 0.9rem;
+            line-height: 1.7;
+            color: var(--text-secondary);
+        }
+        .ai-response b  { color: var(--ai-purple); font-weight: 700; }
+        .ai-response ul { margin-left: 18px; }
+        .ai-response li { margin-bottom: 8px; }
     </style>
 </head>
 <body>
 
-    <header>
+    <!-- Header -->
+    <header class="solve-header">
         <div class="header-left">
             <button onclick="window.history.back()" class="btn-back">
                 <i class="fa-solid fa-arrow-left"></i> Quay lại
             </button>
-            <h2><i class="fa-solid fa-code"></i> HỆ THỐNG CHẤM BÀI</h2>
+            <div class="problem-label">
+                <i class="fa-solid fa-code" style="color:var(--accent)"></i>
+                <span id="header-problem-id">—</span>
+            </div>
         </div>
-        <div id="user-info">Đang tải...</div>
+        <div class="header-user" id="user-info">
+            <i class="fa-solid fa-circle-user"></i> Đang tải...
+        </div>
     </header>
 
-    <div class="container">
-        
+    <div class="solve-container">
+
+        <!-- LEFT: Problem statement -->
         <div class="left-panel">
-            
-            <div class="problem-header">
-                <div class="problem-title-row">
-                    <h1 id="problem-title">Đang tải đề...</h1>
-                    <span id="difficulty-badge" class="difficulty-badge">...</span>
+            <div class="problem-tabs">
+                <button class="problem-tab active" id="tab-desc" onclick="showTab('desc')">Đề bài</button>
+                <button class="problem-tab" id="tab-tutorial" onclick="showTab('tutorial')" style="display:none;">
+                    <i class="fa-solid fa-video" style="font-size:0.7rem"></i> Video
+                </button>
+            </div>
+
+            <div class="problem-content" id="panel-desc">
+                <!-- Problem header -->
+                <div class="problem-header">
+                    <div class="problem-title-row">
+                        <h1 id="problem-title">Đang tải...</h1>
+                        <span id="difficulty-badge" class="badge">—</span>
+                    </div>
+                </div>
+
+                <!-- Description -->
+                <div class="problem-section-title">Mô tả</div>
+                <div id="desc">Đang kết nối cơ sở dữ liệu...</div>
+
+                <!-- IO examples -->
+                <div class="problem-section-title">Ví dụ</div>
+                <div class="io-grid">
+                    <div class="code-block">
+                        <div class="code-block-header">Input</div>
+                        <div id="problem-input" class="code-block-content">...</div>
+                    </div>
+                    <div class="code-block">
+                        <div class="code-block-header">Output</div>
+                        <div id="problem-output" class="code-block-content">...</div>
+                    </div>
                 </div>
             </div>
 
-            <div id="desc" class="problem-description">
-                Đang kết nối cơ sở dữ liệu...
+            <!-- Tutorial panel (hidden) -->
+            <div class="problem-content" id="panel-tutorial" style="display:none;">
+                <div id="video-container"></div>
             </div>
-
-            <div class="io-section">
-                <div class="io-row">
-                    <div class="io-box">
-                        <div class="io-header">Input Mẫu</div>
-                        <div id="problem-input" class="io-content">...</div>
-                    </div>
-                    <div class="io-box">
-                        <div class="io-header">Output Mẫu</div>
-                        <div id="problem-output" class="io-content">...</div>
-                    </div>
-                </div>
-            </div>
-
         </div>
 
+        <!-- RIGHT: Editor -->
         <div class="right-panel">
+            <!-- Toolbar -->
             <div class="editor-toolbar">
-                <select id="language">
+                <select id="language" class="lang-select">
                     <option value="python">Python</option>
                     <option value="cpp">C++</option>
                     <option value="java">Java</option>
                     <option value="pascal">Pascal</option>
                 </select>
-                <button class="btn-run" onclick="submitCode()">
-                    <i class="fa-solid fa-play"></i> CHẤM BÀI
+                <div class="editor-spacer"></div>
+                <button id="btn-ai" class="btn btn-ai btn-sm" onclick="askAI()">
+                    <i class="fa-solid fa-robot"></i> AI Gợi Ý
                 </button>
-                <button id="btn-ai" class="btn-ai" onclick="askAI()">
-                    <i class="fa-solid fa-robot"></i> AI GỢI Ý (BETA)
+                <button class="btn btn-success btn-sm" onclick="submitCode()">
+                    <i class="fa-solid fa-play"></i> Chấm bài
                 </button>
             </div>
-            
-            <textarea id="code" placeholder="Nhập code của bạn tại đây..."></textarea>
-            
-            <div id="output-log">
-                Kết quả chấm sẽ hiện ở đây...
+
+            <!-- Code area -->
+            <textarea id="code" class="code-editor" placeholder="// Nhập code của bạn tại đây...
+// Chọn ngôn ngữ bên trên và bắt đầu code!"></textarea>
+
+            <!-- Output -->
+            <div class="output-panel">
+                <div class="output-header">
+                    <span class="output-label"><i class="fa-solid fa-terminal"></i> Kết quả chấm bài</span>
+                    <span class="output-label" id="output-status"></span>
+                </div>
+                <div id="output-log">
+                    <span style="color:var(--text-muted);">Nhấn "Chấm bài" để chạy code của bạn...</span>
+                </div>
             </div>
         </div>
     </div>
 
+    <!-- AI Modal -->
     <div id="ai-modal">
-        <div id="ai-content"></div>
+        <div class="ai-box">
+            <div class="ai-header">
+                <div class="ai-title"><i class="fa-solid fa-robot"></i> AI Mentor Gợi Ý</div>
+                <button class="neo-modal-close" onclick="closeAI()">×</button>
+            </div>
+            <div class="ai-body" id="ai-content">
+                <!-- Filled by JS -->
+            </div>
+        </div>
     </div>
 
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
-
+    <script src="js/firebase-config.js"></script>
+    <script src="js/firebase-auth-check.js"></script>
     <script>
-=======
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Luyện Tập Code & Mentor AI</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;600;700&family=Consolas:wght@400;700&display=swap" rel="stylesheet">
-    
-    <style>
-        :root {
-            --bg-dark: #121212;
-            --panel-bg: #1e1e1e;
-            --text-main: #e0e0e0;
-            --accent: #007bff;
-            --neon: #00ffcc;
-            --border: #333;
-            
-            /* Màu độ khó */
-            --diff-easy: #00c853;   /* Xanh lá */
-            --diff-med: #ffab00;    /* Vàng cam */
-            --diff-hard: #d50000;   /* Đỏ */
-        }
-
-        body {
-            margin: 0;
-            font-family: 'Segoe UI', sans-serif;
-            background-color: var(--bg-dark);
-            color: var(--text-main);
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-
-        /* HEADER */
-        header {
-            background: var(--panel-bg);
-            padding: 10px 20px;
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .header-left { display: flex; align-items: center; gap: 15px; }
-        .btn-back {
-            background: #333; color: #fff; border: 1px solid #555;
-            padding: 8px 15px; border-radius: 5px; cursor: pointer;
-            text-decoration: none; font-size: 14px; display: flex; align-items: center; gap: 5px;
-            transition: 0.2s;
-        }
-        .btn-back:hover { background: #555; }
-        h2 { margin: 0; font-size: 18px; color: var(--accent); }
-
-        /* LAYOUT CHÍNH */
-        .container { display: flex; flex: 1; overflow: hidden; }
-
-        /* --- CỘT TRÁI: ĐỀ BÀI (GIAO DIỆN MỚI) --- */
-        .left-panel {
-            width: 40%;
-            padding: 25px;
-            border-right: 1px solid var(--border);
-            overflow-y: auto;
-            background: #181818;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        /* 1. Tiêu đề & Độ khó */
-        .problem-header {
-            border-bottom: 1px solid #333;
-            padding-bottom: 15px;
-        }
-        .problem-title-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-        #problem-title {
-            margin: 0;
-            color: #fff;
-            font-size: 22px;
-            font-weight: 700;
-        }
-        .difficulty-badge {
-            font-size: 12px;
-            font-weight: bold;
-            padding: 4px 10px;
-            border-radius: 4px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            background: #333; /* Màu mặc định */
-            color: #fff;
-        }
-
-        /* 2. Nội dung câu hỏi */
-        .problem-description {
-            font-size: 15px;
-            line-height: 1.6;
-            color: #ccc;
-            white-space: pre-wrap; /* Giữ định dạng xuống dòng */
-        }
-
-        /* 3. Input / Output Mẫu */
-        .io-section {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            margin-top: 10px;
-        }
-        .io-row {
-            display: flex;
-            gap: 15px;
-        }
-        .io-box {
-            flex: 1;
-            background: #000;
-            border: 1px solid #333;
-            border-radius: 6px;
-            overflow: hidden;
-        }
-        .io-header {
-            background: #222;
-            padding: 5px 10px;
-            font-size: 12px;
-            font-weight: bold;
-            color: #888;
-            border-bottom: 1px solid #333;
-            text-transform: uppercase;
-        }
-        .io-content {
-            padding: 10px;
-            font-family: 'Consolas', monospace;
-            font-size: 14px;
-            color: var(--neon);
-            white-space: pre;
-            overflow-x: auto;
-        }
-
-        /* --- CỘT PHẢI: CODE EDITOR --- */
-        .right-panel {
-            width: 60%;
-            display: flex;
-            flex-direction: column;
-            background: var(--panel-bg);
-        }
-
-        .editor-toolbar {
-            padding: 10px;
-            background: #252526;
-            display: flex;
-            gap: 10px;
-            border-bottom: 1px solid var(--border);
-        }
-
-        select, button {
-            padding: 8px 12px; border: none; border-radius: 4px;
-            cursor: pointer; font-weight: 600;
-        }
-        button.btn-run { background: #28a745; color: white; }
-        button.btn-run:hover { background: #218838; }
-
-        button.btn-ai {
-            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
-            color: white;
-            box-shadow: 0 0 10px rgba(100, 100, 255, 0.4);
-            transition: 0.3s;
-        }
-        button.btn-ai:hover { transform: translateY(-2px); box-shadow: 0 0 15px rgba(100, 100, 255, 0.7); }
-
-        textarea#code {
-            flex: 1; background: #1e1e1e; color: #d4d4d4;
-            border: none; padding: 15px;
-            font-family: 'Consolas', 'Courier New', monospace;
-            font-size: 14px; resize: none; outline: none; line-height: 1.5;
-        }
-
-        #output-log {
-            padding: 15px; height: 150px; background: #111;
-            border-top: 1px solid #333; overflow: auto;
-            font-family: 'Consolas', monospace; color: #bbb;
-        }
-
-        /* --- MODAL AI --- */
-        #ai-modal {
-            display: none; position: fixed; top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.85);
-            justify-content: center; align-items: center;
-            z-index: 9999; backdrop-filter: blur(5px);
-        }
-        #ai-content {
-            background: #1e1e1e; padding: 2px; border-radius: 12px;
-            width: 650px; max-width: 90%;
-            box-shadow: 0 0 25px rgba(0, 255, 255, 0.15);
-        }
-        .ai-inner-box {
-            background: #1e1e1e; padding: 25px; border-radius: 10px;
-            color: #fff; max-height: 75vh; overflow-y: auto;
-        }
-        .rgb-wrapper { width: 100%; text-align: center; padding: 40px 0; }
-        .rgb-line {
-            height: 6px; width: 100%;
-            background: linear-gradient(90deg, #ff0000, #ffff00, #00ff00, #00ffff, #0000ff, #ff00ff, #ff0000);
-            background-size: 400% 100%; animation: rgb-run 1.5s linear infinite;
-            border-radius: 10px; margin-bottom: 25px;
-            box-shadow: 0 0 15px rgba(0, 255, 255, 0.6);
-        }
-        @keyframes rgb-run { 0% { background-position: 100% 0; } 100% { background-position: 0 0; } }
-        .loading-text { font-size: 16px; letter-spacing: 2px; color: #fff; text-transform: uppercase; animation: blink 1.2s infinite; }
-        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
-        .ai-response-text { font-size: 16px; line-height: 1.7; color: #e0e0e0; text-align: left; }
-        .ai-response-text b { color: var(--neon); font-weight: 700; }
-        .ai-response-text ul { margin-left: 20px; }
-        .ai-response-text li { margin-bottom: 10px; }
-        .btn-close-ai {
-            background: #333; color: #fff; border: 1px solid #555;
-            padding: 10px 30px; margin-top: 25px; border-radius: 6px;
-            transition: 0.2s; cursor: pointer;
-        }
-        .btn-close-ai:hover { background: #555; }
-    </style>
-</head>
-<body>
-
-    <header>
-        <div class="header-left">
-            <button onclick="window.history.back()" class="btn-back">
-                <i class="fa-solid fa-arrow-left"></i> Quay lại
-            </button>
-            <h2><i class="fa-solid fa-code"></i> HỆ THỐNG CHẤM BÀI</h2>
-        </div>
-        <div id="user-info">Đang tải...</div>
-    </header>
-
-    <div class="container">
-        
-        <div class="left-panel">
-            
-            <div class="problem-header">
-                <div class="problem-title-row">
-                    <h1 id="problem-title">Đang tải đề...</h1>
-                    <span id="difficulty-badge" class="difficulty-badge">...</span>
-                </div>
-            </div>
-
-            <div id="desc" class="problem-description">
-                Đang kết nối cơ sở dữ liệu...
-            </div>
-
-            <div class="io-section">
-                <div class="io-row">
-                    <div class="io-box">
-                        <div class="io-header">Input Mẫu</div>
-                        <div id="problem-input" class="io-content">...</div>
-                    </div>
-                    <div class="io-box">
-                        <div class="io-header">Output Mẫu</div>
-                        <div id="problem-output" class="io-content">...</div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-
-        <div class="right-panel">
-            <div class="editor-toolbar">
-                <select id="language">
-                    <option value="python">Python</option>
-                    <option value="cpp">C++</option>
-                    <option value="java">Java</option>
-                    <option value="pascal">Pascal</option>
-                </select>
-                <button class="btn-run" onclick="submitCode()">
-                    <i class="fa-solid fa-play"></i> CHẤM BÀI
-                </button>
-                <button id="btn-ai" class="btn-ai" onclick="askAI()">
-                    <i class="fa-solid fa-robot"></i> AI GỢI Ý (BETA)
-                </button>
-            </div>
-            
-            <textarea id="code" placeholder="Nhập code của bạn tại đây..."></textarea>
-            
-            <div id="output-log">
-                Kết quả chấm sẽ hiện ở đây...
-            </div>
-        </div>
-    </div>
-
-    <div id="ai-modal">
-        <div id="ai-content"></div>
-    </div>
-
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
-
-    <script>
->>>>>>> 42795a7b37f52a94db846762b5038dd9d6c08e0a
-        const firebaseConfig = {
-            apiKey: "AIzaSyAQ79PPCmufVgJ312WxRXkFNG4rBb322SU",
-            authDomain: "neo-online-judge.firebaseapp.com",
-            databaseURL: "https://neo-online-judge-default-rtdb.firebaseio.com",
-            projectId: "neo-online-judge",
-            storageBucket: "neo-online-judge.firebasestorage.app",
-            messagingSenderId: "42094197302",
-            appId: "1:42094197302:web:a6e4bf9e06f0cc18077697"
-<<<<<<< HEAD
-        };
-        if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
-        const db = firebase.database();
-        const auth = firebase.auth();
-
         let currentUser = null;
-        let currentProblemId = "bai1"; 
+        let currentProblemId = 'bai1';
 
-        const urlParams = new URLSearchParams(window.location.search);
-        const contestId = urlParams.get('contest_id'); 
-        const MODE = contestId ? 'CONTEST' : 'PRACTICE';
-        
-        const btnAI = document.getElementById('btn-ai');
+        const urlParams  = new URLSearchParams(window.location.search);
+        const contestId  = urlParams.get('contest_id');
+        const MODE       = contestId ? 'CONTEST' : 'PRACTICE';
+        const pid        = urlParams.get('id');
+        if (pid) currentProblemId = pid;
+
+        // Hide AI in contest mode
         if (MODE === 'CONTEST') {
-            if(btnAI) btnAI.style.display = 'none';
+            document.getElementById('btn-ai').style.display = 'none';
         }
-        
-        const pid = urlParams.get('id');
-        if(pid) currentProblemId = pid;
 
+        // ── Tab switching ──
+        function showTab(name) {
+            document.querySelectorAll('.problem-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.problem-content').forEach(p => p.style.display = 'none');
+            document.getElementById('tab-' + name).classList.add('active');
+            document.getElementById('panel-' + name).style.display = 'block';
+        }
+
+        // ── Load Problem ──
         function loadProblem() {
-            let problemRef = db.ref(`problems/${currentProblemId}`);
-
-            problemRef.once('value').then(snap => {
-                if(snap.exists()) {
-                    const data = snap.val();
-                    const prefix = MODE === 'CONTEST' ? `<span style="color:orange">[BÀI THI]</span> ` : "";
-                    
-                    document.getElementById('problem-title').innerHTML = prefix + data.title;
-                    document.getElementById('desc').innerText = data.description;
-                    document.getElementById('problem-input').innerText = data.example_input || "(Không có input)";
-                    document.getElementById('problem-output').innerText = data.example_output || "(Không có output)";
-
-                    const diffBadge = document.getElementById('difficulty-badge');
-                    let level = data.difficulty || data.level || "Dễ"; 
-                    diffBadge.innerText = level;
-
-                    if (level === 'Dễ' || level === 'Easy') {
-                        diffBadge.style.backgroundColor = 'var(--diff-easy)';
-                        diffBadge.style.color = '#fff';
-                    } else if (level === 'Trung Bình' || level === 'Medium') {
-                        diffBadge.style.backgroundColor = 'var(--diff-med)';
-                        diffBadge.style.color = '#000';
-                    } else if (level === 'Khó' || level === 'Hard') {
-                        diffBadge.style.backgroundColor = 'var(--diff-hard)';
-                        diffBadge.style.color = '#fff';
-                    } else {
-                        diffBadge.style.backgroundColor = '#555';
-                    }
-
-                } else {
-                    document.getElementById('problem-title').innerText = "⚠️ Không tìm thấy đề bài!";
-                    document.getElementById('desc').innerText = "Vui lòng kiểm tra lại đường dẫn.";
+            db.ref(`problems/${currentProblemId}`).once('value').then(snap => {
+                if (!snap.exists()) {
+                    document.getElementById('problem-title').textContent = '⚠️ Không tìm thấy đề bài!';
+                    document.getElementById('desc').textContent = 'Vui lòng kiểm tra lại đường dẫn.';
+                    return;
                 }
-            }).catch(error => {
-                console.error("Lỗi tải đề:", error);
-                document.getElementById('desc').innerText = "Lỗi kết nối Firebase.";
+                const data = snap.val();
+                const contestPrefix = MODE === 'CONTEST'
+                    ? '<span class="badge badge-ai" style="font-size:0.7rem">[THI]</span> '
+                    : '';
+
+                document.getElementById('header-problem-id').textContent = currentProblemId;
+                document.getElementById('problem-title').innerHTML = contestPrefix + (data.title || 'Bài tập');
+                document.getElementById('desc').textContent = data.description || '';
+                document.getElementById('problem-input').textContent  = data.example_input  || '(Không có)';
+                document.getElementById('problem-output').textContent = data.example_output || '(Không có)';
+
+                // Difficulty badge
+                const badge = document.getElementById('difficulty-badge');
+                const level = data.difficulty || data.level || 'Easy';
+                const levelMap = {
+                    'Easy': ['badge-easy', 'Dễ'],
+                    'Dễ':   ['badge-easy', 'Dễ'],
+                    'Medium': ['badge-medium', 'Trung bình'],
+                    'Trung Bình': ['badge-medium', 'Trung bình'],
+                    'Hard': ['badge-hard', 'Khó'],
+                    'Khó': ['badge-hard', 'Khó'],
+                };
+                const [cls, txt] = levelMap[level] || ['badge-accent', level];
+                badge.className = 'badge ' + cls;
+                badge.textContent = txt;
+
+                // Tutorial video
+                if (data.tutorial_vid) {
+                    const tabTut = document.getElementById('tab-tutorial');
+                    tabTut.style.display = 'block';
+                    document.getElementById('video-container').innerHTML = `
+                        <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:var(--radius-md);">
+                            <iframe src="https://www.youtube.com/embed/${data.tutorial_vid}"
+                                style="position:absolute;top:0;left:0;width:100%;height:100%;border:none;border-radius:var(--radius-md);"
+                                allowfullscreen></iframe>
+                        </div>`;
+                }
+
+                // Default code templates
+                const templates = {
+                    python: `# ${data.title}\n\n`,
+                    cpp:    `// ${data.title}\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    \n    return 0;\n}\n`,
+                    java:   `// ${data.title}\nimport java.util.*;\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        \n    }\n}\n`,
+                    pascal: `{ ${data.title} }\nprogram Solution;\nbegin\n    \nend.\n`,
+                };
+                const codeArea = document.getElementById('code');
+                if (!codeArea.value.trim()) {
+                    codeArea.value = templates[document.getElementById('language').value] || '';
+                }
+            }).catch(err => {
+                console.error('Lỗi tải đề:', err);
+                document.getElementById('desc').textContent = 'Lỗi kết nối Firebase.';
             });
         }
-        
+
+        // Update template on language change
+        document.getElementById('language').addEventListener('change', function() {
+            const templates = {
+                python: `# Nhập code Python tại đây\n\n`,
+                cpp:    `#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    \n    return 0;\n}\n`,
+                java:   `import java.util.*;\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        \n    }\n}\n`,
+                pascal: `program Solution;\nbegin\n    \nend.\n`,
+            };
+            const code = document.getElementById('code');
+            if (!code.value.trim()) code.value = templates[this.value] || '';
+        });
+
         loadProblem();
 
+        // ── Auth ──
         auth.onAuthStateChanged(user => {
             if (user) {
                 currentUser = user;
-                document.getElementById('user-info').innerHTML = `<i class="fa-solid fa-user"></i> ${user.displayName || user.email}`;
+                document.getElementById('user-info').innerHTML =
+                    `<i class="fa-solid fa-circle-user"></i> ${user.displayName || user.email}`;
             } else {
-                document.getElementById('user-info').innerHTML = "Chưa đăng nhập";
+                document.getElementById('user-info').innerHTML = 'Chưa đăng nhập';
             }
         });
 
+        // ── Submit Code ──
         function submitCode() {
-            if(!currentUser) return alert("Vui lòng đăng nhập để nộp bài!");
-            
+            if (!currentUser) { alert('Vui lòng đăng nhập để nộp bài!'); return; }
             const code = document.getElementById('code').value;
             const lang = document.getElementById('language').value;
+            if (!code.trim()) { alert('Bạn chưa nhập code!'); return; }
+
             const subId = Date.now().toString();
+            const outputLog = document.getElementById('output-log');
+            const outputStatus = document.getElementById('output-status');
 
-            document.getElementById('output-log').innerHTML = "⏳ Đang chấm bài...";
+            outputLog.innerHTML = '<span style="color:var(--warning)">⏳ Đang chấm bài...</span>';
+            outputStatus.textContent = 'Đang xử lý';
 
-            let submissionRef;
-            let submitData = {
+            let subRef;
+            const submitData = {
                 uid: currentUser.uid,
                 problem_id: currentProblemId,
-                code: code,
-                language: lang,
+                code, language: lang,
                 status: 'pending',
                 timestamp: firebase.database.ServerValue.TIMESTAMP
             };
 
             if (MODE === 'CONTEST') {
                 submitData.contest_id = contestId;
-                submissionRef = db.ref('contest_submissions/' + subId);
+                subRef = db.ref('contest_submissions/' + subId);
             } else {
-                submissionRef = db.ref('submissions/' + subId);
+                subRef = db.ref('submissions/' + subId);
             }
 
-            submissionRef.set(submitData);
+            subRef.set(submitData);
 
-            submissionRef.on('value', snap => {
+            // Poll for result
+            const timeout = setTimeout(() => {
+                subRef.off();
+                outputLog.innerHTML = '<span style="color:var(--danger)">⚠️ Timeout — Hệ thống chấm chưa phản hồi. Vui lòng thử lại sau.</span>';
+                outputStatus.textContent = '';
+            }, 30000);
+
+            subRef.on('value', snap => {
                 const data = snap.val();
-                if(data && data.status === 'completed') {
-                    const color = data.score == 100 ? '#00ffcc' : (data.score > 0 ? 'orange' : '#ff5555');
-                    document.getElementById('output-log').innerHTML = `
-                        <div style="border-bottom:1px solid #333; padding-bottom:5px; margin-bottom:5px;">
-                            <b>KẾT QUẢ: </b> <span style="color:${color}; font-size:18px">${data.score}/100</span>
+                if (data && data.status === 'completed') {
+                    clearTimeout(timeout);
+                    subRef.off();
+
+                    const score = data.score;
+                    const color = score === 100 ? 'var(--success)' : (score > 0 ? 'var(--warning)' : 'var(--danger)');
+                    const icon  = score === 100 ? '✅' : (score > 0 ? '⚡' : '❌');
+
+                    outputStatus.textContent = score === 100 ? 'Accepted' : (score > 0 ? 'Partial' : 'Wrong Answer');
+
+                    outputLog.innerHTML = `
+                        <div class="score-display">
+                            <span style="font-size:1.2rem">${icon}</span>
+                            <span class="score-num" style="color:${color}">${score}/100</span>
+                            <span style="font-size:0.8rem;color:var(--text-muted)">điểm</span>
                         </div>
-                        <div style="font-size:13px; line-height:1.5">
-                            ${data.message.replace(/\n/g, '<br>')}
-                        </div>
-                    `;
-                    submissionRef.off();
+                        <div style="font-size:0.82rem;color:var(--text-secondary);line-height:1.6;">
+                            ${(data.message || '').replace(/\n/g, '<br>')}
+                        </div>`;
                 }
             });
         }
 
+        // ── AI Hint ──
         function askAI() {
-            if (MODE === 'CONTEST') return alert("Tính năng AI bị vô hiệu hóa trong phòng thi!");
-
-            const codeEditor = document.getElementById('code');
-            const descElement = document.getElementById('desc');
-            
-            if (!codeEditor || !descElement) return alert("Lỗi giao diện.");
-            const code = codeEditor.value;
-            const desc = descElement.innerText;
-            
-            if(!code.trim()) return alert("Bạn chưa viết dòng code nào cả!");
-
-            const modal = document.getElementById('ai-modal');
-            const content = document.getElementById('ai-content');
-            
-            if (modal && content) {
-                modal.style.display = 'flex';
-                content.innerHTML = `
-                    <div class="ai-inner-box">
-                        <div class="rgb-wrapper">
-                            <div class="rgb-line"></div>
-                            <div class="loading-text">
-                                <i class="fa-solid fa-brain"></i> Mentor đang phân tích...
-                            </div>
-                        </div>
-                    </div>
-                `;
-            }
-
-            try {
-                const reqId = Date.now().toString();
-                const ref = db.ref('ai_requests/' + reqId);
-
-                ref.set({
-                    uid: currentUser ? currentUser.uid : "anonymous",
-                    name: currentUser ? currentUser.displayName : "User",
-                    code: code,
-                    problem_desc: desc, 
-                    status: 'pending',
-                    timestamp: firebase.database.ServerValue.TIMESTAMP
-                });
-
-                ref.on('value', snap => {
-                    const data = snap.val();
-                    if(data && data.status === 'completed') {
-                        let text = data.response || "Không có phản hồi.";
-                        text = text.replace(/\n/g, '<br>');
-                        text = text.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
-                        text = text.replace(/- /g, '• ');
-
-                        content.innerHTML = `
-                            <div class="ai-inner-box">
-                                <h3 style="color:#00ffcc; text-align:center; margin-top:0;">
-                                    <i class="fa-solid fa-lightbulb"></i> GỢI Ý CỦA MENTOR
-                                </h3>
-                                <div class="ai-response-text">${text}</div>
-                                <div style="text-align:center">
-                                    <button class="btn-close-ai" onclick="document.getElementById('ai-modal').style.display='none'">
-                                        Đã hiểu
-                                    </button>
-                                </div>
-                            </div>
-                        `;
-                        ref.off();
-                    } else if (data && data.status === 'error') {
-                         content.innerHTML = `
-                            <div class="ai-inner-box" style="text-align:center">
-                                <h3 style="color:#ff5555">LỖI</h3>
-                                <p>${data.response}</p>
-                                <button class="btn-close-ai" onclick="document.getElementById('ai-modal').style.display='none'">Đóng</button>
-                            </div>
-                        `;
-                        ref.off();
-                    }
-                });
-            } catch (e) {
-                alert("Lỗi kết nối: " + e.message);
-                modal.style.display = 'none';
-            }
-        }
-    </script>
-</body>
-=======
-        };
-        if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
-        const db = firebase.database();
-        const auth = firebase.auth();
-
-        let currentUser = null;
-        let currentProblemId = "bai1"; 
-
-        const urlParams = new URLSearchParams(window.location.search);
-        const contestId = urlParams.get('contest_id'); 
-        const MODE = contestId ? 'CONTEST' : 'PRACTICE';
-        
-        const btnAI = document.getElementById('btn-ai');
-        if (MODE === 'CONTEST') {
-            if(btnAI) btnAI.style.display = 'none';
-        }
-        
-        const pid = urlParams.get('id');
-        if(pid) currentProblemId = pid;
-
-        function loadProblem() {
-            let problemRef = db.ref(`problems/${currentProblemId}`);
-
-            problemRef.once('value').then(snap => {
-                if(snap.exists()) {
-                    const data = snap.val();
-                    const prefix = MODE === 'CONTEST' ? `<span style="color:orange">[BÀI THI]</span> ` : "";
-                    
-                    document.getElementById('problem-title').innerHTML = prefix + data.title;
-                    document.getElementById('desc').innerText = data.description;
-                    document.getElementById('problem-input').innerText = data.example_input || "(Không có input)";
-                    document.getElementById('problem-output').innerText = data.example_output || "(Không có output)";
-
-                    const diffBadge = document.getElementById('difficulty-badge');
-                    let level = data.difficulty || data.level || "Dễ"; 
-                    diffBadge.innerText = level;
-
-                    if (level === 'Dễ' || level === 'Easy') {
-                        diffBadge.style.backgroundColor = 'var(--diff-easy)';
-                        diffBadge.style.color = '#fff';
-                    } else if (level === 'Trung Bình' || level === 'Medium') {
-                        diffBadge.style.backgroundColor = 'var(--diff-med)';
-                        diffBadge.style.color = '#000';
-                    } else if (level === 'Khó' || level === 'Hard') {
-                        diffBadge.style.backgroundColor = 'var(--diff-hard)';
-                        diffBadge.style.color = '#fff';
-                    } else {
-                        diffBadge.style.backgroundColor = '#555';
-                    }
-
-                } else {
-                    document.getElementById('problem-title').innerText = "⚠️ Không tìm thấy đề bài!";
-                    document.getElementById('desc').innerText = "Vui lòng kiểm tra lại đường dẫn.";
-                }
-            }).catch(error => {
-                console.error("Lỗi tải đề:", error);
-                document.getElementById('desc').innerText = "Lỗi kết nối Firebase.";
-            });
-        }
-        
-        loadProblem();
-
-        auth.onAuthStateChanged(user => {
-            if (user) {
-                currentUser = user;
-                document.getElementById('user-info').innerHTML = `<i class="fa-solid fa-user"></i> ${user.displayName || user.email}`;
-            } else {
-                document.getElementById('user-info').innerHTML = "Chưa đăng nhập";
-            }
-        });
-
-        function submitCode() {
-            if(!currentUser) return alert("Vui lòng đăng nhập để nộp bài!");
-            
+            if (MODE === 'CONTEST') { alert('Tính năng AI bị vô hiệu hóa trong phòng thi!'); return; }
             const code = document.getElementById('code').value;
-            const lang = document.getElementById('language').value;
-            const subId = Date.now().toString();
+            const desc = document.getElementById('desc').textContent;
+            if (!code.trim()) { alert('Bạn chưa viết dòng code nào cả!'); return; }
 
-            document.getElementById('output-log').innerHTML = "⏳ Đang chấm bài...";
+            const modal   = document.getElementById('ai-modal');
+            const content = document.getElementById('ai-content');
+            modal.classList.add('open');
 
-            let submissionRef;
-            let submitData = {
-                uid: currentUser.uid,
-                problem_id: currentProblemId,
-                code: code,
-                language: lang,
+            content.innerHTML = `
+                <div class="ai-loading">
+                    <div class="ai-progress"><div class="ai-progress-bar"></div></div>
+                    <div class="ai-loading-text"><i class="fa-solid fa-brain"></i> Mentor đang phân tích code của bạn...</div>
+                </div>`;
+
+            const reqId = Date.now().toString();
+            const ref   = db.ref('ai_requests/' + reqId);
+
+            ref.set({
+                uid: currentUser ? currentUser.uid : 'anonymous',
+                name: currentUser ? (currentUser.displayName || currentUser.email) : 'User',
+                code, problem_desc: desc,
                 status: 'pending',
                 timestamp: firebase.database.ServerValue.TIMESTAMP
-            };
+            });
 
-            if (MODE === 'CONTEST') {
-                submitData.contest_id = contestId;
-                submissionRef = db.ref('contest_submissions/' + subId);
-            } else {
-                submissionRef = db.ref('submissions/' + subId);
-            }
+            const aiTimeout = setTimeout(() => {
+                ref.off();
+                content.innerHTML = `
+                    <div style="text-align:center;padding:20px;">
+                        <p style="color:var(--danger);margin-bottom:12px;">⚠️ AI Mentor không phản hồi. Hệ thống AI có thể chưa được khởi động.</p>
+                        <button class="btn btn-ghost btn-sm" onclick="closeAI()">Đóng</button>
+                    </div>`;
+            }, 20000);
 
-            submissionRef.set(submitData);
-
-            submissionRef.on('value', snap => {
+            ref.on('value', snap => {
                 const data = snap.val();
-                if(data && data.status === 'completed') {
-                    const color = data.score == 100 ? '#00ffcc' : (data.score > 0 ? 'orange' : '#ff5555');
-                    document.getElementById('output-log').innerHTML = `
-                        <div style="border-bottom:1px solid #333; padding-bottom:5px; margin-bottom:5px;">
-                            <b>KẾT QUẢ: </b> <span style="color:${color}; font-size:18px">${data.score}/100</span>
-                        </div>
-                        <div style="font-size:13px; line-height:1.5">
-                            ${data.message.replace(/\n/g, '<br>')}
-                        </div>
-                    `;
-                    submissionRef.off();
+                if (data && data.status === 'completed') {
+                    clearTimeout(aiTimeout);
+                    ref.off();
+                    let text = data.response || 'Không có phản hồi.';
+                    text = text.replace(/\n/g, '<br>');
+                    text = text.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
+                    text = text.replace(/^- /gm, '• ');
+                    content.innerHTML = `
+                        <div class="ai-response">${text}</div>
+                        <div style="margin-top:20px;text-align:center;">
+                            <button class="btn btn-ghost" onclick="closeAI()">
+                                <i class="fa-solid fa-check"></i> Đã hiểu
+                            </button>
+                        </div>`;
+                } else if (data && data.status === 'error') {
+                    clearTimeout(aiTimeout);
+                    ref.off();
+                    content.innerHTML = `
+                        <div style="text-align:center;">
+                            <p style="color:var(--danger);margin-bottom:12px;">Lỗi: ${data.response || 'Không xác định'}</p>
+                            <button class="btn btn-ghost btn-sm" onclick="closeAI()">Đóng</button>
+                        </div>`;
                 }
             });
         }
 
-        function askAI() {
-            if (MODE === 'CONTEST') return alert("Tính năng AI bị vô hiệu hóa trong phòng thi!");
-
-            const codeEditor = document.getElementById('code');
-            const descElement = document.getElementById('desc');
-            
-            if (!codeEditor || !descElement) return alert("Lỗi giao diện.");
-            const code = codeEditor.value;
-            const desc = descElement.innerText;
-            
-            if(!code.trim()) return alert("Bạn chưa viết dòng code nào cả!");
-
-            const modal = document.getElementById('ai-modal');
-            const content = document.getElementById('ai-content');
-            
-            if (modal && content) {
-                modal.style.display = 'flex';
-                content.innerHTML = `
-                    <div class="ai-inner-box">
-                        <div class="rgb-wrapper">
-                            <div class="rgb-line"></div>
-                            <div class="loading-text">
-                                <i class="fa-solid fa-brain"></i> Mentor đang phân tích...
-                            </div>
-                        </div>
-                    </div>
-                `;
-            }
-
-            try {
-                const reqId = Date.now().toString();
-                const ref = db.ref('ai_requests/' + reqId);
-
-                ref.set({
-                    uid: currentUser ? currentUser.uid : "anonymous",
-                    name: currentUser ? currentUser.displayName : "User",
-                    code: code,
-                    problem_desc: desc, 
-                    status: 'pending',
-                    timestamp: firebase.database.ServerValue.TIMESTAMP
-                });
-
-                ref.on('value', snap => {
-                    const data = snap.val();
-                    if(data && data.status === 'completed') {
-                        let text = data.response || "Không có phản hồi.";
-                        text = text.replace(/\n/g, '<br>');
-                        text = text.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
-                        text = text.replace(/- /g, '• ');
-
-                        content.innerHTML = `
-                            <div class="ai-inner-box">
-                                <h3 style="color:#00ffcc; text-align:center; margin-top:0;">
-                                    <i class="fa-solid fa-lightbulb"></i> GỢI Ý CỦA MENTOR
-                                </h3>
-                                <div class="ai-response-text">${text}</div>
-                                <div style="text-align:center">
-                                    <button class="btn-close-ai" onclick="document.getElementById('ai-modal').style.display='none'">
-                                        Đã hiểu
-                                    </button>
-                                </div>
-                            </div>
-                        `;
-                        ref.off();
-                    } else if (data && data.status === 'error') {
-                         content.innerHTML = `
-                            <div class="ai-inner-box" style="text-align:center">
-                                <h3 style="color:#ff5555">LỖI</h3>
-                                <p>${data.response}</p>
-                                <button class="btn-close-ai" onclick="document.getElementById('ai-modal').style.display='none'">Đóng</button>
-                            </div>
-                        `;
-                        ref.off();
-                    }
-                });
-            } catch (e) {
-                alert("Lỗi kết nối: " + e.message);
-                modal.style.display = 'none';
-            }
+        function closeAI() {
+            document.getElementById('ai-modal').classList.remove('open');
         }
+
+        // Close AI modal on backdrop click
+        document.getElementById('ai-modal').addEventListener('click', e => {
+            if (e.target === document.getElementById('ai-modal')) closeAI();
+        });
+
+        // Tab key in code editor
+        document.getElementById('code').addEventListener('keydown', function(e) {
+            if (e.key === 'Tab') {
+                e.preventDefault();
+                const start = this.selectionStart;
+                const end   = this.selectionEnd;
+                this.value  = this.value.substring(0, start) + '    ' + this.value.substring(end);
+                this.selectionStart = this.selectionEnd = start + 4;
+            }
+        });
     </script>
 </body>
->>>>>>> 42795a7b37f52a94db846762b5038dd9d6c08e0a
 </html>

@@ -1,6 +1,7 @@
 """
 NEO Online Judge - AI Mentor Service
-Handles communication with OpenAI API for code review and feedback.
+Handles communication with Grok API (xAI) for code review and feedback.
+Grok API is fully compatible with OpenAI API format.
 """
 
 import logging
@@ -28,31 +29,32 @@ LƯU Ý: Không bao giờ đưa ra đáp án hoàn chỉnh. Hãy để học sin
 
 class AIService:
     """
-    Service for interacting with OpenAI API to provide AI-powered code mentoring.
-    Supports multiple AI models with configurable parameters.
+    Service for interacting with Grok API (xAI) to provide AI-powered code mentoring.
+    Grok API is compatible with OpenAI API format — only URL and model name differ.
     """
 
-    API_URL = "https://api.openai.com/v1/chat/completions"
+    # Grok API endpoint (xAI) — compatible with OpenAI format
+    API_URL = "https://api.x.ai/v1/chat/completions"
 
     AVAILABLE_MODELS = {
-        "gpt-4o-mini": {
-            "name": "GPT-4o Mini",
-            "cost": "low",
+        "grok-3-mini": {
+            "name": "Grok 3 Mini",
+            "cost": "free",
             "quality": "good",
-            "description": "Fast, cheap, good for basic reviews",
+            "description": "Fast, free tier, good for basic code reviews",
         },
-        "gpt-4o": {
-            "name": "GPT-4o",
-            "cost": "high",
+        "grok-3": {
+            "name": "Grok 3",
+            "cost": "low",
             "quality": "excellent",
-            "description": "Best for detailed analysis",
+            "description": "Best quality, best for detailed code analysis",
         },
     }
 
     @classmethod
     def get_default_model(cls) -> str:
-        """Get the default AI model from settings."""
-        return settings.AI_MODEL
+        """Get the default AI model from settings (defaults to grok-3-mini)."""
+        return getattr(settings, 'AI_MODEL', 'grok-3-mini')
 
     @classmethod
     def review_code(cls, code: str, problem_description: str, model: str = None) -> Dict[str, Any]:
@@ -69,11 +71,13 @@ class AIService:
         """
         model = model or cls.get_default_model()
 
-        if not settings.OPENAI_API_KEY:
-            logger.error("OpenAI API key not configured")
+        # Support both GROK_API_KEY (new) and OPENAI_API_KEY (legacy)
+        api_key = getattr(settings, 'GROK_API_KEY', None) or getattr(settings, 'OPENAI_API_KEY', None)
+        if not api_key:
+            logger.error("Grok API key not configured")
             return {
                 "success": False,
-                "response": "⚠️ AI chưa được cấu hình. Vui lòng liên hệ quản trị viên.",
+                "response": "⚠️ AI chưa được cấu hình. Vui lòng thêm GROK_API_KEY vào file .env",
                 "model": model,
                 "error": "API key missing",
             }
@@ -99,7 +103,7 @@ class AIService:
                 cls.API_URL,
                 headers={
                     "Content-Type": "application/json",
-                    "Authorization": f"Bearer {settings.OPENAI_API_KEY}",
+                    "Authorization": f"Bearer {api_key}",
                 },
                 json=payload,
                 timeout=settings.AI_TIMEOUT,

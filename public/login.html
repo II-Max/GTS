@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEO Online Judge — Đăng Nhập</title>
+    <meta name="description" content="Đăng nhập vào NEO Online Judge để bắt đầu luyện tập lập trình.">
+    <link rel="stylesheet" href="css/neo-design.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 24px;
+        }
+
+        /* Ambient */
+        .ambient { position: fixed; border-radius: 50%; filter: blur(100px); pointer-events: none; z-index: 0; }
+        .ambient-1 { width: 600px; height: 600px; background: radial-gradient(circle, rgba(79,142,247,0.07) 0%, transparent 70%); top: -200px; left: -200px; }
+        .ambient-2 { width: 400px; height: 400px; background: radial-gradient(circle, rgba(139,92,246,0.05) 0%, transparent 70%); bottom: -100px; right: -100px; }
+
+        /* Auth card */
+        .auth-wrap {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 420px;
+        }
+
+        .auth-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 36px 32px;
+            box-shadow: var(--shadow-lg);
+        }
+
+        /* Header */
+        .auth-header {
+            text-align: center;
+            margin-bottom: 28px;
+        }
+
+        .auth-brand {
+            font-family: var(--font-code);
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+
+        .auth-brand span { color: var(--accent); }
+
+        .auth-sub {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            letter-spacing: 0.5px;
+        }
+
+        /* Tabs */
+        .auth-tabs {
+            display: flex;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 24px;
+        }
+
+        .auth-tab {
+            flex: 1;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+            color: var(--text-muted);
+            font-size: 0.82rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            border: none;
+            background: none;
+            font-family: var(--font-ui);
+            position: relative;
+            transition: color 0.2s;
+        }
+
+        .auth-tab:hover { color: var(--text-secondary); }
+
+        .auth-tab.active {
+            color: var(--accent);
+        }
+
+        .auth-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px; left: 20%; width: 60%;
+            height: 2px;
+            background: var(--accent);
+            border-radius: 1px;
+        }
+
+        /* Forms */
+        .auth-form { display: none; }
+        .auth-form.active { display: block; }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-wrapper i.input-icon {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            pointer-events: none;
+        }
+
+        .input-wrapper input {
+            width: 100%;
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            color: var(--text-primary);
+            padding: 11px 40px 11px 38px;
+            font-family: var(--font-ui);
+            font-size: 0.88rem;
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        .input-wrapper input:focus {
+            border-color: var(--accent-border);
+            background: rgba(79,142,247,0.04);
+            box-shadow: 0 0 0 3px rgba(79,142,247,0.1);
+        }
+
+        .input-wrapper input::placeholder { color: var(--text-muted); }
+
+        .toggle-pw {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            padding: 2px;
+            transition: color 0.2s;
+            line-height: 1;
+        }
+        .toggle-pw:hover { color: var(--accent); }
+
+        /* Message */
+        .form-message {
+            font-size: 0.78rem;
+            padding: 8px 12px;
+            border-radius: var(--radius-sm);
+            margin-bottom: 14px;
+            display: none;
+        }
+        .form-message.error   { display: block; background: var(--danger-dim);  color: var(--danger);  border: 1px solid var(--danger-border); }
+        .form-message.success { display: block; background: var(--success-dim); color: var(--success); border: 1px solid var(--success-border); }
+
+        /* Forgot password */
+        .forgot-pw {
+            text-align: right;
+            margin-top: -8px;
+            margin-bottom: 16px;
+        }
+        .forgot-pw a {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            cursor: pointer;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .forgot-pw a:hover { color: var(--accent); }
+
+        /* Submit button */
+        .btn-submit {
+            width: 100%;
+            padding: 12px;
+            border-radius: var(--radius-sm);
+            font-family: var(--font-code);
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            cursor: pointer;
+            border: none;
+            background: var(--accent);
+            color: #fff;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .btn-submit:hover:not(:disabled) {
+            background: #6aa0f8;
+            box-shadow: var(--shadow-glow);
+            transform: translateY(-1px);
+        }
+        .btn-submit:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+        /* Divider */
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--text-muted);
+            font-size: 0.72rem;
+            letter-spacing: 0.5px;
+            margin: 20px 0;
+        }
+        .divider::before, .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+        }
+
+        /* Social buttons */
+        .social-btn {
+            width: 100%;
+            padding: 11px;
+            margin-bottom: 10px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            background: rgba(255,255,255,0.03);
+            color: var(--text-primary);
+            font-size: 0.85rem;
+            font-family: var(--font-ui);
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.2s;
+        }
+        .social-btn:hover {
+            background: rgba(255,255,255,0.07);
+            transform: translateY(-1px);
+        }
+        .social-btn:last-child { margin-bottom: 0; }
+
+        .social-btn.google i { color: #ea4335; }
+        .social-btn.google:hover { border-color: rgba(234,67,53,0.4); }
+        .social-btn.github i { color: #e8eaed; }
+        .social-btn.github:hover { border-color: rgba(255,255,255,0.3); }
+
+        /* Footer */
+        .auth-footer {
+            text-align: center;
+            margin-top: 20px;
+            color: var(--text-muted);
+            font-size: 0.75rem;
+        }
+        .auth-footer a {
+            color: var(--accent);
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .auth-footer a:hover { text-decoration: underline; }
+
+        /* Back link */
+        .back-link {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .back-link a {
+            color: var(--text-muted);
+            font-size: 0.78rem;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: color 0.2s;
+        }
+        .back-link a:hover { color: var(--text-primary); }
+
+        /* Spinner */
+        .btn-spinner {
+            display: inline-block;
+            width: 14px; height: 14px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: btn-spin 0.7s linear infinite;
+        }
+        @keyframes btn-spin { to { transform: rotate(360deg); } }
+
+        /* Particles */
+        .particles { position: fixed; inset: 0; overflow: hidden; z-index: 0; pointer-events: none; }
+        .particle {
+            position: absolute; border-radius: 50%; opacity: 0;
+            animation: float-up linear infinite;
+        }
+        @keyframes float-up {
+            0%   { transform: translateY(100vh) scale(0); opacity: 0; }
+            10%  { opacity: 0.4; }
+            90%  { opacity: 0.2; }
+            100% { transform: translateY(-10vh) scale(1); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="ambient ambient-1"></div>
+    <div class="ambient ambient-2"></div>
+    <div class="particles" id="particles"></div>
+
+    <div class="auth-wrap">
+        <div class="back-link">
+            <a href="index.html"><i class="fas fa-arrow-left"></i> Quay về trang chủ</a>
+        </div>
+
+        <div class="auth-card">
+            <!-- Header -->
+            <div class="auth-header">
+                <div class="auth-brand">NEO<span>OJ</span></div>
+                <div class="auth-sub">Sân chơi học thuật lập trình</div>
+            </div>
+
+            <!-- Tabs -->
+            <div class="auth-tabs">
+                <button id="tab-login"    class="auth-tab active"  onclick="switchTab('login')">Đăng nhập</button>
+                <button id="tab-register" class="auth-tab"         onclick="switchTab('register')">Đăng ký</button>
+            </div>
+
+            <!-- ====== FORM ĐĂNG NHẬP ====== -->
+            <div id="loginForm" class="auth-form active">
+                <div class="form-group">
+                    <label>Email</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-envelope input-icon"></i>
+                        <input type="email" id="loginEmail" placeholder="your@email.com" autocomplete="email">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Mật khẩu</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-lock input-icon"></i>
+                        <input type="password" id="loginPassword" placeholder="••••••••" autocomplete="current-password">
+                        <button class="toggle-pw" onclick="togglePw('loginPassword', this)" type="button">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="forgot-pw">
+                    <a onclick="showForgotPassword()">Quên mật khẩu?</a>
+                </div>
+                <div id="loginMessage" class="form-message"></div>
+                <button class="btn-submit" id="loginBtn" onclick="loginWithEmail()">
+                    <i class="fas fa-right-to-bracket"></i> Đăng nhập
+                </button>
+
+                <div class="divider"><span>hoặc tiếp tục với</span></div>
+
+                <div class="social-btns">
+                    <button class="social-btn google" onclick="loginWithGoogle()">
+                        <i class="fab fa-google"></i> Google (Gmail)
+                    </button>
+                    <button class="social-btn github" onclick="loginWithGithub()">
+                        <i class="fab fa-github"></i> GitHub
+                    </button>
+                </div>
+            </div>
+
+            <!-- ====== FORM ĐĂNG KÝ ====== -->
+            <div id="registerForm" class="auth-form">
+                <div class="form-group">
+                    <label>Họ và tên</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-user input-icon"></i>
+                        <input type="text" id="regName" placeholder="Nguyễn Văn A" autocomplete="name">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-envelope input-icon"></i>
+                        <input type="email" id="regEmail" placeholder="your@email.com" autocomplete="email">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Mật khẩu</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-lock input-icon"></i>
+                        <input type="password" id="regPassword" placeholder="Ít nhất 6 ký tự" autocomplete="new-password">
+                        <button class="toggle-pw" onclick="togglePw('regPassword', this)" type="button">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Nhập lại mật khẩu</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-lock input-icon"></i>
+                        <input type="password" id="regConfirm" placeholder="Nhập lại mật khẩu">
+                        <button class="toggle-pw" onclick="togglePw('regConfirm', this)" type="button">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+                <div id="registerMessage" class="form-message"></div>
+                <button class="btn-submit" id="registerBtn" onclick="registerWithEmail()">
+                    <i class="fas fa-user-plus"></i> Tạo tài khoản
+                </button>
+
+                <div class="divider"><span>hoặc đăng ký nhanh với</span></div>
+
+                <div class="social-btns">
+                    <button class="social-btn google" onclick="loginWithGoogle()">
+                        <i class="fab fa-google"></i> Google (Gmail)
+                    </button>
+                    <button class="social-btn github" onclick="loginWithGithub()">
+                        <i class="fab fa-github"></i> GitHub
+                    </button>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="auth-footer">
+                Bằng cách đăng nhập, bạn đồng ý với
+                <a href="#">Điều khoản</a> &amp; <a href="#">Bảo mật</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script>
+        // ── Particles ──
+        (function createParticles() {
+            const c = document.getElementById('particles');
+            const colors = ['rgba(79,142,247,0.5)', 'rgba(139,92,246,0.4)', 'rgba(16,185,129,0.4)'];
+            for (let i = 0; i < 30; i++) {
+                const p = document.createElement('div');
+                p.className = 'particle';
+                const size = 2 + Math.random() * 3;
+                p.style.cssText = `
+                    left: ${Math.random()*100}%;
+                    width: ${size}px; height: ${size}px;
+                    background: ${colors[Math.floor(Math.random()*colors.length)]};
+                    animation-duration: ${20+Math.random()*20}s;
+                    animation-delay: ${Math.random()*20}s;
+                `;
+                c.appendChild(p);
+            }
+        })();
+
+        // ── Tab ──
+        function switchTab(tab) {
+            document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.auth-form').forEach(f => f.classList.remove('active'));
+            document.getElementById('tab-' + tab).classList.add('active');
+            document.getElementById(tab === 'login' ? 'loginForm' : 'registerForm').classList.add('active');
+            document.querySelectorAll('.form-message').forEach(m => { m.className = 'form-message'; m.textContent = ''; });
+        }
+
+        // Check URL params for tab
+        const urlTab = new URLSearchParams(window.location.search).get('tab');
+        if (urlTab === 'register') switchTab('register');
+
+        // ── Toggle password ──
+        function togglePw(id, btn) {
+            const input = document.getElementById(id);
+            const icon  = btn.querySelector('i');
+            const isHidden = input.type === 'password';
+            input.type = isHidden ? 'text' : 'password';
+            icon.className = isHidden ? 'fas fa-eye-slash' : 'fas fa-eye';
+        }
+
+        // ── Show message ──
+        function showMsg(id, msg, type) {
+            const el = document.getElementById(id);
+            el.textContent = msg;
+            el.className = 'form-message ' + type;
+        }
+
+        // ── Button loading ──
+        function setLoading(btnId, loading, defaultLabel) {
+            const btn = document.getElementById(btnId);
+            btn.disabled = loading;
+            btn.innerHTML = loading
+                ? '<span class="btn-spinner"></span> Đang xử lý...'
+                : defaultLabel;
+        }
+
+        // ── Sync to backend ──
+        async function syncBackend(idToken) {
+            try {
+                const res = await fetch(`${API_BASE}/auth/sync`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ id_token: idToken })
+                });
+                const data = await res.json();
+                if (data.success && data.token) {
+                    localStorage.setItem('neo_token', data.token);
+                    localStorage.setItem('neo_user', JSON.stringify(data.user));
+                }
+            } catch (e) { /* backend optional */ }
+        }
+
+        // ── Handle success ──
+        function handleSuccess(user) {
+            showMsg('loginMessage', 'Đăng nhập thành công! Đang chuyển hướng...', 'success');
+            localStorage.setItem('neo_user', JSON.stringify({
+                uid: user.uid, email: user.email,
+                display_name: user.displayName, avatar: user.photoURL,
+            }));
+            user.getIdToken().then(token => syncBackend(token));
+            setTimeout(() => window.location.href = 'problems.html', 900);
+        }
+
+        // ── 1. Email login ──
+        async function loginWithEmail() {
+            const email    = document.getElementById('loginEmail').value.trim();
+            const password = document.getElementById('loginPassword').value;
+            if (!email || !password) { showMsg('loginMessage', 'Vui lòng nhập email và mật khẩu.', 'error'); return; }
+
+            setLoading('loginBtn', true, '<i class="fas fa-right-to-bracket"></i> Đăng nhập');
+            showMsg('loginMessage', '', '');
+            try {
+                const result = await auth.signInWithEmailAndPassword(email, password);
+                handleSuccess(result.user);
+            } catch (error) {
+                const msgs = {
+                    'auth/user-not-found':   'Email chưa được đăng ký.',
+                    'auth/wrong-password':   'Sai mật khẩu. Vui lòng thử lại.',
+                    'auth/invalid-email':    'Email không hợp lệ.',
+                    'auth/user-disabled':    'Tài khoản đã bị vô hiệu hóa.',
+                    'auth/too-many-requests':'Quá nhiều lần thử. Vui lòng thử lại sau.',
+                    'auth/invalid-credential': 'Email hoặc mật khẩu không đúng.',
+                };
+                showMsg('loginMessage', msgs[error.code] || error.message, 'error');
+            } finally {
+                setLoading('loginBtn', false, '<i class="fas fa-right-to-bracket"></i> Đăng nhập');
+            }
+        }
+
+        // ── 2. Email register ──
+        async function registerWithEmail() {
+            const name     = document.getElementById('regName').value.trim();
+            const email    = document.getElementById('regEmail').value.trim();
+            const password = document.getElementById('regPassword').value;
+            const confirm  = document.getElementById('regConfirm').value;
+
+            if (!name || !email || !password) { showMsg('registerMessage', 'Vui lòng điền đầy đủ thông tin.', 'error'); return; }
+            if (password.length < 6)          { showMsg('registerMessage', 'Mật khẩu phải có ít nhất 6 ký tự.', 'error'); return; }
+            if (password !== confirm)          { showMsg('registerMessage', 'Mật khẩu nhập lại không khớp.', 'error'); return; }
+
+            setLoading('registerBtn', true, '<i class="fas fa-user-plus"></i> Tạo tài khoản');
+            try {
+                const result = await auth.createUserWithEmailAndPassword(email, password);
+                await result.user.updateProfile({ displayName: name });
+                const userData = {
+                    uid: result.user.uid, email, display_name: name, role: 'student',
+                    avatar: '', score: 0, problems_solved: 0,
+                    join_date: new Date().toISOString(),
+                    last_login: new Date().toISOString(),
+                    auth_provider: 'password', is_active: true,
+                };
+                await db.ref('users/' + result.user.uid).set(userData);
+                showMsg('registerMessage', 'Đăng ký thành công! Đang chuyển hướng...', 'success');
+                localStorage.setItem('neo_user', JSON.stringify({ uid: result.user.uid, email, display_name: name, avatar: '' }));
+                setTimeout(() => window.location.href = 'problems.html', 1200);
+            } catch (error) {
+                const msgs = {
+                    'auth/email-already-in-use': 'Email này đã được sử dụng.',
+                    'auth/invalid-email':        'Email không hợp lệ.',
+                    'auth/weak-password':        'Mật khẩu quá yếu.',
+                };
+                showMsg('registerMessage', msgs[error.code] || error.message, 'error');
+            } finally {
+                setLoading('registerBtn', false, '<i class="fas fa-user-plus"></i> Tạo tài khoản');
+            }
+        }
+
+        // ── 3. Google ──
+        async function loginWithGoogle() {
+            try {
+                const provider = new firebase.auth.GoogleAuthProvider();
+                provider.setCustomParameters({ prompt: 'select_account' });
+                const result = await auth.signInWithPopup(provider);
+                handleSuccess(result.user);
+            } catch (error) {
+                if (error.code !== 'auth/popup-closed-by-user') {
+                    showMsg('loginMessage', 'Lỗi đăng nhập Google: ' + error.message, 'error');
+                }
+            }
+        }
+
+        // ── 4. GitHub ──
+        async function loginWithGithub() {
+            try {
+                const provider = new firebase.auth.GithubAuthProvider();
+                const result = await auth.signInWithPopup(provider);
+                handleSuccess(result.user);
+            } catch (error) {
+                if (error.code !== 'auth/popup-closed-by-user') {
+                    showMsg('loginMessage', 'Lỗi đăng nhập GitHub: ' + error.message, 'error');
+                }
+            }
+        }
+
+        // ── 5. Forgot password ──
+        function showForgotPassword() {
+            const email = document.getElementById('loginEmail').value.trim();
+            const input = prompt(email
+                ? `Gửi link đặt lại mật khẩu tới "${email}"?`
+                : 'Nhập email để nhận link đặt lại mật khẩu:',
+                email || ''
+            );
+            if (input && input.includes('@')) {
+                auth.sendPasswordResetEmail(input)
+                    .then(() => showMsg('loginMessage', `Link đặt lại mật khẩu đã gửi tới ${input}.`, 'success'))
+                    .catch(err => {
+                        const m = err.code === 'auth/user-not-found' ? 'Email chưa được đăng ký.' : err.message;
+                        showMsg('loginMessage', m, 'error');
+                    });
+            } else if (input) {
+                showMsg('loginMessage', 'Email không hợp lệ.', 'error');
+            }
+        }
+
+        // ── Auth state ──
+        auth.onAuthStateChanged(user => {
+            if (user && !new URLSearchParams(window.location.search).get('redirect')) {
+                localStorage.setItem('neo_user', JSON.stringify({
+                    uid: user.uid, email: user.email,
+                    display_name: user.displayName, avatar: user.photoURL,
+                }));
+            }
+        });
+
+        // ── Enter key ──
+        document.getElementById('loginPassword').addEventListener('keypress', e => { if (e.key === 'Enter') loginWithEmail(); });
+        document.getElementById('regConfirm').addEventListener('keypress',   e => { if (e.key === 'Enter') registerWithEmail(); });
+    </script>
+</body>
+</html>

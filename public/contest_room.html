@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Phòng Thi Trực Tuyến</title>
+    <link rel="stylesheet" href="css/neo-design.css">
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=Inter:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -94,17 +95,8 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    <script src="js/firebase-config.js"></script>
     <script>
-        const firebaseConfig = {
-            apiKey: "AIzaSyAQ79PPCmufVgJ312WxRXkFNG4rBb322SU",
-            authDomain: "neo-online-judge.firebaseapp.com",
-            databaseURL: "https://neo-online-judge-default-rtdb.firebaseio.com",
-            projectId: "neo-online-judge",
-            storageBucket: "neo-online-judge.firebasestorage.app",
-            messagingSenderId: "42094197302",
-            appId: "1:42094197302:web:a6e4bf9e06f0cc18077697"
-        };
-        firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
         const auth = firebase.auth();
         
@@ -119,7 +111,10 @@
         document.getElementById('r-id').innerText = roomId;
 
         auth.onAuthStateChanged(user => {
-            if(!user) window.location.href = 'index.html';
+            if(!user) {
+                window.location.href = 'login.html?redirect=contest_room.html?id=' + roomId;
+                return;
+            }
             currentUser = user;
             initRoomListener();
         });

@@ -2,195 +2,354 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Phòng Thi - NEO ONLINE JUDGE</title>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEO Online Judge — Phòng Thi</title>
+    <meta name="description" content="Tham gia hoặc tạo phòng thi lập trình trực tuyến.">
+    <link rel="stylesheet" href="css/neo-design.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
     <style>
-        /* --- COPY CORE STYLE --- */
-        :root { --bg: #05070a; --card: #111625; --neon: #00f3ff; --pink: #ff0055; --green: #0aff60; --gold: #ffd700; }
-        body { background: var(--bg); color: #fff; font-family: 'Inter', sans-serif; margin: 0; }
-        .cyber-nav { background: rgba(0,0,0,0.95); border-bottom: 1px solid var(--neon); padding: 0 30px; height: 60px; display: flex; align-items: center; justify-content: space-between; }
-        .nav-links a { text-decoration: none; color: #8b9bb4; margin-left: 20px; transition: 0.3s; font-size: 0.9rem; }
-        .nav-links a:hover, .nav-links a.active { color: #fff; text-shadow: 0 0 5px #fff; }
+        body { padding-bottom: 60px; }
+        .main { max-width: 900px; margin: 0 auto; padding: 40px 20px; }
 
-        .container { max-width: 900px; margin: 50px auto; padding: 0 20px; }
-        
-        .grid-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
-        .action-card { background: var(--card); border: 1px solid #2a3b55; padding: 40px; border-radius: 12px; text-align: center; transition: 0.3s; cursor: pointer; position: relative; overflow: hidden; }
-        .action-card:hover { transform: translateY(-5px); border-color: var(--neon); box-shadow: 0 0 20px rgba(0, 243, 255, 0.1); }
-        .icon-big { font-size: 4rem; margin-bottom: 20px; color: #444; transition: 0.3s; }
-        .action-card:hover .icon-big { color: var(--neon); text-shadow: 0 0 10px var(--neon); }
-        .card-title { font-family: 'JetBrains Mono'; font-size: 1.5rem; font-weight: bold; margin-bottom: 10px; }
-        .card-desc { color: #888; font-size: 0.9rem; }
+        /* ── Hero ── */
+        .contest-hero {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+        .contest-title {
+            font-family: var(--font-code);
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+        .contest-title i { color: var(--accent); }
+        .contest-sub { color: var(--text-muted); font-size: 0.88rem; }
 
-        /* MODAL */
-        .modal-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index: 2000; display:none; justify-content:center; align-items:center; backdrop-filter: blur(5px); }
-        .modal-box { background: #0f1115; width: 500px; border: 1px solid var(--gold); padding: 30px; border-radius: 12px; box-shadow: 0 0 30px rgba(255,215,0,0.2); max-height: 90vh; overflow-y: auto; }
-        .form-label { display: block; color: #888; margin: 15px 0 5px; font-size: 0.9rem; }
-        .form-input { width: 100%; background: #1a1e26; border: 1px solid #333; color: white; padding: 12px; border-radius: 4px; box-sizing: border-box; font-family: 'JetBrains Mono'; }
-        .form-input:focus { border-color: var(--gold); outline: none; }
-        .btn-primary { width: 100%; background: var(--gold); color: black; border:none; padding: 15px; font-weight:bold; cursor:pointer; font-family: 'JetBrains Mono'; margin-top: 25px; border-radius: 6px; font-size: 1rem; transition:0.3s }
-        .btn-primary:hover { background: #fff; box-shadow: 0 0 15px var(--gold); }
-        
-        /* List Problems in Create Modal */
-        .prob-tag { display: inline-block; background: #222; padding: 5px 10px; border-radius: 4px; margin: 5px 5px 0 0; border: 1px solid #444; font-size: 0.8rem; font-family: 'JetBrains Mono'; }
-        .prob-tag span { color: var(--pink); cursor: pointer; margin-left: 8px; font-weight: bold; }
+        /* ── Action cards ── */
+        .action-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+
+        .action-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 36px 28px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .action-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, transparent 60%, rgba(255,255,255,0.02));
+        }
+
+        .action-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--accent-border);
+            box-shadow: 0 8px 32px rgba(79,142,247,0.12);
+        }
+
+        .action-card.teacher-only {
+            border-color: var(--warning-border);
+        }
+        .action-card.teacher-only:hover {
+            border-color: var(--gold);
+            box-shadow: 0 8px 32px rgba(245,158,11,0.12);
+        }
+
+        .action-icon {
+            font-size: 2.8rem;
+            margin-bottom: 16px;
+            color: var(--text-muted);
+            transition: all 0.3s;
+        }
+        .action-card:hover .action-icon { color: var(--accent); }
+        .action-card.teacher-only:hover .action-icon { color: var(--gold); }
+
+        .action-name {
+            font-family: var(--font-code);
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .action-desc {
+            font-size: 0.83rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        /* ── Modal form ── */
+        .mf-group { margin-bottom: 16px; }
+        .mf-label {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            margin-bottom: 6px;
+        }
+        .mf-input, .mf-select {
+            width: 100%;
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            color: var(--text-primary);
+            padding: 10px 12px;
+            font-family: var(--font-code);
+            font-size: 0.88rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .mf-input:focus, .mf-select:focus { border-color: var(--accent-border); }
+
+        .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+        /* Problem tags */
+        .prob-tags-area {
+            border: 1px dashed var(--border);
+            border-radius: var(--radius-sm);
+            padding: 10px;
+            min-height: 44px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .prob-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--bg-elevated);
+            border: 1px solid var(--border);
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-family: var(--font-code);
+            font-size: 0.78rem;
+            color: var(--text-secondary);
+        }
+
+        .prob-tag-remove {
+            color: var(--danger);
+            cursor: pointer;
+            font-weight: bold;
+            transition: color 0.2s;
+        }
+        .prob-tag-remove:hover { color: var(--text-primary); }
+
+        .add-prob-row {
+            display: flex;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        /* User badge in nav */
+        .nav-user-text {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        @media (max-width: 600px) {
+            .action-grid { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>
 
-    <nav class="cyber-nav">
-        <div style="color:var(--neon); font-weight:bold; font-size:1.2rem">[ NEO ONLINE JUDGE ]</div>
-        <div class="nav-links">
-            <a href="problems.html">KHO BÀI TẬP</a>
-            <a href="about.html">★ GIỚI THIỆU</a>
-            <a href="videos.html">VIDEO</a>
-            <a href="contest.html" class="active">PHÒNG THI</a>
-            <a href="history.html">LỊCH SỬ</a>
-            <a href="rank.html">BXH TOP 10</a>
-            <div id="user-info" style="display:inline-block; margin-left:20px; font-size:0.9rem; color:#888"></div>
+    <!-- Navbar -->
+    <nav class="neo-nav">
+        <a class="neo-nav-brand" href="index.html">
+            <span class="brand-dot"></span>NEO<span style="color:var(--text-secondary)">OJ</span>
+        </a>
+        <div class="neo-nav-links">
+            <a href="problems.html">Bài tập</a>
+            <a href="about.html">Giới thiệu</a>
+            <a href="documents.html">Tài liệu</a>
+            <a href="videos.html">Video</a>
+            <a href="contest.html" class="active">Phòng thi</a>
+            <a href="history.html">Lịch sử</a>
+            <a href="rank.html">Xếp hạng</a>
         </div>
     </nav>
 
-    <div class="container">
-        <h1 style="text-align: center; color: var(--neon); margin-bottom: 40px; text-shadow: 0 0 10px rgba(0,243,255,0.3)">
-            TRUNG TÂM KHẢO THÍ
-        </h1>
+    <div class="main">
+        <!-- Hero -->
+        <div class="contest-hero">
+            <div class="contest-title"><i class="fa-solid fa-flag-checkered"></i> Trung Tâm Khảo Thí</div>
+            <div class="contest-sub">Tham gia hoặc tổ chức các kỳ thi lập trình trực tuyến</div>
+        </div>
 
-        <div class="grid-actions">
+        <!-- Cards -->
+        <div class="action-grid">
+            <!-- Join -->
             <div class="action-card" onclick="openJoinModal()">
-                <i class="fa-solid fa-right-to-bracket icon-big"></i>
-                <div class="card-title">THAM GIA THI</div>
-                <div class="card-desc">Nhập ID và Mật khẩu để vào phòng thi ngay.</div>
+                <div class="action-icon"><i class="fa-solid fa-right-to-bracket"></i></div>
+                <div class="action-name">Tham gia thi</div>
+                <div class="action-desc">Nhập mã phòng và mật khẩu (nếu có) để vào phòng thi.</div>
             </div>
 
-            <div class="action-card" id="btn-create" style="display:none; border-color: var(--gold)" onclick="openCreateModal()">
-                <i class="fa-solid fa-plus-circle icon-big" style="color:#554400"></i>
-                <div class="card-title" style="color:var(--gold)">TẠO PHÒNG THI</div>
-                <div class="card-desc">Thiết lập đề bài, thời gian và giám sát học sinh.</div>
+            <!-- Create (teacher only) -->
+            <div class="action-card teacher-only" id="btn-create" style="display:none;" onclick="openCreateModal()">
+                <div class="action-icon" style="color:var(--gold)"><i class="fa-solid fa-plus-circle"></i></div>
+                <div class="action-name" style="color:var(--gold)">Tạo phòng thi</div>
+                <div class="action-desc">Thiết lập đề bài, thời gian và giám sát học sinh.</div>
             </div>
         </div>
     </div>
 
-    <div id="modal-create" class="modal-overlay">
-        <div class="modal-box">
-            <div style="display:flex; justify-content:space-between; align-items:center">
-                <h2 style="margin:0; color:var(--gold)">THIẾT LẬP PHÒNG THI</h2>
-                <button onclick="document.getElementById('modal-create').style.display='none'" style="background:none; border:none; color:#fff; font-size:1.5rem; cursor:pointer">×</button>
+    <!-- ── JOIN MODAL ── -->
+    <div id="modal-join" class="neo-modal-overlay">
+        <div class="neo-modal">
+            <div class="neo-modal-header">
+                <div class="neo-modal-title"><i class="fa-solid fa-right-to-bracket"></i> Vào phòng thi</div>
+                <button class="neo-modal-close" onclick="closeModal('modal-join')">×</button>
             </div>
-
-            <label class="form-label">ID Phòng Thi (Duy nhất):</label>
-            <input type="text" id="c-id" class="form-input" placeholder="VD: THI_HK1_L10">
-
-            <label class="form-label">Mật khẩu phòng:</label>
-            <input type="text" id="c-pass" class="form-input" placeholder="Để trống nếu không cần pass">
-
-            <div style="display:flex; gap:15px">
-                <div style="flex:1">
-                    <label class="form-label">Thời gian (Phút):</label>
-                    <input type="number" id="c-time" class="form-input" value="60">
+            <div class="neo-modal-body">
+                <div class="mf-group">
+                    <label class="mf-label">Mã phòng thi</label>
+                    <input type="text" id="j-id" class="mf-input" placeholder="VD: THI_HK1_2026" autocomplete="off">
                 </div>
-                <div style="flex:1">
-                    <label class="form-label">Số lượng HS tối đa:</label>
-                    <input type="number" id="c-max" class="form-input" value="40">
+                <div class="mf-group">
+                    <label class="mf-label">Mật khẩu (nếu có)</label>
+                    <input type="password" id="j-pass" class="mf-input" placeholder="Để trống nếu không có mật khẩu">
                 </div>
+                <div id="join-msg" class="form-message"></div>
+                <button class="btn btn-primary btn-full" onclick="joinContest()">
+                    <i class="fa-solid fa-right-to-bracket"></i> Vào thi
+                </button>
             </div>
-
-            <label class="form-label">Danh sách Đề bài (ID):</label>
-            <div style="display:flex; gap:10px">
-                <input type="text" id="c-prob-input" class="form-input" placeholder="Nhập ID bài (VD: bai01)">
-                <button onclick="addProb()" style="background:#333; color:#fff; border:1px solid #555; width:50px; cursor:pointer">+</button>
-            </div>
-            <div id="prob-list-display" style="margin-top:10px; min-height:30px; border:1px dashed #333; padding:5px; border-radius:4px"></div>
-
-            <button class="btn-primary" onclick="createContest()">KHỞI TẠO PHÒNG NGAY</button>
         </div>
     </div>
 
-    <div id="modal-join" class="modal-overlay">
-        <div class="modal-box" style="border-color: var(--neon); width: 400px;">
-            <div style="display:flex; justify-content:space-between; align-items:center">
-                <h2 style="margin:0; color:var(--neon)">VÀO PHÒNG THI</h2>
-                <button onclick="document.getElementById('modal-join').style.display='none'" style="background:none; border:none; color:#fff; font-size:1.5rem; cursor:pointer">×</button>
+    <!-- ── CREATE MODAL ── -->
+    <div id="modal-create" class="neo-modal-overlay">
+        <div class="neo-modal" style="max-width:580px;">
+            <div class="neo-modal-header">
+                <div class="neo-modal-title"><i class="fa-solid fa-pen-to-square"></i> Thiết lập phòng thi</div>
+                <button class="neo-modal-close" onclick="closeModal('modal-create')">×</button>
             </div>
-            
-            <label class="form-label">ID Phòng Thi:</label>
-            <input type="text" id="j-id" class="form-input" placeholder="Nhập ID phòng...">
-            
-            <label class="form-label">Mật khẩu:</label>
-            <input type="password" id="j-pass" class="form-input" placeholder="Nhập mật khẩu...">
-
-            <button class="btn-primary" style="background:var(--neon); color:#000" onclick="joinContest()">VÀO THI</button>
+            <div class="neo-modal-body">
+                <div class="mf-group">
+                    <label class="mf-label">Mã phòng (ID duy nhất)</label>
+                    <input type="text" id="c-id" class="mf-input" placeholder="VD: THI_HK1_L10A">
+                </div>
+                <div class="mf-group">
+                    <label class="mf-label">Mật khẩu phòng (tùy chọn)</label>
+                    <input type="text" id="c-pass" class="mf-input" placeholder="Để trống nếu không cần mật khẩu">
+                </div>
+                <div class="two-col">
+                    <div class="mf-group">
+                        <label class="mf-label">Thời gian (phút)</label>
+                        <input type="number" id="c-time" class="mf-input" value="60" min="5" max="360">
+                    </div>
+                    <div class="mf-group">
+                        <label class="mf-label">Số học sinh tối đa</label>
+                        <input type="number" id="c-max" class="mf-input" value="40" min="1" max="500">
+                    </div>
+                </div>
+                <div class="mf-group">
+                    <label class="mf-label">Danh sách bài tập</label>
+                    <div class="prob-tags-area" id="prob-display"></div>
+                    <div class="add-prob-row">
+                        <input type="text" id="c-prob-input" class="mf-input" placeholder="Nhập mã bài (VD: bai01)" style="flex:1;">
+                        <button class="btn btn-outline btn-sm" onclick="addProb()">
+                            <i class="fa-solid fa-plus"></i> Thêm
+                        </button>
+                    </div>
+                </div>
+                <div id="create-msg" class="form-message"></div>
+                <button class="btn btn-primary btn-full" onclick="createContest()" style="margin-top:8px;">
+                    <i class="fa-solid fa-flag-checkered"></i> Khởi tạo phòng thi
+                </button>
+            </div>
         </div>
     </div>
 
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    <script src="js/firebase-config.js"></script>
     <script>
-        // CONFIG FIREBASE (GIỮ NGUYÊN NHƯ CÁC FILE KHÁC)
-        const firebaseConfig = {
-            apiKey: "AIzaSyAQ79PPCmufVgJ312WxRXkFNG4rBb322SU",
-            authDomain: "neo-online-judge.firebaseapp.com",
-            databaseURL: "https://neo-online-judge-default-rtdb.firebaseio.com",
-            projectId: "neo-online-judge",
-            storageBucket: "neo-online-judge.firebasestorage.app",
-            messagingSenderId: "42094197302",
-            appId: "1:42094197302:web:a6e4bf9e06f0cc18077697"
-        };
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.database();
-        const auth = firebase.auth();
-        let currentUser = null;
+        let currentUser  = null;
         let addedProblems = [];
 
         auth.onAuthStateChanged(user => {
-            if(!user) window.location.href = "index.html";
+            if (!user) { window.location.href = 'login.html?redirect=contest.html'; return; }
             currentUser = user;
-            document.getElementById('user-info').innerText = "Hi, " + user.displayName;
+            document.getElementById('user-info').textContent = user.displayName || user.email || 'User';
             checkRole();
         });
 
         function checkRole() {
             db.ref('users/' + currentUser.uid + '/role').once('value', snap => {
-                if(snap.val() === 'teacher') {
+                if (snap.val() === 'teacher') {
                     document.getElementById('btn-create').style.display = 'block';
                 }
             });
         }
 
-        // --- LOGIC TẠO PHÒNG ---
-        function openCreateModal() { document.getElementById('modal-create').style.display = 'flex'; }
-        
+        // ── Modal helpers ──
+        function openJoinModal()   { document.getElementById('modal-join').classList.add('open'); }
+        function openCreateModal() { document.getElementById('modal-create').classList.add('open'); }
+        function closeModal(id)    { document.getElementById(id).classList.remove('open'); }
+
+        ['modal-join', 'modal-create'].forEach(id => {
+            document.getElementById(id).addEventListener('click', e => {
+                if (e.target === document.getElementById(id)) closeModal(id);
+            });
+        });
+
+        // ── Problem tags ──
         function addProb() {
             const pid = document.getElementById('c-prob-input').value.trim();
-            if(pid && !addedProblems.includes(pid)) {
+            if (pid && !addedProblems.includes(pid)) {
                 addedProblems.push(pid);
-                renderProbList();
-                document.getElementById('c-prob-input').value = "";
+                renderProbTags();
+                document.getElementById('c-prob-input').value = '';
             }
         }
-        
+
+        document.getElementById('c-prob-input').addEventListener('keypress', e => {
+            if (e.key === 'Enter') addProb();
+        });
+
         function removeProb(pid) {
             addedProblems = addedProblems.filter(p => p !== pid);
-            renderProbList();
+            renderProbTags();
         }
 
-        function renderProbList() {
-            const div = document.getElementById('prob-list-display');
-            div.innerHTML = addedProblems.map(p => 
-                `<div class="prob-tag">${p} <span onclick="removeProb('${p}')">×</span></div>`
+        function renderProbTags() {
+            document.getElementById('prob-display').innerHTML = addedProblems.map(p => `
+                <div class="prob-tag">
+                    <i class="fa-solid fa-code" style="font-size:0.7rem;color:var(--accent)"></i>
+                    ${p}
+                    <span class="prob-tag-remove" onclick="removeProb('${p}')">×</span>
+                </div>`
             ).join('');
         }
 
+        // ── Create contest ──
         function createContest() {
-            const id = document.getElementById('c-id').value.trim();
+            const id   = document.getElementById('c-id').value.trim();
             const pass = document.getElementById('c-pass').value.trim();
             const time = parseInt(document.getElementById('c-time').value);
-            const max = parseInt(document.getElementById('c-max').value);
+            const max  = parseInt(document.getElementById('c-max').value);
+            const msgEl = document.getElementById('create-msg');
 
-            if(!id || addedProblems.length === 0) return alert("Vui lòng nhập ID phòng và ít nhất 1 đề bài!");
+            if (!id) { msgEl.textContent = 'Vui lòng nhập mã phòng!'; msgEl.className = 'form-message error'; return; }
+            if (addedProblems.length === 0) { msgEl.textContent = 'Vui lòng thêm ít nhất 1 bài tập!'; msgEl.className = 'form-message error'; return; }
 
             db.ref('contests/' + id).set({
                 password: pass,
@@ -201,30 +360,40 @@
                 created_at: firebase.database.ServerValue.TIMESTAMP,
                 status: 'open'
             }).then(() => {
-                alert("Tạo phòng thành công!");
                 window.location.href = `contest_room.html?id=${id}`;
-            }).catch(err => alert("Lỗi: " + err.message));
+            }).catch(err => {
+                msgEl.textContent = 'Lỗi: ' + err.message;
+                msgEl.className = 'form-message error';
+            });
         }
 
-        // --- LOGIC THAM GIA ---
-        function openJoinModal() { document.getElementById('modal-join').style.display = 'flex'; }
-
+        // ── Join contest ──
         function joinContest() {
-            const id = document.getElementById('j-id').value.trim();
+            const id   = document.getElementById('j-id').value.trim();
             const pass = document.getElementById('j-pass').value.trim();
+            const msgEl = document.getElementById('join-msg');
 
-            if(!id) return alert("Chưa nhập ID phòng!");
+            if (!id) { msgEl.textContent = 'Vui lòng nhập mã phòng!'; msgEl.className = 'form-message error'; return; }
 
             db.ref('contests/' + id).once('value', snap => {
-                if(!snap.exists()) return alert("Phòng thi không tồn tại!");
-                
+                if (!snap.exists()) {
+                    msgEl.textContent = 'Phòng thi không tồn tại!';
+                    msgEl.className = 'form-message error';
+                    return;
+                }
                 const data = snap.val();
-                if(data.password && data.password !== pass) return alert("Sai mật khẩu!");
-                if(data.status === 'closed') return alert("Phòng thi đã đóng!");
-
-                // Đăng ký tham gia
+                if (data.password && data.password !== pass) {
+                    msgEl.textContent = 'Sai mật khẩu!';
+                    msgEl.className = 'form-message error';
+                    return;
+                }
+                if (data.status === 'closed') {
+                    msgEl.textContent = 'Phòng thi đã đóng!';
+                    msgEl.className = 'form-message error';
+                    return;
+                }
                 db.ref(`contests/${id}/participants/${currentUser.uid}`).update({
-                    name: currentUser.displayName,
+                    name: currentUser.displayName || currentUser.email,
                     joined_at: firebase.database.ServerValue.TIMESTAMP
                 }).then(() => {
                     window.location.href = `contest_room.html?id=${id}`;

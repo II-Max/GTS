@@ -2,192 +2,335 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Lịch Sử Nộp Bài - NEO ONLINE JUDGE</title>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEO Online Judge — Lịch Sử Nộp Bài</title>
+    <meta name="description" content="Xem lại lịch sử các lần nộp bài của bạn.">
+    <link rel="stylesheet" href="css/neo-design.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
     <style>
-        /* --- CORE STYLE --- */
-        :root { --bg: #05070a; --card: #0f1115; --neon: #00f3ff; --pink: #ff0055; --green: #0aff60; --gold: #ffd700; --border: rgba(255,255,255,0.1); }
-        body { background: var(--bg); color: #fff; font-family: 'Inter', sans-serif; margin: 0; padding-bottom: 50px; 
-            background-image: linear-gradient(rgba(0, 243, 255, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 243, 255, 0.03) 1px, transparent 1px); background-size: 40px 40px; }
+        body { padding-bottom: 60px; }
+        .main { max-width: 1000px; margin: 0 auto; padding: 32px 20px; }
 
-        /* NAV */
-        .cyber-nav { background: rgba(0, 0, 0, 0.9); border-bottom: 1px solid var(--neon); padding: 0 30px; height: 60px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 1000; backdrop-filter: blur(10px); font-family: 'JetBrains Mono'; }
-        .nav-links { display: flex; gap: 30px; }
-        .nav-links a { text-decoration: none; color: #8b9bb4; font-size: 0.9rem; transition: 0.3s; font-weight: 600; }
-        .nav-links a:hover, .nav-links a.active { color: #fff; text-shadow: 0 0 8px #fff; }
+        /* ── Filter bar ── */
+        .filter-bar {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
 
-        /* CONTAINER */
-        .container { max-width: 1000px; margin: 40px auto; padding: 0 20px; }
-        .page-title { font-family: 'JetBrains Mono'; color: var(--neon); font-size: 2rem; margin-bottom: 30px; text-shadow: 0 0 15px rgba(0, 243, 255, 0.3); display: flex; align-items: center; gap: 15px; }
+        .filter-chip {
+            padding: 7px 14px;
+            border-radius: 20px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            cursor: pointer;
+            border: 1px solid var(--border);
+            background: transparent;
+            color: var(--text-secondary);
+            font-family: var(--font-code);
+            transition: all 0.2s;
+        }
+        .filter-chip:hover { border-color: var(--border-hover); color: var(--text-primary); }
+        .filter-chip.active { background: var(--accent-dim); border-color: var(--accent-border); color: var(--accent); }
+        .filter-chip.contest.active { background: var(--gold-dim); border-color: var(--warning-border); color: var(--gold); }
 
-        /* TABLE STYLE */
-        .history-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
-        table { width: 100%; border-collapse: collapse; font-family: 'JetBrains Mono'; font-size: 0.9rem; }
-        th { text-align: left; padding: 18px 25px; background: rgba(0, 243, 255, 0.05); color: var(--neon); text-transform: uppercase; font-size: 0.8rem; border-bottom: 1px solid var(--border); }
-        td { padding: 15px 25px; border-bottom: 1px solid #222; vertical-align: middle; color: #ccc; }
-        tr:hover { background: rgba(255,255,255,0.03); }
-        
-        .score-badge { display: inline-block; padding: 5px 10px; border-radius: 4px; font-weight: bold; min-width: 40px; text-align: center; }
-        .score-100 { background: rgba(10, 255, 96, 0.15); color: var(--green); border: 1px solid var(--green); box-shadow: 0 0 10px rgba(10, 255, 96, 0.2); }
-        .score-low { background: rgba(255, 0, 85, 0.15); color: var(--pink); border: 1px solid var(--pink); }
-        .score-mid { background: rgba(255, 215, 0, 0.15); color: var(--gold); border: 1px solid var(--gold); }
-        
-        .type-tag { font-size: 0.7rem; padding: 2px 6px; border-radius: 3px; border: 1px solid #444; margin-right: 8px; vertical-align: middle; }
-        .btn-view { background: transparent; border: 1px solid #444; color: #888; padding: 6px 12px; border-radius: 4px; cursor: pointer; transition: 0.3s; font-family: inherit; font-size: 0.8rem; }
-        .btn-view:hover { border-color: var(--neon); color: var(--neon); background: rgba(0, 243, 255, 0.1); }
+        /* ── Table ── */
+        .prob-link {
+            color: var(--text-primary);
+            font-weight: 600;
+            text-decoration: none;
+        }
+        .prob-link:hover { color: var(--accent); }
 
-        /* MODAL VIEW CODE */
-        .modal-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index: 2000; display:none; justify-content:center; align-items:center; backdrop-filter: blur(5px); }
-        .modal-box { background: #0f1115; width: 800px; max-width:90%; border: 1px solid var(--neon); border-radius: 12px; display: flex; flex-direction: column; max-height: 90vh; box-shadow: 0 0 50px rgba(0, 243, 255, 0.15); }
-        .modal-head { padding: 15px 20px; background: rgba(0, 243, 255, 0.1); border-bottom: 1px solid #333; display: flex; justify-content: space-between; align-items: center; }
-        .code-area { flex: 1; padding: 20px; overflow-y: auto; background: #05070a; color: #a5d6ff; font-family: 'JetBrains Mono', monospace; margin: 0; white-space: pre-wrap; font-size: 0.9rem; line-height: 1.5; }
-        .btn-close { background: none; border: none; color: #fff; font-size: 1.5rem; cursor: pointer; }
+        .lang-badge {
+            font-family: var(--font-code);
+            font-size: 0.75rem;
+            color: var(--text-code);
+            text-transform: uppercase;
+        }
+
+        /* Score badges */
+        .score-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-family: var(--font-code);
+            font-size: 0.82rem;
+            font-weight: 700;
+            min-width: 44px;
+        }
+        .score-ac      { background: var(--success-dim); color: var(--success); border: 1px solid var(--success-border); }
+        .score-partial { background: var(--warning-dim); color: var(--warning); border: 1px solid var(--warning-border); }
+        .score-wa      { background: var(--danger-dim);  color: var(--danger);  border: 1px solid var(--danger-border); }
+        .score-pending { background: rgba(148,163,184,0.1); color: var(--text-muted); border: 1px solid var(--border); }
+
+        /* Type tag */
+        .type-practice { color: var(--text-muted); font-family: var(--font-code); font-size: 0.7rem; }
+        .type-contest  { color: var(--gold);  font-family: var(--font-code); font-size: 0.7rem; }
+
+        /* Empty */
+        .table-empty { padding: 48px; text-align: center; color: var(--text-muted); }
+        .table-empty i { font-size: 2rem; display: block; margin-bottom: 12px; }
+
+        /* ── Code modal ── */
+        .code-modal-wrap {
+            background: var(--bg-card);
+            border: 1px solid var(--border-hover);
+            border-radius: var(--radius-lg);
+            width: 100%;
+            max-width: 820px;
+            max-height: 85vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+            animation: modal-in 0.2s ease;
+        }
+        @keyframes modal-in {
+            from { opacity: 0; transform: scale(0.97) translateY(-8px); }
+            to   { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .code-modal-header {
+            padding: 14px 20px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .code-modal-title {
+            font-family: var(--font-code);
+            font-size: 0.85rem;
+            color: var(--text-code);
+            font-weight: 600;
+        }
+
+        .code-view-area {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background: #0d1117;
+            color: #c9d1d9;
+            font-family: var(--font-code);
+            font-size: 0.85rem;
+            white-space: pre;
+            line-height: 1.6;
+            margin: 0;
+        }
     </style>
 </head>
 <body>
 
-    <nav class="cyber-nav">
-        <div style="font-weight:800; color:var(--neon); font-size:1.2rem">[ NEO ONLINE JUDGE ]</div>
-        <div class="nav-links">
-            <a href="problems.html">KHO BÀI TẬP</a>
-            <a href="about.html">★ GIỚI THIỆU</a>
-            <a href="videos.html">VIDEO</a>
-            <a href="contest.html">PHÒNG THI</a>
-            <a href="history.html" class="active">LỊCH SỬ</a>
-            <a href="rank.html">BXH TOP 10</a>
+    <!-- Navbar -->
+    <nav class="neo-nav">
+        <a class="neo-nav-brand" href="index.html">
+            <span class="brand-dot"></span>NEO<span style="color:var(--text-secondary)">OJ</span>
+        </a>
+        <div class="neo-nav-links">
+            <a href="problems.html">Bài tập</a>
+            <a href="about.html">Giới thiệu</a>
+            <a href="documents.html">Tài liệu</a>
+            <a href="videos.html">Video</a>
+            <a href="contest.html">Phòng thi</a>
+            <a href="history.html" class="active">Lịch sử</a>
+            <a href="rank.html">Xếp hạng</a>
         </div>
     </nav>
 
-    <div class="container">
-        <h1 class="page-title"><i class="fa-solid fa-clock-rotate-left"></i> NHẬT KÝ CODE</h1>
-        
-        <div class="history-card">
-            <table>
+    <div class="main">
+        <div class="page-header">
+            <div class="page-title">
+                <i class="fa-solid fa-clock-rotate-left"></i> Nhật ký nộp bài
+            </div>
+            <div class="page-subtitle">Xem lại lịch sử tất cả các lần nộp bài của bạn</div>
+        </div>
+
+        <!-- Filter -->
+        <div class="filter-bar">
+            <button class="filter-chip active"    id="chip-all"     onclick="setFilter('all')">Tất cả</button>
+            <button class="filter-chip"           id="chip-practice" onclick="setFilter('practice')">
+                <i class="fa-solid fa-dumbbell"></i> Luyện tập
+            </button>
+            <button class="filter-chip contest"   id="chip-contest" onclick="setFilter('contest')">
+                <i class="fa-solid fa-trophy"></i> Phòng thi
+            </button>
+        </div>
+
+        <!-- Table -->
+        <div class="neo-table-wrap">
+            <table class="neo-table">
                 <thead>
                     <tr>
-                        <th width="15%">Thời gian</th>
+                        <th width="17%">Thời gian</th>
                         <th width="35%">Bài toán</th>
-                        <th width="15%">Ngôn ngữ</th>
-                        <th width="15%">Điểm số</th>
-                        <th width="20%" style="text-align:right">Thao tác</th>
+                        <th width="14%">Ngôn ngữ</th>
+                        <th width="16%">Điểm</th>
+                        <th width="18%" style="text-align:right">Thao tác</th>
                     </tr>
                 </thead>
                 <tbody id="hist-list">
-                    <tr><td colspan="5" style="text-align:center; padding:30px">Đang tải dữ liệu...</td></tr>
+                    <tr>
+                        <td colspan="5" class="table-empty">
+                            <div style="width:20px;height:20px;border:2px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:btn-spin 0.7s linear infinite;margin:0 auto 10px;"></div>
+                            Đang tải dữ liệu...
+                        </td>
+                    </tr>
                 </tbody>
             </table>
         </div>
     </div>
 
-    <div id="modal-code" class="modal-overlay">
-        <div class="modal-box">
-            <div class="modal-head">
-                <span style="color:var(--neon); font-weight:bold; font-family:'JetBrains Mono'"><i class="fa-solid fa-code"></i> SOURCE CODE VIEW</span>
-                <button class="btn-close" onclick="closeModal()">×</button>
+    <!-- Code view modal -->
+    <div id="modal-code" class="neo-modal-overlay">
+        <div class="code-modal-wrap">
+            <div class="code-modal-header">
+                <div class="code-modal-title">
+                    <i class="fa-solid fa-code"></i> <span id="modal-code-label">Source Code</span>
+                </div>
+                <button class="neo-modal-close" onclick="closeModal()">×</button>
             </div>
-            <pre id="code-content" class="code-area"></pre>
+            <pre id="code-content" class="code-view-area"></pre>
         </div>
     </div>
 
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    <script src="js/firebase-config.js"></script>
     <script>
-        const firebaseConfig = {
-            apiKey: "AIzaSyAQ79PPCmufVgJ312WxRXkFNG4rBb322SU",
-            authDomain: "neo-online-judge.firebaseapp.com",
-            databaseURL: "https://neo-online-judge-default-rtdb.firebaseio.com",
-            projectId: "neo-online-judge",
-            storageBucket: "neo-online-judge.firebasestorage.app",
-            messagingSenderId: "42094197302",
-            appId: "1:42094197302:web:a6e4bf9e06f0cc18077697"
-        };
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.database();
-        const auth = firebase.auth();
-        let currentUser = null;
+        let currentUser  = null;
+        let allHistory   = [];
+        let activeFilter = 'all';
 
         auth.onAuthStateChanged(user => {
-            if(!user) window.location.href = "index.html";
+            if (!user) { window.location.href = 'login.html?redirect=history.html'; return; }
             currentUser = user;
             loadHistory();
         });
 
         async function loadHistory() {
             const tbody = document.getElementById('hist-list');
-            const myHistory = [];
 
-            // 1. Lấy dữ liệu từ Luyện tập (submissions)
-            const snap1 = await db.ref('submissions').orderByChild('uid').equalTo(currentUser.uid).once('value');
-            if(snap1.exists()) {
-                const data = snap1.val();
-                Object.keys(data).forEach(key => {
-                    myHistory.push({ ...data[key], id: key, type: 'practice' });
-                });
+            try {
+                const [snap1, snap2] = await Promise.all([
+                    db.ref('submissions').orderByChild('uid').equalTo(currentUser.uid).once('value'),
+                    db.ref('contest_submissions').orderByChild('uid').equalTo(currentUser.uid).once('value'),
+                ]);
+
+                allHistory = [];
+
+                if (snap1.exists()) {
+                    Object.entries(snap1.val()).forEach(([key, val]) => {
+                        allHistory.push({ ...val, _id: key, type: 'practice' });
+                    });
+                }
+                if (snap2.exists()) {
+                    Object.entries(snap2.val()).forEach(([key, val]) => {
+                        allHistory.push({ ...val, _id: key, type: 'contest' });
+                    });
+                }
+
+                allHistory.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
+                renderHistory();
+
+            } catch (err) {
+                tbody.innerHTML = `<tr><td colspan="5" class="table-empty" style="color:var(--danger)">Lỗi: ${err.message}</td></tr>`;
             }
+        }
 
-            // 2. Lấy dữ liệu từ Phòng thi (contest_submissions)
-            const snap2 = await db.ref('contest_submissions').orderByChild('uid').equalTo(currentUser.uid).once('value');
-            if(snap2.exists()) {
-                const data = snap2.val();
-                Object.keys(data).forEach(key => {
-                    myHistory.push({ ...data[key], id: key, type: 'contest' });
-                });
-            }
+        function setFilter(f) {
+            activeFilter = f;
+            document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+            document.getElementById('chip-' + f).classList.add('active');
+            renderHistory();
+        }
 
-            // 3. Sắp xếp: Mới nhất lên đầu
-            myHistory.sort((a, b) => b.timestamp - a.timestamp);
+        function renderHistory() {
+            const tbody = document.getElementById('hist-list');
+            const filtered = activeFilter === 'all'
+                ? allHistory
+                : allHistory.filter(h => h.type === activeFilter);
 
-            // 4. Hiển thị
-            tbody.innerHTML = "";
-            if(myHistory.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding:30px">Bạn chưa nộp bài nào cả.</td></tr>`;
+            if (filtered.length === 0) {
+                tbody.innerHTML = `
+                    <tr><td colspan="5">
+                        <div class="table-empty">
+                            <i class="fa-solid fa-inbox"></i>
+                            ${activeFilter === 'all' ? 'Bạn chưa nộp bài nào.' : 'Không có lần nộp nào ở mục này.'}
+                        </div>
+                    </td></tr>`;
                 return;
             }
 
-            myHistory.forEach(item => {
-                const date = new Date(item.timestamp).toLocaleString('vi-VN');
-                
-                // Style cho điểm số
-                let scoreClass = 'score-low';
-                let score = item.score !== undefined ? item.score : 'Pending';
-                if(score == 100) scoreClass = 'score-100';
-                else if(score > 0) scoreClass = 'score-mid';
+            tbody.innerHTML = filtered.map(item => {
+                const date = item.timestamp
+                    ? new Date(item.timestamp).toLocaleString('vi-VN', { day:'2-digit', month:'2-digit', hour:'2-digit', minute:'2-digit' })
+                    : '—';
 
-                // Tag phân loại
-                let typeHtml = item.type === 'contest' 
-                    ? `<span class="type-tag" style="color:var(--gold); border-color:var(--gold)">THI</span>` 
-                    : `<span class="type-tag" style="color:#888">TẬP</span>`;
-                
-                const codeSafe = encodeURIComponent(item.code);
+                const score = item.score !== undefined ? parseInt(item.score) : null;
+                let scoreHtml;
+                if (score === null || isNaN(score)) {
+                    scoreHtml = `<span class="score-badge score-pending">Pending</span>`;
+                } else if (score === 100) {
+                    scoreHtml = `<span class="score-badge score-ac">100 ✓</span>`;
+                } else if (score > 0) {
+                    scoreHtml = `<span class="score-badge score-partial">${score}</span>`;
+                } else {
+                    scoreHtml = `<span class="score-badge score-wa">0</span>`;
+                }
 
-                tbody.innerHTML += `
-                    <tr>
-                        <td style="color:#666; font-size:0.8rem">${date}</td>
-                        <td>${typeHtml} <b style="color:#fff">${item.problem_id}</b></td>
-                        <td style="text-transform:uppercase; color:var(--neon)">${item.language}</td>
-                        <td><span class="score-badge ${scoreClass}">${score}</span></td>
-                        <td style="text-align:right">
-                            <button class="btn-view" onclick="viewCode('${codeSafe}')">
-                                <i class="fa-regular fa-eye"></i> XEM CODE
+                const typeHtml = item.type === 'contest'
+                    ? `<span class="type-contest"><i class="fa-solid fa-trophy"></i> THI</span>`
+                    : `<span class="type-practice"><i class="fa-solid fa-dumbbell"></i> TẬP</span>`;
+
+                // Store code in data attribute (safe)
+                return `
+                    <tr data-id="${item._id}">
+                        <td style="font-size:0.8rem;color:var(--text-muted)">${date}</td>
+                        <td>
+                            <div style="display:flex;align-items:center;gap:8px;">
+                                ${typeHtml}
+                                <a href="solve.html?id=${item.problem_id}" class="prob-link">${item.problem_id || '—'}</a>
+                            </div>
+                        </td>
+                        <td><span class="lang-badge">${item.language || '—'}</span></td>
+                        <td>${scoreHtml}</td>
+                        <td style="text-align:right;">
+                            <button class="btn btn-ghost btn-sm" onclick="viewCode('${item._id}', '${(item.language||'').toUpperCase()}')">
+                                <i class="fa-regular fa-eye"></i> Xem code
                             </button>
                         </td>
-                    </tr>
-                `;
+                    </tr>`;
+            }).join('');
+
+            // Attach code data to rows (avoids URI encoding issues)
+            filtered.forEach(item => {
+                const row = tbody.querySelector(`tr[data-id="${item._id}"]`);
+                if (row) row._code = item.code || '(Không có code)';
             });
         }
 
-        function viewCode(encodedCode) {
-            const code = decodeURIComponent(encodedCode);
+        function viewCode(id, lang) {
+            const tbody = document.getElementById('hist-list');
+            const row   = tbody.querySelector(`tr[data-id="${id}"]`);
+            const code  = row ? row._code : '(Không có code)';
+
+            document.getElementById('modal-code-label').textContent = `Source Code — ${lang || ''}`;
             document.getElementById('code-content').textContent = code;
-            document.getElementById('modal-code').style.display = 'flex';
+            document.getElementById('modal-code').classList.add('open');
         }
 
         function closeModal() {
-            document.getElementById('modal-code').style.display = 'none';
+            document.getElementById('modal-code').classList.remove('open');
         }
+
+        document.getElementById('modal-code').addEventListener('click', e => {
+            if (e.target === document.getElementById('modal-code')) closeModal();
+        });
     </script>
 </body>
 </html>

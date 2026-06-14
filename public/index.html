@@ -2,188 +2,430 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>NEO ONLINE JUDGE - GATEWAY</title>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEO Online Judge — Sân Chơi Học Thuật Lập Trình</title>
+    <meta name="description" content="NEO Online Judge - Hệ thống luyện tập và thi lập trình trực tuyến dành cho học sinh, sinh viên Việt Nam.">
+    <link rel="stylesheet" href="css/neo-design.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
-        /* --- 1. NỀN CYBERPUNK ĐỘNG --- */
-        :root {
-            --neon-blue: #00f3ff;
-            --neon-pink: #ff0055;
-            --bg-dark: #05070a;
-        }
         body {
-            background-color: var(--bg-dark);
-            color: #fff;
-            font-family: 'JetBrains Mono', monospace;
-            height: 100vh;
-            margin: 0;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            flex-direction: column;
+            min-height: 100vh;
             overflow: hidden;
-            /* Hiệu ứng lưới nền chuyển động */
-            background-image: linear-gradient(rgba(0, 243, 255, 0.05) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(0, 243, 255, 0.05) 1px, transparent 1px);
-            background-size: 50px 50px;
-            animation: moveGrid 5s linear infinite;
+            position: relative;
         }
-        @keyframes moveGrid {
-            0% { background-position: 0 0; }
-            100% { background-position: 50px 50px; }
-        }
-        .overlay {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle at 50% 50%, rgba(0,243,255,0.1) 0%, var(--bg-dark) 80%);
+
+        /* Ambient glow blobs */
+        .ambient {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
             pointer-events: none;
+            z-index: 0;
+        }
+        .ambient-1 {
+            width: 500px; height: 500px;
+            background: radial-gradient(circle, rgba(79,142,247,0.08) 0%, transparent 70%);
+            top: -100px; left: -100px;
+        }
+        .ambient-2 {
+            width: 400px; height: 400px;
+            background: radial-gradient(circle, rgba(139,92,246,0.06) 0%, transparent 70%);
+            bottom: -80px; right: -80px;
         }
 
-        /* --- 2. TIÊU ĐỀ GLITCH --- */
-        .glitch-container {
-            text-align: center;
+        /* ── GATEWAY CONTAINER ── */
+        .gateway {
             position: relative;
-            z-index: 10;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0;
+            width: 100%;
+            max-width: 520px;
+            padding: 0 24px;
         }
-        h1 {
-            font-size: 4rem;
+
+        /* System label */
+        .system-label {
+            font-family: var(--font-code);
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .system-label::before, .system-label::after {
+            content: '';
+            width: 24px;
+            height: 1px;
+            background: var(--border-hover);
+        }
+
+        /* Main logo */
+        .gateway-logo {
+            font-family: var(--font-code);
+            font-size: 3rem;
             font-weight: 800;
-            text-transform: uppercase;
-            position: relative;
-            color: var(--neon-blue);
-            text-shadow: 2px 2px var(--neon-pink), -2px -2px var(--neon-blue);
-            animation: glitch 1s infinite;
+            color: var(--text-primary);
+            letter-spacing: -1px;
+            text-align: center;
+            line-height: 1.1;
+            margin-bottom: 8px;
         }
-        h1::before, h1::after {
-            content: attr(data-text);
-            position: absolute;
-            top: 0; left: 0; width: 100%;
-            background: var(--bg-dark);
+        .gateway-logo span {
+            color: var(--accent);
         }
-        h1::before {
-            left: 2px;
-            text-shadow: -1px 0 var(--neon-pink);
-            clip: rect(24px, 550px, 90px, 0);
-            animation: glitch-anim-2 3s infinite linear alternate-reverse;
-        }
-        h1::after {
-            left: -2px;
-            text-shadow: -1px 0 var(--neon-blue);
-            clip: rect(85px, 550px, 140px, 0);
-            animation: glitch-anim 2.5s infinite linear alternate-reverse;
-        }
-        @keyframes glitch { 0% { text-shadow: 2px 2px var(--neon-pink), -2px -2px var(--neon-blue); } 25% { text-shadow: -2px 2px var(--neon-pink), 2px -2px var(--neon-blue); } 50% { text-shadow: 2px -2px var(--neon-pink), -2px 2px var(--neon-blue); } 100% { text-shadow: -2px -2px var(--neon-pink), 2px 2px var(--neon-blue); } }
-        @keyframes glitch-anim { 0% { clip: rect(17px, 9999px, 92px, 0); transform: skew(0.86deg); } 50% { clip: rect(56px, 9999px, 33px, 0); transform: skew(0.33deg); } 100% { clip: rect(45px, 9999px, 15px, 0); transform: skew(0.09deg); } }
-        @keyframes glitch-anim-2 { 0% { clip: rect(68px, 9999px, 5px, 0); transform: skew(0.49deg); } 50% { clip: rect(15px, 9999px, 91px, 0); transform: skew(0.87deg); } 100% { clip: rect(81px, 9999px, 13px, 0); transform: skew(0.08deg); } }
 
-        /* --- 3. DÒNG GIỚI THIỆU & TRẠNG THÁI --- */
-        p.subtitle {
-            font-size: 1.2rem;
-            color: var(--neon-blue);
-            letter-spacing: 4px;
-            margin-top: -20px;
-            margin-bottom: 40px;
-            opacity: 0.8;
-        }
-        #msg {
-            margin-bottom: 30px;
-            color: #8b9bb4;
+        .gateway-tagline {
             font-size: 0.9rem;
-            position: relative;
-            padding: 10px 20px;
-            border: 1px solid rgba(0, 243, 255, 0.3);
-            background: rgba(0, 243, 255, 0.05);
-            display: inline-block;
+            color: var(--text-secondary);
+            text-align: center;
+            margin-bottom: 40px;
+            letter-spacing: 0.3px;
         }
-        #msg::before { content: '[ '; color: var(--neon-blue); }
-        #msg::after { content: ' ]'; color: var(--neon-blue); }
 
-        /* --- 4. NÚT ĐĂNG NHẬP NEON --- */
-        .cyber-btn {
-            position: relative;
-            display: none; /* Mặc định ẩn, hiện khi cần */
-            padding: 15px 40px;
-            font-size: 1.1rem;
-            font-weight: bold;
-            color: var(--neon-blue);
-            background: transparent;
-            border: 2px solid var(--neon-blue);
+        /* Status box */
+        .status-box {
+            width: 100%;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 14px 18px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: var(--font-code);
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+            min-height: 50px;
+        }
+
+        .status-indicator {
+            width: 8px; height: 8px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            background: var(--text-muted);
+        }
+        .status-indicator.loading {
+            background: var(--warning);
+            animation: blink-status 1s ease-in-out infinite;
+        }
+        .status-indicator.online {
+            background: var(--success);
+            box-shadow: 0 0 8px var(--success);
+        }
+        @keyframes blink-status {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        /* User info (when logged in) */
+        .user-info-card {
+            display: none;
+            width: 100%;
+            background: var(--success-dim);
+            border: 1px solid var(--success-border);
+            border-radius: var(--radius-md);
+            padding: 14px 18px;
+            margin-bottom: 20px;
+            align-items: center;
+            gap: 12px;
+        }
+        .user-info-card img {
+            width: 40px; height: 40px;
+            border-radius: 50%;
+            border: 2px solid var(--success);
+            object-fit: cover;
+        }
+        .user-info-card .user-name {
+            font-weight: 600;
+            font-size: 0.92rem;
+            color: var(--text-primary);
+        }
+        .user-info-card .user-email {
+            font-size: 0.76rem;
+            color: var(--text-muted);
+        }
+
+        /* Auth buttons group */
+        .auth-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            width: 100%;
+        }
+
+        .auth-btn {
+            width: 100%;
+            padding: 13px 20px;
+            border-radius: var(--radius-md);
+            font-family: var(--font-code);
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 1px;
             cursor: pointer;
+            border: 1px solid;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.25s ease;
+            text-decoration: none;
+        }
+
+        .auth-btn-google {
+            background: transparent;
+            color: #ea4335;
+            border-color: rgba(234,67,53,0.4);
+        }
+        .auth-btn-google:hover {
+            background: rgba(234,67,53,0.08);
+            border-color: #ea4335;
+            box-shadow: 0 0 20px rgba(234,67,53,0.15);
+        }
+
+        .auth-btn-primary {
+            background: var(--accent);
+            color: #fff;
+            border-color: var(--accent);
+        }
+        .auth-btn-primary:hover {
+            background: #6aa0f8;
+            box-shadow: var(--shadow-glow);
+            transform: translateY(-1px);
+        }
+
+        .auth-btn-ghost {
+            background: transparent;
+            color: var(--text-secondary);
+            border-color: var(--border);
+            font-size: 0.78rem;
+        }
+        .auth-btn-ghost:hover {
+            color: var(--text-primary);
+            border-color: var(--border-hover);
+            background: rgba(255,255,255,0.04);
+        }
+
+        /* Quick links */
+        .quick-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            margin-top: 28px;
+        }
+        .quick-links a {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            padding: 5px 12px;
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            transition: all 0.2s;
+        }
+        .quick-links a:hover {
+            color: var(--accent);
+            border-color: var(--accent-border);
+        }
+
+        /* Stats row */
+        .platform-stats {
+            display: flex;
+            gap: 28px;
+            margin-top: 36px;
+            padding-top: 28px;
+            border-top: 1px solid var(--border);
+            width: 100%;
+            justify-content: center;
+        }
+        .stat-item {
+            text-align: center;
+        }
+        .stat-item .stat-num {
+            font-family: var(--font-code);
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        .stat-item .stat-label {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            margin-top: 2px;
             text-transform: uppercase;
-            letter-spacing: 2px;
-            overflow: hidden;
-            transition: 0.3s;
-            box-shadow: 0 0 10px rgba(0, 243, 255, 0.5);
+            letter-spacing: 0.5px;
         }
-        .cyber-btn:hover {
-            background: var(--neon-blue);
-            color: var(--bg-dark);
-            box-shadow: 0 0 30px var(--neon-blue);
+
+        /* Spinner */
+        .spinner-sm {
+            width: 14px; height: 14px;
+            border: 2px solid var(--border-hover);
+            border-top-color: var(--accent);
+            border-radius: 50%;
+            animation: spin-sm 0.7s linear infinite;
         }
-        .cyber-btn::before {
-            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
-            transition: 0.5s;
-        }
-        .cyber-btn:hover::before { left: 100%; }
-        .loading-spinner {
-            display: inline-block; width: 20px; height: 20px;
-            border: 3px solid rgba(0,243,255,0.3); border-radius: 50%;
-            border-top-color: var(--neon-blue); animation: spin 1s ease-in-out infinite; margin-right: 10px;
-        }
-        @keyframes spin { to { transform: rotate(360deg); } }
+        @keyframes spin-sm { to { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
-    <div class="overlay"></div>
-    
-    <div class="glitch-container">
-        <h1 data-text="KHKT 2026">NEO ONLINE JUDGE</h1>
-        <p class="subtitle">CYBER LEARNING SYSTEM // V1.0</p>
-    </div>
+    <div class="ambient ambient-1"></div>
+    <div class="ambient ambient-2"></div>
 
-    <div id="msg">
-        <span class="loading-spinner"></span> Đang kết nối máy chủ...
-    </div>
+    <div class="gateway">
+        <!-- System label -->
+        <div class="system-label">Academic Computing Platform</div>
 
-    <button id="btnLogin" class="cyber-btn" onclick="login()">
-        ▶ KÍCH HOẠT QUYỀN TRUY CẬP (GOOGLE)
-    </button>
+        <!-- Logo -->
+        <div class="gateway-logo">NEO<span>OJ</span></div>
+        <div class="gateway-tagline">Hệ thống luyện tập & thi lập trình trực tuyến</div>
+
+        <!-- Status box -->
+        <div class="status-box" id="statusBox">
+            <div class="status-indicator loading" id="statusDot"></div>
+            <div class="spinner-sm" id="statusSpinner"></div>
+            <span id="statusText">Đang kết nối hệ thống...</span>
+        </div>
+
+        <!-- User info (visible when logged in) -->
+        <div class="user-info-card" id="userInfoCard">
+            <img id="userAvatar" src="" alt="avatar">
+            <div>
+                <div class="user-name" id="userName">User</div>
+                <div class="user-email" id="userEmail">user@email.com</div>
+            </div>
+        </div>
+
+        <!-- Auth actions -->
+        <div class="auth-group" id="authGroup">
+            <button id="btnGoogle" class="auth-btn auth-btn-google" onclick="loginWithGoogle()">
+                <i class="fab fa-google"></i> Đăng nhập với Google
+            </button>
+            <button id="btnLogin" class="auth-btn auth-btn-primary" onclick="goToLogin()">
+                <i class="fas fa-right-to-bracket"></i> Tất cả phương thức đăng nhập
+            </button>
+        </div>
+
+        <!-- Enter system (visible when logged in) -->
+        <button id="btnStart" class="auth-btn auth-btn-primary" onclick="goToProblems()" style="display:none; width:100%;">
+            <i class="fas fa-terminal"></i> Vào hệ thống
+        </button>
+
+        <!-- Quick links -->
+        <div class="quick-links">
+            <a href="login.html">Đăng nhập</a>
+            <a href="login.html?tab=register">Đăng ký</a>
+            <a href="problems.html">Bài tập</a>
+            <a href="rank.html">Xếp hạng</a>
+            <a href="about.html">Giới thiệu</a>
+        </div>
+
+        <!-- Platform stats -->
+        <div class="platform-stats">
+            <div class="stat-item">
+                <div class="stat-num" id="statProblems">—</div>
+                <div class="stat-label">Bài tập</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-num" id="statUsers">—</div>
+                <div class="stat-label">Thành viên</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-num" id="statSubmissions">—</div>
+                <div class="stat-label">Lượt nộp</div>
+            </div>
+        </div>
+    </div>
 
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    <script src="js/firebase-config.js"></script>
     <script>
-        const firebaseConfig = {
-            apiKey: "AIzaSyAQ79PPCmufVgJ312WxRXkFNG4rBb322SU",
-            authDomain: "neo-online-judge.firebaseapp.com",
-            databaseURL: "https://neo-online-judge-default-rtdb.firebaseio.com",
-            projectId: "neo-online-judge",
-            storageBucket: "neo-online-judge.firebasestorage.app",
-            messagingSenderId: "42094197302",
-            appId: "1:42094197302:web:a6e4bf9e06f0cc18077697"
-        };
-        firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
+        const statusDot  = document.getElementById('statusDot');
+        const statusText = document.getElementById('statusText');
+        const statusSpinner = document.getElementById('statusSpinner');
 
-        auth.onAuthStateChanged((user) => {
-            const msg = document.getElementById('msg');
-            const btn = document.getElementById('btnLogin');
+        function setStatus(type, text) {
+            statusText.textContent = text;
+            statusDot.className = 'status-indicator ' + type;
+            statusSpinner.style.display = type === 'loading' ? 'block' : 'none';
+        }
+
+        function goToLogin()    { window.location.href = 'login.html'; }
+        function goToProblems() { window.location.href = 'problems.html'; }
+
+        async function loginWithGoogle() {
+            try {
+                const provider = new firebase.auth.GoogleAuthProvider();
+                provider.setCustomParameters({ prompt: 'select_account' });
+                const result = await auth.signInWithPopup(provider);
+                const token = await result.user.getIdToken();
+                try {
+                    await fetch(API_BASE + '/auth/sync', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ id_token: token })
+                    });
+                } catch (e) { /* backend optional */ }
+                setTimeout(() => window.location.href = 'problems.html', 800);
+            } catch (error) {
+                if (error.code !== 'auth/popup-closed-by-user') {
+                    setStatus('', 'Lỗi: ' + error.message);
+                }
+            }
+        }
+
+        // Load platform stats
+        async function loadStats() {
+            try {
+                const [probSnap, userSnap, subSnap] = await Promise.all([
+                    db.ref('problems').once('value'),
+                    db.ref('users').once('value'),
+                    db.ref('submissions').once('value'),
+                ]);
+                const pCount = probSnap.val() ? Object.keys(probSnap.val()).length : 0;
+                const uCount = userSnap.val() ? Object.keys(userSnap.val()).length : 0;
+                const sCount = subSnap.val() ? Object.keys(subSnap.val()).length : 0;
+                document.getElementById('statProblems').textContent    = pCount;
+                document.getElementById('statUsers').textContent       = uCount;
+                document.getElementById('statSubmissions').textContent = sCount;
+            } catch (e) { /* ignore */ }
+        }
+
+        auth.onAuthStateChanged(user => {
             if (user) {
-                msg.innerHTML = `<span style="color:var(--neon-green)">✓ XÁC THỰC THÀNH CÔNG.</span> Xin chào <b style="color:var(--neon-blue)">${user.displayName}</b>. Đang chuyển hướng...`;
-                btn.style.display = "none";
-                setTimeout(() => window.location.href = "problems.html", 1500);
+                setStatus('online', 'Đã xác thực — Xin chào, ' + (user.displayName || user.email));
+                document.getElementById('userInfoCard').style.display = 'flex';
+                document.getElementById('userAvatar').src = user.photoURL
+                    || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.displayName || user.email) + '&background=4f8ef7&color=fff';
+                document.getElementById('userName').textContent  = user.displayName || 'User';
+                document.getElementById('userEmail').textContent = user.email;
+
+                document.getElementById('authGroup').style.display = 'none';
+                document.getElementById('btnStart').style.display  = 'flex';
+
+                localStorage.setItem('neo_user', JSON.stringify({
+                    uid: user.uid, email: user.email,
+                    display_name: user.displayName, avatar: user.photoURL,
+                }));
             } else {
-                msg.innerHTML = "Vui lòng đăng nhập để truy cập hệ thống.";
-                btn.style.display = "inline-block";
+                setStatus('', 'Chọn phương thức đăng nhập để bắt đầu.');
+                document.getElementById('userInfoCard').style.display = 'none';
+                document.getElementById('authGroup').style.display    = 'flex';
+                document.getElementById('btnStart').style.display     = 'none';
             }
         });
 
-        function login() {
-            const provider = new firebase.auth.GoogleAuthProvider();
-            firebase.auth().signInWithPopup(provider).catch(error => {
-                document.getElementById('msg').innerText = "Lỗi đăng nhập: " + error.message;
-            });
-        }
+        loadStats();
     </script>
 </body>
 </html>
