@@ -100,14 +100,18 @@
 ```
 NEO-ONLINE-JUDGE/
 │
-├── judge.py                      # Entry point — khởi động backend
-├── .env                          # Cấu hình biến môi trường
-├── service-account.json          # Firebase service account key
-├── requirements.txt              # Python dependencies
-├── VẬN_HÀNH.md                   # Tài liệu này
+├── setup/                        # 🛠️ Cung cu cai dat
+│   ├── setup_system.py           # Script kiem tra he thong
+│   ├── Dockerfile                # Docker build
+│   ├── docker-compose.yml        # Docker compose
+│   └── scripts/                  # Cac script phu tro
 │
 ├── backend/                      # 🧠 Backend Python
 │   ├── app.py                    # Ứng dụng chính (JudgeApplication)
+│   ├── judge.py                  # Entry point — khởi động backend
+│   ├── config/                   # ⚙️ Cấu hình
+│   │   ├── settings.py           # Settings từ .env
+│   │   └── logging.py            # Logging system
 │   ├── core/                     # Core engine
 │   │   ├── compiler.py           # Biên dịch đa ngôn ngữ
 │   │   └── judge.py              # Engine chấm điểm
@@ -119,11 +123,7 @@ NEO-ONLINE-JUDGE/
 │   └── routes/                   # API routes
 │       └── auth_routes.py        # Auth API
 │
-├── config/                       # ⚙️ Cấu hình
-│   ├── settings.py               # Settings từ .env
-│   └── logging.py                # Logging system
-│
-├── public/                       # 🌐 Frontend (Web)
+├── frontend/                     # 🌐 Frontend (Web) cho AI Agent & Người dùng
 │   ├── index.html                # Trang chủ
 │   ├── login.html                # Đăng nhập / Đăng ký
 │   ├── problems.html             # Kho bài tập
@@ -191,7 +191,7 @@ NEO-ONLINE-JUDGE/
 2. Firebase ghi submission {status: "pending"}
        │
        ▼
-3. JUDGE SERVER (judge.py) polling mỗi 1.5 giây
+3. JUDGE SERVER (backend/judge.py) polling mỗi 1.5 giây
        │
        ▼
 4. Phát hiện submission mới
@@ -204,7 +204,7 @@ NEO-ONLINE-JUDGE/
    └── Pascal → chạy trực tiếp
        │
        ▼
-6. CHẤM ĐIỂM (judge.py - JudgeEngine)
+6. CHẤM ĐIỂM (backend/core/judge.py - JudgeEngine)
    ├── Chạy từng test case
    ├── So sánh output
    └── Tính % điểm
@@ -307,7 +307,7 @@ cp .env.example .env
 
 ```bash
 # Cách 1: Chạy trực tiếp
-python judge.py
+python backend/judge.py
 
 # Cách 2: Chạy module
 python -m backend.app
@@ -331,11 +331,11 @@ Server sẽ in ra:
 
 ```bash
 # Cách 1: Mở file trực tiếp
-# Mở public/index.html trong trình duyệt
+# Mở frontend/index.html trong trình duyệt
 
 # Cách 2: Dùng web server
 python -m http.server 8000
-# Truy cập http://localhost:8000/public/
+# Truy cập http://localhost:8000/frontend/
 ```
 
 #### Bước 4: Deploy lên Firebase Hosting (tùy chọn)
@@ -344,7 +344,7 @@ python -m http.server 8000
 npm install -g firebase-tools
 firebase login
 firebase init hosting
-# Chọn public/ làm thư mục
+# Chọn frontend/ làm thư mục
 firebase deploy
 ```
 
@@ -588,7 +588,7 @@ Cách khắc phục:
 
 Nguyên nhân 2: Backend chưa chạy
 Cách khắc phục:
-- Chạy: python judge.py
+- Chạy: python backend/judge.py
 
 Nguyên nhân 3: Hết quota API
 Cách khắc phục:
@@ -600,7 +600,7 @@ Cách khắc phục:
 ```
 Nguyên nhân 1: Judge server chưa chạy
 Cách khắc phục:
-- Chạy: python judge.py
+- Chạy: python backend/judge.py
 
 Nguyên nhân 2: Thiếu compiler
 Cách khắc phục:
@@ -662,7 +662,7 @@ git pull
 pip install -r requirements.txt
 
 # Khởi động lại
-python judge.py
+python backend/judge.py
 ```
 
 ### 8.3. Sao lưu dữ liệu Firebase
@@ -705,10 +705,10 @@ du -sh logs/
 
 ```bash
 # 1. Chạy backend (luôn cần để chấm bài + AI)
-python judge.py
+python backend/judge.py
 
 # 2. Mở frontend
-# Mở public/index.html trong trình duyệt
+# Mở frontend/index.html trong trình duyệt
 
 # 3. Kiểm tra logs
 tail -f logs/judge_*.log

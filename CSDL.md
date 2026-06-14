@@ -270,7 +270,7 @@ Frontend (solve.html)
    ├── Ghi vao submissions/ { status: "pending" }
    │
    ▼
-Backend (judge.py)
+Backend (backend/judge.py)
    │
    ├── Polling: phat hien pending submissions
    ├── Doc problems/{id}/testcases
@@ -292,7 +292,7 @@ Frontend (solve.html)
    ├── Ghi vao ai_requests/ { status: "pending" }
    │
    ▼
-Backend (judge.py)
+Backend (backend/judge.py)
    │
    ├── Polling: phat hien pending ai_requests
    ├── Goi Grok/OpenAI API
@@ -345,7 +345,7 @@ firebase database:import --project gtsv2-a93c5 backup.json
 
 ### Tai sao submission bi pending mai?
 
-1. Kiem tra judge server da chay chua: `python judge.py`
+1. Kiem tra judge server da chay chua: `python backend/judge.py`
 2. Kiem tra log: `tail -f logs/judge_*.log`
 3. Kiem tra `status` trong Firebase co phai `"pending"` khong
 

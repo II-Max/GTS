@@ -126,7 +126,11 @@ Dự án phù hợp cho:
 ```
 NEO-ONLINE-JUDGE/
 │
-├── judge.py                          # ENTRY POINT - Khoi dong backend
+├── setup/                            # Cong cu cai dat
+│   ├── setup_system.py               # Script kiem tra he thong
+│   ├── Dockerfile                    # Docker build
+│   ├── docker-compose.yml            # Docker compose
+│   └── scripts/                      # Cac script phu tro
 ├── .env                              # Bien moi truong
 ├── service-account.json              # Firebase Admin key (can tu tao)
 ├── requirements.txt                  # Python dependencies
@@ -134,6 +138,10 @@ NEO-ONLINE-JUDGE/
 │
 ├── backend/                          # Backend Python
 │   ├── app.py                        # Ung dung chinh (JudgeApplication)
+│   ├── judge.py                      # ENTRY POINT - Khoi dong backend
+│   ├── config/
+│   │   ├── settings.py               # Settings tu .env
+│   │   └── logging.py                # Logging system
 │   ├── core/                         # Core engine
 │   │   ├── compiler.py               # Bien dich da ngon ngu
 │   │   └── judge.py                  # Engine cham diem
@@ -145,11 +153,7 @@ NEO-ONLINE-JUDGE/
 │   └── routes/
 │       └── auth_routes.py            # API Auth
 │
-├── config/
-│   ├── settings.py                   # Settings tu .env
-│   └── logging.py                    # Logging system
-│
-├── public/                           # Frontend (Web)
+├── frontend/                         # Frontend (Web) cho AI Agent va Nguoi dung
 │   ├── index.html                    # Trang chu
 │   ├── login.html                    # Dang nhap / Dang ky
 │   ├── problems.html                 # Kho bai tap
@@ -189,16 +193,16 @@ pip install -r requirements.txt
 # 4. Dat file service-account.json vao thu muc goc
 
 # 5. Chay backend judge
-python judge.py
+python backend/judge.py
 
 # 6. Mo frontend (trinh duyet)
 # MacOS:
-open public/index.html
+open frontend/index.html
 # Windows:
-start public/index.html
+start frontend/index.html
 # Hoac dung Python HTTP server:
 python -m http.server 8000
-# Truy cap: http://localhost:8000/public/
+# Truy cap: http://localhost:8000/frontend/
 ```
 
 ---
@@ -231,10 +235,10 @@ python-json-logger>=2.0.0
 2. Chon du an `gtsv2-a93c5` (hoac tao moi)
 3. Vao **Project settings** > **General** > **Your apps** > **Web app**
 4. Copy `firebaseConfig` object
-5. Cap nhat vao file `public/js/firebase-config.js`:
+5. Cap nhat vao file `frontend/js/firebase-config.js`:
 
 ```javascript
-// public/js/firebase-config.js
+// frontend/js/firebase-config.js
 const firebaseConfig = {
   apiKey: "AIzaSy...",
   authDomain: "your-project.firebaseapp.com",
@@ -313,7 +317,7 @@ LOG_LEVEL=INFO
 ### 4. Chay Judge Server
 
 ```bash
-python judge.py
+python backend/judge.py
 ```
 
 **Output thanh cong:**
@@ -335,19 +339,19 @@ python judge.py
 ```bash
 # Cach 1: Mo file truc tiep
 # MacOS:
-open public/index.html
+open frontend/index.html
 # Windows:
-start public/index.html
+start frontend/index.html
 
 # Cach 2: Dung Python HTTP server (khuyen dung)
 python -m http.server 8000
-# Truy cap: http://localhost:8000/public/
+# Truy cap: http://localhost:8000/frontend/
 
 # Cach 3: Deploy len Firebase Hosting
 npm install -g firebase-tools
 firebase login
 firebase init hosting
-# Chon public/ lam thu muc
+# Chon frontend/ lam thu muc
 firebase deploy --only hosting
 ```
 
@@ -590,13 +594,13 @@ AI_MODEL = "grok-3-mini"  # Hoac "gpt-4o-mini"
 ### 2. AI Mentor khong phan hoi
 
 > Kiem tra .env co OPENAI_API_KEY hoac GROK_API_KEY chua
-> Kiem tra backend da chay chua: python judge.py
+> Kiem tra backend da chay chua: python backend/judge.py
 > Kiem tra billing dashboard cua OpenAI/Grok
 > Xem log: tail -f logs/judge_*.log
 
 ### 3. Cham bai khong ra ket qua
 
-> Kiem tra judge server da chay chua: python judge.py
+> Kiem tra judge server da chay chua: python backend/judge.py
 > Kiem tra compiler da cai chua:
 >   - Python: built-in
 >   - C++: which g++
