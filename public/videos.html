@@ -1,77 +1,150 @@
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Video Bài Giảng - NEO ONLINE JUDGE</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEO Online Judge — Video Bài Giảng</title>
+    <meta name="description" content="Kho video hướng dẫn giải bài tập lập trình — NEO Online Judge.">
     <link rel="stylesheet" href="css/neo-design.css">
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=Inter:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
     <style>
-        :root { --bg: #05070a; --card: #111625; --neon: #00f3ff; --pink: #ff0055; --green: #0aff60; --gold: #ffd700; }
-        body { background-color: var(--bg); color: #fff; font-family: 'Inter', sans-serif; margin: 0; padding-bottom: 100px;
-            background-image: linear-gradient(rgba(0, 243, 255, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 243, 255, 0.03) 1px, transparent 1px); background-size: 30px 30px; }
-        
-        .cyber-nav { background: rgba(0, 0, 0, 0.9); border-bottom: 1px solid var(--neon); padding: 0 30px; height: 60px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 1000; backdrop-filter: blur(5px); font-family: 'JetBrains Mono'; }
-        .nav-brand { font-weight: bold; font-size: 1.2rem; color: var(--neon); text-transform: uppercase; letter-spacing: 2px; text-shadow: 0 0 5px var(--neon); }
-        .nav-links { display: flex; gap: 30px; }
-        .nav-links a { text-decoration: none; color: #8b9bb4; font-size: 0.9rem; transition: 0.3s; position: relative; padding: 5px 0; cursor: pointer; }
-        .nav-links a:hover, .nav-links a.active { color: #fff; text-shadow: 0 0 8px #fff; }
-        .nav-highlight { color: var(--neon) !important; font-weight: bold; border: 1px solid var(--neon); padding: 5px 15px !important; border-radius: 20px; }
-        .nav-highlight:hover { background: var(--neon); color: #000 !important; }
+        body { padding-bottom: 80px; }
+        .main { max-width: 1200px; margin: 0 auto; padding: 32px 24px; }
 
-        .container { max-width: 1200px; margin: 30px auto; padding: 0 20px; }
+        /* ── User bar ── */
+        .user-bar {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 16px 20px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+        .user-bar-ava {
+            width: 48px; height: 48px;
+            border-radius: 50%;
+            border: 2px solid var(--accent-border);
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+        .user-bar-info { flex: 1; min-width: 0; }
+        .user-bar-name { font-weight: 700; color: var(--text-primary); font-size: 0.95rem; }
+        .user-bar-stats {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 4px;
+        }
+        .user-bar-stat {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .user-bar-stat b { color: var(--text-secondary); }
+        .user-bar-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-left: auto;
+        }
+        .progress-mini { margin-top: 6px; }
+        .progress-track { height: 3px; background: var(--bg-elevated); border-radius: 2px; overflow: hidden; width: 120px; }
+        .progress-fill  { height: 100%; background: var(--success); border-radius: 2px; transition: width 0.4s; }
 
-        /* DASHBOARD STYLE */
-        .dashboard { background: #0f1115; border: 1px solid #2a3b55; border-radius: 12px; padding: 25px; margin-bottom: 30px; display: flex; align-items: center; box-shadow: 0 10px 30px rgba(0,0,0,0.3); font-family: 'JetBrains Mono'; }
-        .dash-profile { flex: 1.2; display: flex; flex-direction: column; gap: 10px; padding-right: 25px; border-right: 1px solid #333; }
-        .user-head { display: flex; align-items: center; gap: 15px; }
-        .d-avatar { width: 60px; height: 60px; border-radius: 50%; border: 2px solid var(--neon); object-fit: cover; }
-        .user-meta b { display: block; font-size: 1.1rem; color: #fff; margin-bottom: 5px; }
-        
-        .role-badge { font-size: 0.7rem; padding: 3px 8px; border-radius: 4px; text-transform: uppercase; font-weight: bold; display: inline-block; }
-        .role-student { background: rgba(0, 132, 255, 0.2); color: #4dabf7; border: 1px solid #4dabf7; }
-        .role-teacher { background: rgba(255, 215, 0, 0.15); color: var(--gold); border: 1px solid var(--gold); text-shadow: 0 0 5px var(--gold); }
-        
-        .user-stats-row { display: flex; align-items: center; gap: 10px; margin-top: 5px; }
-        .stat-badge { background: #1a1e26; padding: 5px 10px; border-radius: 4px; font-size: 0.8rem; border: 1px solid #333; color: var(--neon); }
+        /* ── Page header ── */
+        .page-header-row {
+            display: flex; align-items: center; justify-content: space-between;
+            margin-bottom: 20px; flex-wrap: wrap; gap: 12px;
+        }
+        .page-header-row h2 {
+            font-family: var(--font-code); font-size: 1.1rem; font-weight: 700;
+            color: var(--text-primary); display: flex; align-items: center; gap: 10px; margin: 0;
+        }
+        .page-header-row h2 i { color: #ef4444; }
 
-        .dash-stats { flex: 1.5; padding: 0 30px; border-right: 1px solid #333; }
-        .dash-title { font-size: 0.9rem; color: #888; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px; }
-        .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-        .stat-item { display: flex; align-items: center; gap: 10px; font-size: 0.85rem; color: #bbb; }
-        .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
-        .stat-val { font-weight: bold; color: #fff; margin-left: auto; font-size: 1rem; }
-        .dash-chart { flex: 0.8; display: flex; justify-content: center; align-items: center; }
-        .chart-wrapper { width: 130px; height: 130px; position: relative; }
+        /* ── Video grid ── */
+        .grid-vid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 20px;
+        }
+        .vid-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            transition: all 0.25s;
+        }
+        .vid-card:hover {
+            border-color: rgba(239,68,68,0.4);
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(239,68,68,0.1);
+        }
+        .vid-frame {
+            width: 100%;
+            aspect-ratio: 16/9;
+            background: #000;
+            display: block;
+            border: none;
+        }
+        .vid-info { padding: 14px 16px; }
+        .vid-title {
+            font-weight: 700;
+            color: var(--text-primary);
+            font-size: 0.88rem;
+            margin-bottom: 6px;
+            font-family: var(--font-code);
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .vid-desc {
+            color: var(--text-muted);
+            font-size: 0.78rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            line-height: 1.5;
+        }
+        .vid-empty {
+            grid-column: 1/-1;
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-muted);
+        }
+        .vid-empty i { font-size: 2.5rem; display: block; margin-bottom: 12px; color: var(--border-hover); }
 
-        /* VIDEO GRID */
-        .header-row { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #333; padding-bottom: 15px; margin-bottom: 25px; }
-        .btn-add { background: linear-gradient(45deg, #ffd700, #ffaa00); color: #000; border: none; padding: 10px 25px; border-radius: 4px; font-weight: bold; cursor: pointer; display: none; align-items: center; gap: 8px; transition: 0.3s; font-family: 'JetBrains Mono'; }
-        .btn-add:hover { transform: scale(1.05); box-shadow: 0 0 20px rgba(255, 215, 0, 0.4); }
+        /* ── Add modal form ── */
+        .modal-form-group { margin-bottom: 14px; }
+        .modal-form-label { display: block; font-size: 0.72rem; color: var(--text-muted); margin-bottom: 5px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.4px; }
+        .modal-input, .modal-textarea {
+            width: 100%;
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            color: var(--text-primary);
+            padding: 9px 12px;
+            font-family: var(--font-code);
+            font-size: 0.83rem;
+            outline: none;
+            transition: border-color 0.2s;
+            box-sizing: border-box;
+        }
+        .modal-input:focus { border-color: var(--accent-border); }
 
-        .grid-vid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 30px; }
-        .vid-card { background: #111; border: 1px solid #333; border-radius: 8px; overflow: hidden; transition: 0.3s; }
-        .vid-card:hover { border-color: var(--pink); transform: translateY(-5px); box-shadow: 0 10px 30px rgba(255, 0, 85, 0.15); }
-        .vid-frame { width: 100%; aspect-ratio: 16/9; background: #000; display: block; }
-        .vid-info { padding: 15px; }
-        .vid-title { color: var(--neon); font-weight: bold; margin-bottom: 8px; font-size: 1.05rem; font-family: 'JetBrains Mono'; line-height: 1.4; }
-        .vid-desc { color: #888; font-size: 0.85rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-
-        /* MODAL */
-        .modal-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index: 2000; display:none; justify-content:center; align-items:center; backdrop-filter: blur(5px); }
-        .modal-box { background: #0f1115; width: 500px; border: 1px solid var(--gold); padding: 30px; border-radius: 8px; box-shadow: 0 0 30px rgba(255,215,0,0.2); }
-        .form-label { display: block; color: #888; margin-bottom: 5px; font-size: 0.9rem; margin-top: 15px; }
-        .form-input { width: 100%; background: #1a1e26; border: 1px solid #333; color: white; padding: 12px; border-radius: 4px; box-sizing: border-box; font-family: 'JetBrains Mono'; font-size: 0.95rem; }
-        .form-input:focus { border-color: var(--gold); outline: none; }
-        .btn-save { width: 100%; background: var(--gold); color: black; border:none; padding: 12px; font-weight:bold; cursor:pointer; font-family: 'JetBrains Mono'; margin-top: 20px; font-size: 1rem; border-radius: 4px; transition: 0.3s; }
-        .btn-close { float:right; background:none; border:none; color:white; font-size:1.5rem; cursor:pointer; }
+        @media (max-width: 640px) { .grid-vid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
-
+    <!-- Navbar -->
     <nav class="neo-nav">
         <a class="neo-nav-brand" href="index.html">
             <span class="brand-dot"></span>NEO<span style="color:var(--text-secondary)">OJ</span>
@@ -87,106 +160,107 @@
         </div>
     </nav>
 
-    <div class="container">
-        
-        <div class="dashboard">
-            <div class="dash-profile">
-                <div class="user-head">
-                    <img id="d-ava" class="d-avatar" src="">
-                    <div class="user-meta">
-                        <b id="d-name">Loading...</b>
-                        <span id="role-display" class="role-badge role-student">Checking...</span>
-                    </div>
+    <div class="main">
+
+        <!-- User bar -->
+        <div class="user-bar">
+            <img id="d-ava" class="user-bar-ava" src="" alt="Avatar">
+            <div class="user-bar-info">
+                <div class="user-bar-name" id="d-name">Đang tải...</div>
+                <div class="user-bar-stats">
+                    <div class="user-bar-stat"><i class="fa-solid fa-trophy" style="color:var(--gold)"></i> <b id="d-score">0</b> điểm</div>
+                    <div class="user-bar-stat"><i class="fa-solid fa-ranking-star" style="color:var(--accent)"></i> <b id="d-rank">#--</b></div>
+                    <div class="user-bar-stat"><i class="fa-solid fa-circle-check" style="color:var(--success)"></i> <b id="s-done">0</b> hoàn thành</div>
+                    <div class="user-bar-stat"><i class="fa-solid fa-xmark" style="color:var(--danger)"></i> <b id="s-wrong">0</b> sai</div>
                 </div>
-                <div class="user-stats-row">
-                    <div class="stat-badge"><i class="fa-solid fa-trophy"></i> <span id="d-score">0</span> ĐIỂM</div>
-                    <div class="stat-badge" style="color:var(--pink); border-color:var(--pink)">
-                        <i class="fa-solid fa-ranking-star"></i> <span id="d-rank">#--</span>
-                    </div>
-                </div>
-            </div>
-            <div class="dash-stats">
-                <div class="dash-title">TIẾN ĐỘ HỌC TẬP (CODING)</div>
-                <div class="stat-grid">
-                    <div class="stat-item"><span class="dot" style="background:var(--green)"></span> Hoàn thành <span class="stat-val" id="s-done">0</span></div>
-                    <div class="stat-item"><span class="dot" style="background:var(--pink)"></span> Làm sai <span class="stat-val" id="s-wrong">0</span></div>
+                <div class="progress-mini">
+                    <div style="font-size:0.65rem;color:var(--text-muted);margin-bottom:3px;" id="progress-label">Tiến độ: 0 / 50</div>
+                    <div class="progress-track"><div class="progress-fill" id="progress-bar" style="width:0%"></div></div>
                 </div>
             </div>
-            <div class="dash-chart">
-                <div class="chart-wrapper"><canvas id="myChart"></canvas></div>
+            <div class="user-bar-right">
+                <span id="role-display" class="badge role-student"><i class="fa-solid fa-graduation-cap"></i> Học sinh</span>
+                <button onclick="logout()" class="btn btn-ghost btn-sm"><i class="fa-solid fa-power-off"></i></button>
             </div>
         </div>
 
-        <div class="header-row">
-            <h2 style="color: var(--pink); margin:0; font-family: 'JetBrains Mono'">
-                <i class="fa-brands fa-youtube"></i> KHO VIDEO HƯỚNG DẪN
-            </h2>
-            <button id="btn-add-vid" class="btn-add" onclick="document.getElementById('modal-vid').style.display='flex'">
-                <i class="fa-solid fa-plus-circle"></i> THÊM VIDEO MỚI
+        <!-- Page header -->
+        <div class="page-header-row">
+            <h2><i class="fa-brands fa-youtube"></i> Kho Video Hướng Dẫn</h2>
+            <button id="btn-add-vid" class="btn btn-outline btn-sm" onclick="openModal()" style="display:none;">
+                <i class="fa-solid fa-plus"></i> Thêm video
             </button>
         </div>
 
+        <!-- Video grid -->
         <div class="grid-vid" id="vid-list">
-            <p style="color:#777">Đang tải danh sách video...</p>
+            <div class="vid-empty"><i class="fa-solid fa-circle-notch fa-spin"></i> Đang tải danh sách video...</div>
         </div>
     </div>
 
-    <div id="modal-vid" class="modal-overlay">
-        <div class="modal-box">
-            <button class="btn-close" onclick="document.getElementById('modal-vid').style.display='none'">×</button>
-            <h3 style="color:var(--gold); margin-top:0; font-family:'JetBrains Mono'">THÊM VIDEO</h3>
-            
-            <label class="form-label">Tiêu đề Video:</label>
-            <input type="text" id="v-title" class="form-input" placeholder="VD: Hướng dẫn giải thuật...">
-            
-            <label class="form-label">Youtube ID (Ví dụ: dQw4w9WgXcQ):</label>
-            <input type="text" id="v-id" class="form-input" placeholder="Chỉ nhập mã ID">
-            
-            <label class="form-label">Mô tả ngắn:</label>
-            <input type="text" id="v-desc" class="form-input" placeholder="Mô tả nội dung...">
-            
-            <button class="btn-save" onclick="saveVideo()">ĐĂNG VIDEO</button>
+    <!-- Add Video Modal -->
+    <div id="modal-add" class="neo-modal-overlay">
+        <div class="neo-modal">
+            <div class="neo-modal-header">
+                <div class="neo-modal-title"><i class="fa-brands fa-youtube" style="color:#ef4444"></i> Thêm Video Mới</div>
+                <button class="neo-modal-close" onclick="closeModal()">×</button>
+            </div>
+            <div class="neo-modal-body">
+                <div class="modal-form-group">
+                    <label class="modal-form-label">Tiêu đề Video</label>
+                    <input type="text" id="v-title" class="modal-input" placeholder="VD: Hướng dẫn giải bài Fibonacci...">
+                </div>
+                <div class="modal-form-group">
+                    <label class="modal-form-label">YouTube Video ID</label>
+                    <input type="text" id="v-id" class="modal-input" placeholder="VD: dQw4w9WgXcQ (chỉ nhập phần ID)">
+                </div>
+                <div class="modal-form-group">
+                    <label class="modal-form-label">Mô tả ngắn</label>
+                    <input type="text" id="v-desc" class="modal-input" placeholder="Mô tả nội dung bài giảng...">
+                </div>
+                <button class="btn btn-primary btn-full" onclick="saveVideo()" style="margin-top:8px;">
+                    <i class="fa-solid fa-floppy-disk"></i> Đăng Video
+                </button>
+            </div>
         </div>
     </div>
 
-        <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <div class="neo-toast-container" id="toast-container"></div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
     <script src="js/firebase-config.js"></script>
     <script>
-        const db = firebase.database();
-        const auth = firebase.auth();
         let currentUser = null;
-        let chartInstance = null;
 
-                auth.onAuthStateChanged(user => {
-            if(!user) {
-                // Chưa đăng nhập -> chuyển đến trang đăng nhập
-                window.location.href = "login.html?redirect=videos.html";
-            } else {
-                currentUser = user;
-                document.getElementById('d-name').innerText = user.displayName || user.email || 'User';
-                // Fix avatar: fallback tốt hơn
-                const name = encodeURIComponent(user.displayName || user.email || 'User');
-                document.getElementById('d-ava').src = user.photoURL || `https://ui-avatars.com/api/?name=${name}&background=00f3ff&color=fff&size=60`;
-                checkRole();
-                loadStatsAndRank();
-                loadVideos();
-            }
+        /* ── Auth ── */
+        auth.onAuthStateChanged(user => {
+            if (!user) { window.location.href = 'login.html?redirect=videos.html'; return; }
+            currentUser = user;
+
+            const name = encodeURIComponent(user.displayName || user.email || 'U');
+            document.getElementById('d-ava').src = user.photoURL
+                || `https://ui-avatars.com/api/?name=${name}&background=4f8ef7&color=fff&size=96`;
+            document.getElementById('d-name').textContent = user.displayName || user.email || 'User';
+
+            checkRole();
+            loadStatsAndRank();
+            loadVideos();
         });
 
         function checkRole() {
             db.ref('users/' + currentUser.uid).on('value', snap => {
-                const role = (snap.val() && snap.val().role) ? snap.val().role : 'student';
-                const el = document.getElementById('role-display');
-                const btn = document.getElementById('btn-add-vid');
+                const role = snap.val()?.role || 'student';
+                const el   = document.getElementById('role-display');
+                const btn  = document.getElementById('btn-add-vid');
                 if (role === 'teacher') {
-                    el.className = 'role-badge role-teacher';
-                    el.innerHTML = '<i class="fa-solid fa-chalkboard-user"></i> GIÁO VIÊN';
-                    btn.style.display = 'flex';
+                    el.className = 'badge role-teacher';
+                    el.innerHTML = '<i class="fa-solid fa-chalkboard-user"></i> Giáo viên';
+                    btn.style.display = 'inline-flex';
                 } else {
-                    el.className = 'role-badge role-student';
-                    el.innerHTML = '<i class="fa-solid fa-graduation-cap"></i> HỌC SINH';
+                    el.className = 'badge role-student';
+                    el.innerHTML = '<i class="fa-solid fa-graduation-cap"></i> Học sinh';
                     btn.style.display = 'none';
                 }
             });
@@ -195,79 +269,109 @@
         function loadStatsAndRank() {
             db.ref('submissions').on('value', snap => {
                 const data = snap.val();
-                if(!data) return;
+                if (!data) return;
 
                 const allUserScores = {};
                 Object.values(data).forEach(s => {
-                    if(s.status !== 'completed') return;
-                    if(!allUserScores[s.uid]) allUserScores[s.uid] = {};
-                    const score = parseInt(s.score);
-                    if(!allUserScores[s.uid][s.problem_id] || score > allUserScores[s.uid][s.problem_id]) {
+                    if (s.status !== 'completed') return;
+                    if (!allUserScores[s.uid]) allUserScores[s.uid] = {};
+                    const score = parseInt(s.score) || 0;
+                    if (!allUserScores[s.uid][s.problem_id] || score > allUserScores[s.uid][s.problem_id])
                         allUserScores[s.uid][s.problem_id] = score;
-                    }
                 });
 
                 const myScores = allUserScores[currentUser.uid] || {};
-                let myTotalScore = 0, cDone = 0, cWrong = 0;
+                let myTotal = 0, cDone = 0, cWrong = 0;
                 Object.values(myScores).forEach(sc => {
-                    myTotalScore += sc;
-                    if(sc === 100) cDone++; else if(sc===0) cWrong++;
+                    myTotal += sc;
+                    if (sc === 100) cDone++; else if (sc === 0) cWrong++;
                 });
 
-                document.getElementById('d-score').innerText = myTotalScore;
-                document.getElementById('s-done').innerText = cDone;
-                document.getElementById('s-wrong').innerText = cWrong;
+                document.getElementById('d-score').textContent  = myTotal;
+                document.getElementById('s-done').textContent   = cDone;
+                document.getElementById('s-wrong').textContent  = cWrong;
 
-                const ctx = document.getElementById('myChart').getContext('2d');
-                if(chartInstance) chartInstance.destroy();
-                chartInstance = new Chart(ctx, {
-                    type: 'doughnut',
-                    data: { labels: ['Hoàn thành', 'Chưa xong'], datasets: [{ data: [cDone, cWrong], backgroundColor: ['#0aff60', '#ff0055'], borderWidth: 0 }] },
-                    options: { responsive: true, maintainAspectRatio: false, cutout: '70%', plugins: { legend: {display: false} } }
-                });
+                const TOTAL = 50;
+                const pct   = Math.min(Math.round((cDone / TOTAL) * 100), 100);
+                document.getElementById('progress-label').textContent = `Tiến độ: ${cDone} / ${TOTAL} bài`;
+                document.getElementById('progress-bar').style.width   = pct + '%';
 
                 const rankList = Object.keys(allUserScores).map(uid => {
-                    let total = 0; Object.values(allUserScores[uid]).forEach(sc => total += sc); return { uid, total };
-                }).sort((a,b) => b.total - a.total);
-                
+                    let t = 0; Object.values(allUserScores[uid]).forEach(sc => t += sc);
+                    return { uid, total: t };
+                }).sort((a, b) => b.total - a.total);
+
                 const me = rankList.find(u => u.uid === currentUser.uid);
-                if(me) {
-                    document.getElementById('d-rank').innerText = "#" + (rankList.indexOf(me) + 1);
-                }
+                if (me) document.getElementById('d-rank').textContent = '#' + (rankList.indexOf(me) + 1);
             });
         }
 
+        /* ── Load Videos ── */
         function loadVideos() {
             db.ref('videos').on('value', snap => {
                 const data = snap.val();
-                const div = document.getElementById('vid-list');
-                div.innerHTML = "";
-                if(data) {
-                    Object.values(data).reverse().forEach(vid => {
-                        div.innerHTML += `
-                            <div class="vid-card">
-                                <iframe class="vid-frame" src="https://www.youtube.com/embed/${vid.youtube_id}" frameborder="0" allowfullscreen></iframe>
-                                <div class="vid-info">
-                                    <div class="vid-title">${vid.title}</div>
-                                    <div class="vid-desc">${vid.desc}</div>
-                                </div>
-                            </div>`;
-                    });
-                } else { div.innerHTML = "<p style='color:#777; grid-column: 1/-1; text-align:center'>Chưa có video nào.</p>"; }
+                const div  = document.getElementById('vid-list');
+                if (!data) {
+                    div.innerHTML = `<div class="vid-empty"><i class="fa-brands fa-youtube"></i><strong>Chưa có video nào</strong><p>Giáo viên có thể thêm video bài giảng.</p></div>`;
+                    return;
+                }
+                div.innerHTML = '';
+                // Reverse để video mới nhất lên đầu
+                Object.values(data).reverse().forEach(vid => {
+                    const el = document.createElement('div');
+                    el.className = 'vid-card';
+                    el.innerHTML = `
+                        <iframe class="vid-frame"
+                            src="https://www.youtube.com/embed/${esc(vid.youtube_id)}"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen loading="lazy"></iframe>
+                        <div class="vid-info">
+                            <div class="vid-title">${esc(vid.title)}</div>
+                            ${vid.desc ? `<div class="vid-desc">${esc(vid.desc)}</div>` : ''}
+                        </div>`;
+                    div.appendChild(el);
+                });
             });
         }
 
         function saveVideo() {
-            const title = document.getElementById('v-title').value;
-            const ytid = document.getElementById('v-id').value;
-            const desc = document.getElementById('v-desc').value;
-            if(!title || !ytid) return alert("Vui lòng nhập đủ thông tin!");
+            const title = document.getElementById('v-title').value.trim();
+            const ytid  = document.getElementById('v-id').value.trim();
+            const desc  = document.getElementById('v-desc').value.trim();
+            if (!title || !ytid) { showToast('Vui lòng nhập Tiêu đề và YouTube ID!', 'error'); return; }
             db.ref('videos').push({
-                title: title, youtube_id: ytid, desc: desc, author: currentUser.email, timestamp: firebase.database.ServerValue.TIMESTAMP
-            }).then(() => {
-                alert("Thêm video thành công!"); document.getElementById('modal-vid').style.display='none';
-            }).catch(err => alert("Lỗi: " + err.message));
+                title, youtube_id: ytid, desc,
+                author: currentUser.email,
+                timestamp: firebase.database.ServerValue.TIMESTAMP
+            })
+            .then(() => { closeModal(); showToast('Thêm video thành công!', 'success'); })
+            .catch(e  => showToast('Lỗi: ' + e.message, 'error'));
         }
+
+        /* ── Modal ── */
+        function openModal()  { document.getElementById('modal-add').classList.add('open'); }
+        function closeModal() { document.getElementById('modal-add').classList.remove('open'); }
+        document.getElementById('modal-add').addEventListener('click', e => {
+            if (e.target === document.getElementById('modal-add')) closeModal();
+        });
+
+        /* ── Utils ── */
+        function esc(str) {
+            if (!str) return '';
+            return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;');
+        }
+
+        function showToast(msg, type = 'info') {
+            const c = document.getElementById('toast-container');
+            const t = document.createElement('div');
+            const icons = { success: 'fa-circle-check', error: 'fa-circle-xmark', info: 'fa-circle-info' };
+            t.className = `neo-toast ${type}`;
+            t.innerHTML = `<i class="fa-solid ${icons[type]||'fa-circle-info'}"></i> ${esc(msg)}`;
+            c.appendChild(t);
+            setTimeout(() => { t.style.opacity='0'; t.style.transform='translateX(20px)'; t.style.transition='all 0.3s'; setTimeout(()=>t.remove(),300); }, 3500);
+        }
+
+        function logout() { auth.signOut().then(() => window.location.href = 'login.html'); }
     </script>
 </body>
 </html>

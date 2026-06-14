@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài Luận — Phạm Văn Chung | NEO Online Judge</title>
+    <meta name="description"
+        content="Bài luận học bổng của Phạm Văn Chung — câu chuyện từ vùng quê Yên Bái đến NEO Online Judge.">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ─── Reset ─── */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* ─── Variables ─── */
+        :root {
+            --ink: #1a1a2e;
+            --ink-soft: #3d3d5c;
+            --ink-muted: #7a7a9d;
+            --page: #fdfcf8;
+            --page-warm: #f7f4ee;
+            --accent: #3b6cf8;
+            --accent-dim: rgba(59, 108, 248, 0.08);
+            --gold: #c8860a;
+            --gold-dim: rgba(200, 134, 10, 0.08);
+            --border: rgba(26, 26, 46, 0.1);
+            --shadow: 0 2px 20px rgba(26, 26, 46, 0.08);
+        }
+
+        /* ─── Body ─── */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: var(--page-warm);
+            color: var(--ink);
+            font-family: 'Lora', Georgia, serif;
+            line-height: 1.9;
+            font-size: 18px;
+        }
+
+        /* ─── Nav strip ─── */
+        .nav-strip {
+            background: var(--ink);
+            padding: 0 24px;
+            height: 52px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-brand {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .nav-brand b {
+            color: #fff;
+        }
+
+        .nav-back {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.78rem;
+            color: rgba(255, 255, 255, 0.5);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: color 0.2s;
+        }
+
+        .nav-back:hover {
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        /* ─── Page layout ─── */
+        .page-wrap {
+            max-width: 760px;
+            margin: 0 auto;
+            padding: 64px 32px 100px;
+        }
+
+        /* ─── Header block ─── */
+        .essay-header {
+            margin-bottom: 52px;
+            padding-bottom: 36px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .essay-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--gold-dim);
+            border: 1px solid rgba(200, 134, 10, 0.2);
+            color: var(--gold);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.68rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            padding: 5px 14px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+        }
+
+        .essay-title {
+            font-family: 'Lora', Georgia, serif;
+            font-size: clamp(1.9rem, 4.5vw, 2.8rem);
+            font-weight: 700;
+            line-height: 1.25;
+            color: var(--ink);
+            margin-bottom: 18px;
+        }
+
+        .essay-subtitle {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            color: var(--ink-muted);
+            font-weight: 400;
+            line-height: 1.6;
+            max-width: 560px;
+        }
+
+        .meta-row {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-top: 24px;
+            flex-wrap: wrap;
+        }
+
+        .meta-author {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .meta-avatar {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent), #7c3aed);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            flex-shrink: 0;
+        }
+
+        .meta-name {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--ink-soft);
+        }
+
+        .meta-role {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.75rem;
+            color: var(--ink-muted);
+        }
+
+        .meta-divider {
+            width: 1px;
+            height: 28px;
+            background: var(--border);
+        }
+
+        .meta-info {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.75rem;
+            color: var(--ink-muted);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* ─── Essay body ─── */
+        .essay-body {
+            counter-reset: para;
+        }
+
+        /* ─ Paragraph ─ */
+        .para {
+            margin-bottom: 36px;
+            position: relative;
+        }
+
+        .para p {
+            font-size: 1.06rem;
+            line-height: 1.95;
+            color: var(--ink-soft);
+            font-weight: 400;
+        }
+
+        .para p+p {
+            margin-top: 20px;
+        }
+
+        /* ─ Drop cap for first paragraph ─ */
+        .para-lead p:first-child::first-letter {
+            font-family: 'Lora', Georgia, serif;
+            font-size: 4.2rem;
+            font-weight: 700;
+            float: left;
+            line-height: 0.8;
+            margin: 8px 12px 0 0;
+            color: var(--ink);
+            padding: 0 4px 4px 0;
+        }
+
+        /* ─ Callout quote ─ */
+        .callout {
+            background: var(--page);
+            border-left: 3px solid var(--accent);
+            border-radius: 0 10px 10px 0;
+            padding: 24px 28px;
+            margin: 40px 0;
+            box-shadow: var(--shadow);
+        }
+
+        .callout-text {
+            font-family: 'Lora', Georgia, serif;
+            font-style: italic;
+            font-size: 1.08rem;
+            color: var(--ink);
+            line-height: 1.8;
+        }
+
+        .callout-text strong {
+            font-style: normal;
+            color: var(--accent);
+        }
+
+        /* ─ Highlight inline ─ */
+        mark {
+            background: linear-gradient(120deg, rgba(59, 108, 248, 0.12) 0%, rgba(59, 108, 248, 0.06) 100%);
+            color: inherit;
+            padding: 1px 4px;
+            border-radius: 3px;
+            font-weight: 500;
+        }
+
+        /* ─ Strong ─ */
+        .para strong {
+            color: var(--ink);
+            font-weight: 600;
+        }
+
+        /* ─ Section divider ─ */
+        .section-break {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin: 48px 0;
+            color: var(--ink-muted);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .section-break::before,
+        .section-break::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+        }
+
+        /* ─ Timeline (Quá trình từ con số 0) ─ */
+        .timeline {
+            position: relative;
+            padding-left: 32px;
+            margin: 40px 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 7px;
+            top: 8px;
+            bottom: 0;
+            width: 2px;
+            background: var(--border);
+        }
+
+        .tl-item {
+            position: relative;
+            margin-bottom: 36px;
+        }
+
+        .tl-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .tl-item::before {
+            content: '';
+            position: absolute;
+            left: -31px;
+            top: 6px;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: var(--page);
+            border: 2px solid var(--accent);
+            z-index: 2;
+        }
+
+        .tl-date {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--accent);
+            font-weight: 600;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .tl-title {
+            font-family: 'Lora', Georgia, serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--ink);
+            margin-bottom: 12px;
+        }
+
+        .tl-desc {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            color: var(--ink-soft);
+            line-height: 1.75;
+            background: var(--page);
+            padding: 16px 20px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+        }
+
+        .tl-desc b {
+            color: var(--ink);
+            font-weight: 600;
+        }
+
+        .tl-desc ul {
+            list-style: none;
+            padding-left: 0;
+            margin: 0;
+        }
+
+        .tl-desc li {
+            position: relative;
+            padding-left: 14px;
+            margin-bottom: 6px;
+        }
+
+        .tl-desc li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+        .tl-desc li:last-child {
+            margin-bottom: 0;
+        }
+
+        /* ─ NEO card ─ */
+        .neo-feature-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin: 32px 0;
+        }
+
+        .neo-feat {
+            background: var(--page);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 16px 18px;
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+            box-shadow: var(--shadow);
+        }
+
+        .neo-feat-icon {
+            font-size: 1.2rem;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+
+        .neo-feat-label {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--ink);
+            margin-bottom: 3px;
+        }
+
+        .neo-feat-desc {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.75rem;
+            color: var(--ink-muted);
+            line-height: 1.5;
+        }
+
+        /* ─ Closing pull quote ─ */
+        .pull-quote {
+            text-align: center;
+            padding: 48px 24px;
+            margin: 48px 0;
+            background: linear-gradient(135deg, var(--accent-dim), rgba(124, 58, 237, 0.05));
+            border-radius: 16px;
+            border: 1px solid rgba(59, 108, 248, 0.12);
+        }
+
+        .pull-quote-text {
+            font-family: 'Lora', Georgia, serif;
+            font-style: italic;
+            font-size: clamp(1.1rem, 3vw, 1.45rem);
+            color: var(--ink);
+            line-height: 1.7;
+            max-width: 520px;
+            margin: 0 auto 20px;
+        }
+
+        .pull-quote-text em {
+            font-style: normal;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .pull-quote-sub {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.78rem;
+            color: var(--ink-muted);
+        }
+
+        /* ─── Footer strip ─── */
+        .essay-footer {
+            margin-top: 60px;
+            padding-top: 28px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .footer-note {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.75rem;
+            color: var(--ink-muted);
+            line-height: 1.6;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 10px;
+        }
+
+        .footer-link {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.78rem;
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 7px 14px;
+            border: 1px solid rgba(59, 108, 248, 0.2);
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        .footer-link:hover {
+            background: var(--accent-dim);
+        }
+
+        /* ─── Print / mobile ─── */
+        @media (max-width: 600px) {
+            body {
+                font-size: 16px;
+            }
+
+            .page-wrap {
+                padding: 40px 20px 80px;
+            }
+
+            .neo-feature-row {
+                grid-template-columns: 1fr;
+            }
+
+            .essay-footer {
+                flex-direction: column;
+            }
+        }
+
+        @media print {
+            .nav-strip {
+                display: none;
+            }
+
+            body {
+                background: #fff;
+                font-size: 12pt;
+            }
+
+            .page-wrap {
+                max-width: 100%;
+                padding: 0;
+            }
+
+            .callout,
+            .pull-quote,
+            .neo-feat,
+            .timeline {
+                break-inside: avoid;
+            }
+        }
+
+        /* ─── Scroll progress ─── */
+        .progress-bar {
+            position: fixed;
+            top: 52px;
+            left: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent), #7c3aed);
+            z-index: 99;
+            transition: width 0.1s;
+            width: 0%;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Nav strip -->
+    <nav class="nav-strip">
+        <a class="nav-brand" href="index.html">
+            <span style="width:7px;height:7px;background:var(--accent);border-radius:50%;display:inline-block"></span>
+            <b>NEO</b>OJ
+        </a>
+        <a class="nav-back" href="about.html">
+            <i class="fa-solid fa-arrow-left"></i> Quay lại Giới thiệu
+        </a>
+    </nav>
+
+    <!-- Scroll progress -->
+    <div class="progress-bar" id="progress-bar"></div>
+
+    <div class="page-wrap">
+
+        <!-- Header -->
+        <header class="essay-header">
+            <div class="essay-tag">
+                <i class="fa-solid fa-feather-pointed"></i>
+                Bài luận học bổng
+            </div>
+            <h1 class="essay-title">
+                Từ những giờ bế tắc một mình<br>đến một nền tảng cho tất cả
+            </h1>
+            <p class="essay-subtitle">
+                Câu chuyện về hành trình tự học lập trình từ vùng quê Yên Bái —
+                và lý do tôi xây dựng NEO Online Judge.
+            </p>
+            <div class="meta-row">
+                <div class="meta-author">
+                    <div class="meta-avatar">P</div>
+                    <div>
+                        <div class="meta-name">Phạm Văn Chung</div>
+                        <div class="meta-role">Khoa học Dữ liệu · Tác giả NEO Online Judge</div>
+                    </div>
+                </div>
+                <div class="meta-divider"></div>
+                <div class="meta-info">
+                    <i class="fa-regular fa-clock" style="font-size:0.75rem"></i>
+                    Đọc khoảng 5 phút
+                </div>
+                <div class="meta-info">
+                    <i class="fa-solid fa-map-pin" style="font-size:0.75rem"></i>
+                    Yên Bái → Đại học
+                </div>
+            </div>
+        </header>
+
+        <!-- Essay body -->
+        <article class="essay-body">
+
+            <!-- Para 1 -->
+            <div class="para para-lead">
+                <p>
+                    Với tôi, "bất bình đẳng về cơ hội tiếp cận công nghệ" không phải là khái niệm đọc trong sách giáo
+                    khoa — đó là điều tôi sống qua từng ngày suốt thời thơ ấu ở Yên Bái. Suốt cấp một và cấp hai, tôi
+                    chưa một lần bước vào phòng máy tính. Mãi đến năm lớp 10, tôi mới lần đầu chạm tay vào bàn phím — và
+                    cũng là lần đầu hiểu "lập trình" nghĩa là gì.
+                </p>
+                <p>
+                    Cảm giác đặt những ngón tay lên bàn phím lần đầu tiên vừa bỡ ngỡ, vừa kỳ lạ. Nhưng chỉ trong vài
+                    tuần, bỡ ngỡ biến thành <strong>đam mê</strong> — thứ đam mê mà tôi không hề tìm kiếm, nhưng nó tự
+                    tìm đến tôi.
+                </p>
+            </div>
+
+            <!-- Hành trình ươm mầm -->
+            <div class="para">
+                <p>
+                    Nhưng đằng sau đam mê đó là <strong>hàng trăm giờ ngồi một mình trong bóng tối</strong>. Tự học lập
+                    trình ở nông thôn thực sự rất cô đơn. Có những lỗi code tôi phải loay hoay tìm kiếm cả tuần — vì
+                    xung quanh không có một người thầy chuyên môn nào, không có tài liệu tiếng Việt dễ hiểu, và kết nối
+                    internet thì chập chờn.
+                </p>
+                <p>
+                    Tôi nhớ có lần, chỉ vì thiếu dấu chấm phẩy trong một dòng code mà tôi ngồi debug suốt một buổi
+                    chiều. Thấm thía sự khó khăn đến cùng cực của năm lớp 10, tôi ấp ủ một suy nghĩ: <em>Nếu không có ai
+                        giúp mình, tại sao mình không tự tạo ra một hệ thống có thể giúp chính mình và những người giống
+                        mình?</em>
+                </p>
+            </div>
+
+            <div class="callout">
+                <p class="callout-text">
+                    "Không một học sinh nào nên phải bỏ cuộc chỉ vì <strong>thiếu người bên cạnh</strong>. Sự cô đơn
+                    trong hành trình học tập không phải là điều tất yếu — đó là một vấn đề có thể được giải quyết."
+                </p>
+            </div>
+
+            <div class="section-break">Những cột mốc trên hành trình</div>
+
+            <!-- Timeline Thành tích -->
+            <div class="timeline">
+                <div class="tl-item">
+                    <div class="tl-date">2022 — 2025 (Nền móng từ gian khó)</div>
+                    <div class="tl-title">Vươn lên từ xuất phát điểm thấp</div>
+                    <div class="tl-desc">
+                        <ul>
+                            <li><b>Học thuật:</b> Giải Nhất & Giải Nhì HSG Tin học toàn trường; Khuyến khích HSG Tỉnh
+                                Yên Bái; Tốt nghiệp loại Giỏi cùng 3 Học bổng xuất sắc/giỏi.</li>
+                            <li><b>Kỹ thuật & Sáng tạo:</b> Giải Nhì KHKT cấp Tỉnh (ươm mầm cho dự án NEO); Giải Nhì
+                                KCBOT Tỉnh; Giải Khuyến khích Tay nghề giỏi CNTT Tỉnh; Thành viên đội thi tài năng nhất
+                                NHSTEM.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="tl-item">
+                    <div class="tl-date">2025 — Hiện tại (Biển lớn và Trách nhiệm)</div>
+                    <div class="tl-title">Mở rộng tầm vóc & Cống hiến cộng đồng</div>
+                    <div class="tl-desc">
+                        <ul>
+                            <li><b>Đấu trường công nghệ:</b> Chứng nhận Hackathon toàn cầu NASA Space Apps Challenge;
+                                Giải Nhì Sáng tạo âm nhạc bằng Trí tuệ nhân tạo (Khoa KHDL - UNETI).</li>
+                            <li><b>Lãnh đạo & Mở rộng:</b> Trưởng Ban Chuyên môn CLB STEM UNETI; Chứng nhận Quốc tế
+                                Mentor từ The Fulbright Program; Sở hữu chứng chỉ IBM Data Analytics Essentials.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-break">NEO Online Judge</div>
+
+            <!-- Para 3 — NEO -->
+            <div class="para">
+                <p>
+                    Chính sự chật vật từ những ngày tháng cấp 3 là lý do tôi bắt tay vào xây dựng <strong>NEO Online
+                        Judge</strong>. Thiết kế hệ thống, viết từng dòng mã nguồn hoàn toàn độc lập mà không có bất kỳ
+                    chuyên gia nào hướng dẫn trực tiếp. Tôi mang dự án thiết huyết này đi thi Khoa học Kỹ thuật, nhưng
+                    giải thưởng chưa bao giờ là đích đến cuối cùng.
+                </p>
+                <p>
+                    Nhớ lại những năm tháng chỉ có chiếc điện thoại cũ để tra cứu, tôi thiết kế NEO để chạy mượt mà trên
+                    mọi thứ — điện thoại Android cũ, máy tính cấu hình thấp, hay bất kỳ thiết bị nào có kết nối
+                    internet. <mark>Mọi giới hạn vật lý đều bị xóa bỏ.</mark>
+                </p>
+            </div>
+
+            <!-- Feature grid -->
+            <div class="neo-feature-row">
+                <div class="neo-feat">
+                    <div class="neo-feat-icon">⚡</div>
+                    <div>
+                        <div class="neo-feat-label">Chấm bài tự động</div>
+                        <div class="neo-feat-desc">Hỗ trợ Python, C++, Pascal, Java — kết quả trả về trong 3 giây</div>
+                    </div>
+                </div>
+                <div class="neo-feat">
+                    <div class="neo-feat-icon">🤖</div>
+                    <div>
+                        <div class="neo-feat-label">AI Mentor 24/7</div>
+                        <div class="neo-feat-desc">Phân tích lỗi sai, gợi ý hướng sửa — không giải hộ, giúp tự hiểu
+                        </div>
+                    </div>
+                </div>
+                <div class="neo-feat">
+                    <div class="neo-feat-icon">📱</div>
+                    <div>
+                        <div class="neo-feat-label">Mọi thiết bị</div>
+                        <div class="neo-feat-desc">Điện thoại cũ, máy tính cũ — chỉ cần trình duyệt là đủ</div>
+                    </div>
+                </div>
+                <div class="neo-feat">
+                    <div class="neo-feat-icon">🆓</div>
+                    <div>
+                        <div class="neo-feat-label">Hoàn toàn miễn phí</div>
+                        <div class="neo-feat-desc">Mọi tính năng — không có gói trả phí, không có tính năng ẩn</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Para 4 — AI Mentor detail & The University Reality -->
+            <div class="para">
+                <p>
+                    Giờ đây, khi đã trở thành một sinh viên Đại học ngành Khoa học Dữ liệu, NEO Online Judge không trở
+                    thành một "di tích" của năm xưa. Nó vẫn đang được vận hành thực tế, liên tục được tôi bảo trì và
+                    nâng cấp mỗi ngày. Điều tôi tự hào nhất ở NEO là <strong>AI Mentor</strong> — thứ mà tôi ước mình đã
+                    có khi còn ngồi debug một mình. AI làm đúng việc của một người thầy tốt: chỉ ra lỗi sai, giải thích
+                    tại sao, và gợi ý để học sinh tự tìm ra đáp án.
+                </p>
+            </div>
+
+            <!-- Closing pull quote -->
+            <div class="pull-quote">
+                <p class="pull-quote-text">
+                    "Công nghệ chỉ thực sự có ý nghĩa khi nó <em>cúi xuống nâng đỡ</em> những người chưa có cơ hội —
+                    không phải chỉ phục vụ những người đã có sẵn mọi thứ."
+                </p>
+                <div class="pull-quote-sub">— Phạm Văn Chung</div>
+            </div>
+
+            <!-- Para 5 — The ask -->
+            <div class="para">
+                <p>
+                    Học bổng này sẽ giúp tôi trang trải chi phí máy chủ, duy trì hệ thống để phục vụ nhiều học sinh hơn,
+                    và tiếp tục nghiên cứu chuyên sâu — với một mục tiêu duy nhất:
+                </p>
+                <p>
+                    <strong>Để không còn học sinh nào phải học lập trình trong cô đơn, chỉ vì sinh ra ở nơi thiếu điều
+                        kiện hơn người khác.</strong>
+                </p>
+            </div>
+
+        </article>
+
+        <!-- Footer -->
+        <footer class="essay-footer">
+            <div class="footer-note">
+                <strong style="font-family:'Inter',sans-serif;font-size:0.82rem;color:var(--ink-soft)">Phạm Văn
+                    Chung</strong><br>
+                Tác giả & Phát triển viên — NEO Online Judge<br>
+                KHKT Project · 2023 - Hiện tại
+            </div>
+            <div class="footer-links">
+                <a href="about.html" class="footer-link">
+                    <i class="fa-solid fa-arrow-left" style="font-size:0.7rem"></i> Giới thiệu
+                </a>
+                <a href="problems.html" class="footer-link">
+                    <i class="fa-solid fa-code" style="font-size:0.7rem"></i> Thử NEO OJ
+                </a>
+            </div>
+        </footer>
+
+    </div>
+
+    <script>
+        // Scroll progress bar
+        window.addEventListener('scroll', () => {
+            const doc = document.documentElement;
+            const pct = (doc.scrollTop / (doc.scrollHeight - doc.clientHeight)) * 100;
+            document.getElementById('progress-bar').style.width = Math.min(pct, 100) + '%';
+        });
+    </script>
+</body>
+
+</html>

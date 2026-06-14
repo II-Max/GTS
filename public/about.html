@@ -1,194 +1,1184 @@
-
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Báo Cáo Dự Án - NEO ONLINE JUDGE</title>
-    <link rel="stylesheet" href="css/neo-design.css">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <title>NEO Online Judge — Câu Chuyện & Dự Án</title>
+    <meta name="description"
+        content="Câu chuyện từ vùng quê Yên Bái đến NEO Online Judge — hành trình của một học sinh nông thôn xây nền tảng học lập trình cho tất cả.">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;0,900;1,400;1,600&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
-
     <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
         :root {
-            --primary: #00f3ff;
-            --secondary: #bc13fe;
-            --accent: #00ff41;
-            --bg: #050505;
-            --glass: rgba(20, 20, 30, 0.7);
-            --border: 1px solid rgba(0, 243, 255, 0.2);
+            --ink: #1a1a2e;
+            --ink-soft: #3d3d5c;
+            --ink-muted: #7a7a9d;
+            --page: #fdfcf8;
+            --page-warm: #f5f2ec;
+            --accent: #3b6cf8;
+            --accent-dim: rgba(59, 108, 248, 0.08);
+            --gold: #c8860a;
+            --gold-dim: rgba(200, 134, 10, 0.08);
+            --border: rgba(26, 26, 46, 0.1);
+            --shadow: 0 2px 24px rgba(26, 26, 46, 0.07);
+            --dark: #0d0f1a;
+            --dark-card: #141828;
+            --dark-border: rgba(255, 255, 255, 0.08);
+            --blue: #4f8ef7;
+            --purple: #8b5cf6;
+            --green: #10b981;
         }
 
         body {
-            background-color: var(--bg);
-            color: #e0e0e0;
-            font-family: 'Roboto', sans-serif;
-            margin: 0;
-            padding: 0;
-            line-height: 1.6;
-            background-image: 
-                radial-gradient(circle at 10% 20%, rgba(188, 19, 254, 0.1) 0%, transparent 20%),
-                radial-gradient(circle at 90% 80%, rgba(0, 243, 255, 0.1) 0%, transparent 20%);
+            background: var(--page-warm);
+            color: var(--ink);
+            font-family: 'Inter', sans-serif;
+            line-height: 1.7;
             overflow-x: hidden;
         }
 
-        h1, h2, h3 {
-            font-family: 'Orbitron', sans-serif;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-top: 0;
+        /* ── Scroll progress ── */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent), var(--purple));
+            z-index: 999;
+            width: 0%;
+            transition: width 0.1s linear;
         }
 
-        /* --- HERO SECTION --- */
-        .hero {
-            height: 100vh;
+        /* ── Navbar ── */
+        .neo-nav {
+            height: 60px;
+            background: rgba(13, 15, 26, 0.96);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--dark-border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
             display: flex;
-            flex-direction: column;
-            justify-content: center;
             align-items: center;
-            text-align: center;
-            position: relative;
-            border-bottom: 2px solid var(--primary);
+            padding: 0 28px;
+            gap: 28px;
         }
 
-        .hero h1 {
-            font-size: 4rem;
+        .neo-nav-brand {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: var(--blue);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .brand-dot {
+            width: 7px;
+            height: 7px;
+            background: var(--blue);
+            border-radius: 50%;
+            animation: pdot 2s ease-in-out infinite;
+        }
+
+        @keyframes pdot {
+
+            0%,
+            100% {
+                opacity: 1
+            }
+
+            50% {
+                opacity: 0.3
+            }
+        }
+
+        .neo-nav-links {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+        }
+
+        .neo-nav-links a {
+            text-decoration: none;
+            color: rgba(255, 255, 255, 0.45);
+            font-size: 0.8rem;
+            font-weight: 500;
+            padding: 6px 11px;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        .neo-nav-links a:hover {
+            color: rgba(255, 255, 255, 0.85);
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .neo-nav-links a.active {
+            color: var(--blue);
+            background: rgba(79, 142, 247, 0.12);
+        }
+
+        /* ── HERO ── */
+        .hero {
+            background: var(--dark);
+            position: relative;
+            overflow: hidden;
+            padding: 100px 24px 80px;
+            text-align: center;
+        }
+
+        .hero-blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            pointer-events: none;
+        }
+
+        .hero-blob.b1 {
+            width: 500px;
+            height: 500px;
+            background: rgba(59, 108, 248, 0.07);
+            top: -150px;
+            left: -100px;
+        }
+
+        .hero-blob.b2 {
+            width: 400px;
+            height: 400px;
+            background: rgba(139, 92, 246, 0.06);
+            bottom: -100px;
+            right: -80px;
+        }
+
+        .hero-blob.b3 {
+            width: 250px;
+            height: 250px;
+            background: rgba(200, 134, 10, 0.05);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .hero-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(200, 134, 10, 0.1);
+            border: 1px solid rgba(200, 134, 10, 0.25);
+            color: #f59e0b;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.68rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            padding: 5px 16px;
+            border-radius: 20px;
+            margin-bottom: 28px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-title {
+            font-family: 'Lora', Georgia, serif;
+            font-size: clamp(2.2rem, 6vw, 4rem);
+            font-weight: 900;
+            line-height: 1.15;
             color: #fff;
-            text-shadow: 0 0 20px var(--primary), 0 0 40px var(--primary);
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-title .grad {
+            background: linear-gradient(135deg, var(--blue) 0%, var(--purple) 60%, #f59e0b 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: block;
+        }
+
+        .hero-sub {
+            max-width: 560px;
+            margin: 0 auto 44px;
+            color: rgba(255, 255, 255, 0.55);
+            font-size: 1rem;
+            font-weight: 300;
+            line-height: 1.8;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 1;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--blue), var(--purple));
+            color: #fff;
+            border: none;
+            padding: 12px 26px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.88rem;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.25s;
+            box-shadow: 0 4px 20px rgba(59, 108, 248, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 32px rgba(59, 108, 248, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: rgba(255, 255, 255, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 12px 26px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.88rem;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.25s;
+        }
+
+        .btn-secondary:hover {
+            color: #fff;
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        /* ── "NEO là gì?" section ── */
+        .neo-intro {
+            background: var(--dark);
+            border-top: 1px solid var(--dark-border);
+            padding: 0 24px 72px;
+        }
+
+        .neo-intro-inner {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .neo-intro-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 1px;
+            background: var(--dark-border);
+            border: 1px solid var(--dark-border);
+            border-radius: 14px;
+            overflow: hidden;
+        }
+
+        .neo-intro-cell {
+            background: var(--dark-card);
+            padding: 28px 24px;
+        }
+
+        .neo-intro-cell-icon {
+            font-size: 1.8rem;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .neo-intro-cell-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+
+        .neo-intro-cell-desc {
+            font-size: 0.82rem;
+            color: rgba(255, 255, 255, 0.42);
+            line-height: 1.65;
+        }
+
+        .neo-intro-head {
+            text-align: center;
+            padding: 48px 0 36px;
+        }
+
+        .neo-intro-head h2 {
+            font-family: 'Lora', Georgia, serif;
+            font-size: clamp(1.6rem, 4vw, 2.2rem);
+            font-weight: 700;
+            color: #fff;
             margin-bottom: 10px;
         }
 
-        .hero p {
-            font-size: 1.5rem;
-            color: var(--primary);
-            max-width: 800px;
-        }
-
-        .scroll-down {
-            position: absolute;
-            bottom: 30px;
-            animation: bounce 2s infinite;
-            color: var(--secondary);
-            font-size: 2rem;
-        }
-
-        /* --- CONTAINER --- */
-        .container {
-            max-width: 1200px;
+        .neo-intro-head p {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.45);
+            font-weight: 300;
+            max-width: 500px;
             margin: 0 auto;
-            padding: 50px 20px;
         }
 
-        /* --- SECTIONS --- */
-        .section {
-            margin-bottom: 100px;
+        /* ── Inspiring quote block (standalone) ── */
+        .inspire-quote {
+            background: var(--dark);
+            border-top: 1px solid var(--dark-border);
+            padding: 48px 24px;
+        }
+
+        .inspire-quote-inner {
+            max-width: 720px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .iq-card {
+            background: var(--dark-card);
+            border: 1px solid var(--dark-border);
+            border-radius: 14px;
+            padding: 24px 26px;
+            position: relative;
+        }
+
+        .iq-card::before {
+            content: '"';
+            font-family: 'Lora', Georgia, serif;
+            font-size: 5rem;
+            line-height: 1;
+            color: var(--blue);
+            opacity: 0.12;
+            position: absolute;
+            top: -8px;
+            left: 14px;
+        }
+
+        .iq-text {
+            font-family: 'Lora', Georgia, serif;
+            font-style: italic;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.75;
+            margin-bottom: 12px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .iq-author {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.68rem;
+            font-weight: 700;
+            color: var(--blue);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .iq-solo {
+            grid-column: span 2;
+            background: linear-gradient(135deg, rgba(79, 142, 247, 0.06), rgba(139, 92, 246, 0.04));
+            border-color: rgba(79, 142, 247, 0.15);
+        }
+
+        /* ── Story section ── */
+        .story-section {
+            background: var(--page-warm);
+            padding: 72px 24px 0;
+        }
+
+        .story-wrap {
+            max-width: 700px;
+            margin: 0 auto;
+            font-family: 'Lora', Georgia, serif;
+        }
+
+        .running-head {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.67rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--ink-muted);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .running-head::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+        }
+
+        .story-big-title {
+            font-family: 'Lora', Georgia, serif;
+            font-size: clamp(1.7rem, 5vw, 2.7rem);
+            font-weight: 900;
+            line-height: 1.2;
+            color: var(--ink);
+            margin-bottom: 12px;
+        }
+
+        .story-byline {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 44px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid var(--border);
+            flex-wrap: wrap;
+        }
+
+        .byline-ava {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent), var(--purple));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            color: #fff;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+
+        .byline-name {
+            font-weight: 700;
+            font-size: 0.85rem;
+            color: var(--ink-soft);
+        }
+
+        .byline-meta {
+            font-size: 0.75rem;
+            color: var(--ink-muted);
+        }
+
+        .byline-sep {
+            width: 1px;
+            height: 24px;
+            background: var(--border);
+        }
+
+        .byline-read {
+            font-size: 0.75rem;
+            color: var(--ink-muted);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .para {
+            margin-bottom: 32px;
+        }
+
+        .para p {
+            font-size: 1.05rem;
+            line-height: 1.95;
+            color: var(--ink-soft);
+            font-weight: 400;
+        }
+
+        .para p+p {
+            margin-top: 18px;
+        }
+
+        .para strong {
+            color: var(--ink);
+            font-weight: 600;
+        }
+
+        .para em {
+            color: var(--ink-soft);
+        }
+
+        mark {
+            background: linear-gradient(120deg, rgba(59, 108, 248, 0.13) 0%, rgba(59, 108, 248, 0.06) 100%);
+            color: inherit;
+            padding: 1px 4px;
+            border-radius: 3px;
+            font-weight: 500;
+        }
+
+        /* Drop cap */
+        .para-lead p:first-child::first-letter {
+            font-family: 'Lora', Georgia, serif;
+            font-size: 4.4rem;
+            font-weight: 900;
+            float: left;
+            line-height: 0.82;
+            margin: 6px 10px 0 0;
+            color: var(--ink);
+        }
+
+        .callout {
+            background: var(--page);
+            border-left: 3px solid var(--accent);
+            border-radius: 0 12px 12px 0;
+            padding: 22px 26px;
+            margin: 36px 0;
+            box-shadow: var(--shadow);
+        }
+
+        .callout p {
+            font-family: 'Lora', Georgia, serif;
+            font-style: italic;
+            font-size: 1.06rem;
+            color: var(--ink);
+            line-height: 1.8;
+        }
+
+        .callout strong {
+            font-style: normal;
+            color: var(--accent);
+        }
+
+        /* Inline quote between paragraphs (warm, light bg) */
+        .story-aside {
+            background: var(--page);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px 24px;
+            margin: 28px 0;
+            box-shadow: var(--shadow);
+        }
+
+        .story-aside-text {
+            font-family: 'Lora', Georgia, serif;
+            font-style: italic;
+            font-size: 0.92rem;
+            color: var(--ink-soft);
+            line-height: 1.8;
+        }
+
+        .story-aside-author {
+            margin-top: 10px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem;
+            font-weight: 700;
+            color: var(--gold);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
+
+        .pull-quote {
+            text-align: center;
+            padding: 44px 24px;
+            margin: 48px 0;
+            background: linear-gradient(135deg, var(--accent-dim), rgba(139, 92, 246, 0.05));
+            border-radius: 16px;
+            border: 1px solid rgba(59, 108, 248, 0.12);
+        }
+
+        .pull-quote p {
+            font-family: 'Lora', Georgia, serif;
+            font-style: italic;
+            font-size: clamp(1.05rem, 3vw, 1.4rem);
+            color: var(--ink);
+            line-height: 1.75;
+            max-width: 500px;
+            margin: 0 auto 16px;
+        }
+
+        .pull-quote p em {
+            font-style: normal;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .pull-quote cite {
+            font-size: 0.78rem;
+            color: var(--ink-muted);
+            font-style: normal;
+        }
+
+        .section-break {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin: 44px 0;
+            color: var(--ink-muted);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.68rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .section-break::before,
+        .section-break::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+        }
+
+        /* ── Timeline ── */
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+            margin: 36px 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 6px;
+            top: 8px;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--accent), var(--purple));
+            opacity: 0.3;
+        }
+
+        .tl-item {
+            position: relative;
+            margin-bottom: 32px;
+        }
+
+        .tl-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .tl-item::before {
+            content: '';
+            position: absolute;
+            left: -29px;
+            top: 7px;
+            width: 13px;
+            height: 13px;
+            border-radius: 50%;
+            background: var(--page-warm);
+            border: 2px solid var(--accent);
+            z-index: 2;
+        }
+
+        .tl-date {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.72rem;
+            color: var(--accent);
+            font-weight: 600;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .tl-title {
+            font-family: 'Lora', Georgia, serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--ink);
+            margin-bottom: 8px;
+        }
+
+        .tl-desc {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            color: var(--ink-soft);
+            line-height: 1.7;
+            background: var(--page);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 14px 18px;
+            box-shadow: var(--shadow);
+        }
+
+        .tl-desc b {
+            color: var(--ink);
+        }
+
+        /* ── Features (dark) ── */
+        .features-section {
+            background: var(--dark);
+            padding: 72px 24px;
+            margin-top: 72px;
+        }
+
+        .section-center {
+            max-width: 980px;
+            margin: 0 auto;
+        }
+
+        .section-eyebrow {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.68rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-eyebrow::after {
+            content: '';
+            width: 40px;
+            height: 1px;
+            background: currentColor;
+            opacity: 0.3;
+        }
+
+        .section-h2 {
+            font-family: 'Lora', Georgia, serif;
+            font-size: clamp(1.7rem, 4vw, 2.5rem);
+            font-weight: 700;
+            line-height: 1.25;
+            margin-bottom: 14px;
+        }
+
+        .section-lead {
+            font-size: 0.92rem;
+            font-weight: 300;
+            line-height: 1.8;
+            max-width: 560px;
+        }
+
+        .value-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+            margin-top: 44px;
+        }
+
+        .value-card {
+            background: var(--dark-card);
+            border: 1px solid var(--dark-border);
+            border-radius: 14px;
+            padding: 24px;
+            transition: all 0.25s;
+        }
+
+        .value-card:hover {
+            border-color: rgba(79, 142, 247, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .value-card.wide {
+            grid-column: span 2;
+            background: linear-gradient(135deg, rgba(79, 142, 247, 0.07), rgba(139, 92, 246, 0.05));
+            border-color: rgba(79, 142, 247, 0.18);
+        }
+
+        .value-icon {
+            font-size: 1.8rem;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .value-tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.62rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 2px 8px;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            display: inline-block;
+        }
+
+        .tag-blue {
+            background: rgba(79, 142, 247, 0.12);
+            color: var(--blue);
+        }
+
+        .tag-purple {
+            background: rgba(139, 92, 246, 0.12);
+            color: var(--purple);
+        }
+
+        .tag-green {
+            background: rgba(16, 185, 129, 0.12);
+            color: var(--green);
+        }
+
+        .tag-gold {
+            background: rgba(245, 158, 11, 0.12);
+            color: #f59e0b;
+        }
+
+        .tag-red {
+            background: rgba(239, 68, 68, 0.12);
+            color: #ef4444;
+        }
+
+        .value-card h3 {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.92rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 6px;
+        }
+
+        .value-card .value-what {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.65);
+            line-height: 1.6;
+            margin-bottom: 6px;
+        }
+
+        .value-card .value-why {
+            font-size: 0.78rem;
+            color: rgba(255, 255, 255, 0.35);
+            line-height: 1.6;
+            font-style: italic;
+        }
+
+        /* ── NEO hôm nay ── */
+        .neo-today {
+            background: var(--page-warm);
+            padding: 72px 24px;
+        }
+
+        .neo-today-inner {
+            max-width: 820px;
+            margin: 0 auto;
+        }
+
+        .neo-today-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 14px;
+            margin-top: 40px;
+        }
+
+        .nts {
+            background: var(--page);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 24px 20px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: all 0.2s;
+        }
+
+        .nts:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 28px rgba(26, 26, 46, 0.1);
+        }
+
+        .nts-num {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 2.2rem;
+            font-weight: 800;
+            line-height: 1;
+            margin-bottom: 6px;
+        }
+
+        .nts-label {
+            font-size: 0.75rem;
+            color: var(--ink-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .nts-sub {
+            font-size: 0.72rem;
+            color: var(--ink-muted);
+            margin-top: 4px;
+            font-style: italic;
+        }
+
+        .neo-today-status {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--page);
+            border: 1px solid rgba(16, 185, 129, 0.25);
+            border-radius: 10px;
+            padding: 14px 20px;
+            margin-top: 20px;
+            box-shadow: var(--shadow);
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--green);
+            flex-shrink: 0;
+            box-shadow: 0 0 8px var(--green);
+            animation: pulse-g 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-g {
+
+            0%,
+            100% {
+                opacity: 1
+            }
+
+            50% {
+                opacity: 0.4
+            }
+        }
+
+        .status-text {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.83rem;
+            color: var(--ink-soft);
+        }
+
+        .status-text strong {
+            color: var(--ink);
+        }
+
+        /* ── Mission ── */
+        .mission-section {
+            background: var(--page-warm);
+            padding: 0 24px 72px;
+        }
+
+        .mission-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+            margin-top: 44px;
+        }
+
+        .mission-card {
+            background: var(--page);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 24px;
+            transition: all 0.2s;
+        }
+
+        .mission-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow);
+        }
+
+        .mission-card .mc-icon {
+            font-size: 1.8rem;
+            margin-bottom: 14px;
+            display: block;
+        }
+
+        .mission-card h3 {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--ink);
+            margin-bottom: 8px;
+        }
+
+        .mission-card p {
+            font-size: 0.8rem;
+            color: var(--ink-muted);
+            line-height: 1.65;
+        }
+
+        /* ── Closing ── */
+        .closing {
+            background: var(--dark);
+            padding: 100px 24px;
+            text-align: center;
+        }
+
+        .closing-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, rgba(79, 142, 247, 0.1), rgba(139, 92, 246, 0.1));
+            border: 1px solid rgba(79, 142, 247, 0.2);
+            border-radius: 24px;
+            padding: 9px 22px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.68rem;
+            font-weight: 700;
+            color: var(--blue);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 28px;
+        }
+
+        .closing h2 {
+            font-family: 'Lora', Georgia, serif;
+            font-size: clamp(1.9rem, 5vw, 3.2rem);
+            font-weight: 900;
+            line-height: 1.18;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+
+        .closing h2 span {
+            background: linear-gradient(135deg, var(--blue), var(--purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .closing p {
+            max-width: 520px;
+            margin: 0 auto 44px;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.95rem;
+            font-weight: 300;
+            line-height: 1.8;
+        }
+
+        .author-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: var(--dark-card);
+            border: 1px solid var(--dark-border);
+            border-radius: 50px;
+            padding: 10px 22px 10px 10px;
+        }
+
+        .author-ava {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--blue), var(--purple));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            color: #fff;
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+
+        .author-name {
+            font-weight: 700;
+            font-size: 0.85rem;
+            color: #fff;
+        }
+
+        .author-role {
+            font-size: 0.72rem;
+            color: rgba(255, 255, 255, 0.4);
+            margin-top: 2px;
+        }
+
+        /* ── Footer ── */
+        footer {
+            background: var(--dark);
+            border-top: 1px solid var(--dark-border);
+            padding: 32px 24px;
+            text-align: center;
+            font-size: 0.78rem;
+            color: rgba(255, 255, 255, 0.25);
+        }
+
+        footer a {
+            color: var(--blue);
+            text-decoration: none;
+        }
+
+        /* ── Animations ── */
+        .fade-up {
             opacity: 0;
-            transform: translateY(50px);
-            transition: all 0.8s ease-out;
+            transform: translateY(28px);
+            transition: opacity 0.65s ease, transform 0.65s ease;
         }
 
-        .section.visible {
+        .fade-up.visible {
             opacity: 1;
             transform: translateY(0);
         }
 
-        .section-title {
-            font-size: 2.5rem;
-            color: var(--secondary);
-            border-left: 5px solid var(--primary);
-            padding-left: 20px;
-            margin-bottom: 40px;
-            text-shadow: 0 0 10px rgba(188, 19, 254, 0.5);
+        /* ── Responsive ── */
+        @media (max-width:900px) {
+            .value-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .value-card.wide {
+                grid-column: span 2;
+            }
+
+            .mission-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .neo-intro-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .neo-today-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .inspire-quote-inner {
+                grid-template-columns: 1fr;
+            }
+
+            .iq-solo {
+                grid-column: span 1;
+            }
+
+            .neo-nav-links {
+                display: none;
+            }
         }
 
-        /* --- CARDS --- */
-        .grid-3 {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-        }
+        @media (max-width:600px) {
+            .value-grid {
+                grid-template-columns: 1fr;
+            }
 
-        .card {
-            background: var(--glass);
-            border: var(--border);
-            padding: 30px;
-            border-radius: 10px;
-            backdrop-filter: blur(10px);
-            transition: transform 0.3s;
-            position: relative;
-            overflow: hidden;
-        }
+            .value-card.wide {
+                grid-column: span 1;
+            }
 
-        .card:hover {
-            transform: translateY(-10px);
-            border-color: var(--primary);
-            box-shadow: 0 0 20px rgba(0, 243, 255, 0.2);
-        }
+            .mission-grid {
+                grid-template-columns: 1fr;
+            }
 
-        .card i {
-            font-size: 3rem;
-            color: var(--primary);
-            margin-bottom: 20px;
-        }
+            .neo-today-grid {
+                grid-template-columns: 1fr 1fr;
+            }
 
-        .card h3 {
-            color: #fff;
-        }
-
-        /* --- TECH STACK --- */
-        .tech-badges {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-        
-        .badge {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid #333;
-            padding: 10px 25px;
-            border-radius: 50px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-weight: bold;
-            color: var(--accent);
-        }
-
-        /* --- DIAGRAM --- */
-        .diagram-box {
-            background: rgba(0,0,0,0.6);
-            border: 1px dashed var(--primary);
-            padding: 20px;
-            border-radius: 10px;
-            display: flex;
-            justify-content: center;
-        }
-
-        /* --- FOOTER --- */
-        footer {
-            text-align: center;
-            padding: 40px;
-            border-top: 1px solid #333;
-            color: #666;
-            font-size: 0.9rem;
-        }
-
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
-            40% {transform: translateY(-20px);}
-            60% {transform: translateY(-10px);}
+            .hero {
+                padding: 72px 20px 60px;
+            }
         }
     </style>
 </head>
+
 <body>
 
+    <div class="scroll-progress" id="scroll-progress"></div>
+
     <!-- Navbar -->
-    <nav class="neo-nav" style="position:fixed;top:0;left:0;right:0;">
-        <a class="neo-nav-brand" href="index.html">
-            <span class="brand-dot"></span>NEO<span style="color:var(--text-secondary)">OJ</span>
-        </a>
+    <nav class="neo-nav">
+        <a class="neo-nav-brand" href="index.html"><span class="brand-dot"></span>NEO<span
+                style="color:rgba(255,255,255,0.25)">OJ</span></a>
         <div class="neo-nav-links">
             <a href="problems.html">Bài tập</a>
             <a href="about.html" class="active">Giới thiệu</a>
@@ -200,163 +1190,404 @@
         </div>
     </nav>
 
-    <div class="hero" style="padding-top:62px;">
-        <h1>NEO ONLINE JUDGE</h1>
-        <p>Hệ thống Chấm điểm & Mentor Lập trình AI Thông minh</p>
-        <div style="margin-top: 20px; font-size: 1rem; color: #888;">Project Report NEO ONLINE JUDGE</div>
-        <div class="scroll-down"><i class="fas fa-chevron-down"></i></div>
-    </div>
+    <!-- ═══════════════════════════════════
+         HERO (giữ nguyên)
+    ═══════════════════════════════════ -->
+    <section class="hero">
+        <div class="hero-blob b1"></div>
+        <div class="hero-blob b2"></div>
+        <div class="hero-blob b3"></div>
+        <div class="hero-eyebrow"><i class="fa-solid fa-seedling"></i> Câu chuyện khởi nguồn</div>
+        <h1 class="hero-title">
+            Từ những giờ bế tắc một mình<br>
+            <span class="grad">đến một nền tảng cho tất cả</span>
+        </h1>
+        <p class="hero-sub">
+            Câu chuyện của một học sinh nông thôn Yên Bái — không có máy tính, không có thầy hướng dẫn — và hành trình
+            xây dựng nền tảng học lập trình mà ai cũng có thể truy cập.
+        </p>
+        <div class="hero-cta">
+            <a href="#story" class="btn-primary"><i class="fa-solid fa-book-open"></i> Đọc câu chuyện</a>
+            <a href="problems.html" class="btn-secondary"><i class="fa-solid fa-code"></i> Bắt đầu luyện tập</a>
+        </div>
+    </section>
 
-    <div class="container">
+    <!-- ═══════════════════════════════════
+         NEO LÀ GÌ? (mới — sau Hero)
+    ═══════════════════════════════════ -->
+    <section class="neo-intro">
+        <div class="neo-intro-inner">
+            <div class="neo-intro-head fade-up">
+                <h2>NEO Online Judge là gì?</h2>
+                <p>Một nền tảng học lập trình — không cần cài đặt, không cần máy mạnh, không cần ví tiền.</p>
+            </div>
+            <div class="neo-intro-grid fade-up">
+                <div class="neo-intro-cell">
+                    <span class="neo-intro-cell-icon">📝</span>
+                    <div class="neo-intro-cell-title">Nộp bài & nhận kết quả ngay</div>
+                    <div class="neo-intro-cell-desc">Viết code trên trình duyệt, nhấn nộp — hệ thống chấm điểm tự động
+                        trong vài giây, phản hồi chi tiết từng test case.</div>
+                </div>
+                <div class="neo-intro-cell">
+                    <span class="neo-intro-cell-icon">🤖</span>
+                    <div class="neo-intro-cell-title">AI Mentor — người thầy không ngủ</div>
+                    <div class="neo-intro-cell-desc">Bí không giải được? AI phân tích lỗi sai, gợi ý hướng suy nghĩ đúng
+                        — bất kể 2 giờ sáng hay giữa trưa.</div>
+                </div>
+                <div class="neo-intro-cell">
+                    <span class="neo-intro-cell-icon">📱</span>
+                    <div class="neo-intro-cell-title">Hoạt động trên mọi thiết bị</div>
+                    <div class="neo-intro-cell-desc">Điện thoại cũ, máy tính yếu, mạng chậm — NEO vẫn chạy. Vì chúng tôi
+                        biết không phải ai cũng có điều kiện như nhau.</div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-        <div class="section" id="overview">
-            <h2 class="section-title">1. Tổng Quan Dự Án</h2>
-            <div class="card">
+    <!-- ═══════════════════════════════════
+         QUOTES về nỗ lực (dark bg)
+    ═══════════════════════════════════ -->
+    <section class="inspire-quote">
+        <div class="inspire-quote-inner">
+            <div class="iq-card iq-solo fade-up">
+                <p class="iq-text">"Thiên tài là 1% cảm hứng và 99% mồ hôi công sức. Chính vì vậy, trong hầu hết các
+                    trường hợp, những người cần mẫn lại có xu hướng thắng những người tài năng bẩm sinh mà lười biếng."
+                </p>
+                <div class="iq-author">— Thomas Edison</div>
+            </div>
+            <div class="iq-card fade-up">
+                <p class="iq-text">"Sự khác biệt duy nhất giữa sự thành công và thất bại là khả năng tiếp tục hành
+                    động."</p>
+                <div class="iq-author">— Charles Kettering</div>
+            </div>
+            <div class="iq-card fade-up">
+                <p class="iq-text">"Điều tôi biết là tất cả những gì tôi có được đều đến từ việc không từ bỏ — dù bất cứ
+                    điều gì."</p>
+                <div class="iq-author">— Marie Curie</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════
+         STORY — câu chuyện cảm xúc (rút ngắn)
+    ═══════════════════════════════════ -->
+    <section class="story-section" id="story">
+        <div class="story-wrap">
+
+            <div class="running-head"><i class="fa-solid fa-feather-pointed" style="color:var(--gold)"></i> Bài luận cá
+                nhân</div>
+            <h2 class="story-big-title">Từ những giờ bế tắc một mình<br>đến một nền tảng cho tất cả</h2>
+
+            <div class="story-byline">
+                <div class="byline-ava">P</div>
+                <div>
+                    <div class="byline-name">Phạm Văn Chung</div>
+                    <div class="byline-meta">Khoa học Dữ liệu · Tác giả & Phát triển viên NEO Online Judge</div>
+                </div>
+                <div class="byline-sep"></div>
+                <div class="byline-read"><i class="fa-regular fa-clock" style="font-size:0.7rem"></i> ~4 phút đọc</div>
+                <div class="byline-read"><i class="fa-solid fa-map-pin" style="font-size:0.7rem"></i> Yên Bái → Đại học
+                </div>
+            </div>
+
+            <!-- Đoạn 1 -->
+            <div class="para para-lead fade-up">
                 <p>
-                    Trong kỷ nguyên Chuyển đổi số và Giáo dục 4.0, việc học lập trình đang trở nên cấp thiết. Tuy nhiên,
-                    các hệ thống chấm bài truyền thống thường khô khan,
-                    thiếu tương tác và đặc biệt là thiếu sự hướng dẫn chi tiết khi học sinh gặp lỗi.
-                    <b>NEO ONLINE JUDGE</b> là một nền tảng web chấm điểm lập trình trực tuyến (Online Judge) thế hệ mới.
-                    Không chỉ dừng lại ở việc chấm Đúng/Sai, hệ thống tích hợp Trí tuệ nhân tạo (AI Mentor) để đóng vai trò
-                    như một người gia sư riêng, giải thích lỗi sai và gợi ý hướng sửa bài theo thời gian thực 24/7.
+                    Với tôi, "bất bình đẳng về cơ hội tiếp cận công nghệ" không phải là khái niệm trong sách — đó là
+                    điều tôi sống qua từng ngày ở Yên Bái. Suốt cấp một và cấp hai, tôi chưa một lần bước vào phòng máy
+                    tính. Mãi đến năm lớp 10, tôi mới lần đầu chạm tay vào bàn phím — và cũng là lần đầu hiểu "lập
+                    trình" nghĩa là gì.
                 </p>
                 <p>
-                    <strong>Mục tiêu cốt lõi:</strong> Biến việc học lập trình từ "Thử & Sai" (Trial & Error) thành "Thử & Hiểu" (Trial & Understand).
+                    Cảm giác bỡ ngỡ ban đầu nhanh chóng biến thành <strong>đam mê</strong>. Nhưng đằng sau đó là hàng
+                    trăm giờ ngồi một mình với những lỗi code mà không ai giúp tôi giải thích — không thầy, không tài
+                    liệu dễ hiểu, không internet ổn định.
                 </p>
             </div>
-        </div>
 
-        <div class="section">
-            <h2 class="section-title">2. Tính Năng Nổi Bật</h2>
-            <div class="grid-3">
-                <div class="card">
-                    <i class="fas fa-gavel"></i>
-                    <h3>Core Judge Đa Ngôn Ngữ</h3>
-                    <p>Hệ thống chấm điểm tự động hỗ trợ <strong>Python, C++, Pascal, Java</strong>. Tốc độ xử lý < 3s, phát hiện chính xác lỗi biên dịch, lỗi logic và lỗi thời gian.</p>
+            <!-- Quote nhỏ xen kẽ -->
+            <div class="story-aside fade-up">
+                <div class="story-aside-text">"Chúng ta không thất bại khi vấp ngã. Chúng ta chỉ thất bại khi quyết định
+                    không đứng dậy lần nữa."</div>
+                <div class="story-aside-author">— Albert Einstein</div>
+            </div>
+
+            <!-- Đoạn 2 -->
+            <div class="para fade-up">
+                <p>
+                    Tôi nhớ có lần chỉ vì thiếu một dấu chấm phẩy mà ngồi debug cả buổi chiều. Thấm thía sự cô đơn đó,
+                    tôi tự hỏi: <em>Tại sao không tự tạo ra một hệ thống có thể giúp mình — và những người giống
+                        mình?</em>
+                </p>
+            </div>
+
+            <div class="callout fade-up">
+                <p>"Không một học sinh nào nên phải bỏ cuộc chỉ vì <strong>thiếu người bên cạnh</strong>. Sự cô đơn
+                    trong học tập không phải là điều tất yếu — đó là vấn đề có thể được giải quyết."</p>
+            </div>
+
+            <!-- Timeline — chỉ giữ 3 cột mốc liên quan NEO -->
+            <div class="section-break">Những bước tạo nên NEO</div>
+            <div class="timeline fade-up">
+                <div class="tl-item">
+                    <div class="tl-date">Lớp 10 — Tia lửa đầu tiên</div>
+                    <div class="tl-title">Ý tưởng nhen nhóm từ sự bế tắc</div>
+                    <div class="tl-desc">
+                        Lần đầu chạm tay vào bàn phím, cũng là lần đầu cảm nhận sự cô đơn của việc tự học không có ai
+                        dẫn đường. Ngay lúc đó, hạt giống NEO bắt đầu nảy mầm.
+                    </div>
                 </div>
-                <div class="card">
-                    <i class="fas fa-robot" style="color: var(--secondary)"></i>
-                    <h3>AI Mentor Thông Minh</h3>
-                    <p>Tích hợp <strong>OpenAI GPT-4o</strong>. AI không giải bài hộ mà phân tích code, chỉ ra lỗi sai và đưa ra gợi ý (Hint) giúp học sinh tự tư duy sửa bài.</p>
+                <div class="tl-item">
+                    <div class="tl-date">Lớp 12 — Xây từ con số không</div>
+                    <div class="tl-title">NEO Online Judge ra đời</div>
+                    <div class="tl-desc">
+                        Tự thiết kế hệ thống, viết từng dòng mã nguồn hoàn toàn độc lập — không có chuyên gia hướng dẫn.
+                        Dự án đạt <b>Giải Nhì KHKT cấp Tỉnh</b>, nhưng giải thưởng chưa bao giờ là đích đến thực sự.
+                    </div>
                 </div>
-                <div class="card">
-                    <i class="fas fa-bolt" style="color: var(--accent)"></i>
-                    <h3>Real-time & Cyberpunk</h3>
-                    <p>Giao diện Neon hiện đại tạo hứng thú học tập. Cập nhật kết quả chấm và bảng xếp hạng tức thì nhờ công nghệ Firebase Realtime.</p>
+                <div class="tl-item">
+                    <div class="tl-date">Đại học — Hiện tại & Tương lai</div>
+                    <div class="tl-title">NEO vẫn đang phát triển, mỗi ngày</div>
+                    <div class="tl-desc">
+                        Là sinh viên Khoa học Dữ liệu, NEO không trở thành "di tích". Mỗi ngày tôi vẫn bảo trì, thêm
+                        tính năng, nghiên cứu AI — để NEO phục vụ được ngày càng nhiều học sinh hơn trên cả nước.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Đoạn 3 -->
+            <div class="para fade-up">
+                <p>
+                    Nhớ lại những năm tháng chỉ có chiếc điện thoại cũ để tra cứu, tôi thiết kế NEO để chạy mượt mà trên
+                    mọi thứ — điện thoại Android cũ, máy tính cấu hình thấp, bất kỳ thiết bị nào có internet. <mark>Mọi
+                        giới hạn vật lý đều bị xóa bỏ.</mark>
+                </p>
+            </div>
+
+            <!-- Pull quote — giữ nguyên -->
+            <div class="pull-quote fade-up">
+                <p>"Công nghệ chỉ thực sự có ý nghĩa khi nó <em>cúi xuống nâng đỡ</em> những người chưa có cơ hội —
+                    không phải chỉ phục vụ những người đã có sẵn mọi thứ."</p>
+                <cite>— Phạm Văn Chung</cite>
+            </div>
+
+            <!-- Đoạn kết luận -->
+            <div class="para fade-up" style="padding-bottom:72px;">
+                <p><strong>Để không còn học sinh nào phải học lập trình trong cô đơn, chỉ vì sinh ra ở nơi thiếu điều
+                        kiện hơn người khác.</strong></p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════
+         FEATURES — ngôn ngữ giá trị người dùng
+    ═══════════════════════════════════ -->
+    <section class="features-section">
+        <div class="section-center">
+            <div class="section-eyebrow fade-up" style="color:var(--purple)">✦ Tính năng</div>
+            <h2 class="section-h2 fade-up" style="color:#fff">NEO làm được gì<br>cho bạn?</h2>
+            <p class="section-lead fade-up" style="color:rgba(255,255,255,0.45)">Mỗi tính năng được xây từ một vấn đề
+                thực tế — vấn đề mà chính tác giả đã trải qua.</p>
+
+            <div class="value-grid">
+                <div class="value-card wide fade-up">
+                    <span class="value-tag tag-blue">Bài tập & Chấm điểm</span>
+                    <span class="value-icon">⚡</span>
+                    <h3>Nộp bài — biết ngay đúng sai, biết ngay tại sao</h3>
+                    <p class="value-what">50 bài tập từ cơ bản đến nâng cao. Nộp code, nhận kết quả trong 3 giây — biết
+                        chính xác test nào sai, dòng nào lỗi.</p>
+                    <p class="value-why">Bởi vì chờ đợi kết quả đã đủ nản, đừng để học sinh còn phải tự đoán tại sao.
+                    </p>
+                </div>
+
+                <div class="value-card fade-up">
+                    <span class="value-tag tag-purple">AI Mentor</span>
+                    <span class="value-icon">🤖</span>
+                    <h3>Có người giải thích bất kỳ lúc nào</h3>
+                    <p class="value-what">AI không giải bài hộ — nó làm đúng việc của thầy tốt: chỉ ra sai ở đâu, tại
+                        sao sai, và gợi ý hướng nghĩ.</p>
+                    <p class="value-why">Vì tác giả biết thế nào là ngồi debug một mình đến nửa đêm.</p>
+                </div>
+
+                <div class="value-card fade-up">
+                    <span class="value-tag tag-green">Truy cập</span>
+                    <span class="value-icon">📱</span>
+                    <h3>Điện thoại cũ cũng học được</h3>
+                    <p class="value-what">Giao diện tối ưu cho mọi thiết bị — không cài đặt, không cần máy mạnh, không
+                        cần mạng nhanh.</p>
+                    <p class="value-why">Vì công nghệ đẹp nhất là công nghệ ai cũng dùng được.</p>
+                </div>
+
+                <div class="value-card fade-up">
+                    <span class="value-tag tag-gold">Phòng thi</span>
+                    <span class="value-icon">🏆</span>
+                    <h3>Tập thi thật, không sợ thi giả</h3>
+                    <p class="value-what">Phòng thi với đếm ngược, chấm tự động và bảng xếp hạng real-time — mô phỏng
+                        đúng áp lực thi thật.</p>
+                    <p class="value-why">Vì bạn không thể giỏi thi nếu chưa từng tập thi.</p>
+                </div>
+
+                <div class="value-card fade-up">
+                    <span class="value-tag tag-red">Tài liệu & Video</span>
+                    <span class="value-icon">📚</span>
+                    <h3>Tài liệu ở đây — không cần tìm đâu xa</h3>
+                    <p class="value-what">Thầy cô upload PDF, Word, video — học sinh xem ngay trên điện thoại, không cần
+                        tải về.</p>
+                    <p class="value-why">Vì kiến thức nên ở ngay tay bạn, không phải trên ổ cứng thầy giáo.</p>
+                </div>
+
+                <div class="value-card fade-up">
+                    <span class="value-tag tag-green">Cộng đồng</span>
+                    <span class="value-icon">💬</span>
+                    <h3>Không ai học một mình nữa</h3>
+                    <p class="value-what">Chat cộng đồng, bảng xếp hạng — cùng nhau phấn đấu, cùng hỏi đáp, cùng tiến
+                        bộ.</p>
+                    <p class="value-why">Vì học một mình khó gấp đôi, học cùng nhau vui gấp đôi.</p>
                 </div>
             </div>
         </div>
+    </section>
 
-        <div class="section">
-            <h2 class="section-title">3. Kiến Trúc Hệ Thống & Luồng Dữ Liệu</h2>
-            <p style="margin-bottom: 20px;">Mô hình hoạt động khép kín đảm bảo tính ổn định và bảo mật.</p>
-            
-            <div class="diagram-box">
-                <div class="mermaid">
-                    graph LR
-                        %% Style Definitions
-                        classDef user fill:#000,stroke:#00f3ff,stroke-width:2px,color:#fff
-                        classDef cloud fill:#1a1a1a,stroke:#bc13fe,stroke-width:2px,color:#fff
-                        classDef server fill:#1a1a1a,stroke:#00ff41,stroke-width:2px,color:#fff
+    <!-- ═══════════════════════════════════
+         NEO HÔM NAY — trước phần kết
+    ═══════════════════════════════════ -->
+    <section class="neo-today">
+        <div class="neo-today-inner">
+            <div class="section-eyebrow fade-up" style="color:var(--green)">✦ NEO hôm nay</div>
+            <h2 class="section-h2 fade-up" style="color:var(--ink)">Một dự án sống —<br>không phải di tích</h2>
+            <p class="section-lead fade-up" style="color:var(--ink-muted)">NEO không dừng lại sau khi được vinh danh. Nó
+                vẫn tiếp tục lớn mỗi ngày.</p>
 
-                        subgraph Client Side
-                            U[Học Sinh / Browser]:::user
-                        end
+            <div class="neo-today-grid">
+                <div class="nts fade-up">
+                    <div class="nts-num" style="color:var(--blue)">50</div>
+                    <div class="nts-label">Bài tập</div>
+                    <div class="nts-sub">Easy → Hard</div>
+                </div>
+                <div class="nts fade-up">
+                    <div class="nts-num" style="color:#f59e0b">4</div>
+                    <div class="nts-label">Ngôn ngữ</div>
+                    <div class="nts-sub">Python, C++, Pascal, Java</div>
+                </div>
+                <div class="nts fade-up">
+                    <div class="nts-num" style="color:var(--green)">24/7</div>
+                    <div class="nts-label">AI Mentor</div>
+                    <div class="nts-sub">Không ngủ, không nghỉ</div>
+                </div>
+                <div class="nts fade-up">
+                    <div class="nts-num" style="color:var(--purple)">∞</div>
+                    <div class="nts-label">Miễn phí</div>
+                    <div class="nts-sub">Mãi mãi</div>
+                </div>
+            </div>
 
-                        subgraph Cloud Layer
-                            FB[(Firebase Database)]:::cloud
-                        end
+            <div class="neo-today-status fade-up">
+                <div class="status-dot"></div>
+                <div class="status-text">
+                    <strong>NEO đang chạy và phát triển.</strong> Tác giả vẫn viết code mỗi ngày — thêm tính năng, sửa
+                    lỗi, cải thiện AI — để NEO phục vụ được ngày càng nhiều học sinh hơn trên khắp Việt Nam.
+                </div>
+            </div>
 
-                        subgraph Backend Server
-                            PY[Python Judge Script]:::server
-                            CMP[Compiler Engine]:::server
-                        end
+            <!-- Thêm một quote truyền cảm hứng -->
+            <div class="story-aside fade-up" style="margin-top:28px;background:var(--page)">
+                <div class="story-aside-text">"Bất kỳ ai đã ngừng học hỏi đều đã già đi, dù đó là người hai mươi hay tám
+                    mươi tuổi. Bất kỳ ai tiếp tục học hỏi sẽ mãi mãi trẻ trung."</div>
+                <div class="story-aside-author">— Henry Ford</div>
+            </div>
+        </div>
+    </section>
 
-                        subgraph Artificial Intelligence
-                            AI[OpenAI API (GPT-4o)]:::cloud
-                        end
-
-                        %% Data Flow
-                        U -- "1. Nộp Code" --> FB
-                        FB -- "2. Sync Data" --> PY
-                        PY -- "3. Biên Dịch & Chấm" --> CMP
-                        CMP -- "4. Kết Quả" --> PY
-                        PY -- "5. Gửi code lỗi" --> AI
-                        AI -- "6. Gợi ý sửa bài" --> PY
-                        PY -- "7. Cập nhật DB" --> FB
-                        FB -- "8. Hiển thị Realtime" --> U
+    <!-- ═══════════════════════════════════
+         MISSION (giữ nguyên)
+    ═══════════════════════════════════ -->
+    <section class="mission-section">
+        <div class="section-center">
+            <div class="section-eyebrow fade-up" style="color:var(--green)">✦ Sứ mệnh</div>
+            <h2 class="section-h2 fade-up" style="color:var(--ink)">Vì sao NEO<br>tồn tại?</h2>
+            <p class="section-lead fade-up" style="color:var(--ink-muted)">NEO Online Judge là lời cam kết rằng <strong
+                    style="color:var(--ink)">địa lý và hoàn cảnh không phải rào cản của tri thức.</strong></p>
+            <div class="mission-grid">
+                <div class="mission-card fade-up"><span class="mc-icon">📱</span>
+                    <h3>Truy cập mọi thiết bị</h3>
+                    <p>Chỉ cần trình duyệt và internet — không cần cài đặt, không cần máy mạnh.</p>
+                </div>
+                <div class="mission-card fade-up"><span class="mc-icon">🤖</span>
+                    <h3>AI Mentor 24/7</h3>
+                    <p>Không phải ai cũng có gia sư. AI phân tích code, gợi ý hướng sửa bất cứ lúc nào.</p>
+                </div>
+                <div class="mission-card fade-up"><span class="mc-icon">🆓</span>
+                    <h3>Hoàn toàn miễn phí</h3>
+                    <p>Mọi tính năng đều miễn phí mãi mãi. Không gói trả phí, không tính năng ẩn.</p>
+                </div>
+                <div class="mission-card fade-up"><span class="mc-icon">🏆</span>
+                    <h3>Cạnh tranh lành mạnh</h3>
+                    <p>Bảng xếp hạng và phòng thi tạo động lực thi đấu tích cực mỗi ngày.</p>
+                </div>
+                <div class="mission-card fade-up"><span class="mc-icon">👩‍🏫</span>
+                    <h3>Hỗ trợ giáo viên</h3>
+                    <p>Upload tài liệu, quản lý lớp và theo dõi tiến độ học sinh dễ dàng.</p>
+                </div>
+                <div class="mission-card fade-up"><span class="mc-icon">🌏</span>
+                    <h3>Bình đẳng giáo dục</h3>
+                    <p>Học sinh Hà Nội hay vùng núi đều có cùng cơ hội tiếp cận bài tập và AI.</p>
                 </div>
             </div>
         </div>
+    </section>
 
-        <div class="section">
-            <h2 class="section-title">4. Công Nghệ Sử Dụng</h2>
-            <div class="tech-badges">
-                <div class="badge"><i class="fab fa-python"></i> Python 3 Backend</div>
-                <div class="badge"><i class="fas fa-fire"></i> Firebase Realtime DB</div>
-                <div class="badge"><i class="fas fa-brain"></i> OpenAI GPT-4o-mini</div>
-                <div class="badge"><i class="fab fa-html5"></i> HTML5/JS Frontend</div>
-                <div class="badge"><i class="fas fa-terminal"></i> GCC Compiler</div>
+    <!-- ═══════════════════════════════════
+         CLOSING (giữ nguyên)
+    ═══════════════════════════════════ -->
+    <section class="closing">
+        <div class="closing-badge"><i class="fa-solid fa-star"></i> Tầm nhìn</div>
+        <h2>Tri thức không có<br><span>biên giới địa lý</span></h2>
+        <p>Dù bạn đang ngồi trong căn phòng nhỏ ở vùng nông thôn, hay trong thành phố nhộn nhịp — NEO Online Judge được
+            xây để không ai bị bỏ lại phía sau. Một chiếc điện thoại. Một kết nối internet. Là đủ.</p>
+        <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:40px">
+            <a href="problems.html" class="btn-primary"><i class="fa-solid fa-code"></i> Bắt đầu luyện tập</a>
+            <a href="rank.html" class="btn-secondary"><i class="fa-solid fa-trophy"></i> Bảng xếp hạng</a>
+        </div>
+        <div class="author-pill">
+            <div class="author-ava">P</div>
+            <div>
+                <div class="author-name">Phạm Văn Chung</div>
+                <div class="author-role">Tác giả & Phát triển viên — NEO Online Judge · 2023–nay</div>
             </div>
         </div>
-
-        <div class="section">
-            <h2 class="section-title">5. Ý Nghĩa Thực Tiễn</h2>
-            <div class="grid-3">
-                <div class="card" style="border-left: 3px solid var(--accent)">
-                    <h3>Đối với Học sinh</h3>
-                    <ul style="padding-left: 20px;">
-                        <li>Được hỗ trợ sửa những lỗi sai và gợi ý bởi AI 24/24.</li>
-                        <li>Cung cấp những nhận xét, chỉnh sửa tối ưu.</li>
-                        <li>Hệ thống chuyên nghiệp nhiều công nghệ, tiện ích.</li>
-                    </ul>
-                </div>
-                <div class="card" style="border-left: 3px solid var(--primary)">
-                    <h3>Đối với Giáo viên</h3>
-                    <ul style="padding-left: 20px;">
-                        <li>Được hỗ trợ bởi hệ thống chấm hoàn toàn tự động và chính xác 100%.</li>
-                        <li>Quản lý học sinh, xếp hạng. Từ đó nắm bắt được tiến độ học tập</li>
-                        <li>Hệ thống phòng thi chuyên nghiệp chính xác.</li>
-                    </ul>
-                </div>
-                <div class="card" style="border-left: 3px solid var(--secondary)">
-                    <h3>Tính Kinh Tế</h3>
-                    <ul style="padding-left: 20px;">
-                        <li>Hệ thống web-app hoàn toàn miễn phí. Hệ thống xử lý bài tập bằng AI qua API tích kiệm, tốc độ cao.</li>
-                        <li>Dễ dàng triển khai và mở rộng tùy thuộc vào quy mô và nhu cầu.</li>
-                        <li>Hệ thống chấm, AI chiếm rất ít tài nguyên máy.</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-    </div>
+    </section>
 
     <footer>
-        <p>NEO ONLINE JUDGE &copy; 2025</p>
-        <p style="color: #444;">Developed by Phạm Văn Chung - KHKT Project</p>
+        <p>NEO ONLINE JUDGE &copy; 2025 — Xây dựng với ❤️ bởi <a href="essay.html">Phạm Văn Chung</a></p>
+        <p style="margin-top:6px;opacity:0.5">
+            <a href="problems.html">Bài tập</a> · <a href="documents.html">Tài liệu</a> · <a
+                href="videos.html">Video</a> · <a href="rank.html">Xếp hạng</a>
+        </p>
     </footer>
 
     <script>
-        // Init Mermaid Diagram
-        mermaid.initialize({ 
-            startOnLoad: true, 
-            theme: 'dark',
-            flowchart: { curve: 'basis' } 
+        // Scroll progress
+        window.addEventListener('scroll', () => {
+            const doc = document.documentElement;
+            const pct = (doc.scrollTop / (doc.scrollHeight - doc.clientHeight)) * 100;
+            document.getElementById('scroll-progress').style.width = Math.min(pct, 100) + '%';
         });
 
-        // Scroll Animation Script
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
+        // Fade-up on scroll
+        const io = new IntersectionObserver((entries) => {
+            entries.forEach(e => {
+                if (e.isIntersecting) {
+                    e.target.classList.add('visible');
+                    io.unobserve(e.target);
                 }
             });
         }, { threshold: 0.1 });
-
-        document.querySelectorAll('.section').forEach(section => {
-            observer.observe(section);
+        document.querySelectorAll('.fade-up').forEach((el, i) => {
+            el.style.transitionDelay = (i % 4) * 60 + 'ms';
+            io.observe(el);
         });
     </script>
 </body>
+
 </html>

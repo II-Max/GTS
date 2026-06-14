@@ -4,44 +4,79 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NEO Online Judge — Kho Bài Tập</title>
-    <meta name="description" content="Luyện tập lập trình với kho bài tập phong phú từ Easy đến Hard.">
+    <meta name="description" content="Luyện tập lập trình với 50 bài tập từ Easy đến Hard trên NEO Online Judge.">
     <link rel="stylesheet" href="css/neo-design.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        body { padding-bottom: 60px; }
+        body { padding-bottom: 80px; }
+        .main { max-width: 1260px; margin: 0 auto; padding: 32px 24px; }
 
-        .main { max-width: 1200px; margin: 0 auto; padding: 28px 24px; }
+        /* ── Page header ── */
+        .page-banner {
+            background: linear-gradient(135deg, rgba(79,142,247,0.08) 0%, rgba(139,92,246,0.06) 100%);
+            border: 1px solid rgba(79,142,247,0.15);
+            border-radius: var(--radius-lg);
+            padding: 28px 32px;
+            margin-bottom: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .banner-left h1 {
+            font-family: var(--font-code);
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 6px;
+        }
+        .banner-left h1 i { color: var(--accent); }
+        .banner-left p { color: var(--text-muted); font-size: 0.85rem; }
+        .banner-stats {
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+        .banner-stat {
+            text-align: center;
+        }
+        .banner-stat-num {
+            font-family: var(--font-code);
+            font-size: 1.8rem;
+            font-weight: 800;
+            line-height: 1;
+            margin-bottom: 2px;
+        }
+        .banner-stat-label { font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
 
-        /* ── Dashboard ── */
+        /* ── Dashboard cards ── */
         .dashboard {
             display: grid;
-            grid-template-columns: 1fr 1.2fr 1fr;
-            gap: 20px;
-            margin-bottom: 32px;
+            grid-template-columns: 1fr 1.4fr 1fr;
+            gap: 16px;
+            margin-bottom: 28px;
         }
-
         .dash-card {
             background: var(--bg-card);
             border: 1px solid var(--border);
             border-radius: var(--radius-lg);
-            padding: 22px;
+            padding: 20px 24px;
             transition: border-color 0.2s;
         }
         .dash-card:hover { border-color: var(--border-hover); }
-
         .dash-card.accent-blue { border-left: 3px solid var(--accent); }
         .dash-card.accent-gold { border-left: 3px solid var(--gold); }
         .dash-card.accent-green { border-left: 3px solid var(--success); }
 
         /* Profile card */
-        .profile-row {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
+        .profile-row { display: flex; align-items: center; gap: 14px; }
         .profile-avatar {
-            width: 64px; height: 64px;
+            width: 56px; height: 56px;
             border-radius: 50%;
             border: 2px solid var(--accent-border);
             object-fit: cover;
@@ -49,7 +84,7 @@
         }
         .profile-name {
             font-weight: 700;
-            font-size: 1rem;
+            font-size: 0.95rem;
             color: var(--text-primary);
             margin-bottom: 4px;
         }
@@ -60,34 +95,36 @@
             justify-content: space-around;
             align-items: center;
             height: 100%;
+            gap: 12px;
         }
         .stat-box { text-align: center; }
         .stat-num {
             font-family: var(--font-code);
-            font-size: 2.4rem;
+            font-size: 2.2rem;
             font-weight: 800;
             line-height: 1;
             margin-bottom: 4px;
         }
         .stat-gold  { color: var(--gold); }
         .stat-blue  { color: var(--accent); }
-        .stat-label { font-size: 0.78rem; color: var(--text-muted); }
+        .stat-label { font-size: 0.75rem; color: var(--text-muted); }
+        .stat-divider { width: 1px; height: 40px; background: var(--border); }
 
         /* Chart card */
         .chart-row {
             display: flex;
             align-items: center;
             justify-content: space-between;
+            gap: 16px;
             height: 100%;
         }
-        .chart-wrap { width: 100px; height: 100px; position: relative; }
-        .chart-legend { display: flex; flex-direction: column; gap: 8px; }
+        .chart-wrap { width: 90px; height: 90px; position: relative; flex-shrink: 0; }
+        .chart-legend { display: flex; flex-direction: column; gap: 8px; flex: 1; }
         .legend-item {
             display: flex;
             align-items: center;
             gap: 8px;
-            font-size: 0.78rem;
-            font-family: var(--font-code);
+            font-size: 0.75rem;
             color: var(--text-secondary);
         }
         .legend-dot {
@@ -96,18 +133,62 @@
             flex-shrink: 0;
         }
 
+        /* ── Difficulty Progress ── */
+        .diff-progress {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+        .diff-card {
+            flex: 1;
+            min-width: 140px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 14px 16px;
+            transition: border-color 0.2s;
+        }
+        .diff-card-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+        .diff-card-label { font-size: 0.75rem; font-weight: 600; font-family: var(--font-code); }
+        .diff-card-count { font-size: 0.72rem; color: var(--text-muted); }
+        .diff-bar-track {
+            height: 4px;
+            background: var(--bg-elevated);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        .diff-bar-fill {
+            height: 100%;
+            border-radius: 2px;
+            transition: width 0.5s ease;
+        }
+        .diff-card.easy .diff-bar-fill   { background: var(--success); }
+        .diff-card.medium .diff-bar-fill { background: var(--warning); }
+        .diff-card.hard .diff-bar-fill   { background: var(--danger); }
+
         /* ── Toolbar ── */
         .toolbar {
             display: flex;
-            gap: 12px;
+            gap: 10px;
             margin-bottom: 20px;
             flex-wrap: wrap;
             align-items: center;
+            position: sticky;
+            top: calc(var(--nav-height) + 8px);
+            z-index: 100;
+            background: var(--bg-base);
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border);
         }
-
         .search-box {
             flex: 1;
-            min-width: 200px;
+            min-width: 220px;
             position: relative;
         }
         .search-box i {
@@ -116,7 +197,8 @@
             top: 50%;
             transform: translateY(-50%);
             color: var(--text-muted);
-            font-size: 0.85rem;
+            font-size: 0.82rem;
+            pointer-events: none;
         }
         .search-box input {
             width: 100%;
@@ -124,9 +206,9 @@
             border: 1px solid var(--border);
             border-radius: var(--radius-sm);
             color: var(--text-primary);
-            padding: 10px 12px 10px 36px;
+            padding: 9px 12px 9px 36px;
             font-family: var(--font-ui);
-            font-size: 0.88rem;
+            font-size: 0.85rem;
             outline: none;
             transition: all 0.2s;
         }
@@ -137,23 +219,23 @@
         }
         .search-box input::placeholder { color: var(--text-muted); }
 
-        /* Filter buttons */
-        .filter-group {
-            display: flex;
-            gap: 6px;
-        }
+        .filter-group { display: flex; gap: 5px; }
         .filter-btn {
-            padding: 8px 14px;
+            padding: 7px 14px;
             border-radius: var(--radius-sm);
-            font-size: 0.78rem;
+            font-size: 0.75rem;
             font-weight: 600;
             font-family: var(--font-code);
             cursor: pointer;
             border: 1px solid var(--border);
             background: transparent;
             color: var(--text-secondary);
-            transition: all 0.2s;
+            transition: all 0.18s;
             letter-spacing: 0.3px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            white-space: nowrap;
         }
         .filter-btn:hover { border-color: var(--border-hover); color: var(--text-primary); }
         .filter-btn.active { border-color: var(--accent-border); color: var(--accent); background: var(--accent-dim); }
@@ -161,135 +243,199 @@
         .filter-btn.medium.active { border-color: var(--warning-border); color: var(--warning); background: var(--warning-dim); }
         .filter-btn.hard.active   { border-color: var(--danger-border);  color: var(--danger);  background: var(--danger-dim); }
 
-        /* Action buttons */
-        .action-btns { display: flex; gap: 8px; }
+        .action-btns { display: flex; gap: 6px; margin-left: auto; }
+
+        /* ── Section header ── */
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+            padding-top: 4px;
+        }
+        .section-title {
+            font-family: var(--font-code);
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .problem-count {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            background: var(--bg-elevated);
+            padding: 2px 8px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+        }
 
         /* ── Problem Grid ── */
         .problems-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 16px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
         }
+        @media (max-width: 1024px) { .problems-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 640px)  { .problems-grid { grid-template-columns: 1fr; } }
 
+        /* ── Problem Card ── */
         .problem-card {
             background: var(--bg-card);
             border: 1px solid var(--border);
             border-radius: var(--radius-md);
-            padding: 18px;
+            padding: 16px 18px;
             cursor: pointer;
             transition: all 0.2s;
             position: relative;
-            font-family: var(--font-code);
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            text-decoration: none;
         }
         .problem-card:hover {
             border-color: var(--accent-border);
             transform: translateY(-2px);
-            box-shadow: 0 4px 20px rgba(79,142,247,0.1);
+            box-shadow: 0 6px 24px rgba(79,142,247,0.1);
         }
         .problem-card.done {
-            border-color: var(--success-border);
+            border-color: rgba(16,185,129,0.25);
+            background: rgba(16,185,129,0.03);
         }
         .problem-card.done:hover {
-            border-color: var(--success);
-            box-shadow: 0 4px 20px rgba(16,185,129,0.1);
+            border-color: var(--success-border);
+            box-shadow: 0 6px 24px rgba(16,185,129,0.1);
         }
 
-        .card-top {
+        .card-header {
             display: flex;
+            align-items: center;
             justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 10px;
         }
         .card-id {
-            font-size: 0.7rem;
+            font-family: var(--font-code);
+            font-size: 0.68rem;
             color: var(--text-muted);
             background: var(--bg-elevated);
-            padding: 2px 8px;
+            padding: 2px 7px;
             border-radius: 4px;
             border: 1px solid var(--border);
+            letter-spacing: 0.5px;
         }
         .card-done-mark {
             color: var(--success);
-            font-size: 1rem;
+            font-size: 0.9rem;
             display: none;
         }
         .problem-card.done .card-done-mark { display: block; }
 
         .card-title {
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             font-weight: 700;
             color: var(--text-primary);
-            margin-bottom: 6px;
             line-height: 1.4;
-        }
-
-        .card-desc {
-            font-size: 0.78rem;
-            color: var(--text-muted);
-            white-space: nowrap;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
             overflow: hidden;
-            text-overflow: ellipsis;
-            font-family: var(--font-ui);
-            margin-bottom: 12px;
         }
-
+        .card-desc {
+            font-size: 0.76rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            font-family: var(--font-ui);
+            flex: 1;
+        }
         .card-footer {
             display: flex;
             align-items: center;
             justify-content: space-between;
+            margin-top: 4px;
         }
+        .card-arrow {
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            transition: all 0.2s;
+        }
+        .problem-card:hover .card-arrow { color: var(--accent); transform: translateX(2px); }
+
+        /* ── Empty state ── */
+        .empty-state {
+            grid-column: 1/-1;
+            text-align: center;
+            padding: 60px 24px;
+            color: var(--text-muted);
+        }
+        .empty-state i { font-size: 2.5rem; margin-bottom: 16px; display: block; color: var(--border-hover); }
+        .empty-state p { font-size: 0.85rem; margin-top: 6px; }
+
+        /* ── Loading skeleton ── */
+        .skeleton-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 16px 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .skel { border-radius: 4px; }
+        .skel-sm { height: 12px; width: 60px; }
+        .skel-md { height: 14px; width: 80%; }
+        .skel-lg { height: 14px; width: 95%; }
+        .skel-xs { height: 10px; width: 40%; }
 
         /* ── Add Problem Modal ── */
         .modal-form-group { margin-bottom: 14px; }
-        .modal-form-label { display: block; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 5px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.4px; }
+        .modal-form-label { display: block; font-size: 0.72rem; color: var(--text-muted); margin-bottom: 5px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.4px; }
         .modal-input, .modal-textarea, .modal-select {
             width: 100%;
             background: var(--bg-surface);
             border: 1px solid var(--border);
             border-radius: var(--radius-sm);
             color: var(--text-primary);
-            padding: 10px 12px;
+            padding: 9px 12px;
             font-family: var(--font-code);
-            font-size: 0.85rem;
+            font-size: 0.83rem;
             outline: none;
             transition: border-color 0.2s;
+            box-sizing: border-box;
         }
-        .modal-input:focus, .modal-textarea:focus, .modal-select:focus {
-            border-color: var(--accent-border);
-        }
+        .modal-input:focus, .modal-textarea:focus, .modal-select:focus { border-color: var(--accent-border); }
         .modal-textarea { resize: vertical; }
 
         /* ── Chat ── */
         #chat-toggle {
             position: fixed;
-            bottom: 28px;
-            left: 28px;
+            bottom: 24px;
+            left: 24px;
             background: var(--bg-card);
             color: var(--accent);
             border: 1px solid var(--accent-border);
-            padding: 10px 18px;
+            padding: 9px 16px;
             border-radius: 24px;
             font-weight: 600;
             cursor: pointer;
             z-index: 998;
             font-family: var(--font-code);
-            font-size: 0.8rem;
+            font-size: 0.78rem;
             transition: all 0.2s;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 7px;
         }
-        #chat-toggle:hover {
-            background: var(--accent-dim);
-            box-shadow: 0 0 20px var(--accent-glow);
-        }
-
+        #chat-toggle:hover { background: var(--accent-dim); box-shadow: 0 0 20px var(--accent-glow); }
         #chat-box {
             position: fixed;
-            bottom: 80px;
-            left: 28px;
-            width: 360px;
-            height: 440px;
+            bottom: 72px;
+            left: 24px;
+            width: 340px;
+            height: 420px;
             background: var(--bg-card);
             border: 1px solid var(--accent-border);
             border-radius: var(--radius-lg);
@@ -299,116 +445,42 @@
             overflow: hidden;
             box-shadow: var(--shadow-lg);
         }
-
         .chat-header {
-            padding: 14px 16px;
+            padding: 12px 16px;
             background: var(--accent-dim);
             border-bottom: 1px solid var(--accent-border);
             display: flex;
             justify-content: space-between;
             align-items: center;
             font-family: var(--font-code);
-            font-size: 0.82rem;
+            font-size: 0.8rem;
             color: var(--accent);
             font-weight: 700;
         }
-
-        .chat-close {
-            background: none;
-            border: none;
-            color: var(--text-muted);
-            cursor: pointer;
-            font-size: 1rem;
-            transition: color 0.2s;
-        }
+        .chat-close { background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 1rem; transition: color 0.2s; }
         .chat-close:hover { color: var(--text-primary); }
-
-        .chat-messages {
-            flex: 1;
-            padding: 12px;
-            overflow-y: auto;
-            font-size: 0.82rem;
-            color: var(--text-secondary);
-        }
-
-        .chat-msg {
-            margin-bottom: 12px;
-            border-bottom: 1px solid rgba(255,255,255,0.04);
-            padding-bottom: 8px;
-        }
-
-        .chat-msg-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 3px;
-        }
-
-        .chat-input-row {
-            display: flex;
-            border-top: 1px solid var(--border);
-            background: var(--bg-surface);
-        }
-        .chat-input-row input {
-            flex: 1;
-            background: none;
-            border: none;
-            color: var(--text-primary);
-            padding: 10px 12px;
-            font-size: 0.85rem;
-            outline: none;
-        }
-        .chat-input-row button {
-            background: var(--accent);
-            border: none;
-            color: #fff;
-            padding: 0 14px;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
+        .chat-messages { flex: 1; padding: 12px; overflow-y: auto; font-size: 0.8rem; color: var(--text-secondary); }
+        .chat-msg { margin-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.04); padding-bottom: 8px; }
+        .chat-msg-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px; }
+        .chat-input-row { display: flex; border-top: 1px solid var(--border); background: var(--bg-surface); }
+        .chat-input-row input { flex: 1; background: none; border: none; color: var(--text-primary); padding: 10px 12px; font-size: 0.83rem; outline: none; }
+        .chat-input-row button { background: var(--accent); border: none; color: #fff; padding: 0 14px; cursor: pointer; transition: background 0.2s; }
         .chat-input-row button:hover { background: #6aa0f8; }
-
-        /* Empty state */
-        .empty-state {
-            grid-column: 1/-1;
-            text-align: center;
-            padding: 48px;
-            color: var(--text-muted);
-        }
-        .empty-state i { font-size: 2rem; margin-bottom: 12px; display: block; }
-
-        /* Section header */
-        .section-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 16px;
-        }
-        .section-title {
-            font-family: var(--font-code);
-            font-size: 0.9rem;
-            font-weight: 700;
-            color: var(--text-secondary);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .problem-count {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            background: var(--bg-elevated);
-            padding: 2px 8px;
-            border-radius: 10px;
-        }
 
         @media (max-width: 900px) {
             .dashboard { grid-template-columns: 1fr; gap: 12px; }
+            .page-banner { padding: 20px 24px; }
+            .banner-left h1 { font-size: 1.2rem; }
             #chat-box { width: calc(100vw - 40px); left: 20px; }
+            .toolbar { position: relative; top: auto; }
+        }
+        @media (max-width: 640px) {
+            .diff-progress { flex-direction: column; }
+            .banner-stats { justify-content: center; }
         }
     </style>
 </head>
 <body>
-
     <!-- Navbar -->
     <nav class="neo-nav">
         <a class="neo-nav-brand" href="index.html">
@@ -427,6 +499,24 @@
 
     <div class="main">
 
+        <!-- Page Banner -->
+        <div class="page-banner">
+            <div class="banner-left">
+                <h1><i class="fa-solid fa-code"></i> Kho Bài Tập</h1>
+                <p>Luyện tập thuật toán từ cơ bản đến nâng cao — 50 bài tập được tuyển chọn kỹ lưỡng</p>
+            </div>
+            <div class="banner-stats">
+                <div class="banner-stat">
+                    <div class="banner-stat-num" id="d-score" style="color:var(--gold)">0</div>
+                    <div class="banner-stat-label"><i class="fa-solid fa-bolt" style="color:var(--gold)"></i> Điểm</div>
+                </div>
+                <div class="banner-stat">
+                    <div class="banner-stat-num" id="d-rank" style="color:var(--accent)">—</div>
+                    <div class="banner-stat-label"><i class="fa-solid fa-trophy" style="color:var(--accent)"></i> Hạng</div>
+                </div>
+            </div>
+        </div>
+
         <!-- Dashboard -->
         <div class="dashboard">
             <!-- Profile card -->
@@ -435,8 +525,10 @@
                     <img id="d-ava" class="profile-avatar" src="" alt="Avatar">
                     <div>
                         <div class="profile-name" id="d-name">Đang tải...</div>
-                        <span id="role-display" class="badge role-student">Học sinh</span>
-                        <div style="margin-top:10px;">
+                        <span id="role-display" class="badge role-student" style="margin-bottom:10px;display:inline-flex;">
+                            <i class="fa-solid fa-graduation-cap"></i> Học sinh
+                        </span>
+                        <div style="margin-top:8px;">
                             <button onclick="logout()" class="btn btn-ghost btn-sm">
                                 <i class="fa-solid fa-power-off"></i> Đăng xuất
                             </button>
@@ -449,13 +541,18 @@
             <div class="dash-card accent-gold">
                 <div class="stats-row">
                     <div class="stat-box">
-                        <div class="stat-num stat-gold" id="d-score">0</div>
-                        <div class="stat-label"><i class="fa-solid fa-bolt" style="color:var(--gold)"></i> Tổng điểm</div>
+                        <div class="stat-num stat-gold" id="s-done">0</div>
+                        <div class="stat-label"><i class="fa-solid fa-circle-check" style="color:var(--success)"></i> Hoàn thành</div>
                     </div>
-                    <div style="width:1px; height:40px; background:var(--border);"></div>
+                    <div class="stat-divider"></div>
                     <div class="stat-box">
-                        <div class="stat-num stat-blue" id="d-rank">—</div>
-                        <div class="stat-label"><i class="fa-solid fa-earth-asia" style="color:var(--accent)"></i> Hạng</div>
+                        <div class="stat-num" style="color:var(--warning)" id="s-partial">0</div>
+                        <div class="stat-label"><i class="fa-solid fa-clock" style="color:var(--warning)"></i> Chưa xong</div>
+                    </div>
+                    <div class="stat-divider"></div>
+                    <div class="stat-box">
+                        <div class="stat-num" style="color:var(--danger)" id="s-wrong">0</div>
+                        <div class="stat-label"><i class="fa-solid fa-xmark" style="color:var(--danger)"></i> Sai / Lỗi</div>
                     </div>
                 </div>
             </div>
@@ -469,71 +566,116 @@
                     <div class="chart-legend">
                         <div class="legend-item">
                             <span class="legend-dot" style="background:var(--success)"></span>
-                            <span>Hoàn thành: <b id="s-done" style="color:var(--text-primary)">0</b></span>
+                            <span>Hoàn thành: <b id="cl-done" style="color:var(--text-primary)">0</b></span>
                         </div>
                         <div class="legend-item">
                             <span class="legend-dot" style="background:var(--warning)"></span>
-                            <span>Chưa xong: <b id="s-partial" style="color:var(--text-primary)">0</b></span>
+                            <span>Chưa xong: <b id="cl-partial" style="color:var(--text-primary)">0</b></span>
                         </div>
                         <div class="legend-item">
                             <span class="legend-dot" style="background:var(--danger)"></span>
-                            <span>Sai/Lỗi: <b id="s-wrong" style="color:var(--text-primary)">0</b></span>
+                            <span>Sai / Lỗi: <b id="cl-wrong" style="color:var(--text-primary)">0</b></span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-dot" style="background:rgba(255,255,255,0.1)"></span>
+                            <span>Chưa làm: <b id="cl-todo" style="color:var(--text-primary)">0</b></span>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Toolbar -->
+        <!-- Difficulty Progress Bars -->
+        <div class="diff-progress" id="diff-progress" style="display:none;">
+            <div class="diff-card easy">
+                <div class="diff-card-top">
+                    <span class="diff-card-label" style="color:var(--success)"><i class="fa-solid fa-circle"></i> Dễ</span>
+                    <span class="diff-card-count" id="easy-count">0 / 0</span>
+                </div>
+                <div class="diff-bar-track"><div class="diff-bar-fill" id="easy-bar" style="width:0%"></div></div>
+            </div>
+            <div class="diff-card medium">
+                <div class="diff-card-top">
+                    <span class="diff-card-label" style="color:var(--warning)"><i class="fa-solid fa-circle"></i> Trung Bình</span>
+                    <span class="diff-card-count" id="medium-count">0 / 0</span>
+                </div>
+                <div class="diff-bar-track"><div class="diff-bar-fill" id="medium-bar" style="width:0%"></div></div>
+            </div>
+            <div class="diff-card hard">
+                <div class="diff-card-top">
+                    <span class="diff-card-label" style="color:var(--danger)"><i class="fa-solid fa-circle"></i> Khó</span>
+                    <span class="diff-card-count" id="hard-count">0 / 0</span>
+                </div>
+                <div class="diff-bar-track"><div class="diff-bar-fill" id="hard-bar" style="width:0%"></div></div>
+            </div>
+        </div>
+
+        <!-- Toolbar (Sticky) -->
         <div class="toolbar">
             <div class="search-box">
                 <i class="fa-solid fa-magnifying-glass"></i>
-                <input type="text" id="search-input" placeholder="Tìm kiếm bài tập..." onkeyup="handleSearch()">
+                <input type="text" id="search-input" placeholder="Tìm kiếm bài tập (tên, mã bài)..." oninput="handleSearch()">
             </div>
             <div class="filter-group">
-                <button class="filter-btn active" id="filter-all"    onclick="setFilter('all')">Tất cả</button>
-                <button class="filter-btn easy"   id="filter-easy"   onclick="setFilter('Easy')">Dễ</button>
-                <button class="filter-btn medium" id="filter-medium" onclick="setFilter('Medium')">TB</button>
-                <button class="filter-btn hard"   id="filter-hard"   onclick="setFilter('Hard')">Khó</button>
+                <button class="filter-btn active" id="filter-all"    onclick="setFilter('all')">
+                    <i class="fa-solid fa-border-all"></i> Tất cả
+                </button>
+                <button class="filter-btn easy"   id="filter-easy"   onclick="setFilter('Easy')">
+                    <i class="fa-solid fa-circle" style="font-size:0.5rem"></i> Dễ
+                </button>
+                <button class="filter-btn medium" id="filter-medium" onclick="setFilter('Medium')">
+                    <i class="fa-solid fa-circle" style="font-size:0.5rem"></i> TB
+                </button>
+                <button class="filter-btn hard"   id="filter-hard"   onclick="setFilter('Hard')">
+                    <i class="fa-solid fa-circle" style="font-size:0.5rem"></i> Khó
+                </button>
             </div>
             <div class="action-btns">
                 <button id="btn-add-prob" class="btn btn-ghost btn-sm" onclick="openModal()" style="display:none;">
                     <i class="fa-solid fa-plus"></i> Thêm bài
                 </button>
-                <button class="btn btn-outline btn-sm" onclick="handleRandom()">
-                    <i class="fa-solid fa-dice"></i> Random
+                <button class="btn btn-outline btn-sm" onclick="handleRandom()" title="Chọn bài ngẫu nhiên chưa làm">
+                    <i class="fa-solid fa-dice"></i> Ngẫu nhiên
                 </button>
             </div>
         </div>
 
-        <!-- Problem list -->
+        <!-- Section header -->
         <div class="section-header">
             <div class="section-title">
-                <i class="fa-solid fa-list-check"></i> Kho bài tập
+                <i class="fa-solid fa-list-check"></i>
+                Danh sách bài tập
                 <span class="problem-count" id="problem-count">0 bài</span>
+            </div>
+            <div style="font-size:0.72rem;color:var(--text-muted);font-family:var(--font-code);" id="sort-label">
+                Sắp xếp: <span style="color:var(--accent)">Mã bài ↑</span>
             </div>
         </div>
 
+        <!-- Problem Grid -->
         <div class="problems-grid" id="problem-list">
-            <div class="empty-state">
-                <div style="width:24px;height:24px;border:2px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:btn-spin 0.7s linear infinite;margin:0 auto 12px;"></div>
-                Đang tải dữ liệu...
-            </div>
+            <!-- Skeleton loading -->
+            <div class="skeleton-card"><div class="skeleton skel skel-sm"></div><div class="skeleton skel skel-md"></div><div class="skeleton skel skel-lg"></div><div class="skeleton skel skel-xs"></div></div>
+            <div class="skeleton-card"><div class="skeleton skel skel-sm"></div><div class="skeleton skel skel-md"></div><div class="skeleton skel skel-lg"></div><div class="skeleton skel skel-xs"></div></div>
+            <div class="skeleton-card"><div class="skeleton skel skel-sm"></div><div class="skeleton skel skel-md"></div><div class="skeleton skel skel-lg"></div><div class="skeleton skel skel-xs"></div></div>
+            <div class="skeleton-card"><div class="skeleton skel skel-sm"></div><div class="skeleton skel skel-md"></div><div class="skeleton skel skel-lg"></div><div class="skeleton skel skel-xs"></div></div>
+            <div class="skeleton-card"><div class="skeleton skel skel-sm"></div><div class="skeleton skel skel-md"></div><div class="skeleton skel skel-lg"></div><div class="skeleton skel skel-xs"></div></div>
+            <div class="skeleton-card"><div class="skeleton skel skel-sm"></div><div class="skeleton skel skel-md"></div><div class="skeleton skel skel-lg"></div><div class="skeleton skel skel-xs"></div></div>
         </div>
     </div>
 
     <!-- Add Problem Modal -->
     <div id="modal-add" class="neo-modal-overlay">
-        <div class="neo-modal" style="max-width:600px;">
+        <div class="neo-modal" style="max-width:580px;">
             <div class="neo-modal-header">
                 <div class="neo-modal-title"><i class="fa-solid fa-pen-to-square"></i> Thêm bài tập mới</div>
                 <button class="neo-modal-close" onclick="closeModal()">×</button>
             </div>
             <div class="neo-modal-body">
-                <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
                     <div class="modal-form-group">
                         <label class="modal-form-label">Mã bài (ID)</label>
-                        <input type="text" id="p-id" class="modal-input" placeholder="VD: bai01">
+                        <input type="text" id="p-id" class="modal-input" placeholder="VD: bai51">
                     </div>
                     <div class="modal-form-group">
                         <label class="modal-form-label">Độ khó</label>
@@ -556,7 +698,7 @@
                     <label class="modal-form-label">YouTube ID (tùy chọn)</label>
                     <input type="text" id="p-vid" class="modal-input" placeholder="dQw4w9WgXcQ">
                 </div>
-                <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
                     <div class="modal-form-group">
                         <label class="modal-form-label">Input mẫu</label>
                         <textarea id="p-in" class="modal-textarea" rows="2"></textarea>
@@ -568,7 +710,7 @@
                 </div>
                 <div class="modal-form-group">
                     <label class="modal-form-label" style="color:var(--warning)">Test cases (JSON)</label>
-                    <textarea id="p-tests" class="modal-textarea" rows="3" placeholder='[{"input": "1 2", "output": "3"}]'></textarea>
+                    <textarea id="p-tests" class="modal-textarea" rows="3" placeholder='[{"input":"1 2","output":"3"}]'></textarea>
                 </div>
                 <button class="btn btn-primary btn-full" onclick="saveProblem()" style="margin-top:8px;">
                     <i class="fa-solid fa-floppy-disk"></i> Lưu bài tập
@@ -593,19 +735,29 @@
         </div>
     </div>
 
+    <!-- Toast container -->
+    <div class="neo-toast-container" id="toast-container"></div>
+
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
     <script src="js/firebase-config.js"></script>
     <script src="js/firebase-auth-check.js"></script>
     <script>
+        /* ============================================================
+           STATE
+           ============================================================ */
         let currentUser     = null;
         let currentUserRole = 'student';
-        let globalProblems  = [];
+        let globalProblems  = [];      // tất cả bài từ Firebase, ĐÃ sort
         let userSolvedIds   = new Set();
+        let myScoresMap     = {};      // { problemId: score }
         let chartInstance   = null;
         let activeFilter    = 'all';
 
+        /* ============================================================
+           AUTH
+           ============================================================ */
         auth.onAuthStateChanged(user => {
             if (!user) { window.location.href = 'login.html'; return; }
             currentUser = user;
@@ -636,7 +788,7 @@
         }
 
         function updateRoleUI(role) {
-            const el = document.getElementById('role-display');
+            const el     = document.getElementById('role-display');
             const btnAdd = document.getElementById('btn-add-prob');
             if (role === 'teacher') {
                 el.className = 'badge role-teacher';
@@ -649,178 +801,306 @@
             }
         }
 
+        /* ============================================================
+           LOAD PROBLEMS — sắp xếp theo ID (bai01 → bai50)
+           ============================================================ */
         function loadProblems() {
             db.ref('problems').on('value', snap => {
                 const data = snap.val();
                 globalProblems = [];
-                if (data) Object.keys(data).forEach(key => globalProblems.push({ id: key, ...data[key] }));
-                calculateStatsAndRender();
+                if (data) {
+                    Object.keys(data).forEach(key => {
+                        globalProblems.push({ id: key, ...data[key] });
+                    });
+                    // Sắp xếp theo ID (bai01 < bai02 < ... < bai50)
+                    globalProblems.sort((a, b) => a.id.localeCompare(b.id, undefined, { numeric: false }));
+                }
+                loadSubmissionsAndRender();
             });
         }
 
-        function getFilteredList() {
-            const keyword = document.getElementById('search-input').value.toLowerCase();
-            return globalProblems.filter(p => {
-                const matchSearch = !keyword || p.title.toLowerCase().includes(keyword) || p.id.toLowerCase().includes(keyword);
-                const matchFilter = activeFilter === 'all' || p.level === activeFilter;
-                return matchSearch && matchFilter;
-            });
-        }
-
-        function renderProblemList(list) {
-            const div = document.getElementById('problem-list');
-            document.getElementById('problem-count').textContent = list.length + ' bài';
-            if (list.length === 0) {
-                div.innerHTML = `<div class="empty-state"><i class="fa-solid fa-inbox"></i>Không tìm thấy bài tập nào.</div>`;
-                return;
-            }
-            div.innerHTML = list.map(bai => {
-                const isDone    = userSolvedIds.has(bai.id);
-                const levelMap  = { Easy: 'badge-easy', Medium: 'badge-medium', Hard: 'badge-hard' };
-                const levelText = { Easy: 'Dễ', Medium: 'Trung bình', Hard: 'Khó' };
-                return `
-                    <div class="problem-card ${isDone ? 'done' : ''}" onclick="location.href='solve.html?id=${bai.id}'">
-                        <div class="card-top">
-                            <span class="card-id">${bai.id}</span>
-                            <i class="fa-solid fa-circle-check card-done-mark"></i>
-                        </div>
-                        <div class="card-title">${bai.title}</div>
-                        <div class="card-desc">${bai.description || ''}</div>
-                        <div class="card-footer">
-                            <span class="badge ${levelMap[bai.level] || 'badge-accent'}">${levelText[bai.level] || bai.level || '—'}</span>
-                        </div>
-                    </div>`;
-            }).join('');
-        }
-
-        function calculateStatsAndRender() {
-            db.ref('submissions').on('value', snap => {
+        /* ============================================================
+           LOAD SUBMISSIONS & COMPUTE STATS
+           ============================================================ */
+        function loadSubmissionsAndRender() {
+            db.ref('submissions').once('value', snap => {
                 const data = snap.val();
-                if (!data) { renderProblemList(getFilteredList()); updateDashboard(0, 0, 0, globalProblems.length); return; }
-
+                myScoresMap = {};
+                userSolvedIds.clear();
                 const allUserScores = {};
-                Object.values(data).forEach(s => {
-                    if (s.status !== 'completed') return;
-                    if (!allUserScores[s.uid]) allUserScores[s.uid] = {};
-                    const score = parseInt(s.score);
-                    if (!allUserScores[s.uid][s.problem_id] || score > allUserScores[s.uid][s.problem_id]) {
-                        allUserScores[s.uid][s.problem_id] = score;
+
+                if (data) {
+                    Object.values(data).forEach(s => {
+                        if (s.status !== 'completed') return;
+                        if (!allUserScores[s.uid]) allUserScores[s.uid] = {};
+                        const score = parseInt(s.score) || 0;
+                        if (!allUserScores[s.uid][s.problem_id] || score > allUserScores[s.uid][s.problem_id]) {
+                            allUserScores[s.uid][s.problem_id] = score;
+                        }
+                    });
+
+                    const myScores = allUserScores[currentUser.uid] || {};
+                    myScoresMap = myScores;
+
+                    // Rank
+                    const rankList = Object.keys(allUserScores).map(uid => {
+                        let total = 0;
+                        Object.values(allUserScores[uid]).forEach(sc => total += sc);
+                        return { uid, total };
+                    }).sort((a, b) => b.total - a.total);
+
+                    let myTotal = 0;
+                    Object.values(myScores).forEach(sc => myTotal += sc);
+                    document.getElementById('d-score').textContent = myTotal;
+
+                    const me = rankList.find(u => u.uid === currentUser.uid);
+                    if (me) document.getElementById('d-rank').textContent = '#' + (rankList.indexOf(me) + 1);
+                }
+
+                computeStatsAndRender();
+            });
+        }
+
+        /* ============================================================
+           COMPUTE STATS
+           ============================================================ */
+        function computeStatsAndRender() {
+            let cDone = 0, cPartial = 0, cWrong = 0, cTodo = 0;
+            let easyTotal = 0, easyDone = 0;
+            let medTotal  = 0, medDone  = 0;
+            let hardTotal = 0, hardDone = 0;
+
+            userSolvedIds.clear();
+
+            globalProblems.forEach(p => {
+                const sc = myScoresMap[p.id];
+                if (sc === undefined)  cTodo++;
+                else if (sc === 100) { cDone++; userSolvedIds.add(p.id); }
+                else if (sc === 0)   cWrong++;
+                else                 cPartial++;
+
+                const level = (p.level || '').toLowerCase();
+                if (level === 'easy')   { easyTotal++;   if (sc === 100) easyDone++;   }
+                else if (level === 'medium') { medTotal++;    if (sc === 100) medDone++;    }
+                else if (level === 'hard')   { hardTotal++;   if (sc === 100) hardDone++;   }
+            });
+
+            // Update dashboard numbers
+            document.getElementById('s-done').textContent    = cDone;
+            document.getElementById('s-partial').textContent = cPartial;
+            document.getElementById('s-wrong').textContent   = cWrong;
+            document.getElementById('cl-done').textContent    = cDone;
+            document.getElementById('cl-partial').textContent = cPartial;
+            document.getElementById('cl-wrong').textContent   = cWrong;
+            document.getElementById('cl-todo').textContent    = cTodo;
+
+            // Difficulty progress bars
+            if (globalProblems.length > 0) {
+                document.getElementById('diff-progress').style.display = 'flex';
+                setDiffBar('easy',   easyDone,  easyTotal);
+                setDiffBar('medium', medDone,   medTotal);
+                setDiffBar('hard',   hardDone,  hardTotal);
+            }
+
+            // Donut chart
+            const ctx   = document.getElementById('myChart').getContext('2d');
+            const total = cDone + cPartial + cWrong + cTodo;
+            if (chartInstance) chartInstance.destroy();
+            if (total > 0) {
+                chartInstance = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        datasets: [{
+                            data: [cDone, cPartial, cWrong, cTodo],
+                            backgroundColor: ['#10b981','#f59e0b','#ef4444','rgba(255,255,255,0.06)'],
+                            borderWidth: 0,
+                            hoverOffset: 4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        cutout: '78%',
+                        plugins: { legend: { display: false }, tooltip: { enabled: true } }
                     }
                 });
+            }
 
-                const myScores = allUserScores[currentUser.uid] || {};
-                userSolvedIds.clear();
-                let cDone = 0, cPartial = 0, cWrong = 0, cTodo = 0, myTotal = 0;
-
-                globalProblems.forEach(p => {
-                    const sc = myScores[p.id];
-                    if (sc === undefined)  { cTodo++; }
-                    else if (sc === 100)   { cDone++;    userSolvedIds.add(p.id); myTotal += 100; }
-                    else if (sc === 0)     { cWrong++; }
-                    else                   { cPartial++; myTotal += sc; }
-                });
-
-                updateDashboard(cDone, cPartial, cWrong, cTodo);
-                document.getElementById('d-score').textContent = myTotal;
-                renderProblemList(getFilteredList());
-
-                const rankList = Object.keys(allUserScores).map(uid => {
-                    let total = 0;
-                    Object.values(allUserScores[uid]).forEach(sc => total += sc);
-                    return { uid, total };
-                }).sort((a, b) => b.total - a.total);
-
-                const me = rankList.find(u => u.uid === currentUser.uid);
-                if (me) document.getElementById('d-rank').textContent = '#' + (rankList.indexOf(me) + 1);
-            });
+            renderProblemList(getFilteredList());
         }
 
-        function updateDashboard(done, partial, wrong, todo) {
-            document.getElementById('s-done').textContent    = done;
-            document.getElementById('s-partial').textContent = partial;
-            document.getElementById('s-wrong').textContent   = wrong;
+        function setDiffBar(level, done, total) {
+            const pct = total > 0 ? Math.round((done / total) * 100) : 0;
+            document.getElementById(level + '-count').textContent = done + ' / ' + total;
+            document.getElementById(level + '-bar').style.width   = pct + '%';
+        }
 
-            const ctx   = document.getElementById('myChart').getContext('2d');
-            const total = done + partial + wrong + todo;
-            if (chartInstance) chartInstance.destroy();
-            if (total === 0) return;
-
-            chartInstance = new Chart(ctx, {
-                type: 'doughnut',
-                data: {
-                    datasets: [{
-                        data: [done, partial, wrong, todo],
-                        backgroundColor: ['#10b981', '#f59e0b', '#ef4444', 'rgba(255,255,255,0.07)'],
-                        borderWidth: 0, hoverOffset: 4
-                    }]
-                },
-                options: {
-                    responsive: true, maintainAspectRatio: false, cutout: '78%',
-                    plugins: { legend: { display: false }, tooltip: { enabled: true } }
-                }
+        /* ============================================================
+           FILTER & SEARCH
+           ============================================================ */
+        function getFilteredList() {
+            const keyword = document.getElementById('search-input').value.trim().toLowerCase();
+            return globalProblems.filter(p => {
+                const matchSearch = !keyword
+                    || p.title.toLowerCase().includes(keyword)
+                    || p.id.toLowerCase().includes(keyword)
+                    || (p.description || '').toLowerCase().includes(keyword);
+                const matchFilter = activeFilter === 'all' || p.level === activeFilter;
+                return matchSearch && matchFilter;
             });
         }
 
         function setFilter(level) {
             activeFilter = level;
             document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
-            document.getElementById('filter-' + (level === 'all' ? 'all' : level.toLowerCase())).classList.add('active');
+            const id = level === 'all' ? 'filter-all' : 'filter-' + level.toLowerCase();
+            const el = document.getElementById(id);
+            if (el) el.classList.add('active');
             renderProblemList(getFilteredList());
         }
 
-        function handleSearch() { renderProblemList(getFilteredList()); }
+        function handleSearch() {
+            renderProblemList(getFilteredList());
+        }
 
+        /* ============================================================
+           RENDER — dùng escapeHtml để tránh lỗi encoding & XSS
+           ============================================================ */
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+
+        function renderProblemList(list) {
+            const grid = document.getElementById('problem-list');
+            document.getElementById('problem-count').textContent = list.length + ' bài';
+
+            if (list.length === 0) {
+                grid.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fa-solid fa-inbox"></i>
+                        <strong>Không tìm thấy bài tập</strong>
+                        <p>Thử thay đổi từ khóa hoặc bộ lọc độ khó</p>
+                    </div>`;
+                return;
+            }
+
+            const levelMap  = { Easy: 'badge-easy', Medium: 'badge-medium', Hard: 'badge-hard' };
+            const levelText = { Easy: 'Dễ', Medium: 'Trung bình', Hard: 'Khó' };
+            const levelIcon = { Easy: 'fa-seedling', Medium: 'fa-fire', Hard: 'fa-skull-crossbones' };
+
+            grid.innerHTML = list.map(bai => {
+                const isDone    = userSolvedIds.has(bai.id);
+                const lvlClass  = levelMap[bai.level]  || 'badge-accent';
+                const lvlText   = levelText[bai.level]  || bai.level || '—';
+                const lvlIcon   = levelIcon[bai.level]  || 'fa-question';
+                const titleEsc  = escapeHtml(bai.title);
+                const descEsc   = escapeHtml(bai.description || '').slice(0, 160);
+                const idEsc     = escapeHtml(bai.id);
+
+                return `
+                    <a class="problem-card${isDone ? ' done' : ''}" href="solve.html?id=${idEsc}">
+                        <div class="card-header">
+                            <span class="card-id">${idEsc}</span>
+                            <i class="fa-solid fa-circle-check card-done-mark" title="Đã hoàn thành"></i>
+                        </div>
+                        <div class="card-title">${titleEsc}</div>
+                        <div class="card-desc">${descEsc}</div>
+                        <div class="card-footer">
+                            <span class="badge ${lvlClass}">
+                                <i class="fa-solid ${lvlIcon}"></i> ${lvlText}
+                            </span>
+                            <i class="fa-solid fa-arrow-right card-arrow"></i>
+                        </div>
+                    </a>`;
+            }).join('');
+        }
+
+        /* ============================================================
+           RANDOM — chọn bài chưa hoàn thành theo filter hiện tại
+           ============================================================ */
         function handleRandom() {
-            const candidates = globalProblems.filter(p =>
-                !userSolvedIds.has(p.id) && (activeFilter === 'all' || p.level === activeFilter)
-            );
-            if (candidates.length === 0) { alert('Không còn bài tập nào phù hợp!'); return; }
+            const list = getFilteredList();
+            const candidates = list.filter(p => !userSolvedIds.has(p.id));
+            if (candidates.length === 0) {
+                if (list.length === 0) {
+                    showToast('Không có bài tập nào phù hợp!', 'error');
+                } else {
+                    showToast('Bạn đã hoàn thành tất cả bài trong bộ lọc này! 🎉', 'info');
+                }
+                return;
+            }
             const r = Math.floor(Math.random() * candidates.length);
             window.location.href = `solve.html?id=${candidates[r].id}`;
         }
 
-        // ── Modal ──
+        /* ============================================================
+           MODAL (Thêm bài — chỉ giáo viên)
+           ============================================================ */
         function openModal()  { document.getElementById('modal-add').classList.add('open'); }
         function closeModal() { document.getElementById('modal-add').classList.remove('open'); }
-        document.getElementById('modal-add').addEventListener('click', e => { if (e.target === document.getElementById('modal-add')) closeModal(); });
+
+        document.getElementById('modal-add').addEventListener('click', e => {
+            if (e.target === document.getElementById('modal-add')) closeModal();
+        });
 
         function saveProblem() {
             const id    = document.getElementById('p-id').value.trim();
             const title = document.getElementById('p-title').value.trim();
             const desc  = document.getElementById('p-desc').value.trim();
-            if (!id || !title || !desc) { alert('Vui lòng nhập đủ thông tin bắt buộc!'); return; }
+            if (!id || !title || !desc) {
+                showToast('Vui lòng nhập đủ thông tin bắt buộc!', 'error');
+                return;
+            }
             let testCases = [];
             const testsJson = document.getElementById('p-tests').value;
-            try { if (testsJson) testCases = JSON.parse(testsJson); } catch (e) { alert('Lỗi JSON test cases!'); return; }
+            try {
+                if (testsJson.trim()) testCases = JSON.parse(testsJson);
+            } catch (e) {
+                showToast('Lỗi JSON test cases!', 'error');
+                return;
+            }
             db.ref('problems/' + id).set({
-                title, description: desc,
-                level:        document.getElementById('p-level').value,
-                tutorial_vid: document.getElementById('p-vid').value.trim(),
+                title,
+                description: desc,
+                level:          document.getElementById('p-level').value,
+                tutorial_vid:   document.getElementById('p-vid').value.trim(),
                 example_input:  document.getElementById('p-in').value,
                 example_output: document.getElementById('p-out').value,
                 testcases: testCases,
                 author: currentUser.email
-            }).then(() => { closeModal(); showSuccess('Đã thêm bài tập thành công!'); })
-              .catch(e => alert(e.message));
+            })
+            .then(() => {
+                closeModal();
+                showToast('Đã thêm bài tập thành công!', 'success');
+            })
+            .catch(e => showToast(e.message, 'error'));
         }
 
-        // ── Chat ──
+        /* ============================================================
+           CHAT
+           ============================================================ */
         function loadChat() {
             db.ref('global_chat').limitToLast(50).on('child_added', snap => {
                 const msg = snap.val();
                 const date = msg.timestamp ? new Date(msg.timestamp) : null;
                 const timeStr = date
-                    ? `${String(date.getHours()).padStart(2,'0')}:${String(date.getMinutes()).padStart(2,'0')}`
+                    ? String(date.getHours()).padStart(2,'0') + ':' + String(date.getMinutes()).padStart(2,'0')
                     : '';
                 const roleColor = msg.role === 'teacher' ? 'var(--gold)' : 'var(--accent)';
                 const div = document.createElement('div');
                 div.className = 'chat-msg';
                 div.innerHTML = `
                     <div class="chat-msg-header">
-                        <b style="color:${roleColor}">${msg.name || 'Ẩn danh'}</b>
+                        <b style="color:${roleColor}">${escapeHtml(msg.name || 'Ẩn danh')}</b>
                         <span style="font-size:0.65rem;color:var(--text-muted)">${timeStr}</span>
                     </div>
-                    <div style="color:var(--text-secondary);word-break:break-word">${msg.text}</div>`;
+                    <div style="color:var(--text-secondary);word-break:break-word">${escapeHtml(msg.text)}</div>`;
                 const box = document.getElementById('chat-messages');
                 box.appendChild(div);
                 box.scrollTop = box.scrollHeight;
@@ -832,7 +1112,8 @@
             if (!txt || !currentUser) return;
             db.ref('global_chat').push({
                 name: currentUser.displayName || currentUser.email,
-                text: txt, role: currentUserRole,
+                text: txt,
+                role: currentUserRole,
                 timestamp: firebase.database.ServerValue.TIMESTAMP
             });
             document.getElementById('chat-input').value = '';
@@ -849,7 +1130,25 @@
             if (isHidden) setTimeout(() => document.getElementById('chat-input').focus(), 100);
         }
 
-        function logout() { auth.signOut().then(() => window.location.href = 'login.html'); }
+        /* ============================================================
+           TOAST NOTIFICATIONS
+           ============================================================ */
+        function showToast(msg, type = 'info') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            const icons = { success: 'fa-circle-check', error: 'fa-circle-xmark', info: 'fa-circle-info' };
+            toast.className = `neo-toast ${type}`;
+            toast.innerHTML = `<i class="fa-solid ${icons[type] || 'fa-circle-info'}"></i> ${escapeHtml(msg)}`;
+            container.appendChild(toast);
+            setTimeout(() => { toast.style.opacity = '0'; toast.style.transform = 'translateX(20px)'; toast.style.transition = 'all 0.3s'; setTimeout(() => toast.remove(), 300); }, 3500);
+        }
+
+        /* ============================================================
+           AUTH
+           ============================================================ */
+        function logout() {
+            auth.signOut().then(() => window.location.href = 'login.html');
+        }
     </script>
 </body>
 </html>
