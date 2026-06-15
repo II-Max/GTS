@@ -823,40 +823,49 @@
            LOAD SUBMISSIONS & COMPUTE STATS
            ============================================================ */
         function loadSubmissionsAndRender() {
-            db.ref('submissions').once('value', snap => {
+            db.ref('submissions').orderByChild('uid').equalTo(currentUser.uid).once('value')
+            .then(snap => {
                 const data = snap.val();
                 myScoresMap = {};
                 userSolvedIds.clear();
-                const allUserScores = {};
+                const myScores = {};
 
                 if (data) {
                     Object.values(data).forEach(s => {
                         if (s.status !== 'completed') return;
-                        if (!allUserScores[s.uid]) allUserScores[s.uid] = {};
                         const score = parseInt(s.score) || 0;
-                        if (!allUserScores[s.uid][s.problem_id] || score > allUserScores[s.uid][s.problem_id]) {
-                            allUserScores[s.uid][s.problem_id] = score;
+                        if (!myScores[s.problem_id] || score > myScores[s.problem_id]) {
+                            myScores[s.problem_id] = score;
                         }
                     });
-
-                    const myScores = allUserScores[currentUser.uid] || {};
-                    myScoresMap = myScores;
-
-                    // Rank
-                    const rankList = Object.keys(allUserScores).map(uid => {
-                        let total = 0;
-                        Object.values(allUserScores[uid]).forEach(sc => total += sc);
-                        return { uid, total };
-                    }).sort((a, b) => b.total - a.total);
-
-                    let myTotal = 0;
-                    Object.values(myScores).forEach(sc => myTotal += sc);
-                    document.getElementById('d-score').textContent = myTotal;
-
-                    const me = rankList.find(u => u.uid === currentUser.uid);
-                    if (me) document.getElementById('d-rank').textContent = '#' + (rankList.indexOf(me) + 1);
                 }
-
+                
+                myScoresMap = myScores;
+                
+                // Lay rank tu public_leaderboard (vi khong con quyen doc toan bo users/submissions)
+                db.ref('public_leaderboard').once('value').then(lbSnap => {
+                    if (lbSnap.exists()) {
+                        const lbData = lbSnap.val();
+                        const rankList = Object.entries(lbData).map(([uid, u]) => ({
+                            uid, total: u.score || 0
+                        })).sort((a, b) => b.total - a.total);
+                        
+                        const me = rankList.find(u => u.uid === currentUser.uid);
+                        if (me) {
+                            document.getElementById('d-score').textContent = me.total;
+                            document.getElementById('d-rank').textContent = '#' + (rankList.indexOf(me) + 1);
+                        } else {
+                            document.getElementById('d-score').textContent = '0';
+                        }
+                    }
+                    computeStatsAndRender();
+                }).catch(err => {
+                    console.error("Khong the doc public_leaderboard:", err);
+                    computeStatsAndRender();
+                });
+            })
+            .catch(err => {
+                console.error("Loi khi doc submissions:", err);
                 computeStatsAndRender();
             });
         }

@@ -30,7 +30,7 @@
     },
 
     "submissions": {
-      ".indexOn": ["uid"],
+      ".indexOn": ["uid", "status"],
       ".read": "auth != null && root.child('users/' + auth.uid + '/role').val() === 'teacher'",
       "$submission_id": {
         ".read": "auth != null && (data.child('uid').val() === auth.uid || root.child('users/' + auth.uid + '/role').val() === 'teacher')",
@@ -40,7 +40,7 @@
     },
 
     "contest_submissions": {
-      ".indexOn": ["uid"],
+      ".indexOn": ["uid", "status"],
       ".read": "auth != null && root.child('users/' + auth.uid + '/role').val() === 'teacher'",
       "$submission_id": {
         ".read": "auth != null && (data.child('uid').val() === auth.uid || root.child('users/' + auth.uid + '/role').val() === 'teacher')",
@@ -55,6 +55,7 @@
     },
 
     "ai_requests": {
+      ".indexOn": ["uid", "status"],
       ".read": "auth != null && root.child('users/' + auth.uid + '/role').val() === 'teacher'",
       "$request_id": {
         ".read": "auth != null && (data.child('uid').val() === auth.uid || root.child('users/' + auth.uid + '/role').val() === 'teacher')",
