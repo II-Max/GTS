@@ -204,7 +204,7 @@ def update_profile(**kwargs):
     if not updates:
         return jsonify({"success": False, "message": "Khong co du lieu de cap nhat."}), 400
 
-    success = auth_service.update_user_profile(user.get("uid"), updates)
+    success = auth_service.update_user_profile(user.get("uid"), updates, is_admin=False)
     return jsonify({
         "success": success,
         "message": "Cap nhat thanh cong!" if success else "Cap nhat that bai."
@@ -273,6 +273,6 @@ def admin_update_user(uid, **kwargs):
     allowed = {"role", "is_active", "display_name", "score"}
     updates = {k: v for k, v in data.items() if k in allowed}
 
-    if auth_service.update_user_profile(uid, updates):
+    if auth_service.update_user_profile(uid, updates, is_admin=True):
         return jsonify({"success": True, "message": "Cap nhat thanh cong!"})
     return jsonify({"success": False, "message": "Cap nhat that bai."}), 500

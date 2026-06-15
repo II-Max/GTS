@@ -10,6 +10,7 @@ import sys
 import logging
 import shutil
 import glob
+import ast
 from typing import Optional, Tuple
 
 logger = logging.getLogger("neo")
@@ -32,7 +33,6 @@ class Compiler:
         - JavaScript (interpreted with Node.js)
     """
 
-    TIMEOUT = 3  # Default execution timeout in seconds
     COMPILE_TIMEOUT = 10  # Longer timeout for compilation (e.g. Windows Defender, lazy loading)
 
     SUPPORTED_LANGUAGES = {
@@ -90,18 +90,56 @@ class Compiler:
         return name
 
     @classmethod
-    def compile_python(cls, filename: str, code: str) -> Tuple[Optional[list], Optional[str]]:
+    def check_security(cls, lang: str, code: str) -> Optional[str]:
+        """Perform basic static analysis to block dangerous system calls."""
+        lang = lang.lower()
+        if lang == "python":
+            try:
+                tree = ast.parse(code)
+                for node in ast.walk(tree):
+                    if isinstance(node, ast.Import):
+                        for alias in node.names:
+                            if alias.name in ["os", "subprocess", "sys", "shutil", "pty", "socket"]:
+                                return f"Security Policy: module '{alias.name}' is blocked."
+                    elif isinstance(node, ast.ImportFrom):
+                        if node.module in ["os", "subprocess", "sys", "shutil", "pty", "socket"]:
+                            return f"Security Policy: module '{node.module}' is blocked."
+                    elif isinstance(node, ast.Call):
+                        if isinstance(node.func, ast.Name):
+                            if node.func.id in ["eval", "exec", "open", "compile"]:
+                                return f"Security Policy: function '{node.func.id}' is blocked."
+            except SyntaxError as e:
+                return f"Syntax Error: {e}"
+        elif lang in ["cpp", "c"]:
+            dangerous_patterns = ["system(", "popen(", "fork(", "exec(", "<windows.h>", "<unistd.h>"]
+            for pattern in dangerous_patterns:
+                if pattern in code:
+                    return f"Security Policy: '{pattern}' is blocked."
+        elif lang == "java":
+            dangerous_patterns = ["Runtime.getRuntime().exec", "ProcessBuilder", "java.io.File", "java.net."]
+            for pattern in dangerous_patterns:
+                if pattern in code:
+                    return f"Security Policy: '{pattern}' is blocked."
+        elif lang == "javascript":
+            dangerous_patterns = ["require('child_process')", "require('fs')", "require('os')", "eval(", "setTimeout(", "setInterval("]
+            for pattern in dangerous_patterns:
+                if pattern in code:
+                    return f"Security Policy: '{pattern}' is blocked."
+        return None
+
+    @classmethod
+    def compile_python(cls, filename: str, code: str, temp_dir: str) -> Tuple[Optional[list], Optional[str]]:
         """Python: interpreted, write file and return run command."""
-        filepath = f"{filename}.py"
+        filepath = os.path.join(temp_dir, f"{filename}.py")
         with open(filepath, "w", encoding="utf-8") as f:
             f.write(code)
         return [sys.executable, filepath], None
 
     @classmethod
-    def compile_cpp(cls, filename: str, code: str) -> Tuple[Optional[list], Optional[str]]:
+    def compile_cpp(cls, filename: str, code: str, temp_dir: str) -> Tuple[Optional[list], Optional[str]]:
         """C++: compile with g++."""
-        src = f"{filename}.cpp"
-        out = f"{filename}.exe"
+        src = os.path.join(temp_dir, f"{filename}.cpp")
+        out = os.path.join(temp_dir, f"{filename}.exe")
         with open(src, "w", encoding="utf-8") as f:
             f.write(code)
 
@@ -120,10 +158,10 @@ class Compiler:
             return None, f"System Error: Compilation timed out after {cls.COMPILE_TIMEOUT} seconds."
 
     @classmethod
-    def compile_c(cls, filename: str, code: str) -> Tuple[Optional[list], Optional[str]]:
+    def compile_c(cls, filename: str, code: str, temp_dir: str) -> Tuple[Optional[list], Optional[str]]:
         """C: compile with gcc."""
-        src = f"{filename}.c"
-        out = f"{filename}.exe"
+        src = os.path.join(temp_dir, f"{filename}.c")
+        out = os.path.join(temp_dir, f"{filename}.exe")
         with open(src, "w", encoding="utf-8") as f:
             f.write(code)
 
@@ -142,12 +180,12 @@ class Compiler:
             return None, f"System Error: Compilation timed out after {cls.COMPILE_TIMEOUT} seconds."
 
     @classmethod
-    def compile_java(cls, filename: str, code: str) -> Tuple[Optional[list], Optional[str]]:
+    def compile_java(cls, filename: str, code: str, temp_dir: str) -> Tuple[Optional[list], Optional[str]]:
         """Java: compile with javac, extract class name."""
         match = re.search(r"public\s+class\s+(\w+)", code)
         class_name = match.group(1) if match else "Main"
 
-        src = f"{class_name}.java"
+        src = os.path.join(temp_dir, f"{class_name}.java")
         with open(src, "w", encoding="utf-8") as f:
             f.write(code)
 
@@ -160,23 +198,23 @@ class Compiler:
             )
             if result.returncode != 0:
                 return None, result.stderr
-            return [java, "-Dfile.encoding=UTF-8", "-cp", ".", class_name], None
+            return [java, "-Dfile.encoding=UTF-8", "-cp", temp_dir, class_name], None
         except FileNotFoundError:
             return None, "System Error: Compiler 'javac' not found."
         except subprocess.TimeoutExpired:
             return None, f"System Error: Compilation timed out after {cls.COMPILE_TIMEOUT} seconds."
 
     @classmethod
-    def compile_javascript(cls, filename: str, code: str) -> Tuple[Optional[list], Optional[str]]:
+    def compile_javascript(cls, filename: str, code: str, temp_dir: str) -> Tuple[Optional[list], Optional[str]]:
         """JavaScript: run with Node.js."""
-        filepath = f"{filename}.js"
+        filepath = os.path.join(temp_dir, f"{filename}.js")
         with open(filepath, "w", encoding="utf-8") as f:
             f.write(code)
         node = cls._resolve_executable("node")
         return [node, filepath], None
 
     @classmethod
-    def compile(cls, lang: str, filename: str, code: str, timeout: int = None) -> Tuple[Optional[list], Optional[str]]:
+    def compile(cls, lang: str, filename: str, code: str, temp_dir: str) -> Tuple[Optional[list], Optional[str]]:
         """
         Compile/interpret code for the given language.
         
@@ -184,19 +222,19 @@ class Compiler:
             lang: Programming language name
             filename: Base filename (without extension)
             code: Source code string
-            timeout: Execution timeout in seconds
+            temp_dir: Directory to write temp files to
             
         Returns:
             Tuple of (run_command_list, error_message)
-            - If successful: (["python", "file.py"], None)
-            - If failed: (None, "error message")
         """
-        if timeout:
-            cls.TIMEOUT = timeout
-
         lang = lang.lower()
         if not cls.is_supported(lang):
             return None, f"Unsupported language: '{lang}'. Supported: {', '.join(cls.SUPPORTED_LANGUAGES.keys())}"
+
+        # Step 0: Security Check
+        security_error = cls.check_security(lang, code)
+        if security_error:
+            return None, security_error
 
         compilers = {
             "python": cls.compile_python,
@@ -206,16 +244,4 @@ class Compiler:
             "javascript": cls.compile_javascript,
         }
 
-        return compilers[lang](filename, code)
-
-    @classmethod
-    def cleanup(cls, filename: str):
-        """Remove temporary files created during compilation."""
-        extensions = [".py", ".cpp", ".c", ".java", ".js", ".exe", ".class"]
-        for ext in extensions:
-            path = f"{filename}{ext}"
-            if os.path.exists(path):
-                try:
-                    os.remove(path)
-                except OSError:
-                    pass
+        return compilers[lang](filename, code, temp_dir)

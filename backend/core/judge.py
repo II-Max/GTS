@@ -58,8 +58,8 @@ class JudgeEngine:
         try:
             retcode, actual_output, stderr = JudgeEngine.execute_code(run_cmd, test_input, timeout)
 
-            if stderr:
-                return 0.0, f"Runtime Error:\n{stderr}"
+            if retcode != 0:
+                return 0.0, f"Runtime Error (Code {retcode}):\n{stderr or actual_output}"
 
             actual = actual_output.strip()
             expected = str(expected_output).strip()

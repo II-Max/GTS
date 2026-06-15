@@ -105,31 +105,31 @@ class JudgeApplication:
         submission = Submission.from_firebase(key, data)
         logger.info(f"Grading submission {key} ({submission.language}) for problem {submission.problem_id}")
 
-        # Step 1: Compile
-        cmd, err = Compiler.compile(submission.language, f"temp_{key}", submission.code)
-        if err:
-            self._firebase.update_submission(table, key, 0, f"Compilation Error:\n{err}")
-            logger.warning(f"Submission {key}: Compilation failed")
-            Compiler.cleanup(f"temp_{key}")
-            return
+        import tempfile
+        
+        with tempfile.TemporaryDirectory() as temp_dir:
+            # Step 1: Compile
+            cmd, err = Compiler.compile(submission.language, f"main", submission.code, temp_dir)
+            if err:
+                self._firebase.update_submission(table, key, 0, f"Compilation Error:\n{err}")
+                logger.warning(f"Submission {key}: Compilation failed")
+                return
 
-        # Step 2: Get problem test cases
-        problem = self._firebase.get_problem(submission.problem_id)
-        if not problem or "testcases" not in problem:
-            self._firebase.update_submission(
-                table, key, 0,
-                f"Error: Problem '{submission.problem_id}' not found or has no test cases."
-            )
-            logger.warning(f"Submission {key}: Problem {submission.problem_id} not found")
-            Compiler.cleanup(f"temp_{key}")
-            return
+            # Step 2: Get problem test cases
+            problem = self._firebase.get_problem(submission.problem_id)
+            if not problem or "testcases" not in problem:
+                self._firebase.update_submission(
+                    table, key, 0,
+                    f"Error: Problem '{submission.problem_id}' not found or has no test cases."
+                )
+                logger.warning(f"Submission {key}: Problem {submission.problem_id} not found")
+                return
 
-        # Step 3: Grade
-        result = JudgeEngine.grade_all(cmd, problem["testcases"], timeout=settings.JUDGE_TIMEOUT)
-        self._firebase.update_submission(table, key, result["score"], result["summary"])
+            # Step 3: Grade
+            result = JudgeEngine.grade_all(cmd, problem["testcases"], timeout=settings.JUDGE_TIMEOUT)
+            self._firebase.update_submission(table, key, result["score"], result["summary"])
 
-        logger.info(f"Submission {key}: {result['passed']}/{result['total']} passed (score: {result['score']})")
-        Compiler.cleanup(f"temp_{key}")
+            logger.info(f"Submission {key}: {result['passed']}/{result['total']} passed (score: {result['score']})")
 
         # Step 4: Cap nhat diem va public leaderboard
         try:

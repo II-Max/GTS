@@ -103,16 +103,17 @@ class AuthService:
         Backend chỉ verify token và lấy thông tin user.
         """
         try:
+            user = firebase_auth.get_user_by_email(email)
+            uid = user.uid
+            
             # Cập nhật last_login
-            users = self._firebase.get_data("users")
-            if users:
-                for uid, data in users.items():
-                    if isinstance(data, dict) and data.get("email") == email:
-                        self._firebase.update(f"users/{uid}", {
-                            "last_login": datetime.now().isoformat()
-                        })
-                        return True, "Đăng nhập thành công!", data
+            self._firebase.update(f"users/{uid}", {
+                "last_login": datetime.now().isoformat()
+            })
+            profile = self.get_user_profile(uid)
+            return True, "Đăng nhập thành công!", profile
 
+        except firebase_auth.UserNotFoundError:
             return False, "Không tìm thấy người dùng.", None
         except Exception as e:
             logger.error(f"Login error: {e}", exc_info=True)
@@ -182,11 +183,14 @@ class AuthService:
         """Lấy danh sách tất cả người dùng (cho admin)."""
         return self._firebase.get_data("users") or {}
 
-    def update_user_profile(self, uid: str, updates: Dict) -> bool:
+    def update_user_profile(self, uid: str, updates: Dict, is_admin: bool = False) -> bool:
         """Cập nhật thông tin người dùng."""
         try:
-            # Không cho phép thay đổi role từ client
-            forbidden = {"role", "uid", "is_active"}
+            if not is_admin:
+                forbidden = {"role", "uid", "is_active", "score", "problems_solved"}
+            else:
+                forbidden = {"uid"}
+                
             safe_updates = {k: v for k, v in updates.items() if k not in forbidden}
 
             if safe_updates:
