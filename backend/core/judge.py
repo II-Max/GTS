@@ -1,5 +1,5 @@
 """
-NEO Online Judge - Judge Engine
+GTS (Go to Success) - Judge Engine
 Core grading logic: executes code against test cases and scores results.
 """
 

@@ -1,6 +1,6 @@
-# 📘 VẬN HÀNH HỆ THỐNG NEO ONLINE JUDGE
+# 📘 VẬN HÀNH HỆ THỐNG GTS (GO TO SUCCESS)
 
-> Tài liệu hướng dẫn toàn diện về cấu trúc, vận hành và quản trị hệ thống NEO Online Judge.
+> Tài liệu hướng dẫn toàn diện về cấu trúc, vận hành và quản trị hệ thống GTS (Go to Success).
 > **Phiên bản:** 3.0 | **Cập nhật:** 06/2026 | **Trạng thái:** Production — Security Hardened
 
 ---
@@ -93,7 +93,7 @@
 ## 2. CẤU TRÚC DỰ ÁN
 
 ```
-NEO-ONLINE-JUDGE/
+GTS/
 │
 ├── .env                              # ⚙️ Biến môi trường (KHÔNG commit lên git)
 ├── .env.example                      # Mẫu cấu hình

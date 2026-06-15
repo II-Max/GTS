@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # ==============================================================================
-# NEO ONLINE JUDGE v2.0
+# GTS (Go to Success) v2.0
 # Entry point - khoi dong ung dung cham bai + API server + Auth
 # ==============================================================================
 #

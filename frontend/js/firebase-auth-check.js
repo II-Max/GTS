@@ -1,5 +1,5 @@
 // =============================================================================
-// NEO ONLINE JUDGE - Auth Check Script
+// GTS (Go to Success) - Auth Check Script
 // Script này được include ở các trang yêu cầu đăng nhập (problems, solve, etc.)
 // Tự động kiểm tra auth state và chuyển hướng nếu chưa đăng nhập
 // =============================================================================
@@ -115,7 +115,7 @@
             const navbar = document.createElement('div');
             navbar.className = 'neo-navbar';
             navbar.innerHTML = `
-                <a href="problems.html" class="brand">NEO JUDGE</a>
+                <a href="problems.html" class="brand">GTS</a>
                 <div class="nav-links">
                     <a href="problems.html">BÀI TẬP</a>
                     <a href="contest.html">THI ĐẤU</a>

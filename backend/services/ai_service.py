@@ -1,5 +1,5 @@
 """
-NEO Online Judge - AI Mentor Service
+GTS (Go to Success) - AI Mentor Service
 Handles communication with DeepSeek API for code review and feedback.
 """
 

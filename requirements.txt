@@ -1,5 +1,5 @@
 # ==============================================================================
-# NEO ONLINE JUDGE v2.0 - Python Dependencies
+# GTS (Go to Success) v2.0 - Python Dependencies
 # ==============================================================================
 # Install: pip install -r requirements.txt
 # Freeze:  pip freeze > requirements.txt

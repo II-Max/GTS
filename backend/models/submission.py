@@ -1,5 +1,5 @@
 """
-NEO Online Judge - Data Models
+GTS (Go to Success) - Data Models
 Typed models for submissions, problems, and AI requests.
 """
 

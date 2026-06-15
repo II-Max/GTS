@@ -1,5 +1,5 @@
 """
-NEO Online Judge - Firebase Service
+GTS (Go to Success) - Firebase Service
 Handles all Firebase Realtime Database operations.
 """
 

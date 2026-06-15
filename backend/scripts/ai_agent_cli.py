@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-NEO Online Judge — AI Agent CLI
+GTS (Go to Success) — AI Agent CLI
 Công cụ test AI Mentor trực tiếp từ command line mà không cần khởi động toàn bộ backend.
 
 Cách dùng:
@@ -89,7 +89,7 @@ LƯU Ý: Không bao giờ đưa ra đáp án hoàn chỉnh."""
 def interactive_mode(api_key: str, model: str):
     """Interactive CLI mode for testing AI Agent."""
     print("\n" + "═" * 60)
-    print("  NEO OJ — AI AGENT CLI (Powered by Grok)")
+    print("  GTS — AI AGENT CLI (Powered by Grok)")
     print("  Model:", model)
     print("═" * 60)
     print("  Nhập 'exit' hoặc Ctrl+C để thoát")
@@ -136,7 +136,7 @@ def interactive_mode(api_key: str, model: str):
 
 def main():
     parser = argparse.ArgumentParser(
-        description="NEO OJ AI Agent CLI — Test Grok AI Mentor",
+        description="GTS AI Agent CLI — Test Grok AI Mentor",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Ví dụ:

@@ -1,5 +1,5 @@
 // =============================================================================
-// NEO ONLINE JUDGE - Firebase Configuration
+// GTS (Go to Success) - Firebase Configuration
 // Cấu hình chung cho tất cả các trang frontend
 // =============================================================================
 

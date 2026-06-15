@@ -1,5 +1,5 @@
 """
-NEO Online Judge - System Setup Script
+GTS (Go to Success) - System Setup Script
 =======================================
 Chay script nay truoc khi khoi dong he thong lan dau:
 
@@ -125,7 +125,7 @@ REQUIRED_COMPILERS = {
 # ======================================================================
 
 ENV_TEMPLATE = r"""# ==============================================================================
-# NEO ONLINE JUDGE v2.0 - Cau hinh moi truong
+# GTS (Go to Success) v2.0 - Cau hinh moi truong
 # ==============================================================================
 # Chep file nay thanh .env va dien cac thong tin can thiet
 # ==============================================================================
@@ -606,7 +606,7 @@ def print_banner():
     """In banner khi chay script."""
     print("""
     ============================================
-      NEO ONLINE JUDGE v2.0 - HE THONG SETUP
+      GTS (Go to Success) v2.0 - HE THONG SETUP
     ============================================
       Trinh tu:
         1. Moi truong (Python, pip, .env)
@@ -623,7 +623,7 @@ def write_report(results: dict):
     os.makedirs(report_path.parent, exist_ok=True)
     
     with open(report_path, "w", encoding="utf-8") as f:
-        f.write("NEO ONLINE JUDGE - Setup Report\n")
+        f.write("GTS (Go to Success) - Setup Report\n")
         f.write(f"Date: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
         f.write(f"System: {platform.system()} {platform.release()}\n")
         f.write(f"Python: {sys.version}\n")

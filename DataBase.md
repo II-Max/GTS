@@ -1,6 +1,6 @@
-# Cơ Sở Dữ Liệu — NEO Online Judge
+# Cơ Sở Dữ Liệu — GTS (Go to Success)
 
-> Tài liệu mô tả toàn bộ cấu trúc cơ sở dữ liệu của hệ thống NEO Online Judge.
+> Tài liệu mô tả toàn bộ cấu trúc cơ sở dữ liệu của hệ thống GTS (Go to Success).
 > **Phiên bản:** 3.0 | **Cập nhật:** 06/2026 | **Trạng thái:** Production — Đã kiểm tra bảo mật
 
 ---
@@ -263,4 +263,4 @@ db.reference(f'users/{USER_UID}').update({"role": "teacher"})
 > **Tài liệu được tạo:** 01/2025
 > **Phiên bản CSDL:** 3.0 (Security Hardened)
 > **Cập nhật lần cuối:** 06/2026
-> **Dự án:** NEO Online Judge
+> **Dự án:** GTS (Go to Success)

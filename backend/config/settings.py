@@ -1,5 +1,5 @@
 """
-NEO Online Judge - Application Settings
+GTS (Go to Success) - Application Settings
 Centralized configuration management using environment variables.
 """
 

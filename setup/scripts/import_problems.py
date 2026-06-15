@@ -1,5 +1,5 @@
 """
-NEO Online Judge - Import Problems Script
+GTS (Go to Success) - Import Problems Script
 Doc file problems_data.json va day toan bo bai tap len Firebase Realtime Database.
 """
 
@@ -21,7 +21,7 @@ from firebase_admin import credentials, db
 def main():
     """Main import function."""
     print("=" * 60)
-    print("  NEO ONLINE JUDGE - Import Problems Tool")
+    print("  GTS (Go to Success) - Import Problems Tool")
     print("=" * 60)
 
     # === Kiem tra file service-account.json ===

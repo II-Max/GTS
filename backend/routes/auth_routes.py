@@ -1,5 +1,5 @@
 """
-NEO Online Judge - Auth API Routes
+GTS (Go to Success) - Auth API Routes
 HTTP API endpoints cho dang nhap, dang ky, quan ly user.
 """
 

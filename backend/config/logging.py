@@ -1,5 +1,5 @@
 """
-NEO Online Judge - Logging Configuration
+GTS (Go to Success) - Logging Configuration
 Structured logging with JSON format, rotating files, and console output.
 """
 

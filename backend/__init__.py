@@ -1,1 +1,1 @@
-# NEO Online Judge - Backend Package
+# GTS (Go to Success) - Backend Package

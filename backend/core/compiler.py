@@ -1,5 +1,5 @@
 """
-NEO Online Judge - Compiler Manager
+GTS (Go to Success) - Compiler Manager
 Handles code compilation and execution for multiple programming languages.
 """
 

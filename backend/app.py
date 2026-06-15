@@ -1,5 +1,5 @@
 """
-NEO Online Judge - Application Entry Point
+GTS (Go to Success) - Application Entry Point
 Modern async-compatible judge server with modular architecture.
 Includes HTTP API server for authentication and user management.
 """
@@ -33,7 +33,7 @@ def create_api_app() -> Flask:
     # Health check
     @app.route("/api/health")
     def health():
-        return {"status": "ok", "service": "NEO Online Judge", "version": "2.0"}
+        return {"status": "ok", "service": "GTS", "version": "2.0"}
 
     # Platform Stats
     @app.route("/api/stats")
@@ -195,7 +195,7 @@ class JudgeApplication:
 
         print(f"""
 ╔══════════════════════════════════════════════════╗
-║              NEO ONLINE JUDGE v2.0               ║
+║         GTS — Go to Success  v2.0                ║
 ║          Online Code Judge + AI Mentor           ║
 ╠══════════════════════════════════════════════════╣
 ║  Mode:          Independent Scoring              ║
@@ -228,7 +228,7 @@ class JudgeApplication:
     def shutdown(self):
         """Gracefully shut down the application."""
         self.running = False
-        logger.info("NEO Online Judge shutdown complete.")
+        logger.info("GTS shutdown complete.")
         print("\n🛑 Server stopped.")
 
 

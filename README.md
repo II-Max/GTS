@@ -1,9 +1,9 @@
 
 <p align="center">
-  <img src="https://ui-avatars.com/api/?name=NEO+OJ&background=00f3ff&color=05070a&size=128" alt="NEO OJ Logo" width="128">
+  <img src="https://ui-avatars.com/api/?name=GTS&background=00f3ff&color=05070a&size=128" alt="GTS Logo" width="128">
 </p>
 
-<h1 align="center">NEO ONLINE JUDGE</h1>
+<h1 align="center">GTS (GO TO SUCCESS)</h1>
 
 <p align="center">
   <strong>Nền tảng học lập trình tương tác thông minh — Chấm bài tự động + AI Mentor</strong>
@@ -41,7 +41,7 @@
 
 ## Gioi Thieu
 
-**NEO Online Judge** la nen tang hoc lap trinh tuong tac toan dien duoc thiet ke danh rieng cho nguoi dung Viet Nam. Du an ket hop:
+**GTS (Go to Success)** la nen tang hoc lap trinh tuong tac toan dien duoc thiet ke danh rieng cho nguoi dung Viet Nam. Du an ket hop:
 
 - **Cham bai tu dong** — Bien dich & chay test cases, cho diem tuc thi
 - **AI Mentor thong minh** — Phan tich code, goi y sua loi ma khong dua dap an
@@ -124,7 +124,7 @@ Du an phu hop cho:
 ## Cau Truc Du An
 
 ```
-NEO-ONLINE-JUDGE/
+GTS/
 ├── .env                              # Bien moi truong (KHONG commit)
 ├── .env.example                      # Mau cau hinh
 ├── service-account.json              # Firebase Admin key (KHONG commit)
@@ -168,8 +168,8 @@ NEO-ONLINE-JUDGE/
 
 ```bash
 # 1. Clone du an
-git clone https://github.com/II-Max/NEO-ONLINE-JUDGE.git
-cd NEO-ONLINE-JUDGE
+git clone https://github.com/II-Max/GTS.git
+cd GTS
 
 # 2. Cai Python dependencies
 pip install -r requirements.txt
@@ -197,8 +197,8 @@ firebase deploy
 ### 1. Clone & Cai Dependencies
 
 ```bash
-git clone https://github.com/II-Max/NEO-ONLINE-JUDGE.git
-cd NEO-ONLINE-JUDGE
+git clone https://github.com/II-Max/GTS.git
+cd GTS
 pip install -r requirements.txt
 ```
 
@@ -434,7 +434,7 @@ Duoc phan phoi duoi giay phep **MIT License**.
 ---
 
 <p align="center">
-  <strong>Made with love by NEO Judge Team</strong>
+  <strong>Made with love by GTS Team</strong>
 </p>
 
 <p align="center">

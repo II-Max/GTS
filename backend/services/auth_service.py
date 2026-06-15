@@ -1,5 +1,5 @@
 """
-NEO Online Judge - Authentication Service
+GTS (Go to Success) - Authentication Service
 Xử lý đăng nhập, đăng ký, xác thực token và phân quyền người dùng.
 
 
