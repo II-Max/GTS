@@ -131,20 +131,13 @@ class JudgeApplication:
         logger.info(f"Submission {key}: {result['passed']}/{result['total']} passed (score: {result['score']})")
         Compiler.cleanup(f"temp_{key}")
 
-        # Step 4: Cap nhat public leaderboard neu co diem
+        # Step 4: Cap nhat diem va public leaderboard
         try:
             uid = data.get("uid", "")
-            if uid and result["score"] > 0:
-                user = self._firebase.get_child("users", uid) or {}
-                self._firebase.update_public_leaderboard(
-                    uid=uid,
-                    display_name=user.get("display_name", data.get("name", "Unknown")),
-                    score=user.get("score", 0),
-                    problems_solved=user.get("problems_solved", 0),
-                    avatar=user.get("avatar", ""),
-                )
+            if uid and result["score"] >= 0:
+                self._firebase.recalculate_user_score(uid)
         except Exception as e:
-            logger.warning(f"Could not update public leaderboard: {e}")
+            logger.warning(f"Could not update user score: {e}")
 
     # ======================================================================
     # POLLING LOOP: Process AI requests
