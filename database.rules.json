@@ -1,0 +1,84 @@
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+
+    "users": {
+      "$uid": {
+        ".read": "auth != null && ($uid === auth.uid || root.child('users/' + auth.uid + '/role').val() === 'teacher')",
+        ".write": "auth != null && (auth.uid === $uid || root.child('users/' + auth.uid + '/role').val() === 'teacher')",
+        "role": {
+          ".validate": "(!data.exists() && newData.val() === 'student') || (data.exists() && newData.val() === data.val()) || root.child('users/' + auth.uid + '/role').val() === 'teacher'"
+        },
+        "score": {
+          ".validate": "(!data.exists() && (newData.val() === 0 || newData.val() === null)) || (data.exists() && newData.val() === data.val()) || root.child('users/' + auth.uid + '/role').val() === 'teacher'"
+        },
+        "problems_solved": {
+          ".validate": "(!data.exists() && (newData.val() === 0 || newData.val() === null)) || (data.exists() && newData.val() === data.val()) || root.child('users/' + auth.uid + '/role').val() === 'teacher'"
+        }
+      }
+    },
+
+    "public_leaderboard": {
+      ".read": true,
+      ".write": false
+    },
+
+    "problems": {
+      ".read": true,
+      ".write": "auth != null && root.child('users/' + auth.uid + '/role').val() === 'teacher'"
+    },
+
+    "submissions": {
+      ".indexOn": ["uid"],
+      ".read": "auth != null && root.child('users/' + auth.uid + '/role').val() === 'teacher'",
+      "$submission_id": {
+        ".read": "auth != null && (data.child('uid').val() === auth.uid || root.child('users/' + auth.uid + '/role').val() === 'teacher')",
+        ".write": "auth != null && !data.exists()",
+        ".validate": "newData.child('uid').val() === auth.uid && newData.child('status').val() === 'pending'"
+      }
+    },
+
+    "contest_submissions": {
+      ".indexOn": ["uid"],
+      ".read": "auth != null && root.child('users/' + auth.uid + '/role').val() === 'teacher'",
+      "$submission_id": {
+        ".read": "auth != null && (data.child('uid').val() === auth.uid || root.child('users/' + auth.uid + '/role').val() === 'teacher')",
+        ".write": "auth != null && !data.exists()",
+        ".validate": "newData.child('uid').val() === auth.uid && newData.child('status').val() === 'pending'"
+      }
+    },
+
+    "contests": {
+      ".read": "auth != null",
+      ".write": "auth != null && root.child('users/' + auth.uid + '/role').val() === 'teacher'"
+    },
+
+    "ai_requests": {
+      ".read": "auth != null && root.child('users/' + auth.uid + '/role').val() === 'teacher'",
+      "$request_id": {
+        ".read": "auth != null && (data.child('uid').val() === auth.uid || root.child('users/' + auth.uid + '/role').val() === 'teacher')",
+        ".write": "auth != null && !data.exists()",
+        ".validate": "newData.child('uid').val() === auth.uid && newData.child('status').val() === 'pending'"
+      }
+    },
+
+    "documents": {
+      ".read": "auth != null",
+      ".write": "auth != null && root.child('users/' + auth.uid + '/role').val() === 'teacher'"
+    },
+
+    "videos": {
+      ".read": "auth != null",
+      ".write": "auth != null && root.child('users/' + auth.uid + '/role').val() === 'teacher'"
+    },
+
+    "global_chat": {
+      ".read": "auth != null",
+      "$message_id": {
+        ".write": "auth != null && !data.exists()",
+        ".validate": "newData.child('name').val() === root.child('users/' + auth.uid + '/display_name').val() && newData.child('role').val() === root.child('users/' + auth.uid + '/role').val()"
+      }
+    }
+  }
+}

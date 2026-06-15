@@ -387,17 +387,13 @@
         // Load platform stats
         async function loadStats() {
             try {
-                const [probSnap, userSnap, subSnap] = await Promise.all([
-                    db.ref('problems').once('value'),
-                    db.ref('users').once('value'),
-                    db.ref('submissions').once('value'),
-                ]);
-                const pCount = probSnap.val() ? Object.keys(probSnap.val()).length : 0;
-                const uCount = userSnap.val() ? Object.keys(userSnap.val()).length : 0;
-                const sCount = subSnap.val() ? Object.keys(subSnap.val()).length : 0;
-                document.getElementById('statProblems').textContent    = pCount;
-                document.getElementById('statUsers').textContent       = uCount;
-                document.getElementById('statSubmissions').textContent = sCount;
+                const response = await fetch(API_BASE + '/stats');
+                if (response.ok) {
+                    const data = await response.json();
+                    document.getElementById('statProblems').textContent    = data.problems;
+                    document.getElementById('statUsers').textContent       = data.users;
+                    document.getElementById('statSubmissions').textContent = data.submissions;
+                }
             } catch (e) { /* ignore */ }
         }
 

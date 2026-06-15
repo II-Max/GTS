@@ -1,6 +1,7 @@
 # 📘 VẬN HÀNH HỆ THỐNG NEO ONLINE JUDGE
 
 > Tài liệu hướng dẫn toàn diện về cấu trúc, vận hành và quản trị hệ thống NEO Online Judge.
+> **Phiên bản:** 3.0 | **Cập nhật:** 06/2026 | **Trạng thái:** Production — Security Hardened
 
 ---
 
@@ -12,8 +13,9 @@
 - [4. Cách Vận Hành](#4-cách-vận-hành)
 - [5. Quản Trị Dữ Liệu](#5-quản-trị-dữ-liệu)
 - [6. Cấu Trúc Firebase Database](#6-cấu-trúc-firebase-database)
-- [7. Xử Lý Sự Cố Thường Gặp](#7-xử-lý-sự-cố-thường-gặp)
-- [8. Bảo Trì & Nâng Cấp](#8-bảo-trì--nâng-cấp)
+- [7. Bảo Mật Hệ Thống](#7-bảo-mật-hệ-thống)
+- [8. Xử Lý Sự Cố Thường Gặp](#8-xử-lý-sự-cố-thường-gặp)
+- [9. Bảo Trì & Nâng Cấp](#9-bảo-trì--nâng-cấp)
 
 ---
 
@@ -28,42 +30,34 @@
 │  │Problem   │ │Solve     │ │Contest   │ │Rank       │ │...     │  │
 │  │List      │ │Editor    │ │Room      │ │Leaderboard│ │        │  │
 │  └────┬─────┘ └────┬─────┘ └────┬─────┘ └────┬──────┘ └───┬────┘  │
-│       │            │            │            │            │       │
 │       └────────────┴────────────┴────────────┴────────────┘       │
 │                      Firebase SDK (JS)                            │
-└───────────────────────────────┬───────────────────────────────────┘
-                                │
-                   ┌────────────▼────────────┐
-                   │                         │
-                   │   FIREBASE REALTIME     │
-                   │      DATABASE           │
-                   │   (Google Cloud)        │
-                   │                         │
-                   └────────────┬────────────┘
-                                │
-                   ┌────────────▼────────────┐
-                   │                         │
-                   │   JUDGE SERVER          │
-                   │   (Python Backend)      │
-                   │                         │
-                   │  ┌───────────────────┐  │
-                   │  │ Flask API Server  │  │
-                   │  │ (Auth Sync, v.v.) │  │
-                   │  └────────┬──────────┘  │
-                   │           │             │
-                   │  ┌────────▼──────────┐  │
-                   │  │ Judge Engine      │  │
-                   │  │ (Compiler +       │  │
-                   │  │  Test Runner)     │  │
-                   │  └────────┬──────────┘  │
-                   │           │             │
-                   │  ┌────────▼──────────┐  │
-                   │  │ AI Mentor Service │  │
-                   │  │ (Grok API /       │  │
-                   │  │  OpenAI)          │  │
-                   │  └───────────────────┘  │
-                   │                         │
-                   └─────────────────────────┘
+└───────────────────────┬───────────────────────────────────────────┘
+                        │
+           ┌────────────▼────────────┐
+           │   FIREBASE REALTIME     │
+           │      DATABASE           │
+           │   (Google Cloud)        │
+           │   Security Rules v3.0   │
+           └────────────┬────────────┘
+                        │
+           ┌────────────▼────────────┐
+           │   JUDGE SERVER          │
+           │   (Python Backend)      │
+           │  ┌──────────────────┐   │
+           │  │ Flask API Server │   │
+           │  │ /api/stats       │   │
+           │  │ /api/auth/*      │   │
+           │  └────────┬─────────┘   │
+           │  ┌────────▼─────────┐   │
+           │  │ Judge Engine     │   │
+           │  │ (Compiler + Test)│   │
+           │  └────────┬─────────┘   │
+           │  ┌────────▼─────────┐   │
+           │  │ AI Mentor Service│   │
+           │  │ (DeepSeek/Grok)  │   │
+           │  └──────────────────┘   │
+           └─────────────────────────┘
 ```
 
 ### 1.2. Công nghệ sử dụng
@@ -75,23 +69,24 @@
 | **Database** | Firebase Realtime Database |
 | **Authentication** | Firebase Auth (Email, Google, GitHub) |
 | **Backend Judge** | Python 3.9+ (Flask) |
-| **AI Mentor** | Grok API (xAI) — tương thích OpenAI format |
+| **AI Mentor** | DeepSeek API / Grok API — tương thích OpenAI format |
 | **Compiler** | g++ (C++), gcc (C), javac (Java), Node.js (JS), Python |
-| **Code Editor** | Textarea với syntax highlighting (Monaco sẵn sàng) |
+| **Security** | Firebase Security Rules v3.0, JWT Auth, CORS hạn chế |
 
 ### 1.3. Tính năng chính
 
 - ✅ **Kho bài tập** — Duyệt, tìm kiếm, lọc bài tập theo độ khó
 - ✅ **Code Editor** — Soạn thảo code, chọn ngôn ngữ, nộp bài
 - ✅ **Chấm điểm tự động** — Biên dịch, chạy test case, tính điểm
-- ✅ **AI Mentor** — Gợi ý sửa lỗi thông minh từ Grok/OpenAI
+- ✅ **AI Mentor** — Gợi ý sửa lỗi thông minh từ DeepSeek/Grok
 - ✅ **Phòng thi** — Thi đấu trực tuyến, bảng xếp hạng theo thời gian thực
 - ✅ **Lịch sử** — Xem lại các lần nộp bài, code đã nộp
-- ✅ **Bảng xếp hạng** — Hall of Fame toàn hệ thống
+- ✅ **Bảng xếp hạng** — Hall of Fame toàn hệ thống (public_leaderboard)
 - ✅ **Tài liệu học tập** — Thư viện PDF, tài liệu online
 - ✅ **Video bài giảng** — Kho video YouTube tích hợp
 - ✅ **Chat chung** — Kênh thảo luận toàn hệ thống
 - ✅ **Phân quyền** — Giáo viên (teacher) / Học sinh (student)
+- ✅ **Thống kê** — API `/api/stats` trả số lượng bài/user/lượt nộp
 
 ---
 
@@ -100,149 +95,101 @@
 ```
 NEO-ONLINE-JUDGE/
 │
-├── setup/                        # 🛠️ Cung cu cai dat
-│   ├── setup_system.py           # Script kiem tra he thong
-│   ├── Dockerfile                # Docker build
-│   ├── docker-compose.yml        # Docker compose
-│   └── scripts/                  # Cac script phu tro
+├── .env                              # ⚙️ Biến môi trường (KHÔNG commit lên git)
+├── .env.example                      # Mẫu cấu hình
+├── service-account.json              # Firebase Admin key (KHÔNG commit lên git)
+├── database.rules.json               # Firebase Security Rules v3.0
+├── firebase.json                     # Firebase CLI config (hosting + database)
+├── requirements.txt                  # Python dependencies
 │
-├── backend/                      # 🧠 Backend Python
-│   ├── app.py                    # Ứng dụng chính (JudgeApplication)
-│   ├── judge.py                  # Entry point — khởi động backend
-│   ├── config/                   # ⚙️ Cấu hình
-│   │   ├── settings.py           # Settings từ .env
-│   │   └── logging.py            # Logging system
-│   ├── core/                     # Core engine
-│   │   ├── compiler.py           # Biên dịch đa ngôn ngữ
-│   │   └── judge.py              # Engine chấm điểm
-│   ├── models/                   # Data models
-│   │   └── submission.py         # Submission model
-│   ├── services/                 # Services
-│   │   ├── firebase_service.py   # Firebase operations
-│   │   └── ai_service.py         # AI Mentor (Grok API)
-│   └── routes/                   # API routes
-│       └── auth_routes.py        # Auth API
+├── backend/                          # 🧠 Backend Python
+│   ├── app.py                        # Ứng dụng chính (JudgeApplication + Flask API)
+│   ├── judge.py                      # Entry point — khởi động backend
+│   ├── config/
+│   │   ├── settings.py               # Settings từ .env (JWT, CORS, AI)
+│   │   └── logging.py                # Logging system
+│   ├── core/
+│   │   ├── compiler.py               # Biên dịch đa ngôn ngữ
+│   │   └── judge.py                  # Engine chấm điểm
+│   ├── models/
+│   │   └── submission.py             # Submission model
+│   ├── services/
+│   │   ├── firebase_service.py       # Firebase operations + public_leaderboard
+│   │   ├── auth_service.py           # Auth, JWT, phân quyền
+│   │   └── ai_service.py             # AI Mentor (DeepSeek/Grok API)
+│   └── routes/
+│       └── auth_routes.py            # Auth API + Stats endpoint
 │
-├── frontend/                     # 🌐 Frontend (Web) cho AI Agent & Người dùng
-│   ├── index.html                # Trang chủ
-│   ├── login.html                # Đăng nhập / Đăng ký
-│   ├── problems.html             # Kho bài tập
-│   ├── solve.html                # Soạn thảo code + nộp bài
-│   ├── contest.html              # Danh sách phòng thi
-│   ├── contest_room.html         # Phòng thi
-│   ├── history.html              # Lịch sử nộp bài
-│   ├── rank.html                 # Bảng xếp hạng
-│   ├── documents.html            # Thư viện tài liệu
-│   ├── videos.html               # Video bài giảng
-│   ├── about.html                # Giới thiệu
-│   ├── guide.html                # Hướng dẫn cài đặt
-│   │
+├── frontend/                         # 🌐 Frontend (Static Web)
+│   ├── index.html                    # Trang chủ (stats từ /api/stats)
+│   ├── login.html                    # Đăng nhập / Đăng ký
+│   ├── problems.html                 # Kho bài tập
+│   ├── solve.html                    # Code editor + nộp bài (rate-limited)
+│   ├── contest.html                  # Danh sách phòng thi
+│   ├── contest_room.html             # Phòng thi
+│   ├── history.html                  # Lịch sử nộp bài (chỉ của mình)
+│   ├── rank.html                     # Bảng xếp hạng (từ public_leaderboard)
+│   ├── documents.html                # Thư viện tài liệu
+│   ├── videos.html                   # Video bài giảng
+│   ├── about.html                    # Giới thiệu
+│   ├── guide.html                    # Hướng dẫn
 │   ├── css/
-│   │   └── neo-design.css        # Hệ thống thiết kế Neo
-│   │
+│   │   └── neo-design.css            # Neo Design System
 │   └── js/
-│       ├── firebase-config.js    # 🔥 Cấu hình Firebase CHUNG
-│       └── firebase-auth-check.js# Kiểm tra đăng nhập tự động
+│       ├── firebase-config.js        # Cấu hình Firebase CHUNG
+│       └── firebase-auth-check.js    # Kiểm tra đăng nhập tự động
 │
-├── logs/                         # 📝 Log files
-└── KEY/                          # Tài nguyên
+└── logs/                             # 📝 Log files
 ```
 
 ---
 
 ## 3. LUỒNG HOẠT ĐỘNG
 
-### 3.1. Luồng người dùng (Frontend)
+### 3.1. Luồng nộp bài (có bảo mật)
 
 ```
-1. NGƯỜI DÙNG truy cập website
-       │
-       ▼
-2. TRANG CHỦ (index.html) → Giới thiệu
-       │
-       ▼
-3. ĐĂNG NHẬP (login.html)
-   ├── Email + Mật khẩu
-   ├── Google (Gmail)
-   └── GitHub
-       │
-       ▼
-4. KHO BÀI TẬP (problems.html)
-   ├── Dashboard: điểm, hạng, biểu đồ
-   ├── Lọc: Tất cả / Dễ / TB / Khó
-   ├── Tìm kiếm bài tập
-   └── Random bài ngẫu nhiên
-       │
-       ▼
-5. SOẠN THẢO (solve.html?id=bai01)
-   ├── Xem đề bài, input/output mẫu
-   ├── Chọn ngôn ngữ (Python/C++/Java/Pascal)
-   ├── Viết code
-   ├── Nhấn "Chấm bài" → gửi lên Firebase
-   └── Nhấn "AI Gợi Ý" → gọi AI Mentor
+1. NGƯỜI DÙNG đăng nhập → Có currentUser
+   │
+   ▼
+2. SOLVE.HTML
+   ├── Kiểm tra currentUser != null
+   ├── Rate-limit: >= 5 giây giữa các lần nộp
+   ├── Ghi submissions/{id} { uid, code, status: "pending" }
+   │   └── Firebase Rules validate: uid === auth.uid, status === "pending"
+   │
+   ▼
+3. JUDGE SERVER (polling mỗi 1.5s)
+   ├── Admin SDK: bypass rules để đọc pending submissions
+   ├── Biên dịch + chấm điểm
+   ├── Ghi kết quả vào submissions/{id}
+   └── Cập nhật public_leaderboard/{uid} { display_name, score, problems_solved }
 ```
 
-### 3.2. Luồng chấm bài (Backend)
+### 3.2. Luồng Bảng Xếp Hạng (an toàn)
 
 ```
-1. NGƯỜI DÙNG nộp bài trên solve.html
-       │
-       ▼
-2. Firebase ghi submission {status: "pending"}
-       │
-       ▼
-3. JUDGE SERVER (backend/judge.py) polling mỗi 1.5 giây
-       │
-       ▼
-4. Phát hiện submission mới
-       │
-       ▼
-5. BIÊN DỊCH (compiler.py)
-   ├── Python → chạy trực tiếp
-   ├── C++ → g++ biên dịch
-   ├── Java → javac biên dịch
-   └── Pascal → chạy trực tiếp
-       │
-       ▼
-6. CHẤM ĐIỂM (backend/core/judge.py - JudgeEngine)
-   ├── Chạy từng test case
-   ├── So sánh output
-   └── Tính % điểm
-       │
-       ▼
-7. GHI KẾT QUẢ vào Firebase
-   ├── status: "completed"
-   ├── score: 100/0/xxx
-   └── message: chi tiết
+RANK.HTML đọc từ db.ref('public_leaderboard')
+   │
+   ├── Node này .read: true — ai cũng đọc được
+   ├── Chỉ chứa: display_name, avatar, score, problems_solved
+   ├── KHÔNG có email, KHÔNG có code bài nộp
+   └── Được Backend tự động cập nhật sau mỗi lần chấm
 ```
 
-### 3.3. Luồng AI Mentor
+### 3.3. Luồng AI Mentor (có bảo vệ)
 
 ```
 1. NGƯỜI DÙNG nhấn "AI Gợi Ý"
-       │
-       ▼
-2. Gửi request lên Firebase (ai_requests)
-   ├── code
-   ├── problem_desc
-   └── status: "pending"
-       │
-       ▼
-3. JUDGE SERVER phát hiện request
-       │
-       ▼
-4. AI SERVICE (ai_service.py)
-   ├── Gọi Grok API (hoặc OpenAI)
-   ├── Phân tích code
-   └── Trả về nhận xét + gợi ý
-       │
-       ▼
-5. GHI PHẢN HỒI vào Firebase
-   ├── status: "completed"
-   └── response: nội dung phân tích
-       │
-       ▼
-6. FRONTEND hiển thị modal AI
+   │
+   ├── Kiểm tra currentUser != null (nếu không → redirect login)
+   ├── Kiểm tra không phải contest mode
+   ├── Ghi ai_requests/{id} { uid: currentUser.uid, status: "pending" }
+   │   └── Firebase Rules validate: uid === auth.uid
+   │
+   ▼
+2. JUDGE SERVER xử lý AI request
+   └── Ghi kết quả vào ai_requests/{id}
 ```
 
 ---
@@ -252,24 +199,14 @@ NEO-ONLINE-JUDGE/
 ### 4.1. Yêu cầu hệ thống
 
 - **Python** 3.9+
-- **Node.js** 18+ (cho firebase hosting, optional)
+- **Node.js** 18+ (cho firebase CLI)
 - **g++** (cho C++)
-- **gcc** (cho C, optional)
-- **JDK** 11+ (cho Java, optional)
+- **JDK** 11+ (cho Java, tùy chọn)
 
 ### 4.2. Cài đặt dependencies
 
 ```bash
-# Cài thư viện Python
 pip install -r requirements.txt
-
-# Nội dung requirements.txt:
-#   firebase-admin
-#   python-dotenv
-#   requests
-#   flask
-#   flask-cors
-#   python-json-logger
 ```
 
 ### 4.3. Cấu hình .env
@@ -277,75 +214,55 @@ pip install -r requirements.txt
 ```bash
 # Tạo file .env từ template
 cp .env.example .env
-
-# Sau đó điền các giá trị:
 ```
 
 | Biến | Mô tả | Bắt buộc |
 |------|-------|---------|
 | `CRED_PATH` | Đường dẫn file service-account.json | ✅ |
 | `DB_URL` | URL Firebase Realtime Database | ✅ |
-| `OPENAI_API_KEY` | API key OpenAI (hoặc Grok) | ✅ (cho AI) |
-| `AI_MODEL` | Model AI (mặc định: gpt-4o-mini) | ❌ |
-| `JUDGE_TIMEOUT` | Timeout chấm bài (giây) | ❌ |
-| `POLL_INTERVAL` | Tần suất polling (giây) | ❌ |
-| `HOST` | Host backend API | ❌ |
-| `PORT` | Cổng backend API | ❌ |
+| `JWT_SECRET_KEY` | Secret key cho JWT token (≥ 32 ký tự ngẫu nhiên) | ✅ |
+| `DEEPSEEK_API_KEY` | API key DeepSeek (hoặc Grok) | ✅ (cho AI) |
+| `AI_MODEL` | Model AI (mặc định: deepseek-chat) | ❌ |
+| `JUDGE_TIMEOUT` | Timeout chấm bài (giây, mặc định: 3) | ❌ |
+| `POLL_INTERVAL` | Tần suất polling (giây, mặc định: 1.5) | ❌ |
+| `ALLOWED_ORIGINS` | Danh sách domain CORS (mặc định: production + localhost) | ❌ |
 
-### 4.4. Khởi động hệ thống
+> ⚠️ **QUAN TRỌNG:** File `.env` và `service-account.json` PHẢI được thêm vào `.gitignore`. KHÔNG bao giờ commit lên git.
+
+### 4.4. Tạo JWT_SECRET_KEY
+
+```bash
+python -c "import secrets; print('JWT_SECRET_KEY=' + secrets.token_hex(32))"
+# Dán kết quả vào .env
+```
+
+### 4.5. Khởi động hệ thống
 
 #### Bước 1: Chuẩn bị Firebase
 
 1. Vào [Firebase Console](https://console.firebase.google.com)
 2. Chọn dự án `gtsv2-a93c5`
-3. Vào **Project settings** → **Service accounts**
-4. Generate key → lưu file `service-account.json` vào thư mục gốc
-5. Vào **Realtime Database**, copy URL `https://gtsv2-a93c5-default-rtdb.firebaseio.com`
-6. Vào **Authentication** → **Sign-in method** → Bật Email, Google, GitHub
+3. Vào **Project settings** → **Service accounts** → Generate key → lưu `service-account.json`
+4. Vào **Authentication** → **Sign-in method** → Bật Email, Google, GitHub
+5. Thêm domain vào **Authorized domains**: `localhost`, `gtsv2-a93c5.web.app`
 
-#### Bước 2: Chạy Judge Server
+#### Bước 2: Deploy Security Rules
 
 ```bash
-# Cách 1: Chạy trực tiếp
+firebase deploy --only database
+```
+
+#### Bước 3: Chạy Judge Server
+
+```bash
 python backend/judge.py
-
-# Cách 2: Chạy module
-python -m backend.app
 ```
 
-Server sẽ in ra:
-```
-╔══════════════════════════════════════════════════╗
-║              NEO ONLINE JUDGE v2.0               ║
-║          Online Code Judge + AI Mentor           ║
-╠══════════════════════════════════════════════════╣
-║  Mode:          Independent Scoring              ║
-║  AI Model:      gpt-4o-mini                      ║
-║  API Server:    0.0.0.0:5000                     ║
-║  Poll Interval: 1.5s                             ║
-║  Judge Timeout: 3s                               ║
-╚══════════════════════════════════════════════════╝
-```
-
-#### Bước 3: Mở Frontend
+#### Bước 4: Deploy Frontend
 
 ```bash
-# Cách 1: Mở file trực tiếp
-# Mở frontend/index.html trong trình duyệt
-
-# Cách 2: Dùng web server
-python -m http.server 8000
-# Truy cập http://localhost:8000/frontend/
-```
-
-#### Bước 4: Deploy lên Firebase Hosting (tùy chọn)
-
-```bash
-npm install -g firebase-tools
-firebase login
-firebase init hosting
-# Chọn frontend/ làm thư mục
-firebase deploy
+firebase deploy --only hosting
+# Hosting URL: https://gtsv2-a93c5.web.app
 ```
 
 ---
@@ -354,23 +271,11 @@ firebase deploy
 
 ### 5.1. Thêm bài tập mới
 
-**Cách 1: Qua giao diện web (dành cho giáo viên)**
-
+**Qua giao diện web (dành cho giáo viên):**
 1. Đăng nhập với tài khoản **giáo viên** (teacher)
 2. Vào **Kho bài tập** → nhấn **"Thêm bài"**
-3. Điền thông tin:
-   - **Mã bài (ID)**: VD: `bai01`, `tong-hai-so`
-   - **Tên bài tập**: VD: "Tính tổng hai số"
-   - **Mô tả đề bài**: Nội dung bài toán
-   - **Độ khó**: Dễ / Trung bình / Khó
-   - **Input mẫu / Output mẫu**: Ví dụ minh họa
-   - **Test cases (JSON)**: Danh sách test case
 
-**Cách 2: Qua Firebase Console**
-
-1. Vào Firebase Console → **Realtime Database**
-2. Thêm node `problems/{id}` với cấu trúc:
-
+**Qua Firebase Console:**
 ```json
 {
   "problems": {
@@ -381,13 +286,10 @@ firebase deploy
       "difficulty": "Dễ",
       "example_input": "3 5",
       "example_output": "8",
-      "tutorial_vid": "dQw4w9WgXcQ",
       "author": "teacher@gmail.com",
       "testcases": [
         {"input": "3 5", "output": "8"},
-        {"input": "0 0", "output": "0"},
-        {"input": "-1 1", "output": "0"},
-        {"input": "100 200", "output": "300"}
+        {"input": "0 0", "output": "0"}
       ]
     }
   }
@@ -396,308 +298,179 @@ firebase deploy
 
 ### 5.2. Cấp quyền giáo viên
 
-Để cấp quyền giáo viên (teacher) cho một tài khoản:
-
-1. Vào Firebase Console → **Realtime Database**
-2. Tìm node `users/{uid_của_người_dùng}`
-3. Thêm/sửa: `"role": "teacher"`
-4. Hoặc dùng script:
+> ⚠️ **Bắt buộc** phải thực hiện qua Backend Python hoặc Firebase Console. Học sinh KHÔNG thể tự nâng quyền.
 
 ```python
-import firebase_admin
-from firebase_admin import credentials, db
-
-cred = credentials.Certificate("service-account.json")
-firebase_admin.initialize_app(cred, {
-    'databaseURL': 'https://gtsv2-a93c5-default-rtdb.firebaseio.com'
-})
-
-# Thay UID bằng UID của tài khoản cần nâng quyền
-USER_UID = "abc123..."
+# Script cấp quyền giáo viên
+from firebase_admin import db
 db.reference(f'users/{USER_UID}').update({"role": "teacher"})
-print("✅ Đã cấp quyền giáo viên!")
+print("Đã cấp quyền giáo viên!")
 ```
 
-### 5.3. Thêm tài liệu học tập
+### 5.3. Khởi tạo public_leaderboard
 
-**Dành cho giáo viên:**
-1. Vào **Tài liệu** → nhấn **"Upload tài liệu"**
-2. Nhập tên, link (Google Drive/PDF), loại file, mô tả
+Lần đầu tiên backend chạy, `public_leaderboard` sẽ được tự động cập nhật sau mỗi lần chấm bài. Để khởi tạo dữ liệu có sẵn từ `users`:
 
-**Hoặc qua Firebase Console:**
-```json
-{
-  "documents": {
-    "-key123": {
-      "title": "Đề cương Python cơ bản",
-      "url": "https://drive.google.com/file/d/...",
-      "type": "PDF",
-      "desc": "Tài liệu ôn tập Python cho người mới",
-      "date": "15/1/2025",
-      "author": "teacher@gmail.com"
-    }
-  }
-}
-```
-
-### 5.4. Thêm video bài giảng
-
-**Dành cho giáo viên:**
-1. Vào **Video** → nhấn **"Thêm video mới"**
-2. Nhập: tiêu đề, YouTube ID, mô tả
-
-### 5.5. Tạo phòng thi
-
-Tạo node `contests/{id}` với cấu trúc:
-
-```json
-{
-  "contests": {
-    "contest01": {
-      "title": "Thi thử giữa kỳ",
-      "description": "Bài kiểm tra 45 phút",
-      "created_by": "teacher@gmail.com",
-      "duration_minutes": 45,
-      "start_time": 1705000000000,
-      "is_active": true,
-      "problems": {
-        "bai01": true,
-        "bai02": true,
-        "bai03": true
-      },
-      "participants": {
-        "uid_cua_hoc_sinh": {
-          "name": "Nguyễn Văn A",
-          "score": 85,
-          "finished": false,
-          "started_at": 1705000200000
-        }
-      }
-    }
-  }
-}
+```python
+from backend.services.firebase_service import FirebaseService
+fb = FirebaseService()
+fb.initialize()
+users = fb.get_data("users") or {}
+for uid, u in users.items():
+    if isinstance(u, dict) and u.get("score", 0) > 0:
+        fb.update_public_leaderboard(
+            uid=uid,
+            display_name=u.get("display_name", "Unknown"),
+            score=u.get("score", 0),
+            problems_solved=u.get("problems_solved", 0),
+            avatar=u.get("avatar", "")
+        )
+print("Đã khởi tạo public_leaderboard!")
 ```
 
 ---
 
 ## 6. CẤU TRÚC FIREBASE DATABASE
 
-```
-gtsv2-a93c5-default-rtdb/
-│
-├── users/{uid}                    # 👤 Người dùng
-│   ├── email: "user@gmail.com"
-│   ├── display_name: "Nguyễn Văn A"
-│   ├── role: "student" | "teacher"
-│   ├── avatar: "https://..."
-│   ├── score: 0
-│   ├── problems_solved: 0
-│   ├── join_date: "2025-01-15T..."
-│   └── last_login: "2025-01-15T..."
-│
-├── problems/{id}                  # 📝 Bài tập
-│   ├── title: "Tính tổng hai số"
-│   ├── description: "..."
-│   ├── level: "Easy"|"Medium"|"Hard"
-│   ├── difficulty: "Dễ"|"Trung bình"|"Khó"
-│   ├── example_input: "3 5"
-│   ├── example_output: "8"
-│   ├── tutorial_vid: "dQw4w9WgXcQ" (optional)
-│   ├── author: "teacher@gmail.com"
-│   └── testcases: [
-│       {"input": "3 5", "output": "8"},
-│       ...
-│   ]
-│
-├── submissions/{id}               # 📤 Bài nộp (luyện tập)
-│   ├── uid: "user_uid"
-│   ├── problem_id: "bai01"
-│   ├── code: "print(input()...)"
-│   ├── language: "python"
-│   ├── status: "pending"|"completed"
-│   ├── score: 100
-│   ├── message: "Passed 3/3 test cases."
-│   ├── name: "Nguyễn Văn A"
-│   └── timestamp: 1705000000000
-│
-├── contest_submissions/{id}       # 📤 Bài nộp (phòng thi)
-│   (Cấu trúc tương tự submissions + contest_id)
-│
-├── contests/{id}                  # 🏆 Phòng thi
-│   ├── title: "Thi thử giữa kỳ"
-│   ├── description: "..."
-│   ├── created_by: "teacher@gmail.com"
-│   ├── duration_minutes: 45
-│   ├── start_time: 1705000000000
-│   ├── is_active: true
-│   ├── problems: { "bai01": true, ... }
-│   └── participants: { uid: {...}, ... }
-│
-├── ai_requests/{id}               # 🤖 AI Mentor requests
-│   ├── uid: "user_uid"
-│   ├── name: "Nguyễn Văn A"
-│   ├── code: "..."
-│   ├── problem_desc: "..."
-│   ├── status: "pending"|"processing"|"completed"|"error"
-│   ├── response: "✅ Code của bạn..."
-│   └── timestamp: 1705000000000
-│
-├── documents/{id}                 # 📚 Tài liệu học tập
-│   ├── title: "Đề cương Python"
-│   ├── url: "https://drive..."
-│   ├── type: "PDF"
-│   ├── desc: "..."
-│   ├── date: "15/1/2025"
-│   └── author: "teacher@gmail.com"
-│
-├── videos/{id}                    # 🎥 Video bài giảng
-│   ├── title: "Hướng dẫn..."
-│   ├── youtube_id: "dQw4w9WgXcQ"
-│   ├── desc: "..."
-│   ├── author: "teacher@gmail.com"
-│   └── timestamp: 1705000000000
-│
-└── global_chat/{id}               # 💬 Chat chung
-    ├── name: "Nguyễn Văn A"
-    ├── text: "Chào mọi người!"
-    ├── role: "student"
-    └── timestamp: 1705000000000
+Xem chi tiết tại [`CSDL.md`](CSDL.md).
+
+Node quan trọng nhất:
+- `users/{uid}` — Thông tin người dùng (chỉ đọc chính mình)
+- `public_leaderboard/{uid}` — Điểm xếp hạng (công khai, an toàn)
+- `problems/{id}` — Bài tập (công khai)
+- `submissions/{id}` — Bài nộp (chỉ đọc bài của mình)
+- `global_chat/{id}` — Chat (validate danh tính)
+
+---
+
+## 7. BẢO MẬT HỆ THỐNG
+
+### 7.1. Các lớp bảo mật đã triển khai
+
+| Lớp | Biện pháp | Trạng thái |
+|-----|-----------|-----------|
+| **Firebase Rules** | Phân quyền chi tiết theo từng node và từng UID | ✅ v3.0 |
+| **Chống lộ source code** | Submission chỉ đọc bởi chính mình hoặc teacher | ✅ |
+| **Chống giả mạo chat** | Validate name/role khớp DB khi gửi tin nhắn | ✅ |
+| **Chống leo thang quyền** | Học sinh không thể tự sửa role/score | ✅ |
+| **JWT Secret** | Key ngẫu nhiên 32 bytes, bắt buộc set trong .env | ✅ |
+| **CORS hạn chế** | Chỉ cho phép domain production + localhost | ✅ |
+| **Rate Limit** | Client-side: không nộp bài quá 1 lần/5 giây | ✅ |
+| **AI Guard** | Bắt buộc đăng nhập để dùng AI Mentor | ✅ |
+| **Leaderboard an toàn** | public_leaderboard chỉ chứa tên + điểm | ✅ |
+| **Stats API** | Backend tính toán, không lộ data thô | ✅ |
+
+### 7.2. Những gì KHÔNG được làm
+
+- ❌ **KHÔNG** commit `.env` hoặc `service-account.json` lên git
+- ❌ **KHÔNG** đặt Firebase Rules về `".read": true, ".write": true`
+- ❌ **KHÔNG** để `JWT_SECRET_KEY` là chuỗi đơn giản hoặc để trống
+- ❌ **KHÔNG** set `ALLOWED_ORIGINS = ["*"]` trong production
+
+### 7.3. Kiểm tra bảo mật định kỳ
+
+```bash
+# Kiểm tra rules hiện tại trên Firebase
+firebase database:rules:get --project gtsv2-a93c5
+
+# Re-deploy rules sau khi thay đổi
+firebase deploy --only database
 ```
 
 ---
 
-## 7. XỬ LÝ SỰ CỐ THƯỜNG GẶP
+## 8. XỬ LÝ SỰ CỐ THƯỜNG GẶP
 
-### 7.1. "This domain is not authorized" khi đăng nhập
-
-```
-Nguyên nhân: Domain chưa được thêm vào Authorized domains của Firebase Auth.
-Cách khắc phục:
-1. Vào Firebase Console → Authentication → Settings
-2. Thêm domain vào "Authorized domains"
-3. Ví dụ: localhost, gtsv2-a93c5.web.app
-```
-
-### 7.2. AI Mentor không phản hồi
+### 8.1. "Permission denied" khi đọc dữ liệu
 
 ```
-Nguyên nhân 1: Thiếu API key
-Cách khắc phục:
-1. Kiểm tra .env có OPENAI_API_KEY chưa
-2. Hoặc thêm GROK_API_KEY vào .env
+Nguyên nhân: Firebase Rules đã được thắt chặt.
+Kiểm tra:
+1. Người dùng có đăng nhập chưa?
+2. Trang đang đọc đúng node chưa? (VD: rank.html phải đọc public_leaderboard)
+3. Xem log console trình duyệt để biết node nào bị denied
+```
 
-Nguyên nhân 2: Backend chưa chạy
+### 8.2. Bảng xếp hạng trống
+
+```
+Nguyên nhân: Chưa có dữ liệu trong public_leaderboard.
 Cách khắc phục:
-- Chạy: python backend/judge.py
+1. Chạy script khởi tạo public_leaderboard (xem mục 5.3)
+2. Hoặc nộp bài và để Backend tự động cập nhật
+```
+
+### 8.3. AI Mentor không phản hồi
+
+```
+Nguyên nhân 1: Backend chưa chạy
+  → Chạy: python backend/judge.py
+
+Nguyên nhân 2: Thiếu API key
+  → Kiểm tra .env có DEEPSEEK_API_KEY hoặc GROK_API_KEY
 
 Nguyên nhân 3: Hết quota API
-Cách khắc phục:
-- Kiểm tra billing trên OpenAI/Grok dashboard
+  → Kiểm tra billing trên dashboard của DeepSeek/Grok
 ```
 
-### 7.3. Chấm bài không ra kết quả
+### 8.4. Chấm bài không ra kết quả
 
 ```
-Nguyên nhân 1: Judge server chưa chạy
-Cách khắc phục:
-- Chạy: python backend/judge.py
-
-Nguyên nhân 2: Thiếu compiler
-Cách khắc phục:
-- Python: đã có sẵn
-- C++: cài g++ (sudo apt install g++ / brew install gcc)
-- Java: cài JDK
-
-Nguyên nhân 3: Submission lưu ở contest_submissions nhưng sever
-chỉ check submissions
-Cách khắc phục: Server tự động kiểm tra cả 2 bảng.
+1. Judge server chưa chạy → python backend/judge.py
+2. Thiếu compiler:
+   - C++: cài g++
+   - Java: cài JDK
+3. Xem logs: tail -f logs/judge_*.log
 ```
 
-### 7.4. Avatar không hiển thị
+### 8.5. Lỗi JWT token hết hạn
 
 ```
-Nguyên nhân: photoURL null hoặc lỗi
-Giải pháp: Hệ thống tự động fallback về ui-avatars.com.
-Nếu vẫn lỗi → kiểm tra kết nối mạng.
+Nguyên nhân: Server restart tạo JWT_SECRET_KEY mới.
+Cách khắc phục: Set JWT_SECRET_KEY cố định trong .env
 ```
 
-### 7.5. Lỗi "Không tìm thấy đề bài"
-
-```
-Nguyên nhân: Problem ID sai hoặc chưa có trong database.
-Cách khắc phục:
-1. Kiểm tra Firebase Console → problems có dữ liệu chưa
-2. Thêm bài tập mới (xem mục 5.1)
-```
-
-### 7.6. Logs để debug
+### 8.6. Xem Logs
 
 ```bash
-# Xem log realtime
-tail -f logs/judge_*.log
-
-# Xem log lỗi
-tail -f logs/errors_*.log
+tail -f logs/judge_*.log   # Log realtime
+grep -i error logs/judge_*.log | tail -20  # Chỉ xem lỗi
 ```
 
 ---
 
-## 8. BẢO TRÌ & NÂNG CẤP
+## 9. BẢO TRÌ & NÂNG CẤP
 
-### 8.1. Cập nhật frontend
+### 9.1. Cập nhật frontend
 
 ```bash
-# Deploy lại lên Firebase Hosting
 firebase deploy --only hosting
 ```
 
-### 8.2. Cập nhật backend
+### 9.2. Cập nhật security rules
 
 ```bash
-# Dừng server cũ (Ctrl+C)
-# Pull code mới
-git pull
-
-# Cài dependencies mới
-pip install -r requirements.txt
-
-# Khởi động lại
-python backend/judge.py
+# Sau khi sửa database.rules.json
+firebase deploy --only database
 ```
 
-### 8.3. Sao lưu dữ liệu Firebase
+### 9.3. Sao lưu dữ liệu Firebase
 
 ```bash
-# Cài firebase-tools
-npm install -g firebase-tools
-
-# Export database
-firebase database:export --project gtsv2-a93c5 backup.json
+firebase database:export --project gtsv2-a93c5 backup_$(date +%Y%m%d).json
 ```
 
-### 8.4. Xóa dữ liệu test
+### 9.4. Xóa dữ liệu test
 
-Để tránh đầy database, nên xóa định kỳ:
-- `ai_requests` cũ (request test)
-- `submissions` test
+Để tránh đầy database, xóa định kỳ:
+- `ai_requests` cũ hơn 30 ngày
+- `submissions` test của tài khoản thử nghiệm
 
-### 8.5. Kiểm tra log thường xuyên
+### 9.5. Tối ưu hóa hiệu suất
 
-Kiểm tra `logs/` để phát hiện sớm lỗi hệ thống:
-
-```bash
-# Kiểm tra lỗi
-grep -i error logs/judge_*.log | tail -20
-
-# Kiểm tra dung lượng logs
-du -sh logs/
-```
-
-### 8.6. Tối ưu hóa
-
-- Nếu nhiều người dùng cùng lúc, tăng `POLL_INTERVAL` lên 2-3s
-- Nếu cần realtime hơn, thiết lập Redis queue
-- Nếu chấm C++/Java nhiều, đảm bảo server có đủ RAM
+- Nếu nhiều người dùng cùng lúc → tăng `POLL_INTERVAL` lên 2-3s
+- Nếu cần realtime hơn → thiết lập Redis queue (`USE_QUEUE=true`)
+- Nếu chấm C++/Java nhiều → đảm bảo server có đủ RAM (≥ 2GB)
 
 ---
 
@@ -707,19 +480,22 @@ du -sh logs/
 # 1. Chạy backend (luôn cần để chấm bài + AI)
 python backend/judge.py
 
-# 2. Mở frontend
-# Mở frontend/index.html trong trình duyệt
-
-# 3. Kiểm tra logs
-tail -f logs/judge_*.log
-
-# 4. Deploy hosting
+# 2. Deploy hosting
 firebase deploy --only hosting
+
+# 3. Deploy database rules (sau khi thay đổi)
+firebase deploy --only database
+
+# 4. Xem logs
+tail -f logs/judge_*.log
 
 # 5. Sao lưu dữ liệu
 firebase database:export --project gtsv2-a93c5 backup.json
+
+# 6. Tạo JWT secret mới
+python -c "import secrets; print(secrets.token_hex(32))"
 ```
 
 ---
 
-> **Phiên bản:** 2.0 | **Cập nhật:** 01/2025 | **Hỗ trợ:** phamvanchung2k7@gmail.com
+> **Phiên bản:** 3.0 | **Cập nhật:** 06/2026 | **Hỗ trợ:** phamvanchung2k7@gmail.com

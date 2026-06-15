@@ -1,0 +1,27 @@
+# ==============================================================================
+# NEO ONLINE JUDGE v2.0 - Python Dependencies
+# ==============================================================================
+# Install: pip install -r requirements.txt
+# Freeze:  pip freeze > requirements.txt
+# ==============================================================================
+
+# --- Core ---
+firebase-admin>=6.0.0
+requests>=2.31.0
+python-dotenv>=1.0.0
+python-json-logger>=2.0.0
+
+# --- Web Server (for Auth API) ---
+flask>=3.0.0
+flask-cors>=4.0.0
+pyjwt>=2.8.0
+
+# --- Optional: Queue System ---
+redis>=5.0.0
+rq>=1.16.0
+
+# --- Development & Testing ---
+pytest>=7.4.0
+pytest-cov>=4.1.0
+black>=23.12.0
+flake8>=6.1.0

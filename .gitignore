@@ -1,37 +1,30 @@
 # ============================================================================
-# NEO ONLINE JUDGE - Git Ignore Rules
-# ============================================================================
-#  CHI ĐẨY LÊN: public/ (frontend) + README.md + VẬN_HÀNH.md + guide.html
-#  KHÔNG ĐẨY LÊN: backend/ (judge server, AI service), config/ (settings),
-#                  service-account.json, .env, logs/, judge.py, v.v.
+# NEO ONLINE JUDGE - .gitignore
+# Repo: PRIVATE — Đẩy toàn bộ source code lên git
+# Chỉ loại trừ: credentials, API keys, logs, cache, temp files
 # ============================================================================
 
 # =====================================================
-# 🔐 BẢO MẬT — TUYỆT ĐỐI KHÔNG ĐẪY LÊN GIT
+# 🔐 BẢO MẬT — TUYỆT ĐỐI KHÔNG ĐẨY LÊN GIT
+# (Dù repo private vẫn không nên commit credentials)
 # =====================================================
 .env
 .env.*
 *.local
+
+# Firebase Admin SDK key (service account)
 service-account.json
-*.pem
-*.key
-credentials.json
-firebase-admin-sdk.json
+*service_account*.json
 *credential*.json
 *secret*.json
+firebase-admin-sdk.json
+credentials.json
+*.pem
+*.key
 
 # =====================================================
-# 🐍 BACKEND PYTHON — TUYỆT ĐỐI KHÔNG ĐẪY LÊN GIT
+# 🐍 PYTHON — Cache & Build
 # =====================================================
-
-# --- Core Backend (Judge Server + AI) ---
-backend/
-config/
-
-# --- Entry Point ---
-judge.py
-
-# --- Python bytecode & cache ---
 __pycache__/
 *.py[cod]
 *.pyo
@@ -40,7 +33,7 @@ __pycache__/
 .mypy_cache/
 .ruff_cache/
 
-# --- Virtual Environment ---
+# Virtual Environment
 venv/
 .venv/
 env/
@@ -48,11 +41,7 @@ virtualenv/
 .venv_*
 *.venv
 
-# =====================================================
-# ⚙️ BUILD & DISTRIBUTION
-# =====================================================
-
-# --- Python packages ---
+# Build & Distribution
 *.egg-info/
 dist/
 build/
@@ -60,7 +49,6 @@ build/
 .eggs/
 *.whl
 *.tar.gz
-*.zip
 
 # =====================================================
 # 📝 LOGS & TEMP FILES
@@ -72,6 +60,19 @@ temp_*
 *.swp
 *.swo
 *~
+
+# Compiled Java/C++ temp files từ Judge
+*.class
+*.exe
+*.o
+Main.class
+SumOfDigits.class
+Main.java
+SumOfDigits.java
+backend/Main.java
+backend/SumOfDigits.java
+backend/*.java
+backend/*.class
 
 # =====================================================
 # 🛠️ IDE & OS FILES
@@ -88,41 +89,35 @@ Thumbs.db
 desktop.ini
 
 # =====================================================
-# 🐳 DOCKER
-# =====================================================
-.docker/
-docker-compose.override.yml
-Dockerfile
-.dockerignore
-
-# =====================================================
-# 📊 COVERAGE & REPORTS
+# 📊 TEST COVERAGE
 # =====================================================
 htmlcov/
 .coverage
 .coverage.*
 coverage.xml
-*.coverage
 coverage/
 
 # =====================================================
-# 🌐 NODE (optional - cho firebase hosting deploy)
+# 🌐 NODE / FIREBASE CLI
 # =====================================================
 node_modules/
 .firebase/
-.firebaserc
-firebase.json
 
 # =====================================================
-# 📦 DEPENDENCIES
+# ✅ NHỮNG GÌ SẼ ĐƯỢC ĐẨY LÊN:
 # =====================================================
-requirements.txt
-
-# =====================================================
-# 🔧 ĐẪY LÊN NHỮNG FILE NÀY:
-# =====================================================
-#  public/          ✅ Frontend (HTML, CSS, JS)
-#  README.md        ✅ Tài liệu README
-#  VẬN_HÀNH.md      ✅ Tài liệu vận hành
-#  .gitignore       ✅ File này
-#  LICENSE          ✅ Giấy phép (nếu có)
+#  backend/             ✅ Toàn bộ backend Python
+#  frontend/            ✅ Toàn bộ frontend HTML/CSS/JS
+#  database.rules.json  ✅ Firebase Security Rules
+#  firebase.json        ✅ Firebase CLI config
+#  .firebaserc          ✅ Firebase project config
+#  requirements.txt     ✅ Python dependencies
+#  README.md            ✅ Tài liệu chính
+#  VẬN_HÀNH.md         ✅ Tài liệu vận hành
+#  CSDL.md              ✅ Tài liệu database
+#  .gitignore           ✅ File này
+#  .env.example         ✅ Mẫu cấu hình (KHÔNG có giá trị thật)
+#
+# ❌ KHÔNG được đẩy lên:
+#  .env                 ❌ Chứa API keys thật
+#  service-account.json ❌ Firebase Admin credentials

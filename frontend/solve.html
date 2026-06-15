@@ -499,6 +499,8 @@
     <script>
         let currentUser = null;
         let currentProblemId = 'bai1';
+        let lastSubmitTime = 0;  // Rate-limit: chong spam nop bai
+        const SUBMIT_COOLDOWN_MS = 5000; // 5 giay giua moi lan nop
 
         const urlParams  = new URLSearchParams(window.location.search);
         const contestId  = urlParams.get('contest_id');
@@ -609,10 +611,21 @@
 
         // ── Submit Code ──
         function submitCode() {
-            if (!currentUser) { alert('Vui lòng đăng nhập để nộp bài!'); return; }
+            if (!currentUser) {
+                alert('Vui lòng đăng nhập để nộp bài!');
+                window.location.href = 'login.html';
+                return;
+            }
+            const now = Date.now();
+            if (now - lastSubmitTime < SUBMIT_COOLDOWN_MS) {
+                const remain = Math.ceil((SUBMIT_COOLDOWN_MS - (now - lastSubmitTime)) / 1000);
+                alert(`Vui lòng chờ ${remain} giây trước khi nộp bài tiếp theo.`);
+                return;
+            }
             const code = document.getElementById('code').value;
             const lang = document.getElementById('language').value;
             if (!code.trim()) { alert('Bạn chưa nhập code!'); return; }
+            lastSubmitTime = now;
 
             const subId = Date.now().toString();
             const outputLog = document.getElementById('output-log');
@@ -673,6 +686,11 @@
 
         // ── AI Hint ──
         function askAI() {
+            if (!currentUser) {
+                alert('Vui lòng đăng nhập để sử dụng AI Mentor!');
+                window.location.href = 'login.html';
+                return;
+            }
             if (MODE === 'CONTEST') { alert('Tính năng AI bị vô hiệu hóa trong phòng thi!'); return; }
             const code = document.getElementById('code').value;
             const desc = document.getElementById('desc').textContent;

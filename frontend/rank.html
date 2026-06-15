@@ -239,14 +239,10 @@
             const listDiv = document.getElementById('rank-list');
 
             try {
-                const [usersSnap, subSnap] = await Promise.all([
-                    db.ref('users').once('value'),
-                    db.ref('submissions').once('value'),
-                ]);
+                // Doc tu public_leaderboard — node nay chi chua ten + diem, an toan 100%
+                const snap = await db.ref('public_leaderboard').once('value');
 
-                const usersMap = usersSnap.val() || {};
-
-                if (!subSnap.exists()) {
+                if (!snap.exists()) {
                     listDiv.innerHTML = `
                         <div class="rank-empty">
                             <i class="fa-solid fa-chart-bar"></i>
@@ -255,33 +251,15 @@
                     return;
                 }
 
-                const data = subSnap.val();
-                const userScores = {};
+                const data = snap.val();
 
-                Object.values(data).forEach(s => {
-                    if (s.status !== 'completed') return;
-                    const uid = s.uid;
-                    if (!uid) return;
-
-                    if (!userScores[uid]) {
-                        const dbUser = usersMap[uid];
-                        let displayName = s.name
-                            || (dbUser && (dbUser.display_name || dbUser.name))
-                            || `User_${uid.substring(0, 6)}`;
-                        let avatar = (dbUser && dbUser.avatar) || '';
-                        userScores[uid] = { uid, name: displayName, avatar, problems: {}, total: 0, solvedCount: 0 };
-                    }
-
-                    const newScore = parseInt(s.score) || 0;
-                    const current  = userScores[uid].problems[s.problem_id] || 0;
-                    if (newScore > current) userScores[uid].problems[s.problem_id] = newScore;
-                });
-
-                const rankArray = Object.values(userScores).map(u => {
-                    let sum = 0, count = 0;
-                    Object.values(u.problems).forEach(sc => { sum += sc; if (sc === 100) count++; });
-                    return { ...u, total: sum, solvedCount: count };
-                }).sort((a, b) => b.total !== a.total ? b.total - a.total : b.solvedCount - a.solvedCount);
+                const rankArray = Object.entries(data).map(([uid, u]) => ({
+                    uid,
+                    name: u.display_name || 'Ẩn danh',
+                    avatar: u.avatar || '',
+                    total: u.score || 0,
+                    solvedCount: u.problems_solved || 0,
+                })).sort((a, b) => b.total !== a.total ? b.total - a.total : b.solvedCount - a.solvedCount);
 
                 if (rankArray.length === 0) {
                     listDiv.innerHTML = `<div class="rank-empty"><i class="fa-solid fa-chart-bar"></i>Chưa có dữ liệu.</div>`;
@@ -290,7 +268,7 @@
 
                 const medals = ['🥇', '🥈', '🥉'];
 
-                listDiv.innerHTML = rankArray.slice(0, 10).map((u, idx) => {
+                listDiv.innerHTML = rankArray.slice(0, 50).map((u, idx) => {
                     const rank     = idx + 1;
                     const topClass = rank <= 3 ? `top-${rank}` : '';
                     const meClass  = u.uid === currentUid ? 'me' : '';

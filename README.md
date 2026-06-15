@@ -12,168 +12,154 @@
 <p align="center">
   <img src="https://img.shields.io/badge/Python-3.9%2B-blue?style=flat&logo=python" alt="Python">
   <img src="https://img.shields.io/badge/Firebase-Realtime%20DB-orange?style=flat&logo=firebase" alt="Firebase">
-  <img src="https://img.shields.io/badge/AI-Grok%20%7C%20OpenAI-brightgreen?style=flat&logo=openai" alt="AI">
+  <img src="https://img.shields.io/badge/AI-DeepSeek%20%7C%20Grok-brightgreen?style=flat&logo=openai" alt="AI">
   <img src="https://img.shields.io/badge/License-MIT-yellow?style=flat" alt="License">
   <img src="https://img.shields.io/badge/Status-Active-success?style=flat" alt="Status">
+  <img src="https://img.shields.io/badge/Security-Hardened%20v3.0-red?style=flat&logo=shield" alt="Security">
 </p>
 
 ---
 
-## MỤC LỤC
+## MUC LUC
 
-- [Giới Thiệu](#-giới-thiệu)
-- [Tính Năng Chính](#-tính-năng-chính)
-- [Công Nghệ Sử Dụng](#-công-nghệ-sử-dụng)
-- [Cấu Trúc Dự Án](#-cấu-trúc-dự-án)
-- [Hướng Dẫn Cài Đặt Nhanh](#-hướng-dẫn-cài-đặt-nhanh)
-- [Hướng Dẫn Cài Đặt Chi Tiết](#-hướng-dẫn-cài-đặt-chi-tiết)
-- [Hướng Dẫn Sử Dụng](#-hướng-dẫn-sử-dụng)
-- [Cấu Trúc Firebase Database](#-cấu-trúc-firebase-database)
-- [Hệ Thống AI Mentor](#-hệ-thống-ai-mentor)
-- [Kiến Trúc Hệ Thống](#-kiến-trúc-hệ-thống)
-- [Xử Lý Sự Cố](#-xử-lý-sự-cố-thường-gặp)
-- [Lộ Trình Phát Triển](#-lộ-trình-phát-triển)
-- [Đóng Góp](#-đóng-góp)
-- [Giấy Phép](#-giấy-phép)
-
----
-
-## Giới Thiệu
-
-**NEO Online Judge** là một nền tảng học lập trình tương tác toàn diện được thiết kế dành riêng cho người dùng Việt Nam. Dự án kết hợp:
-
-- **Chấm bài tự động** — Biên dịch & chạy test cases, cho điểm tức thì
-- **AI Mentor thông minh** — Phân tích code, gợi ý sửa lỗi mà không đưa đáp án
-- **Môi trường thi đấu** — Phòng thi trực tuyến có bấm giờ
-- **Giao diện Cyberpunk** — UI hiện đại, bắt mắt với hiệu ứng neon
-
-Dự án phù hợp cho:
-- **Trường học** — Làm công cụ dạy và học lập trình
-- **Câu lạc bộ** — Tổ chức thi đấu, luyện tập
-- **Cá nhân** — Tự học và rèn luyện kỹ năng coding
+- [Gioi Thieu](#gioi-thieu)
+- [Tinh Nang Chinh](#tinh-nang-chinh)
+- [Cong Nghe Su Dung](#cong-nghe-su-dung)
+- [Cau Truc Du An](#cau-truc-du-an)
+- [Huong Dan Cai Dat Nhanh](#huong-dan-cai-dat-nhanh)
+- [Huong Dan Cai Dat Chi Tiet](#huong-dan-cai-dat-chi-tiet)
+- [Huong Dan Su Dung](#huong-dan-su-dung)
+- [Cau Truc Firebase Database](#cau-truc-firebase-database)
+- [Bao Mat He Thong](#bao-mat-he-thong)
+- [Kien Truc He Thong](#kien-truc-he-thong)
+- [Xu Ly Su Co](#xu-ly-su-co-thuong-gap)
+- [Lo Trinh Phat Trien](#lo-trinh-phat-trien)
+- [Dong Gop](#dong-gop)
+- [Giay Phep](#giay-phep)
 
 ---
 
-## Tính Năng Chính
+## Gioi Thieu
 
-### Cho Học Sinh
+**NEO Online Judge** la nen tang hoc lap trinh tuong tac toan dien duoc thiet ke danh rieng cho nguoi dung Viet Nam. Du an ket hop:
 
-| Tính năng | Mô tả |
+- **Cham bai tu dong** — Bien dich & chay test cases, cho diem tuc thi
+- **AI Mentor thong minh** — Phan tich code, goi y sua loi ma khong dua dap an
+- **Moi truong thi dau** — Phong thi truc tuyen co bam gio
+- **Giao dien Cyberpunk** — UI hien dai, bat mat voi hieu ung neon
+- **Bao mat cao** — Firebase Security Rules v3.0, JWT, CORS han che
+
+Du an phu hop cho:
+- **Truong hoc** — Lam cong cu day va hoc lap trinh
+- **Cau lac bo** — To chuc thi dau, luyen tap
+- **Ca nhan** — Tu hoc va ren luyen ky nang coding
+
+---
+
+## Tinh Nang Chinh
+
+### Cho Hoc Sinh
+
+| Tinh nang | Mo ta |
 |-----------|-------|
-| Kho bài tập | Hàng trăm bài toán phân loại theo 3 cấp độ: Dễ - Trung bình - Khó |
-| Code Editor | Soạn thảo code trực tuyến với đa ngôn ngữ (Python, C++, Java, Pascal) |
-| Chấm điểm tức thì | Nộp bài và nhận kết quả ngay lập tức |
-| AI Mentor | Gợi ý sửa lỗi thông minh từ AI (Grok/OpenAI) |
-| Dashboard cá nhân | Theo dõi điểm số, tiến độ học tập qua biểu đồ |
-| Bảng xếp hạng | So tài với các lập trình viên khác |
-| Tài liệu & Video | Thư viện tài liệu PDF, video bài giảng YouTube |
-| Chat chung | Kênh thảo luận toàn hệ thống |
-| Random bài | Tính năng chọn bài ngẫu nhiên để thử thách |
+| Kho bai tap | Bai toan phan loai theo 3 cap do: De - Trung binh - Kho |
+| Code Editor | Soan thao code truc tuyen voi da ngon ngu (Python, C++, Java, Pascal) |
+| Cham diem tuc thi | Nop bai va nhan ket qua ngay lap tuc |
+| AI Mentor | Goi y sua loi thong minh tu AI (DeepSeek/Grok) — Yeu cau dang nhap |
+| Dashboard ca nhan | Theo doi diem so, tien do hoc tap |
+| Bang xep hang | So tai voi cac lap trinh vien khac (tu public_leaderboard) |
+| Tai lieu & Video | Thu vien tai lieu PDF, video bai giang YouTube |
+| Chat chung | Kenh thao luan toan he thong (co validate danh tinh) |
 
-### Cho Giáo Viên / Quản Trị Viên
+### Cho Giao Vien / Quan Tri Vien
 
-| Tính năng | Mô tả |
+| Tinh nang | Mo ta |
 |-----------|-------|
-| Thêm bài tập | Tạo bài toán mới kèm test cases qua giao diện (cần quyền teacher) |
-| Tổ chức thi | Tạo phòng thi, quản lý thời gian, theo dõi kết quả |
-| Quản lý nội dung | Upload tài liệu, video bài giảng |
-| Giám sát học sinh | Theo dõi tiến độ, lịch sử nộp bài |
+| Them bai tap | Tao bai toan moi kem test cases qua giao dien |
+| To chuc thi | Tao phong thi, quan ly thoi gian |
+| Quan ly noi dung | Upload tai lieu, video bai giang |
+| Cap quyen giao vien | Phai thuc hien qua Backend/Firebase Console |
 
-### Đặc Điểm Nổi Bật
+### Dac Diem Noi Bat
 
-- **UI Cyberpunk** — Giao diện tối giản, neon, hiện đại
-- **Hỗ trợ tiếng Việt** — Toàn bộ nội dung được bản địa hóa
-- **Real-time** — Cập nhật kết quả chấm điểm tức thời
-- **Responsive** — Hoạt động tốt trên desktop, tablet, mobile
-- **Bảo mật** — Firebase Authentication & phân quyền
+- **UI Cyberpunk** — Giao dien toi gian, neon, hien dai
+- **Ho tro tieng Viet** — Toan bo noi dung duoc ban dia hoa
+- **Real-time** — Cap nhat ket qua cham diem tuc thoi
+- **Bao mat cao** — Security Rules v3.0 + JWT + CORS han che
 
 ---
 
-## Công Nghệ Sử Dụng
+## Cong Nghe Su Dung
 
 ### Frontend
 
-| Công nghệ | Mục đích |
+| Cong nghe | Muc dich |
 |-----------|----------|
-| **HTML5 / CSS3** | Cấu trúc & giao diện (Neo Design System) |
-| **JavaScript (Vanilla)** | Tương tác & cập nhật real-time |
-| **Firebase JS SDK v8** | Kết nối Realtime Database & Auth |
-| **Chart.js** | Biểu đồ thống kê |
+| **HTML5 / CSS3** | Cau truc & giao dien (Neo Design System) |
+| **JavaScript (Vanilla)** | Tuong tac & cap nhat real-time |
+| **Firebase JS SDK v8** | Ket noi Realtime Database & Auth |
 | **Font Awesome 6** | Icon |
 
 ### Backend
 
-| Công nghệ | Mục đích | Phiên bản |
-|-----------|----------|-----------|
+| Cong nghe | Muc dich | Phien ban |
+|-----------|----------|-----------| 
 | **Python** | Backend Judge Server | 3.9+ |
 | **Flask** | HTTP API Server | 3.x |
-| **Firebase Admin SDK** | Quản lý dữ liệu từ backend | Latest |
-| **Grok API / OpenAI API** | AI Mentor | Grok 3 / GPT-4o-mini |
-| **g++ / gcc / javac** | Trình biên dịch C++, C, Java | Theo hệ thống |
+| **Firebase Admin SDK** | Quan ly du lieu tu backend (bypass rules) | Latest |
+| **DeepSeek / Grok API** | AI Mentor | deepseek-chat / grok-3 |
+| **g++ / javac** | Trinh bien dich C++, Java | Theo he thong |
 
 ### Infrastructure
 
-| Thành phần | Chi tiết |
+| Thanh phan | Chi tiet |
 |-----------|----------|
 | **Database** | Firebase Realtime Database |
+| **Security Rules** | Firebase Security Rules v3.0 |
 | **Authentication** | Firebase Auth (Email, Google, GitHub) |
-| **Hosting** | Firebase Hosting (hoặc local server) |
+| **Hosting** | Firebase Hosting |
 
 ---
 
-## Cấu Trúc Dự Án
+## Cau Truc Du An
 
 ```
 NEO-ONLINE-JUDGE/
-│
-├── setup/                            # Cong cu cai dat
-│   ├── setup_system.py               # Script kiem tra he thong
-│   ├── Dockerfile                    # Docker build
-│   ├── docker-compose.yml            # Docker compose
-│   └── scripts/                      # Cac script phu tro
-├── .env                              # Bien moi truong
-├── service-account.json              # Firebase Admin key (can tu tao)
+├── .env                              # Bien moi truong (KHONG commit)
+├── .env.example                      # Mau cau hinh
+├── service-account.json              # Firebase Admin key (KHONG commit)
+├── database.rules.json               # Firebase Security Rules v3.0
+├── firebase.json                     # Firebase CLI config
 ├── requirements.txt                  # Python dependencies
-├── VAN_HANH.md                       # Tai lieu van hanh
 │
-├── backend/                          # Backend Python
-│   ├── app.py                        # Ung dung chinh (JudgeApplication)
-│   ├── judge.py                      # ENTRY POINT - Khoi dong backend
+├── backend/
+│   ├── app.py                        # JudgeApplication + Flask API
+│   ├── judge.py                      # ENTRY POINT
 │   ├── config/
-│   │   ├── settings.py               # Settings tu .env
-│   │   └── logging.py                # Logging system
-│   ├── core/                         # Core engine
+│   │   ├── settings.py               # Settings (JWT bắt buộc, CORS han che)
+│   │   └── logging.py
+│   ├── core/
 │   │   ├── compiler.py               # Bien dich da ngon ngu
 │   │   └── judge.py                  # Engine cham diem
-│   ├── models/
-│   │   └── submission.py             # Data model
 │   ├── services/
-│   │   ├── firebase_service.py       # Firebase operations
-│   │   └── ai_service.py             # AI Mentor (Grok/OpenAI)
+│   │   ├── firebase_service.py       # Firebase ops + update_public_leaderboard()
+│   │   ├── auth_service.py           # Auth + JWT
+│   │   └── ai_service.py             # AI Mentor
 │   └── routes/
-│       └── auth_routes.py            # API Auth
+│       └── auth_routes.py            # API (bo login bang password rong)
 │
-├── frontend/                         # Frontend (Web) cho AI Agent va Nguoi dung
-│   ├── index.html                    # Trang chu
-│   ├── login.html                    # Dang nhap / Dang ky
-│   ├── problems.html                 # Kho bai tap
-│   ├── solve.html                    # Soan thao code
-│   ├── contest.html                  # Danh sach phong thi
-│   ├── contest_room.html             # Phong thi
-│   ├── history.html                  # Lich su nop bai
-│   ├── rank.html                     # Bang xep hang
-│   ├── documents.html                # Tai lieu hoc tap
-│   ├── videos.html                   # Video bai giang
-│   ├── about.html                    # Gioi thieu
-│   └── guide.html                    # Huong dan
-│   ├── css/
-│   │   └── neo-design.css            # Neo Design System
+├── frontend/
+│   ├── index.html                    # Trang chu (stats tu /api/stats)
+│   ├── rank.html                     # Bang XH (tu public_leaderboard)
+│   ├── solve.html                    # Code editor (rate-limited, AI guard)
+│   ├── history.html                  # Lich su (chi cua minh)
+│   ├── ...
+│   ├── css/neo-design.css
 │   └── js/
-│       ├── firebase-config.js        # Firebase config CHUNG
-│       └── firebase-auth-check.js    # Auth check tu dong
+│       ├── firebase-config.js
+│       └── firebase-auth-check.js
 │
-├── logs/                             # Log files
-└── KEY/                              # Tai nguyen phu (optional)
+└── logs/
 ```
 
 ---
@@ -188,21 +174,20 @@ cd NEO-ONLINE-JUDGE
 # 2. Cai Python dependencies
 pip install -r requirements.txt
 
-# 3. Tao file .env tu mau (xem chi tiet ben duoi)
+# 3. Tao file .env (xem chi tiet ben duoi)
+cp .env.example .env
 
 # 4. Dat file service-account.json vao thu muc goc
 
-# 5. Chay backend judge
+# 5. Tao JWT secret key
+python -c "import secrets; print('JWT_SECRET_KEY=' + secrets.token_hex(32))"
+# Dan vao .env
+
+# 6. Chay backend judge
 python backend/judge.py
 
-# 6. Mo frontend (trinh duyet)
-# MacOS:
-open frontend/index.html
-# Windows:
-start frontend/index.html
-# Hoac dung Python HTTP server:
-python -m http.server 8000
-# Truy cap: http://localhost:8000/frontend/
+# 7. Deploy len Firebase
+firebase deploy
 ```
 
 ---
@@ -217,75 +202,38 @@ cd NEO-ONLINE-JUDGE
 pip install -r requirements.txt
 ```
 
-**Noi dung requirements.txt:**
-```
-firebase-admin>=6.0.0
-python-dotenv>=1.0.0
-requests>=2.31.0
-flask>=3.0.0
-flask-cors>=4.0.0
-python-json-logger>=2.0.0
-```
-
 ### 2. Cau Hinh Firebase
 
 #### Buoc A: Lay Firebase Config cho Frontend
 
 1. Vao [Firebase Console](https://console.firebase.google.com)
-2. Chon du an `gtsv2-a93c5` (hoac tao moi)
-3. Vao **Project settings** > **General** > **Your apps** > **Web app**
-4. Copy `firebaseConfig` object
-5. Cap nhat vao file `frontend/js/firebase-config.js`:
-
-```javascript
-// frontend/js/firebase-config.js
-const firebaseConfig = {
-  apiKey: "AIzaSy...",
-  authDomain: "your-project.firebaseapp.com",
-  databaseURL: "https://your-project-default-rtdb.firebaseio.com",
-  projectId: "your-project",
-  storageBucket: "your-project.firebasestorage.app",
-  messagingSenderId: "123456789",
-  appId: "1:123456789:web:abc123"
-};
-
-firebase.initializeApp(firebaseConfig);
-const auth = firebase.auth();
-const db = firebase.database();
-```
+2. Chon du an `gtsv2-a93c5`
+3. Vao **Project settings** > **Your apps** > **Web app**
+4. Copy `firebaseConfig`, cap nhat vao `frontend/js/firebase-config.js`
 
 #### Buoc B: Lay Service Account cho Backend
 
 1. Vao **Project settings** > **Service accounts**
-2. Chon **Firebase Admin SDK** > **Generate new private key**
-3. Luu file `service-account.json` vao thu muc goc du an
+2. **Generate new private key** > Luu file `service-account.json` vao thu muc goc
 
 #### Buoc C: Bat Authentication
 
 1. Vao **Authentication** > **Sign-in method**
-2. Bat cac provider: **Email/Password**, **Google**, **GitHub**
-3. Them domain cua ban vao **Authorized domains** (VD: `localhost`, `gtsv2-a93c5.web.app`)
+2. Bat: **Email/Password**, **Google**, **GitHub**
+3. Them domain vao **Authorized domains**: `localhost`, `gtsv2-a93c5.web.app`
 
-#### Buoc D: Cau hinh Realtime Database Rules
+#### Buoc D: Deploy Security Rules v3.0
 
-Vao **Realtime Database** > **Rules** > Dan rules:
-
-```json
-{
-  "rules": {
-    ".read": true,
-    ".write": true,
-    "users": {
-      ".read": true,
-      "$uid": {
-        ".write": "$uid === auth.uid || root.child('users/'+$uid+'/role').val() === 'teacher'"
-      }
-    }
-  }
-}
+```bash
+firebase deploy --only database
 ```
 
-### 3. Cau Hinh AI (Grok/OpenAI)
+> Cac rules trong `database.rules.json` bao gom:
+> - `public_leaderboard`: Cong khai chi doc
+> - `submissions`: `.indexOn: ["uid"]` cho query nhanh
+> - `global_chat`: Validate danh tinh nguoi gui
+
+### 3. Cau Hinh .env
 
 Tao file `.env` trong thu muc goc:
 
@@ -294,13 +242,14 @@ Tao file `.env` trong thu muc goc:
 CRED_PATH=service-account.json
 DB_URL=https://gtsv2-a93c5-default-rtdb.firebaseio.com
 
-# === AI (Grok API - khuyen dung) ===
-# Dang ky tai: https://console.x.ai
-GROK_API_KEY=grok-xxx...
+# === AI (chon 1 trong 2) ===
+DEEPSEEK_API_KEY=sk-xxx...        # https://platform.deepseek.com
+# GROK_API_KEY=grok-xxx...        # https://console.x.ai
 
-# === AI (OpenAI API - thay the) ===
-# OPENAI_API_KEY=sk-xxx...
-# AI_MODEL=gpt-4o-mini
+AI_MODEL=deepseek-chat
+AI_TEMPERATURE=0.7
+AI_MAX_TOKENS=1000
+AI_TIMEOUT=20
 
 # === Judge Engine ===
 JUDGE_TIMEOUT=3
@@ -310,9 +259,17 @@ POLL_INTERVAL=1.5
 HOST=0.0.0.0
 PORT=5000
 
+# === Authentication (BAT BUOC — phai dat gia tri ngu nhien manh) ===
+JWT_SECRET_KEY=<chay: python -c "import secrets; print(secrets.token_hex(32))">
+JWT_EXPIRY_HOURS=24
+
 # === Logging ===
 LOG_LEVEL=INFO
 ```
+
+> ⚠️ **QUAN TRONG:**
+> - `JWT_SECRET_KEY` PHAI duoc dat. Neu de trong, server se tu tao key ngau nhien moi lan khoi dong, dan den het phien dang nhap.
+> - KHONG commit `.env` len git.
 
 ### 4. Chay Judge Server
 
@@ -320,241 +277,53 @@ LOG_LEVEL=INFO
 python backend/judge.py
 ```
 
-**Output thanh cong:**
-```
-╔══════════════════════════════════════════════════╗
-║              NEO ONLINE JUDGE v2.0               ║
-║          Online Code Judge + AI Mentor           ║
-╠══════════════════════════════════════════════════╣
-║  Mode:          Independent Scoring              ║
-║  AI Model:      grok-3-mini                      ║
-║  API Server:    0.0.0.0:5000                     ║
-║  Poll Interval: 1.5s                             ║
-║  Judge Timeout: 3s                               ║
-╚══════════════════════════════════════════════════╝
-```
-
-### 5. Mo Frontend
-
-```bash
-# Cach 1: Mo file truc tiep
-# MacOS:
-open frontend/index.html
-# Windows:
-start frontend/index.html
-
-# Cach 2: Dung Python HTTP server (khuyen dung)
-python -m http.server 8000
-# Truy cap: http://localhost:8000/frontend/
-
-# Cach 3: Deploy len Firebase Hosting
-npm install -g firebase-tools
-firebase login
-firebase init hosting
-# Chon frontend/ lam thu muc
-firebase deploy --only hosting
-```
-
----
-
-## Huong Dan Su Dung
-
-### Cho Hoc Sinh
-
-#### Giai Bai Tap
-
-1. **Dang nhap** > Vao `login.html` bang Email, Google hoac GitHub
-2. **Vao Kho bai tap** > `problems.html` > Chon bai toan
-3. **Viet code** > Trong `solve.html`, chon ngon ngu, viet code
-4. **Nop bai** > Nhan **"Cham bai"** > Nhan ket qua tuc thi:
-   - **100/100** > Hoan thanh xuat sac!
-   - **> 0** > Dung mot phan
-   - **0/100** > Sai hoac loi bien dich
-
-#### Su Dung AI Mentor
-
-1. Viet code cua ban
-2. Nhan **"AI Goi Y"** (khong hoat dong trong phong thi)
-3. AI se phan tich code va dua ra:
-   - **Diem tot** > Khen ngoi nhung gi ban lam dung
-   - **Van de** > Chi ra loi sai
-   - **Goi y** > Huong dan cach sua (KHONG dua dap an)
-   - **Hoc them** > Goi y kien thuc can on tap
-
-#### Theo Doi Tien Do
-
-- **Dashboard** > Xem tong diem, hang, bieu do tien do
-- **Lich su** > Xem lai toan bo lan nop bai va code da viet
-- **Bang xep hang** > So sanh diem so voi moi nguoi
-
-#### Tham Gia Thi Dau
-
-1. Vao **"Phong thi"** > Chon cuoc thi dang mo
-2. Click **"THAM GIA"** > Bat dau lam bai trong thoi gian quy dinh
-3. AI Mentor se bi vo hieu hoa trong phong thi
-4. Ket thuc thi > Xem ket qua tren bang xep hang
-
-### Cho Giao Vien / Quan Tri Vien
-
-#### Them Bai Tap Moi
-
-**Cach 1: Qua giao dien web (de dang)**
-
-1. Dang nhap voi tai khoan da duoc cap quyen **giao vien**
-2. Vao **Kho bai tap** > Click **"Them bai"**
-3. Dien day du thong tin: ma bai, ten, mo ta, do kho, test cases
-4. Nhan **"Luu bai tap"**
-
-**Cach 2: Qua Firebase Console (nhanh)**
-
-```json
-{
-  "problems": {
-    "bai01": {
-      "title": "Tinh tong hai so",
-      "description": "Nhap vao hai so nguyen a va b. In ra tong cua chung.",
-      "level": "Easy",
-      "example_input": "3 5",
-      "example_output": "8",
-      "tutorial_vid": "dQw4w9WgXcQ",
-      "testcases": [
-        {"input": "3 5", "output": "8"},
-        {"input": "0 0", "output": "0"},
-        {"input": "-1 1", "output": "0"},
-        {"input": "100 200", "output": "300"}
-      ]
-    }
-  }
-}
-```
-
-#### Tao Phong Thi
-
-Them node `contests/{id}`:
-
-```json
-{
-  "contests": {
-    "contest01": {
-      "title": "Thi thu giua ky",
-      "description": "Bai kiem tra 45 phut",
-      "created_by": "teacher@gmail.com",
-      "duration_minutes": 45,
-      "start_time": 1705000000000,
-      "is_active": true,
-      "problems": {
-        "bai01": true,
-        "bai02": true,
-        "bai03": true
-      }
-    }
-  }
-}
-```
-
-#### Cap Quyen Giao Vien
-
-De nang quyen giao vien cho mot tai khoan:
-
-```javascript
-// Trong Firebase Console > Database
-users / {uid cua giao vien} / role: "teacher"
-```
-
-Hoac chay script Python:
-
-```python
-import firebase_admin
-from firebase_admin import credentials, db
-
-cred = credentials.Certificate("service-account.json")
-firebase_admin.initialize_app(cred, {
-    'databaseURL': 'https://gtsv2-a93c5-default-rtdb.firebaseio.com'
-})
-
-USER_UID = "uid cua tai khoan can nang quyen"
-db.reference(f'users/{USER_UID}').update({"role": "teacher"})
-print("Da cap quyen giao vien!")
-```
-
 ---
 
 ## Cau Truc Firebase Database
 
+Cay du lieu chinh:
+
 ```
 gtsv2-a93c5-default-rtdb/
-│
-├── users/{uid}                      # Nguoi dung
-│   ├── email: "user@gmail.com"
-│   ├── display_name: "Nguyen Van A"
-│   ├── role: "student" | "teacher"
-│   ├── avatar: "https://..."
-│   └── ...
-│
-├── problems/{id}                    # Bai tap
-│   ├── title: "Tinh tong hai so"
-│   ├── description: "..."
-│   ├── level: "Easy" | "Medium" | "Hard"
-│   ├── testcases: [{input, output}, ...]
-│   └── tutorial_vid: "youtube_id"
-│
-├── submissions/{id}                 # Bai nop (luyen tap)
-│   ├── uid, problem_id, code, language
-│   ├── status: "pending" | "completed"
-│   ├── score: 100
-│   └── message: "Passed 3/3 test cases."
-│
-├── contest_submissions/{id}         # Bai nop (phong thi)
-│   ├── ... (tuong tu submissions + contest_id)
-│
-├── contests/{id}                    # Phong thi
-│   ├── title, description, duration_minutes
-│   ├── is_active, problems: {...}
-│   └── participants: {...}
-│
-├── ai_requests/{id}                 # Yeu cau AI
-│   ├── uid, code, problem_desc
-│   └── status: "pending" | "completed"
-│
-├── documents/{id}                   # Tai lieu
-├── videos/{id}                      # Video
-└── global_chat/{id}                 # Chat chung
+├── users/{uid}                    # Thong tin ca nhan (chi doc chinh minh)
+├── public_leaderboard/{uid}       # Diem cong khai (ai cung doc duoc)
+├── problems/{id}                  # Bai tap (cong khai)
+├── submissions/{id}               # Bai nop (chi doc cua minh hoac teacher)
+├── contest_submissions/{id}       # Bai nop thi (tuong tu)
+├── contests/{id}                  # Phong thi (yeu cau dang nhap)
+├── ai_requests/{id}               # Yeu cau AI (chi doc cua minh hoac teacher)
+├── documents/{id}                 # Tai lieu (yeu cau dang nhap)
+├── videos/{id}                    # Video (yeu cau dang nhap)
+└── global_chat/{id}               # Chat (yeu cau dang nhap + validate)
 ```
+
+Xem chi tiet: [CSDL.md](CSDL.md)
 
 ---
 
-## He Thong AI Mentor
+## Bao Mat He Thong
 
-AI Mentor la tinh nang dac biet giup hoc sinh hoc lap trinh hieu qua hon.
+### Cac lop bao mat (v3.0)
 
-### Cach hoat dong
+| Lop | Bien phap | Trang thai |
+|-----|-----------|-----------|
+| Firebase Rules | Phan quyen chi tiet theo tung node/UID | ✅ |
+| Chong lo source code | Submission chi doc boi chinh minh | ✅ |
+| Chong gia mao chat | Validate name/role khi gui tin | ✅ |
+| Chong leo thang quyen | Hoc sinh khong tu sua role/score | ✅ |
+| JWT Secret | Key ngau nhien 32 bytes, bat buoc | ✅ |
+| CORS han che | Chi domain production + localhost | ✅ |
+| Rate Limit | Khong nop bai > 1 lan / 5 giay | ✅ |
+| AI Guard | Bat buoc dang nhap de dung AI | ✅ |
+| Leaderboard an toan | public_leaderboard chi chua ten + diem | ✅ |
+| Stats API | Backend tinh toan, khong lo data tho | ✅ |
 
-1. Hoc sinh viet code va nhan **"AI Goi Y"**
-2. Frontend ghi request vao Firebase (`ai_requests/{id}`)
-3. Judge Server phat hien va xu ly
-4. Goi **Grok API** (xAI) hoac **OpenAI API**
-5. AI phan tich code dua tren system prompt:
-   - Khen ngoi diem tot
-   - Chi ra loi sai
-   - Goi y cach sua (KHONG dua dap an)
-   - Goi y kien thuc
-6. Ket qua duoc ghi lai vao Firebase
-7. Frontend hien thi trong modal AI
+### Tuyet doi KHONG duoc:
 
-### Cau hinh AI
-
-File `backend/services/ai_service.py`:
-
-```python
-# Ho tro ca Grok API va OpenAI API
-# Grok API (khuyen dung - co goi free)
-API_URL = "https://api.x.ai/v1/chat/completions"
-# Hoac OpenAI
-# API_URL = "https://api.openai.com/v1/chat/completions"
-
-# Model mac dinh
-AI_MODEL = "grok-3-mini"  # Hoac "gpt-4o-mini"
-```
+- ❌ Commit `.env` hoac `service-account.json` len git
+- ❌ Dat Firebase Rules `.read: true, .write: true`
+- ❌ De `JWT_SECRET_KEY` trong hoac don gian
+- ❌ Set `ALLOWED_ORIGINS = ["*"]` trong production
 
 ---
 
@@ -564,20 +333,16 @@ AI_MODEL = "grok-3-mini"  # Hoac "gpt-4o-mini"
 +-------------+    +--------------+    +------------------+
 |   Browser   |<-->|   Firebase   |<-->|   Judge Server   |
 |  (Frontend) |    |  Realtime DB |    |   (Python)       |
-|             |    |              |    |                  |
+|             |    | Rules v3.0   |    |                  |
 | index.html  |    |  problems/   |    |  +------------+  |
-| problems    |    |  submissions/|    |  | Compiler   |  |
-| solve.html  |    |  ai_requests/|    |  | (g++/javac)|  |
-| contest     |    |  users/      |    |  +------------+  |
-| rank.html   |    |  contests/   |    |  +------------+  |
-| ...         |    |  ...         |    |  | AI Service |  |
-+-------------+    +--------------+    |  | (Grok/Open |  |
-                                       |  |   AI)      |  |
-                                       |  +------------+  |
-                                       |  +------------+  |
-                                       |  | Flask API  |  |
-                                       |  | (Auth Sync)|  |
-                                       |  +------------+  |
+| solve.html  |    |  public_lb/  |    |  | Compiler   |  |
+| rank.html   |    |  submissions/|    |  +------------+  |
+| history.html|    |  ai_requests/|    |  +------------+  |
+| ...         |    |  users/      |    |  | AI Service |  |
++-------------+    +--------------+    |  +------------+  |
+      |                                |  +------------+  |
+      |            /api/stats          |  | Flask API  |  |
+      +--------- Backend API -------->|  +------------+  |
                                        +------------------+
 ```
 
@@ -585,37 +350,30 @@ AI_MODEL = "grok-3-mini"  # Hoac "gpt-4o-mini"
 
 ## Xu Ly Su Co Thuong Gap
 
-### 1. "This domain is not authorized" khi dang nhap
+### 1. "Permission denied" khi doc du lieu
 
-> Vao Firebase Console > Authentication > Settings
-> Them domain cua ban vao "Authorized domains"
-> VD: localhost, gtsv2-a93c5.web.app
+> Kiem tra nguoi dung da dang nhap chua, va trang dang doc dung node chua.
+> VD: rank.html phai doc `public_leaderboard`, khong phai `users`.
 
-### 2. AI Mentor khong phan hoi
+### 2. Bang xep hang trong
 
-> Kiem tra .env co OPENAI_API_KEY hoac GROK_API_KEY chua
-> Kiem tra backend da chay chua: python backend/judge.py
-> Kiem tra billing dashboard cua OpenAI/Grok
-> Xem log: tail -f logs/judge_*.log
+> Chua co du lieu trong `public_leaderboard`.
+> Chay script khoi tao (xem VAN_HANH.md muc 5.3) hoac nop bai de Backend tu cap nhat.
 
-### 3. Cham bai khong ra ket qua
+### 3. AI Mentor khong phan hoi
 
-> Kiem tra judge server da chay chua: python backend/judge.py
-> Kiem tra compiler da cai chua:
->   - Python: built-in
->   - C++: which g++
->   - Java: which javac
-> Kiem tra test cases co trong Firebase khong
+> Kiem tra backend da chay chua: `python backend/judge.py`
+> Kiem tra `.env` co `DEEPSEEK_API_KEY` hoac `GROK_API_KEY`.
 
-### 4. Avatar khong hien thi
+### 4. Cham bai khong ra ket qua
 
-> He thong tu dong fallback ve ui-avatars.com neu khong co avatar.
-> Kiem tra ket noi mang hoac thu dang xuat dang nhap lai.
+> Kiem tra judge server chay chua.
+> Kiem tra compiler da cai chua (g++, javac).
+> Xem log: `tail -f logs/judge_*.log`
 
-### 5. Khong tim thay bai tap
+### 5. JWT het han sau khi restart
 
-> Vao Firebase Console > Realtime Database > problems/
-> Neu chua co du lieu, them bai tap moi (xem huong dan o tren)
+> Set `JWT_SECRET_KEY` co dinh trong `.env` thay vi de trong.
 
 ---
 
@@ -625,18 +383,24 @@ AI_MODEL = "grok-3-mini"  # Hoac "gpt-4o-mini"
 
 - [x] Kien truc backend modular (Flask + Services)
 - [x] He thong cham diem da ngon ngu (Python, C++, Java, Pascal)
-- [x] AI Mentor tich hop Grok/OpenAI
+- [x] AI Mentor tich hop DeepSeek/Grok
 - [x] Giao dien Cyberpunk UI hoan chinh
 - [x] Dang nhap Email / Google / GitHub
 - [x] Kho bai tap voi phan loai do kho
 - [x] Phong thi co bam gio
-- [x] Bang xep hang toan he thong
-- [x] Lich su nop bai + xem lai code
+- [x] Bang xep hang (public_leaderboard - an toan)
+- [x] Lich su nop bai + xem lai code (chi cua minh)
 - [x] Tai lieu hoc tap & Video bai giang
-- [x] Chat chung realtime
-- [x] Dashboard ca nhan voi bieu do
-- [x] Firebase config tap trung (firebase-config.js)
-- [x] Auth check tu dong (firebase-auth-check.js)
+- [x] Chat chung realtime (validate danh tinh)
+- [x] Dashboard ca nhan
+- [x] Firebase config tap trung
+- [x] **Firebase Security Rules v3.0** (security hardened)
+- [x] **JWT bao mat** (bắt buoc set key)
+- [x] **CORS han che** (chi production + localhost)
+- [x] **Rate limit** (chong spam nop bai)
+- [x] **AI Guard** (bat buoc dang nhap)
+- [x] **public_leaderboard** (leaderboard an toan)
+- [x] **API /api/stats** (thong ke cong khai an toan)
 
 ### Ke hoach toi
 
@@ -644,11 +408,9 @@ AI_MODEL = "grok-3-mini"  # Hoac "gpt-4o-mini"
 - [ ] Redis Queue cho xu ly bat dong bo
 - [ ] Docker hoa toan bo he thong
 - [ ] Phat hien dao van (Plagiarism Check)
-- [ ] Goi y bai tap thong minh dua trinh do
+- [ ] Server-side rate limiting (Flask-Limiter)
 - [ ] Mobile App (React Native)
-- [ ] Code editor voi syntax highlighting (Monaco Editor)
-- [ ] Che do toi/sang
-- [ ] Multiple file submissions
+- [ ] Monaco Editor (syntax highlighting)
 - [ ] Analytics dashboard cho giao vien
 
 ---
@@ -657,60 +419,17 @@ AI_MODEL = "grok-3-mini"  # Hoac "gpt-4o-mini"
 
 Chung toi rat hoan nghenh moi dong gop tu cong dong!
 
-### Cach dong gop
-
 1. **Fork** repository
 2. Tao branch moi: `git checkout -b feature/ten-tinh-nang`
 3. Commit changes: `git commit -m 'Them tinh nang X'`
 4. Push: `git push origin feature/ten-tinh-nang`
 5. Tao **Pull Request**
 
-### Tieu chuan code
-
-- Tuan theo PEP 8 (Python)
-- Su dung ten bien co y nghia
-- Them comment cho logic phuc tap
-- Kiem tra truoc khi PR
-
 ---
 
 ## Giay Phep
 
 Duoc phan phoi duoi giay phep **MIT License**.
-
-```
-MIT License
-
-Copyright (c) 2025 NEO Judge Team
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-```
-
----
-
-## Lien He & Ho Tro
-
-- **Email:** phamvanchung2k7@gmail.com
-- **Bao loi:** [GitHub Issues](https://github.com/II-Max/NEO-ONLINE-JUDGE/issues)
-- **Thao luan:** [GitHub Discussions](https://github.com/II-Max/NEO-ONLINE-JUDGE/discussions)
-- **Website:** [gtsv2-a93c5.web.app](https://gtsv2-a93c5.web.app)
-
----
-
-## Cam On
-
-- **Firebase** > Backend as a Service tuyet voi
-- **xAI (Grok)** > AI Mentor mien phi, chat luong cao
-- **OpenAI** > AI Engine manh me
-- **Cong dong** > Feedback & Contributions
 
 ---
 
@@ -719,5 +438,5 @@ copies or substantial portions of the Software.
 </p>
 
 <p align="center">
-  <sub>Phien ban 2.0 | Cap nhat 01/2025</sub>
+  <sub>Phien ban 3.0 | Cap nhat 06/2026 | Security Hardened</sub>
 </p>
