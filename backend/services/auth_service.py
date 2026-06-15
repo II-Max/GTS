@@ -265,10 +265,19 @@ class AuthService:
 
         existing = self.get_user_profile(uid)
         if existing:
-            # Cập nhật last_login
-            self._firebase.update(f"users/{uid}", {
-                "last_login": datetime.now().isoformat()
-            })
+            # Cập nhật last_login và avatar mới nhất
+            avatar = firebase_user.get("picture", "")
+            update_data = {"last_login": datetime.now().isoformat()}
+            if avatar and existing.get("avatar") != avatar:
+                update_data["avatar"] = avatar
+                # Cập nhật public_leaderboard avatar
+                score = existing.get("score", 0)
+                problems_solved = existing.get("problems_solved", 0)
+                display_name = existing.get("display_name") or existing.get("name") or "Ẩn danh"
+                self._firebase.update_public_leaderboard(uid, display_name, score, problems_solved, avatar)
+                
+            self._firebase.update(f"users/{uid}", update_data)
+            existing.update(update_data)
             return existing
 
         # Tạo user mới từ OAuth
