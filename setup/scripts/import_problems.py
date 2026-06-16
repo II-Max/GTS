@@ -10,8 +10,12 @@ os.environ['PYTHONUTF8'] = '1'
 import json
 import sys
 
+# Force stdout to utf-8
+if sys.stdout.encoding.lower() != 'utf-8':
+    sys.stdout.reconfigure(encoding='utf-8')
+
 # Them thu muc goc vao PATH de import duoc config
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), 'backend'))
 
 from config.settings import settings
 import firebase_admin

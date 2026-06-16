@@ -2394,5 +2394,1993 @@
         "output": "0"
       }
     ]
+  },
+  {
+    "id": "RECT",
+    "title": "Diện Tích Hình Chữ Nhật",
+    "level": "Easy",
+    "description": "Cho a, b nguyên dương. Tính diện tích hình chữ nhật.",
+    "example_input": "2 3",
+    "example_output": "6",
+    "testcases": [
+      {
+        "input": "2 3",
+        "output": "6"
+      },
+      {
+        "input": "1 1",
+        "output": "1"
+      },
+      {
+        "input": "1825 410",
+        "output": "748250"
+      },
+      {
+        "input": "4507 4013",
+        "output": "18086591"
+      },
+      {
+        "input": "3658 2287",
+        "output": "8365846"
+      }
+    ]
+  },
+  {
+    "id": "PERM",
+    "title": "Tổng Các Chữ Số Có Hai Chữ Số",
+    "level": "Easy",
+    "description": "Tính tổng các chữ số của a (a có 2 chữ số).",
+    "example_input": "23",
+    "example_output": "5",
+    "testcases": [
+      {
+        "input": "23",
+        "output": "5"
+      },
+      {
+        "input": "10",
+        "output": "1"
+      },
+      {
+        "input": "99",
+        "output": "18"
+      },
+      {
+        "input": "45",
+        "output": "9"
+      },
+      {
+        "input": "78",
+        "output": "15"
+      }
+    ]
+  },
+  {
+    "id": "NCOUNT",
+    "title": "Tổng Các Chữ Số Của N",
+    "level": "Easy",
+    "description": "Tính tổng các chữ số của số nguyên dương N (N <= 10^18).",
+    "example_input": "214",
+    "example_output": "7",
+    "testcases": [
+      {
+        "input": "118168890076913834",
+        "output": "83"
+      },
+      {
+        "input": "853931770133622126",
+        "output": "69"
+      },
+      {
+        "input": "628764812031418705",
+        "output": "73"
+      },
+      {
+        "input": "680791512660942723",
+        "output": "78"
+      },
+      {
+        "input": "36642940499726746",
+        "output": "88"
+      }
+    ]
+  },
+  {
+    "id": "DCOUNT",
+    "title": "Đếm Chữ Số Đã Viết",
+    "level": "Medium",
+    "description": "Viết các số từ 1 tới N. Cho biết đã viết bao nhiêu chữ số.",
+    "example_input": "10",
+    "example_output": "11",
+    "testcases": [
+      {
+        "input": "10",
+        "output": "11"
+      },
+      {
+        "input": "1",
+        "output": "1"
+      },
+      {
+        "input": "9",
+        "output": "9"
+      },
+      {
+        "input": "99",
+        "output": "189"
+      },
+      {
+        "input": "100",
+        "output": "192"
+      },
+      {
+        "input": "12345",
+        "output": "50619"
+      },
+      {
+        "input": "1000000",
+        "output": "5888896"
+      }
+    ]
+  },
+  {
+    "id": "XCHANGE",
+    "title": "Máy ATM Rút Tiền",
+    "level": "Medium",
+    "description": "Rút X đồng từ ATM mệnh giá 50, 20, 10. Tìm số lượng tờ ít nhất.",
+    "example_input": "130",
+    "example_output": "4",
+    "testcases": [
+      {
+        "input": "130",
+        "output": "4"
+      },
+      {
+        "input": "131",
+        "output": "-1"
+      },
+      {
+        "input": "10",
+        "output": "1"
+      },
+      {
+        "input": "20",
+        "output": "1"
+      },
+      {
+        "input": "50",
+        "output": "1"
+      },
+      {
+        "input": "60",
+        "output": "2"
+      },
+      {
+        "input": "100",
+        "output": "2"
+      },
+      {
+        "input": "1000000",
+        "output": "20000"
+      }
+    ]
+  },
+  {
+    "id": "XMAX",
+    "title": "Chữ Số Lớn Nhất",
+    "level": "Easy",
+    "description": "Cho số N. Tìm chữ số lớn nhất trong N.",
+    "example_input": "12345678910",
+    "example_output": "9",
+    "testcases": [
+      {
+        "input": "12345678910",
+        "output": "9"
+      },
+      {
+        "input": "100",
+        "output": "1"
+      },
+      {
+        "input": "999",
+        "output": "9"
+      },
+      {
+        "input": "101010",
+        "output": "1"
+      },
+      {
+        "input": "5555",
+        "output": "5"
+      }
+    ]
+  },
+  {
+    "id": "SDIV",
+    "title": "Tổng Các Ước Nguyên Dương",
+    "level": "Medium",
+    "description": "Tính tổng các ước nguyên dương của N.",
+    "example_input": "12",
+    "example_output": "28",
+    "testcases": [
+      {
+        "input": "12",
+        "output": "28"
+      },
+      {
+        "input": "1",
+        "output": "1"
+      },
+      {
+        "input": "2",
+        "output": "3"
+      },
+      {
+        "input": "7",
+        "output": "8"
+      },
+      {
+        "input": "100",
+        "output": "217"
+      },
+      {
+        "input": "997",
+        "output": "998"
+      },
+      {
+        "input": "1000",
+        "output": "2340"
+      }
+    ]
+  },
+  {
+    "id": "AMUX",
+    "title": "Lũy Thừa Của A",
+    "level": "Medium",
+    "description": "Tính P = a^x mod (10^9+7).",
+    "example_input": "100 2",
+    "example_output": "10000",
+    "testcases": [
+      {
+        "input": "100 2",
+        "output": "10000"
+      },
+      {
+        "input": "2 10",
+        "output": "1024"
+      },
+      {
+        "input": "3 5",
+        "output": "243"
+      },
+      {
+        "input": "10 5",
+        "output": "100000"
+      },
+      {
+        "input": "99 99",
+        "output": "804939674"
+      },
+      {
+        "input": "1 100",
+        "output": "1"
+      },
+      {
+        "input": "100 100",
+        "output": "424090053"
+      }
+    ]
+  },
+  {
+    "id": "SQUA",
+    "title": "Căn Bậc Ba",
+    "level": "Medium",
+    "description": "Tính căn bậc 3 của X, lấy chính xác đến 0.001.",
+    "example_input": "27",
+    "example_output": "3.000",
+    "testcases": [
+      {
+        "input": "27",
+        "output": "3.000"
+      },
+      {
+        "input": "-27",
+        "output": "-3.000"
+      },
+      {
+        "input": "0",
+        "output": "0.000"
+      },
+      {
+        "input": "8",
+        "output": "2.000"
+      },
+      {
+        "input": "-8",
+        "output": "-2.000"
+      },
+      {
+        "input": "100",
+        "output": "4.642"
+      },
+      {
+        "input": "1000000",
+        "output": "100.000"
+      }
+    ]
+  },
+  {
+    "id": "CKPRIME",
+    "title": "Kiểm Tra Số Nguyên Tố",
+    "level": "Easy",
+    "description": "Kiểm tra N có là số nguyên tố không (TRUE/FALSE).",
+    "example_input": "11",
+    "example_output": "TRUE",
+    "testcases": [
+      {
+        "input": "10",
+        "output": "FALSE"
+      },
+      {
+        "input": "11",
+        "output": "TRUE"
+      },
+      {
+        "input": "1",
+        "output": "FALSE"
+      },
+      {
+        "input": "2",
+        "output": "TRUE"
+      },
+      {
+        "input": "97",
+        "output": "TRUE"
+      },
+      {
+        "input": "100",
+        "output": "FALSE"
+      },
+      {
+        "input": "997",
+        "output": "TRUE"
+      }
+    ]
+  },
+  {
+    "id": "FPRIME",
+    "title": "Số Fibonacci Nguyên Tố",
+    "level": "Medium",
+    "description": "Đếm số lượng các số Fibonacci <= P và là số nguyên tố.",
+    "example_input": "10",
+    "example_output": "3",
+    "testcases": [
+      {
+        "input": "10",
+        "output": "3"
+      },
+      {
+        "input": "100",
+        "output": "5"
+      },
+      {
+        "input": "1",
+        "output": "0"
+      },
+      {
+        "input": "2",
+        "output": "1"
+      },
+      {
+        "input": "5",
+        "output": "3"
+      },
+      {
+        "input": "1000",
+        "output": "6"
+      },
+      {
+        "input": "100000",
+        "output": "8"
+      }
+    ]
+  },
+  {
+    "id": "ERATOS",
+    "title": "Sàng Số Nguyên Tố",
+    "level": "Medium",
+    "description": "Liệt kê các số nguyên tố <= N.",
+    "example_input": "10",
+    "example_output": "2 3 5 7",
+    "testcases": [
+      {
+        "input": "10",
+        "output": "2 3 5 7"
+      },
+      {
+        "input": "20",
+        "output": "2 3 5 7 11 13 17 19"
+      },
+      {
+        "input": "2",
+        "output": "2"
+      },
+      {
+        "input": "3",
+        "output": "2 3"
+      },
+      {
+        "input": "100",
+        "output": "2 3 5 7 11 13 17 19 23 29 31 37 41 43 47 53 59 61 67 71 73 79 83 89 97"
+      },
+      {
+        "input": "50",
+        "output": "2 3 5 7 11 13 17 19 23 29 31 37 41 43 47"
+      },
+      {
+        "input": "1",
+        "output": ""
+      }
+    ]
+  },
+  {
+    "id": "TSNT",
+    "title": "Phân Tích Thừa Số Nguyên Tố",
+    "level": "Medium",
+    "description": "Phân tích N thành các thừa số nguyên tố.",
+    "example_input": "28",
+    "example_output": "2 2 7",
+    "testcases": [
+      {
+        "input": "28",
+        "output": "2 2 7"
+      },
+      {
+        "input": "2",
+        "output": "2"
+      },
+      {
+        "input": "10",
+        "output": "2 5"
+      },
+      {
+        "input": "100",
+        "output": "2 2 5 5"
+      },
+      {
+        "input": "97",
+        "output": "97"
+      },
+      {
+        "input": "1024",
+        "output": "2 2 2 2 2 2 2 2 2 2"
+      },
+      {
+        "input": "999",
+        "output": "3 3 3 37"
+      }
+    ]
+  },
+  {
+    "id": "NFIND",
+    "title": "Tìm Số Từ Tích Chữ Số",
+    "level": "Hard",
+    "description": "Tìm K nhỏ nhất sao cho tích các chữ số của K bằng M.",
+    "example_input": "10",
+    "example_output": "25",
+    "testcases": [
+      {
+        "input": "10",
+        "output": "25"
+      },
+      {
+        "input": "13",
+        "output": "-1"
+      },
+      {
+        "input": "1",
+        "output": "1"
+      },
+      {
+        "input": "0",
+        "output": "10"
+      },
+      {
+        "input": "8",
+        "output": "8"
+      },
+      {
+        "input": "100",
+        "output": "455"
+      },
+      {
+        "input": "18",
+        "output": "29"
+      },
+      {
+        "input": "27",
+        "output": "39"
+      },
+      {
+        "input": "36",
+        "output": "49"
+      },
+      {
+        "input": "128",
+        "output": "288"
+      }
+    ]
+  },
+  {
+    "id": "NUMBERC",
+    "title": "Cắt Số Tìm Nguyên Tố",
+    "level": "Hard",
+    "description": "Cắt lần lượt các chữ số của N từ phải sang trái để thu được số nguyên tố lớn nhất.",
+    "example_input": "1124",
+    "example_output": "11",
+    "testcases": [
+      {
+        "input": "1124",
+        "output": "11"
+      },
+      {
+        "input": "2",
+        "output": "2"
+      },
+      {
+        "input": "10",
+        "output": "-1"
+      },
+      {
+        "input": "97",
+        "output": "97"
+      },
+      {
+        "input": "100",
+        "output": "-1"
+      },
+      {
+        "input": "314",
+        "output": "31"
+      },
+      {
+        "input": "500",
+        "output": "5"
+      },
+      {
+        "input": "12345",
+        "output": "-1"
+      },
+      {
+        "input": "999",
+        "output": "-1"
+      },
+      {
+        "input": "111",
+        "output": "11"
+      }
+    ]
+  },
+  {
+    "id": "ARRDEL",
+    "title": "Xóa Phần Tử Trùng Nhau",
+    "level": "Medium",
+    "description": "Xóa các phần tử giống nhau đứng cạnh nhau.",
+    "example_input": "9\n1 3 3 4 2 2 2 7 3",
+    "example_output": "1 3 4 2 7 3",
+    "testcases": [
+      {
+        "input": "9\n1 3 3 4 2 2 2 7 3",
+        "output": "1 3 4 2 7 3"
+      },
+      {
+        "input": "3\n1 1 1",
+        "output": "1"
+      },
+      {
+        "input": "3\n1 2 3",
+        "output": "1 2 3"
+      },
+      {
+        "input": "1\n1",
+        "output": "1"
+      },
+      {
+        "input": "6\n5 5 6 6 5 5",
+        "output": "5 6 5"
+      },
+      {
+        "input": "7\n1 2 2 3 3 3 4",
+        "output": "1 2 3 4"
+      }
+    ]
+  },
+  {
+    "id": "QSORT",
+    "title": "Sắp Xếp Nhanh",
+    "level": "Medium",
+    "description": "Sắp xếp dãy N số nguyên thành dãy không giảm.",
+    "example_input": "6\n1 3 4 2 7 3",
+    "example_output": "1 2 3 3 4 7",
+    "testcases": [
+      {
+        "input": "6\n1 3 4 2 7 3",
+        "output": "1 2 3 3 4 7"
+      },
+      {
+        "input": "5\n5 4 3 2 1",
+        "output": "1 2 3 4 5"
+      },
+      {
+        "input": "3\n1 2 3",
+        "output": "1 2 3"
+      },
+      {
+        "input": "1\n1",
+        "output": "1"
+      },
+      {
+        "input": "3\n5 5 5",
+        "output": "5 5 5"
+      },
+      {
+        "input": "5\n10 -1 2 5 0",
+        "output": "-1 0 2 5 10"
+      },
+      {
+        "input": "3\n100 200 50",
+        "output": "50 100 200"
+      }
+    ]
+  },
+  {
+    "id": "ILUCKY",
+    "title": "Vị Trí Cân Bằng Dãy Số",
+    "level": "Medium",
+    "description": "Tìm vị trí i chia dãy N số thành 2 phần có tổng bằng nhau.",
+    "example_input": "6\n1 3 4 2 7 3",
+    "example_output": "4",
+    "testcases": [
+      {
+        "input": "6\n1 3 4 2 7 3",
+        "output": "4"
+      },
+      {
+        "input": "2\n1 1",
+        "output": "1"
+      },
+      {
+        "input": "3\n1 2 3",
+        "output": "2"
+      },
+      {
+        "input": "4\n1 2 3 6",
+        "output": "3"
+      },
+      {
+        "input": "3\n0 0 0",
+        "output": "1"
+      },
+      {
+        "input": "3\n10 -10 0",
+        "output": "2"
+      },
+      {
+        "input": "4\n5 5 5 5",
+        "output": "2"
+      }
+    ]
+  },
+  {
+    "id": "PMIN",
+    "title": "Vị Trí Giá Trị Nhỏ Nhất",
+    "level": "Easy",
+    "description": "Đưa ra tất cả các vị trí đạt giá trị nhỏ nhất.",
+    "example_input": "6\n2 1 4 2 1 4",
+    "example_output": "2 5",
+    "testcases": [
+      {
+        "input": "6\n2 1 4 2 1 4",
+        "output": "2 5"
+      },
+      {
+        "input": "3\n1 1 1",
+        "output": "1 2 3"
+      },
+      {
+        "input": "3\n5 4 3",
+        "output": "3"
+      },
+      {
+        "input": "3\n3 4 5",
+        "output": "1"
+      },
+      {
+        "input": "4\n10 10 20 10",
+        "output": "1 2 4"
+      }
+    ]
+  },
+  {
+    "id": "PSECOND",
+    "title": "Vị Trí Giá Trị Nhỏ Nhì",
+    "level": "Medium",
+    "description": "Tìm giá trị nhỏ nhì và đưa ra các vị trí đạt giá trị đó.",
+    "example_input": "6\n1 3 4 2 7 3",
+    "example_output": "4",
+    "testcases": [
+      {
+        "input": "6\n1 3 4 2 7 3",
+        "output": "4"
+      },
+      {
+        "input": "3\n1 1 1",
+        "output": "-1"
+      },
+      {
+        "input": "3\n5 4 3",
+        "output": "2"
+      },
+      {
+        "input": "3\n3 4 5",
+        "output": "2"
+      },
+      {
+        "input": "4\n10 10 20 10",
+        "output": "3"
+      },
+      {
+        "input": "4\n1 2 2 3",
+        "output": "2 3"
+      }
+    ]
+  },
+  {
+    "id": "GCD",
+    "title": "Ước Chung Lớn Nhất 3 Số",
+    "level": "Easy",
+    "description": "Tìm ước chung lớn nhất của 3 số nguyên dương a, b, c.",
+    "example_input": "4 6 8",
+    "example_output": "2",
+    "testcases": [
+      {
+        "input": "4 6 8",
+        "output": "2"
+      },
+      {
+        "input": "10 20 30",
+        "output": "10"
+      },
+      {
+        "input": "7 14 21",
+        "output": "7"
+      },
+      {
+        "input": "1 2 3",
+        "output": "1"
+      },
+      {
+        "input": "100 50 25",
+        "output": "25"
+      }
+    ]
+  },
+  {
+    "id": "ARRADD2",
+    "title": "Trộn Hai Dãy Đã Sắp Xếp",
+    "level": "Medium",
+    "description": "Trộn 2 dãy thành dãy c tăng dần.",
+    "example_input": "5 6\n1 2 2 5 7\n3 3 7 8 9 9",
+    "example_output": "1 2 2 3 3 5 7 7 8 9 9",
+    "testcases": [
+      {
+        "input": "5 6\n1 2 2 5 7\n3 3 7 8 9 9",
+        "output": "1 2 2 3 3 5 7 7 8 9 9"
+      },
+      {
+        "input": "1 1\n1\n2",
+        "output": "1 2"
+      },
+      {
+        "input": "2 2\n1 3\n2 4",
+        "output": "1 2 3 4"
+      },
+      {
+        "input": "2 2\n5 5\n5 5",
+        "output": "5 5 5 5"
+      },
+      {
+        "input": "0 3\n\n1 2 3",
+        "output": "1 2 3"
+      },
+      {
+        "input": "2 0\n1 2",
+        "output": "1 2"
+      }
+    ]
+  },
+  {
+    "id": "ARRCOUNT",
+    "title": "Đếm Tần Suất Xuất Hiện",
+    "level": "Medium",
+    "description": "Đếm số lần xuất hiện của mỗi phần tử.",
+    "example_input": "8\n1 3 3 4 2 2 2 7",
+    "example_output": "1 1\n2 3\n3 2\n4 1\n7 1",
+    "testcases": [
+      {
+        "input": "8\n1 3 3 4 2 2 2 7",
+        "output": "1 1\n2 3\n3 2\n4 1\n7 1"
+      },
+      {
+        "input": "3\n1 1 1",
+        "output": "1 3"
+      },
+      {
+        "input": "3\n1 2 3",
+        "output": "1 1\n2 1\n3 1"
+      },
+      {
+        "input": "3\n3 2 1",
+        "output": "1 1\n2 1\n3 1"
+      },
+      {
+        "input": "5\n5 5 10 10 5",
+        "output": "5 3\n10 2"
+      }
+    ]
+  },
+  {
+    "id": "BINS",
+    "title": "Tìm Kiếm Nhị Phân",
+    "level": "Medium",
+    "description": "Tìm vị trí của X trong dãy, không có in -1.",
+    "example_input": "5 6\n2 3 5 6 9",
+    "example_output": "4",
+    "testcases": [
+      {
+        "input": "5 6\n2 3 5 6 9",
+        "output": "4"
+      },
+      {
+        "input": "3 2\n1 2 3",
+        "output": "2"
+      },
+      {
+        "input": "3 4\n1 2 3",
+        "output": "-1"
+      },
+      {
+        "input": "1 5\n5",
+        "output": "1"
+      },
+      {
+        "input": "1 1\n5",
+        "output": "-1"
+      },
+      {
+        "input": "4 30\n10 20 30 40",
+        "output": "3"
+      }
+    ]
+  },
+  {
+    "id": "UPSEQ",
+    "title": "Dãy Con Không Giảm Dài Nhất",
+    "level": "Medium",
+    "description": "Tìm độ dài dãy con liên tiếp không giảm dài nhất.",
+    "example_input": "6\n1 3 4 2 7 3",
+    "example_output": "3",
+    "testcases": [
+      {
+        "input": "6\n1 3 4 2 7 3",
+        "output": "3"
+      },
+      {
+        "input": "5\n1 2 3 4 5",
+        "output": "5"
+      },
+      {
+        "input": "5\n5 4 3 2 1",
+        "output": "1"
+      },
+      {
+        "input": "4\n1 1 1 1",
+        "output": "4"
+      },
+      {
+        "input": "6\n1 5 2 3 4 1",
+        "output": "3"
+      }
+    ]
+  },
+  {
+    "id": "ARR2D",
+    "title": "Tính Tổng Hàng Và Cột Ma Trận",
+    "level": "Easy",
+    "description": "Tính tổng của từng hàng và tổng của từng cột.",
+    "example_input": "2 3\n1 2 -2\n-1 2 1",
+    "example_output": "1 2\n0 4 -1",
+    "testcases": [
+      {
+        "input": "2 3\n1 2 -2\n-1 2 1",
+        "output": "1 2\n0 4 -1"
+      },
+      {
+        "input": "2 2\n1 1\n1 1",
+        "output": "2 2\n2 2"
+      },
+      {
+        "input": "1 3\n1 2 3",
+        "output": "6\n1 2 3"
+      },
+      {
+        "input": "3 1\n1\n2\n3",
+        "output": "1 2 3\n6"
+      },
+      {
+        "input": "2 2\n0 0\n0 0",
+        "output": "0 0\n0 0"
+      }
+    ]
+  },
+  {
+    "id": "ARR2DPRI",
+    "title": "Vị Trí Số Nguyên Tố Trong Ma Trận",
+    "level": "Medium",
+    "description": "Liệt kê tọa độ (i, j) của các ô chứa số nguyên tố.",
+    "example_input": "2 3\n1 4 5\n1 2 1",
+    "example_output": "1 3\n2 2",
+    "testcases": [
+      {
+        "input": "2 3\n1 4 5\n1 2 1",
+        "output": "1 3\n2 2"
+      },
+      {
+        "input": "2 2\n2 3\n5 7",
+        "output": "1 1\n1 2\n2 1\n2 2"
+      },
+      {
+        "input": "2 2\n1 4\n6 8",
+        "output": "-1"
+      },
+      {
+        "input": "1 1\n11",
+        "output": "1 1"
+      }
+    ]
+  },
+  {
+    "id": "ARR2DSQU",
+    "title": "Hình Vuông Cạnh K Có Tổng Lớn Nhất",
+    "level": "Hard",
+    "description": "Tìm hình vuông cạnh K có tổng lớn nhất.",
+    "example_input": "2 3 2\n1 -4 2\n-1 2 1",
+    "example_output": "1\n1 2",
+    "testcases": [
+      {
+        "input": "2 3 2\n1 -4 2\n-1 2 1",
+        "output": "1\n1 2"
+      },
+      {
+        "input": "2 2 1\n1 2\n3 4",
+        "output": "4\n2 2"
+      },
+      {
+        "input": "2 2 2\n1 2\n3 4",
+        "output": "10\n1 1"
+      },
+      {
+        "input": "3 3 2\n1 1 1\n1 1 1\n1 1 1",
+        "output": "4\n1 1"
+      }
+    ]
+  },
+  {
+    "id": "ARR2HVS1",
+    "title": "Tìm Hình Vuông Có Tổng Bằng S",
+    "level": "Hard",
+    "description": "Tìm tất cả hình vuông có tổng bằng S. In ra tọa độ góc trái trên và độ dài cạnh.",
+    "example_input": "2 3 2\n1 4 2\n-1 -2 1",
+    "example_output": "1 1 2\n1 3 1",
+    "testcases": [
+      {
+        "input": "2 3 2\n1 4 2\n-1 -2 1",
+        "output": "1 3 1\n1 1 2"
+      },
+      {
+        "input": "2 2 4\n1 1\n1 1",
+        "output": "1 1 2"
+      },
+      {
+        "input": "2 2 1\n1 1\n1 1",
+        "output": "1 1 1\n1 2 1\n2 1 1\n2 2 1"
+      },
+      {
+        "input": "2 3 12\n1 2 3\n4 5 6",
+        "output": "1 1 2"
+      }
+    ]
+  },
+  {
+    "id": "ARR2HVS2",
+    "title": "Hình Vuông Lớn Nhất Có Tổng Bằng S",
+    "level": "Hard",
+    "description": "Tìm độ dài cạnh hình vuông lớn nhất có tổng bằng S.",
+    "example_input": "2 3 2\n1 4 2\n-1 -2 1",
+    "example_output": "2",
+    "testcases": [
+      {
+        "input": "2 3 2\n1 4 2\n-1 -2 1",
+        "output": "2"
+      },
+      {
+        "input": "2 2 4\n1 1\n1 1",
+        "output": "2"
+      },
+      {
+        "input": "2 2 1\n1 1\n1 1",
+        "output": "1"
+      },
+      {
+        "input": "2 3 100\n1 2 3\n4 5 6",
+        "output": "-1"
+      }
+    ]
+  },
+  {
+    "id": "ARR2HCN1",
+    "title": "Tất Cả Hình Chữ Nhật Có Tổng Bằng S",
+    "level": "Hard",
+    "description": "Tìm tất cả HCN có tổng bằng S. In góc trái trên và phải dưới.",
+    "example_input": "2 3 2\n1 4 2\n-1 -2 1",
+    "example_output": "1 1 2 2\n1 2 2 2\n1 3 1 3",
+    "testcases": [
+      {
+        "input": "2 3 2\n1 4 2\n-1 -2 1",
+        "output": "1 1 2 2\n1 2 2 2\n1 3 1 3"
+      },
+      {
+        "input": "2 2 2\n1 1\n1 1",
+        "output": "1 1 1 2\n1 1 2 1\n1 2 2 2\n2 1 2 2"
+      },
+      {
+        "input": "2 2 3\n1 2\n3 4",
+        "output": "1 1 1 2\n2 1 2 1"
+      }
+    ]
+  },
+  {
+    "id": "ARR2HCN2",
+    "title": "Đếm Hình Chữ Nhật Chia Hết Cho K",
+    "level": "Hard",
+    "description": "Đếm số HCN có tổng chia hết cho K.",
+    "example_input": "2 3 2\n1 4 2\n1 2 1",
+    "example_output": "8",
+    "testcases": [
+      {
+        "input": "2 3 2\n1 4 2\n1 2 1",
+        "output": "8"
+      },
+      {
+        "input": "2 2 2\n1 1\n1 1",
+        "output": "5"
+      },
+      {
+        "input": "2 2 5\n1 2\n3 4",
+        "output": "1"
+      }
+    ]
+  },
+  {
+    "id": "ARR2REC1",
+    "title": "Diện Tích Ma Trận Toàn Số 1",
+    "level": "Hard",
+    "description": "Tìm HCN toàn số 1 có diện tích lớn nhất.",
+    "example_input": "3 4\n0 0 0 0\n1 1 1 0\n1 1 1 0",
+    "example_output": "6",
+    "testcases": [
+      {
+        "input": "3 4\n0 0 0 0\n1 1 1 0\n1 1 1 0",
+        "output": "6"
+      },
+      {
+        "input": "2 2\n1 1\n1 1",
+        "output": "4"
+      },
+      {
+        "input": "2 2\n1 0\n0 1",
+        "output": "1"
+      },
+      {
+        "input": "2 2\n0 0\n0 0",
+        "output": "0"
+      }
+    ]
+  },
+  {
+    "id": "ARR2REC2",
+    "title": "Đặt Quân Xe Điểm Cao Nhất",
+    "level": "Hard",
+    "description": "Vị trí đặt xe để tổng điểm hàng + cột là lớn nhất.",
+    "example_input": "3 4\n0 0 0 0\n1 -1 1 0\n1 1 1 0",
+    "example_output": "4",
+    "testcases": [
+      {
+        "input": "3 4\n0 0 0 0\n1 -1 1 0\n1 1 1 0",
+        "output": "4"
+      },
+      {
+        "input": "2 2\n1 2\n3 4",
+        "output": "9"
+      },
+      {
+        "input": "2 2\n-1 -1\n-1 -1",
+        "output": "-3"
+      }
+    ]
+  },
+  {
+    "id": "ARR2REC3",
+    "title": "Đặt Quân Mã Tối Ưu",
+    "level": "Hard",
+    "description": "Tổng điểm các ô Mã kiểm soát là lớn nhất.",
+    "example_input": "3 4\n0 0 0 0\n1 -1 1 0\n1 1 1 0",
+    "example_output": "2",
+    "testcases": [
+      {
+        "input": "3 4\n0 0 0 0\n1 -1 1 0\n1 1 1 0",
+        "output": "2"
+      },
+      {
+        "input": "3 3\n1 1 1\n1 1 1\n1 1 1",
+        "output": "3"
+      }
+    ]
+  },
+  {
+    "id": "STR1NUM",
+    "title": "Tách Số Từ Xâu",
+    "level": "Medium",
+    "description": "Tách các chuỗi số liên tiếp trong xâu.",
+    "example_input": "Abc234abd2dfg56",
+    "example_output": "234 2 56",
+    "testcases": [
+      {
+        "input": "Abc234abd2dfg56",
+        "output": "234 2 56"
+      },
+      {
+        "input": "1a2b3c",
+        "output": "1 2 3"
+      },
+      {
+        "input": "hello",
+        "output": ""
+      },
+      {
+        "input": "12345",
+        "output": "12345"
+      },
+      {
+        "input": "a1000b",
+        "output": "1000"
+      }
+    ]
+  },
+  {
+    "id": "STR2NUM",
+    "title": "Tìm Số Lớn Nhất Trong Xâu",
+    "level": "Medium",
+    "description": "Tìm số lớn nhất trong xâu.",
+    "example_input": "Abc234abd2dfg56",
+    "example_output": "234",
+    "testcases": [
+      {
+        "input": "Abc234abd2dfg56",
+        "output": "234"
+      },
+      {
+        "input": "1a2b3c",
+        "output": "3"
+      },
+      {
+        "input": "12345",
+        "output": "12345"
+      },
+      {
+        "input": "a1000b0",
+        "output": "1000"
+      }
+    ]
+  },
+  {
+    "id": "STR22NUM",
+    "title": "Nén Xâu Kí Tự",
+    "level": "Medium",
+    "description": "Nén xâu (kí tự + số lượng).",
+    "example_input": "aaabbccccd",
+    "example_output": "a3b2c4d1",
+    "testcases": [
+      {
+        "input": "aaabbccccd",
+        "output": "a3b2c4d1"
+      },
+      {
+        "input": "a",
+        "output": "a1"
+      },
+      {
+        "input": "aabb",
+        "output": "a2b2"
+      },
+      {
+        "input": "abc",
+        "output": "a1b1c1"
+      },
+      {
+        "input": "aaaaa",
+        "output": "a5"
+      }
+    ]
+  },
+  {
+    "id": "STR3NUM",
+    "title": "Giải Nén Xâu",
+    "level": "Medium",
+    "description": "Giải nén xâu a3b2 -> aaabb.",
+    "example_input": "a3b2c4d1",
+    "example_output": "aaabbccccd",
+    "testcases": [
+      {
+        "input": "a3b2c4d1",
+        "output": "aaabbccccd"
+      },
+      {
+        "input": "a1",
+        "output": "a"
+      },
+      {
+        "input": "a2b2",
+        "output": "aabb"
+      },
+      {
+        "input": "a1b1c1",
+        "output": "abc"
+      },
+      {
+        "input": "a5",
+        "output": "aaaaa"
+      }
+    ]
+  },
+  {
+    "id": "DQBIT01",
+    "title": "Liệt Kê Dãy Nhị Phân",
+    "level": "Medium",
+    "description": "Dãy nhị phân độ dài N.",
+    "example_input": "3",
+    "example_output": "000\n001\n010\n011\n100\n101\n110\n111",
+    "testcases": [
+      {
+        "input": "1",
+        "output": "0\n1"
+      },
+      {
+        "input": "2",
+        "output": "00\n01\n10\n11"
+      },
+      {
+        "input": "3",
+        "output": "000\n001\n010\n011\n100\n101\n110\n111"
+      },
+      {
+        "input": "4",
+        "output": "0000\n0001\n0010\n0011\n0100\n0101\n0110\n0111\n1000\n1001\n1010\n1011\n1100\n1101\n1110\n1111"
+      }
+    ]
+  },
+  {
+    "id": "DQBIT02",
+    "title": "Dãy Nhị Phân Cân Bằng Bit",
+    "level": "Medium",
+    "description": "Dãy nhị phân số 0 bằng số 1.",
+    "example_input": "2",
+    "example_output": "01\n10",
+    "testcases": [
+      {
+        "input": "2",
+        "output": "01\n10"
+      },
+      {
+        "input": "4",
+        "output": "0011\n0101\n0110\n1001\n1010\n1100"
+      },
+      {
+        "input": "1",
+        "output": ""
+      },
+      {
+        "input": "3",
+        "output": ""
+      }
+    ]
+  },
+  {
+    "id": "DQBIT03",
+    "title": "Dãy Nhị Phân Không 3 Số 1",
+    "level": "Medium",
+    "description": "Dãy nhị phân không chứa 3 số 1 cạnh nhau.",
+    "example_input": "3",
+    "example_output": "000\n001\n010\n011\n100\n101\n110",
+    "testcases": [
+      {
+        "input": "1",
+        "output": "0\n1"
+      },
+      {
+        "input": "2",
+        "output": "00\n01\n10\n11"
+      },
+      {
+        "input": "3",
+        "output": "000\n001\n010\n011\n100\n101\n110"
+      },
+      {
+        "input": "4",
+        "output": "0000\n0001\n0010\n0011\n0100\n0101\n0110\n1000\n1001\n1010\n1011\n1100\n1101"
+      }
+    ]
+  },
+  {
+    "id": "DQBIT04",
+    "title": "Dãy Nhị Phân Có K Số 1",
+    "level": "Medium",
+    "description": "Dãy nhị phân có đúng K số 1.",
+    "example_input": "3 2",
+    "example_output": "011\n101\n110",
+    "testcases": [
+      {
+        "input": "3 2",
+        "output": "011\n101\n110"
+      },
+      {
+        "input": "4 2",
+        "output": "0011\n0101\n0110\n1001\n1010\n1100"
+      },
+      {
+        "input": "4 1",
+        "output": "0001\n0010\n0100\n1000"
+      }
+    ]
+  },
+  {
+    "id": "DQBIT05",
+    "title": "Dãy Nhị Phân Không Quá K Số 1",
+    "level": "Medium",
+    "description": "Dãy nhị phân có <= K số 1.",
+    "example_input": "3 2",
+    "example_output": "000\n001\n010\n011\n100\n101\n110",
+    "testcases": [
+      {
+        "input": "3 2",
+        "output": "000\n001\n010\n011\n100\n101\n110"
+      },
+      {
+        "input": "4 2",
+        "output": "0000\n0001\n0010\n0011\n0100\n0101\n0110\n1000\n1001\n1010\n1100"
+      },
+      {
+        "input": "4 0",
+        "output": "0000"
+      }
+    ]
+  },
+  {
+    "id": "TRIANGLE",
+    "title": "Diện Tích Tam Giác",
+    "level": "Medium",
+    "description": "Tính diện tích tam giác 3 điểm.",
+    "example_input": "0 0 0 1 1 0",
+    "example_output": "0.500",
+    "testcases": [
+      {
+        "input": "0 0 0 1 1 0",
+        "output": "0.500"
+      },
+      {
+        "input": "0 0 1 1 2 2",
+        "output": "-1"
+      },
+      {
+        "input": "0 0 0 10 10 0",
+        "output": "50.000"
+      }
+    ]
+  },
+  {
+    "id": "RECTAB1",
+    "title": "Ô Viền Và Ô Lõi",
+    "level": "Medium",
+    "description": "Số ô đường viền và lõi HCN.",
+    "example_input": "5 8",
+    "example_output": "22 18",
+    "testcases": [
+      {
+        "input": "5 8",
+        "output": "22 18"
+      },
+      {
+        "input": "3 3",
+        "output": "8 1"
+      },
+      {
+        "input": "10 10",
+        "output": "36 64"
+      }
+    ]
+  },
+  {
+    "id": "CIRCLE",
+    "title": "Điểm Và Đường Tròn",
+    "level": "Easy",
+    "description": "Kiểm tra điểm trong đường tròn.",
+    "example_input": "1 0 0 0 2",
+    "example_output": "1",
+    "testcases": [
+      {
+        "input": "1 0 0 0 2",
+        "output": "1"
+      },
+      {
+        "input": "3 0 0 0 2",
+        "output": "0"
+      },
+      {
+        "input": "0 0 0 0 1",
+        "output": "1"
+      }
+    ]
+  },
+  {
+    "id": "RECTM2",
+    "title": "Điểm Và Hình Chữ Nhật",
+    "level": "Easy",
+    "description": "Kiểm tra điểm trong HCN.",
+    "example_input": "1 1 0 2 3 0",
+    "example_output": "1",
+    "testcases": [
+      {
+        "input": "1 1 0 2 3 0",
+        "output": "1"
+      },
+      {
+        "input": "4 4 0 2 3 0",
+        "output": "0"
+      }
+    ]
+  },
+  {
+    "id": "PERFECTN",
+    "title": "Số Hoàn Thiện",
+    "level": "Medium",
+    "description": "Tìm số hoàn thiện <= N.",
+    "example_input": "10",
+    "example_output": "6",
+    "testcases": [
+      {
+        "input": "10",
+        "output": "6"
+      },
+      {
+        "input": "100",
+        "output": "6 28"
+      },
+      {
+        "input": "1000",
+        "output": "6 28 496"
+      }
+    ]
+  },
+  {
+    "id": "FIBPRIME",
+    "title": "Số Fibonacci Nguyên Tố",
+    "level": "Medium",
+    "description": "Fibonacci + nguyên tố trong đoạn M N.",
+    "example_input": "1 10",
+    "example_output": "2 3 5",
+    "testcases": [
+      {
+        "input": "1 10",
+        "output": "2 3 5"
+      },
+      {
+        "input": "10 100",
+        "output": "13 89"
+      },
+      {
+        "input": "1 1000",
+        "output": "2 3 5 13 89 233"
+      }
+    ]
+  },
+  {
+    "id": "NBEAUTY",
+    "title": "Số Đẹp Thứ N",
+    "level": "Hard",
+    "description": "Số có tổng chữ số chia hết cho 9 thứ N.",
+    "example_input": "2",
+    "example_output": "18",
+    "testcases": [
+      {
+        "input": "1",
+        "output": "9"
+      },
+      {
+        "input": "2",
+        "output": "18"
+      },
+      {
+        "input": "5",
+        "output": "45"
+      },
+      {
+        "input": "10",
+        "output": "90"
+      },
+      {
+        "input": "20",
+        "output": "180"
+      }
+    ]
+  },
+  {
+    "id": "NPALIN",
+    "title": "Số Đối Xứng Thứ N",
+    "level": "Hard",
+    "description": "Số Palindrome thứ N.",
+    "example_input": "10",
+    "example_output": "11",
+    "testcases": [
+      {
+        "input": "1",
+        "output": "1"
+      },
+      {
+        "input": "10",
+        "output": "11"
+      },
+      {
+        "input": "20",
+        "output": "111"
+      },
+      {
+        "input": "50",
+        "output": "414"
+      }
+    ]
+  },
+  {
+    "id": "LASTNUM",
+    "title": "Chữ Số Tận Cùng",
+    "level": "Medium",
+    "description": "Chữ số tận cùng a^N.",
+    "example_input": "3 3",
+    "example_output": "7",
+    "testcases": [
+      {
+        "input": "3 3",
+        "output": "7"
+      },
+      {
+        "input": "2 10",
+        "output": "4"
+      },
+      {
+        "input": "9 99",
+        "output": "9"
+      }
+    ]
+  },
+  {
+    "id": "DQBIT06",
+    "title": "Tập Con Tổng Bằng K",
+    "level": "Hard",
+    "description": "Nhiều phần tử nhất có tổng K.",
+    "example_input": "5 10\n1 3 4 5 2",
+    "example_output": "4",
+    "testcases": [
+      {
+        "input": "5 10\n1 3 4 5 2",
+        "output": "4"
+      },
+      {
+        "input": "3 5\n1 2 3",
+        "output": "2"
+      }
+    ]
+  },
+  {
+    "id": "DQBIT07",
+    "title": "Chia Mảng Thành 2 Tập Bằng Nhau",
+    "level": "Hard",
+    "description": "Liệt kê cấu hình 2 tập tổng bằng nhau.",
+    "example_input": "4\n1 2 3 4",
+    "example_output": "1 4\n2 3",
+    "testcases": [
+      {
+        "input": "4\n1 2 3 4",
+        "output": "4 1\n3 2\n2 3\n1 4"
+      },
+      {
+        "input": "3\n1 2 3",
+        "output": "3\n2 1\n1 2"
+      }
+    ]
+  },
+  {
+    "id": "DQBIT08",
+    "title": "Tổng Lớn Nhất Không 3 Phần Tử Liên Tiếp",
+    "level": "Hard",
+    "description": "Tổng max không chọn 3 liên tiếp.",
+    "example_input": "5\n10 20 30 1 2",
+    "example_output": "52",
+    "testcases": [
+      {
+        "input": "5\n10 20 30 1 2",
+        "output": "52"
+      },
+      {
+        "input": "4\n1 2 3 4",
+        "output": "7"
+      }
+    ]
+  },
+  {
+    "id": "DFSVLT",
+    "title": "Đếm Số Vùng Liên Thông",
+    "level": "Medium",
+    "description": "Đếm xem đồ thị có bao nhiêu vùng liên thông.",
+    "example_input": "12 7\n1 2\n2 5\n2 6\n6 10\n3 4\n9 11\n9 12",
+    "example_output": "5",
+    "testcases": [
+      {
+        "input": "12 7\n1 2\n2 5\n2 6\n6 10\n3 4\n9 11\n9 12",
+        "output": "5"
+      },
+      {
+        "input": "5 4\n1 2\n2 3\n3 4\n4 5",
+        "output": "1"
+      },
+      {
+        "input": "3 0",
+        "output": "3"
+      },
+      {
+        "input": "4 6\n1 2\n1 3\n1 4\n2 3\n2 4\n3 4",
+        "output": "1"
+      },
+      {
+        "input": "6 5\n1 2\n1 3\n4 5\n4 6\n5 6",
+        "output": "2"
+      }
+    ]
+  },
+  {
+    "id": "DFSNVLT",
+    "title": "Liệt Kê Các Vùng Liên Thông",
+    "level": "Medium",
+    "description": "Liệt kê các vùng liên thông, sắp xếp tăng dần.",
+    "example_input": "12 7\n1 2\n2 5\n2 6\n6 10\n3 4\n9 11\n9 12",
+    "example_output": "1 2 5 6 10\n3 4\n7\n8\n9 11 12",
+    "testcases": [
+      {
+        "input": "12 7\n1 2\n2 5\n2 6\n6 10\n3 4\n9 11\n9 12",
+        "output": "1 2 5 6 10\n3 4\n7\n8\n9 11 12"
+      },
+      {
+        "input": "5 4\n1 2\n2 3\n3 4\n4 5",
+        "output": "1 2 3 4 5"
+      },
+      {
+        "input": "3 0",
+        "output": "1\n2\n3"
+      },
+      {
+        "input": "6 5\n1 2\n1 3\n4 5\n4 6\n5 6",
+        "output": "1 2 3\n4 5 6"
+      }
+    ]
+  },
+  {
+    "id": "DFSMVLT",
+    "title": "Vùng Liên Thông Nhiều Đỉnh Nhất",
+    "level": "Medium",
+    "description": "Tìm vùng liên thông có nhiều đỉnh nhất.",
+    "example_input": "12 7\n1 2\n2 5\n2 6\n6 10\n3 4\n9 11\n9 12",
+    "example_output": "5\n1 2 5 6 10",
+    "testcases": [
+      {
+        "input": "12 7\n1 2\n2 5\n2 6\n6 10\n3 4\n9 11\n9 12",
+        "output": "5\n1 2 5 6 10"
+      },
+      {
+        "input": "5 4\n1 2\n2 3\n3 4\n4 5",
+        "output": "5\n1 2 3 4 5"
+      },
+      {
+        "input": "3 0",
+        "output": "1\n1"
+      },
+      {
+        "input": "6 5\n1 2\n1 3\n4 5\n4 6\n5 6",
+        "output": "3\n1 2 3"
+      }
+    ]
+  },
+  {
+    "id": "DFSLVLT",
+    "title": "Các Đỉnh Đến Được Từ S",
+    "level": "Medium",
+    "description": "Liệt kê các đỉnh đi đến được từ S.",
+    "example_input": "12 7\n1 2\n2 5\n2 6\n6 10\n3 4\n9 11\n9 12\nS=2",
+    "example_output": "1 5 6 10",
+    "testcases": [
+      {
+        "input": "12 7\n1 2\n2 5\n2 6\n6 10\n3 4\n9 11\n9 12\n2",
+        "output": "1 5 6 10"
+      },
+      {
+        "input": "5 4\n1 2\n2 3\n3 4\n4 5\n3",
+        "output": "1 2 4 5"
+      }
+    ]
+  },
+  {
+    "id": "DFSSTVLT",
+    "title": "Đường Đi Từ S Đến T",
+    "level": "Medium",
+    "description": "Lộ trình đi từ S đến T.",
+    "example_input": "12 7\n1 2\n2 5\n2 6\n6 10\n3 4\n9 11\n9 12\n2 10",
+    "example_output": "10 6 2",
+    "testcases": [
+      {
+        "input": "12 7\n1 2\n2 5\n2 6\n6 10\n3 4\n9 11\n9 12\n2 10",
+        "output": "10 6 2"
+      },
+      {
+        "input": "5 4\n1 2\n2 3\n3 4\n4 5\n1 5",
+        "output": "5 4 3 2 1"
+      }
+    ]
+  },
+  {
+    "id": "DFSBRIGE",
+    "title": "Xây Cầu Kết Nối Đảo",
+    "level": "Medium",
+    "description": "Số cầu ít nhất để tất cả đảo liên thông.",
+    "example_input": "12 7\n1 2\n2 5\n2 6\n6 10\n3 4\n9 11\n9 12",
+    "example_output": "4",
+    "testcases": [
+      {
+        "input": "12 7\n1 2\n2 5\n2 6\n6 10\n3 4\n9 11\n9 12",
+        "output": "4"
+      },
+      {
+        "input": "5 4\n1 2\n2 3\n3 4\n4 5",
+        "output": "0"
+      },
+      {
+        "input": "3 0",
+        "output": "2"
+      },
+      {
+        "input": "4 6\n1 2\n1 3\n1 4\n2 3\n2 4\n3 4",
+        "output": "0"
+      },
+      {
+        "input": "6 5\n1 2\n1 3\n4 5\n4 6\n5 6",
+        "output": "1"
+      }
+    ]
+  },
+  {
+    "id": "DFSTRACE",
+    "title": "Mọi Lộ Trình Từ S",
+    "level": "Hard",
+    "description": "Toàn bộ lộ trình truy vết từ các đỉnh khác về S.",
+    "example_input": "12 7\n1 2\n2 5\n2 6\n6 10\n3 4\n9 11\n9 12\n2",
+    "example_output": "1 2\n5 2\n6 2\n10 6 2",
+    "testcases": [
+      {
+        "input": "12 7\n1 2\n2 5\n2 6\n6 10\n3 4\n9 11\n9 12\n2",
+        "output": "1 2\n5 2\n6 2\n10 6 2"
+      }
+    ]
+  },
+  {
+    "id": "DFSLMAX",
+    "title": "Đường Đi Qua Nhiều Đảo Nhất",
+    "level": "Hard",
+    "description": "Số đảo nhiều nhất qua được từ S.",
+    "example_input": "12 7\n1 2\n2 5\n2 6\n6 10\n3 4\n9 11\n9 12\n2",
+    "example_output": "3",
+    "testcases": [
+      {
+        "input": "12 7\n1 2\n2 5\n2 6\n6 10\n3 4\n9 11\n9 12\n2",
+        "output": "3"
+      },
+      {
+        "input": "5 4\n1 2\n2 3\n3 4\n4 5\n1",
+        "output": "5"
+      }
+    ]
+  },
+  {
+    "id": "DFSLK",
+    "title": "Tham Quan K Đảo",
+    "level": "Hard",
+    "description": "Lộ trình đi qua chính xác K đảo.",
+    "example_input": "12 7\n1 2\n2 5\n2 6\n6 10\n3 4\n9 11\n9 12\n2 3",
+    "example_output": "5 2 1",
+    "testcases": [
+      {
+        "input": "12 7\n1 2\n2 5\n2 6\n6 10\n3 4\n9 11\n9 12\n2 3",
+        "output": "5 2 1"
+      }
+    ]
+  },
+  {
+    "id": "DFSSECUR",
+    "title": "Tránh Đảo Phong Tỏa",
+    "level": "Hard",
+    "description": "Đường đi tránh danh sách cấm.",
+    "example_input": "12 7\n1 2\n2 5\n2 6\n6 10\n3 4\n9 11\n9 12\n12 1\n3",
+    "example_output": "9 11",
+    "testcases": [
+      {
+        "input": "12 7\n1 2\n2 5\n2 6\n6 10\n3 4\n9 11\n9 12\n12 1\n3",
+        "output": "9 11"
+      }
+    ]
+  },
+  {
+    "id": "DFSSMAX",
+    "title": "Vùng Liên Thông Trọng Số Lớn Nhất",
+    "level": "Hard",
+    "description": "Tổng trọng số lớn nhất của vùng liên thông.",
+    "example_input": "3 1\n1 2\n10 20 5",
+    "example_output": "30",
+    "testcases": [
+      {
+        "input": "3 1\n1 2\n10 20 5",
+        "output": "30"
+      }
+    ]
+  },
+  {
+    "id": "DFSPRIME",
+    "title": "Vùng Đồ Thị Nguyên Tố",
+    "level": "Hard",
+    "description": "Vùng liên thông có tổng đỉnh là số nguyên tố lớn nhất.",
+    "example_input": "12 7\n1 2\n2 5\n2 6\n6 10\n3 4\n9 11\n9 12",
+    "example_output": "7",
+    "testcases": [
+      {
+        "input": "12 7\n1 2\n2 5\n2 6\n6 10\n3 4\n9 11\n9 12",
+        "output": "7"
+      }
+    ]
+  },
+  {
+    "id": "DFSTS",
+    "title": "Vùng Chi Phí Giới Hạn",
+    "level": "Hard",
+    "description": "Vùng liên thông chi phí <= S, nhiều đỉnh nhất.",
+    "example_input": "3 1\n1 2\n10 20 5\n15",
+    "example_output": "1",
+    "testcases": [
+      {
+        "input": "3 1\n1 2\n10 20 5\n15",
+        "output": "1"
+      }
+    ]
+  },
+  {
+    "id": "DFSTK",
+    "title": "Sử Dụng Vé Miễn Phí",
+    "level": "Hard",
+    "description": "Tìm đường đi ngắn nhất với 1 cạnh miễn phí.",
+    "example_input": "3 2\n1 2 10\n2 3 20\n1 3",
+    "example_output": "10",
+    "testcases": [
+      {
+        "input": "3 2\n1 2 10\n2 3 20\n1 3",
+        "output": "10"
+      }
+    ]
+  },
+  {
+    "id": "DFSBRG2",
+    "title": "Xây Cầu Chiến Thuật",
+    "level": "Hard",
+    "description": "Số cầu xây thêm để nối các cặp đỉnh đặc biệt.",
+    "example_input": "3 1\n1 2\n1\n1 3",
+    "example_output": "1",
+    "testcases": [
+      {
+        "input": "3 1\n1 2\n1\n1 3",
+        "output": "1"
+      }
+    ]
+  },
+  {
+    "id": "DFSORIEN",
+    "title": "Đường Đi Có Hướng",
+    "level": "Hard",
+    "description": "Kiểm tra liên thông mạnh/yếu.",
+    "example_input": "3 3\n1 2\n2 3\n3 1",
+    "example_output": "STRONG",
+    "testcases": [
+      {
+        "input": "3 3\n1 2\n2 3\n3 1",
+        "output": "STRONG"
+      }
+    ]
+  },
+  {
+    "id": "DFSOST",
+    "title": "Đường Khứ Hồi",
+    "level": "Hard",
+    "description": "Đường khứ hồi không trùng cạnh.",
+    "example_input": "4 4\n1 2\n2 3\n3 4\n4 1\n1 3",
+    "example_output": "YES",
+    "testcases": [
+      {
+        "input": "4 4\n1 2\n2 3\n3 4\n4 1\n1 3",
+        "output": "YES"
+      }
+    ]
+  },
+  {
+    "id": "DFSOST2",
+    "title": "Điểm Hẹn Nhau",
+    "level": "Hard",
+    "description": "Đỉnh chung cân bằng nhất.",
+    "example_input": "5 4\n1 3\n2 3\n3 4\n4 5\n1 2",
+    "example_output": "3",
+    "testcases": [
+      {
+        "input": "5 4\n1 3\n2 3\n3 4\n4 5\n1 2",
+        "output": "3"
+      }
+    ]
+  },
+  {
+    "id": "DFSSAFE",
+    "title": "Đường Tín Hiệu An Toàn",
+    "level": "Hard",
+    "description": "Đường đi xác suất an toàn lớn nhất.",
+    "example_input": "3 2\n1 2 0.9\n2 3 0.8\n1 3",
+    "example_output": "0.72",
+    "testcases": [
+      {
+        "input": "3 2\n1 2 0.9\n2 3 0.8\n1 3",
+        "output": "0.72"
+      }
+    ]
+  },
+  {
+    "id": "DFSSAFE2",
+    "title": "Điểm Đến An Toàn",
+    "level": "Hard",
+    "description": "Tìm các đỉnh khớp.",
+    "example_input": "12 7\n1 2\n2 5\n2 6\n6 10\n3 4\n9 11\n9 12",
+    "example_output": "2 6 9",
+    "testcases": [
+      {
+        "input": "12 7\n1 2\n2 5\n2 6\n6 10\n3 4\n9 11\n9 12",
+        "output": "2 6 9"
+      }
+    ]
   }
 ]

@@ -41,6 +41,7 @@ class Compiler:
         "c": {"extension": ".c", "compiler": "gcc", "runner": None, "flags": ["-std=c11"]},
         "java": {"extension": ".java", "compiler": "javac", "runner": "java"},
         "javascript": {"extension": ".js", "compiler": None, "runner": "node"},
+        "pascal": {"extension": ".pas", "compiler": "fpc", "runner": None},
     }
 
     @classmethod
@@ -214,6 +215,32 @@ class Compiler:
         return [node, filepath], None
 
     @classmethod
+    def compile_pascal(cls, filename: str, code: str, temp_dir: str) -> Tuple[Optional[list], Optional[str]]:
+        """Pascal: compile with Free Pascal (fpc)."""
+        src = os.path.join(temp_dir, f"{filename}.pas")
+        out = os.path.join(temp_dir, f"{filename}.exe")
+        with open(src, "w", encoding="utf-8") as f:
+            f.write(code)
+
+        fpc = cls._resolve_executable("fpc")
+        try:
+            # fpc puts the output executable in the same directory as the source file
+            result = subprocess.run(
+                [fpc, src],
+                capture_output=True, text=True, errors="replace", timeout=cls.COMPILE_TIMEOUT,
+                cwd=temp_dir
+            )
+            if result.returncode != 0:
+                # fpc usually writes errors to stdout instead of stderr
+                error_msg = (result.stdout + "\n" + result.stderr).strip()
+                return None, error_msg
+            return [out], None
+        except FileNotFoundError:
+            return None, "System Error: Compiler 'fpc' not found. Please install Free Pascal and add it to PATH."
+        except subprocess.TimeoutExpired:
+            return None, f"System Error: Compilation timed out after {cls.COMPILE_TIMEOUT} seconds."
+
+    @classmethod
     def compile(cls, lang: str, filename: str, code: str, temp_dir: str) -> Tuple[Optional[list], Optional[str]]:
         """
         Compile/interpret code for the given language.
@@ -242,6 +269,7 @@ class Compiler:
             "c": cls.compile_c,
             "java": cls.compile_java,
             "javascript": cls.compile_javascript,
+            "pascal": cls.compile_pascal,
         }
 
         return compilers[lang](filename, code, temp_dir)
