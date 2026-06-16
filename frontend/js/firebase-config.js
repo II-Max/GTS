@@ -4,14 +4,14 @@
 // =============================================================================
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAom_YsJkuimVBo5OzXHtiUCrsxKyQY89k",
-  authDomain: "gtsv2-a93c5.firebaseapp.com",
-  databaseURL: "https://gtsv2-a93c5-default-rtdb.firebaseio.com",
-  projectId: "gtsv2-a93c5",
-  storageBucket: "gtsv2-a93c5.firebasestorage.app",
-  messagingSenderId: "1045981371372",
-  appId: "1:1045981371372:web:97d332c92337ecaf103ec9",
-  measurementId: "G-YPCKKWNM17"
+    apiKey: "AIzaSyAom_YsJkuimVBo5OzXHtiUCrsxKyQY89k",
+    authDomain: "gtsv2-a93c5.firebaseapp.com",
+    databaseURL: "https://gtsv2-a93c5-default-rtdb.firebaseio.com",
+    projectId: "gtsv2-a93c5",
+    storageBucket: "gtsv2-a93c5.firebasestorage.app",
+    messagingSenderId: "1045981371372",
+    appId: "1:1045981371372:web:97d332c92337ecaf103ec9",
+    measurementId: "G-YPCKKWNM17"
 };
 
 // Initialize Firebase
@@ -22,7 +22,7 @@ const db = firebase.database();
 // =============================================================================
 // API Base URL
 // =============================================================================
-const API_BASE = 'http://localhost:5000/api';
+const API_BASE = 'https://neo-judge.onrender.com/api';
 
 // =============================================================================
 // Utility Functions
