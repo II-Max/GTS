@@ -22,7 +22,7 @@ const db = firebase.database();
 // =============================================================================
 // API Base URL
 // =============================================================================
-const API_BASE = 'https://neo-judge.onrender.com/api';
+const API_BASE = 'https://gts-u7me.onrender.com/api';
 
 // =============================================================================
 // Utility Functions
