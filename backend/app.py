@@ -30,6 +30,9 @@ def create_api_app() -> Flask:
     from backend.routes.auth_routes import auth_bp
     app.register_blueprint(auth_bp)
 
+    from backend.routes.playground_routes import playground_bp
+    app.register_blueprint(playground_bp)
+
     # Health check
     @app.route("/api/health")
     def health():

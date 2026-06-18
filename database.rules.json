@@ -78,7 +78,7 @@
       ".read": "auth != null",
       "$message_id": {
         ".write": "auth != null && !data.exists()",
-        ".validate": "newData.child('name').val() === root.child('users/' + auth.uid + '/display_name').val() && newData.child('role').val() === root.child('users/' + auth.uid + '/role').val()"
+        ".validate": "(newData.child('name').val() === root.child('users/' + auth.uid + '/display_name').val() || newData.child('name').val() === root.child('users/' + auth.uid + '/name').val() || newData.child('name').val() === root.child('users/' + auth.uid + '/email').val()) && newData.child('role').val() === root.child('users/' + auth.uid + '/role').val()"
       }
     }
   }

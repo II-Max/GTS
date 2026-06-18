@@ -1,0 +1,1324 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GTS (Go to Success) — Thử Nghiệm Code</title>
+    <meta name="description" content="Playground - Chạy code trực tiếp và nhận hỗ trợ từ AI Agent trên GTS.">
+    <link rel="stylesheet" href="css/neo-design.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+            background-image: none;
+        }
+
+        /* ── HEADER ── */
+        .pg-header {
+            height: 52px;
+            background: var(--bg-card);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+            flex-shrink: 0;
+            gap: 12px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .pg-brand {
+            font-family: var(--font-code);
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: var(--accent);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .pg-brand .brand-dot {
+            width: 7px; height: 7px;
+            background: var(--accent);
+            border-radius: 50%;
+            box-shadow: 0 0 8px var(--accent);
+            animation: pulse-dot 2s ease-in-out infinite;
+        }
+
+        .pg-title {
+            font-family: var(--font-code);
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            padding-left: 14px;
+            border-left: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .pg-title i {
+            color: var(--success);
+            font-size: 0.72rem;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header-user {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-nav-link {
+            font-size: 0.76rem;
+            padding: 5px 10px;
+            border-radius: var(--radius-sm);
+            color: var(--text-secondary);
+            text-decoration: none;
+            border: 1px solid var(--border);
+            transition: all 0.2s;
+            font-family: var(--font-ui);
+        }
+
+        .btn-nav-link:hover {
+            border-color: var(--border-hover);
+            color: var(--text-primary);
+            background: rgba(255,255,255,0.04);
+        }
+
+        /* ── MAIN LAYOUT ── */
+        .pg-container {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        /* ── LEFT PANEL: Code Editor ── */
+        .editor-panel {
+            flex: 1;
+            min-width: 400px;
+            display: flex;
+            flex-direction: column;
+            background: var(--bg-surface);
+            overflow: hidden;
+        }
+
+        /* Editor Toolbar */
+        .editor-toolbar {
+            padding: 8px 14px;
+            background: var(--bg-card);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+
+        .lang-select {
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            color: var(--text-primary);
+            padding: 6px 10px;
+            font-family: var(--font-code);
+            font-size: 0.82rem;
+            cursor: pointer;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .lang-select:focus { border-color: var(--accent-border); }
+
+        .toolbar-spacer { flex: 1; }
+
+        .toolbar-divider {
+            width: 1px;
+            height: 20px;
+            background: var(--border);
+            margin: 0 4px;
+        }
+
+        /* Code Editor Area */
+        .code-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .code-editor-wrap {
+            flex: 1;
+            position: relative;
+            display: flex;
+            overflow: hidden;
+        }
+
+        .line-numbers {
+            width: 44px;
+            background: rgba(13, 17, 23, 0.8);
+            color: var(--text-muted);
+            font-family: 'JetBrains Mono', 'Consolas', monospace;
+            font-size: 13px;
+            line-height: 1.6;
+            padding: 16px 8px 16px 0;
+            text-align: right;
+            overflow: hidden;
+            user-select: none;
+            border-right: 1px solid rgba(255,255,255,0.06);
+            flex-shrink: 0;
+        }
+
+        .code-editor {
+            flex: 1;
+            background: #0d1117;
+            color: #c9d1d9;
+            border: none;
+            padding: 16px;
+            font-family: 'JetBrains Mono', 'Consolas', 'Courier New', monospace;
+            font-size: 13px;
+            resize: none;
+            outline: none;
+            line-height: 1.6;
+            tab-size: 4;
+            overflow-y: auto;
+            white-space: pre;
+            word-wrap: normal;
+        }
+
+        .code-editor::placeholder {
+            color: var(--text-muted);
+            opacity: 0.6;
+        }
+
+        /* ── STDIN Panel ── */
+        .stdin-panel {
+            border-top: 1px solid var(--border);
+            flex-shrink: 0;
+        }
+
+        .panel-header {
+            padding: 7px 14px;
+            background: var(--bg-card);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .panel-label {
+            font-family: var(--font-code);
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .panel-toggle {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            transition: transform 0.2s;
+        }
+
+        .stdin-editor {
+            height: 72px;
+            background: #0d1117;
+            color: #c9d1d9;
+            border: none;
+            padding: 10px 14px;
+            font-family: 'JetBrains Mono', 'Consolas', monospace;
+            font-size: 12.5px;
+            resize: none;
+            outline: none;
+            line-height: 1.5;
+            width: 100%;
+            overflow-y: auto;
+        }
+
+        .stdin-editor::placeholder {
+            color: var(--text-muted);
+            opacity: 0.5;
+        }
+
+        /* ── OUTPUT Panel ── */
+        .output-panel {
+            height: 160px;
+            background: var(--bg-base);
+            border-top: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0;
+        }
+
+        .output-header {
+            padding: 7px 14px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-shrink: 0;
+            background: var(--bg-card);
+        }
+
+        .output-meta {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .exec-time {
+            font-family: var(--font-code);
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            background: var(--bg-elevated);
+            padding: 2px 8px;
+            border-radius: 4px;
+            display: none;
+        }
+
+        .exec-status {
+            font-family: var(--font-code);
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+        }
+
+        #output-log {
+            flex: 1;
+            padding: 12px 14px;
+            overflow-y: auto;
+            font-family: var(--font-code);
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+            line-height: 1.55;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        /* ── RESIZE HANDLE ── */
+        .resize-handle {
+            width: 5px;
+            background: var(--border);
+            cursor: col-resize;
+            flex-shrink: 0;
+            transition: background 0.2s;
+            position: relative;
+        }
+
+        .resize-handle:hover,
+        .resize-handle.active {
+            background: var(--accent-border);
+        }
+
+        .resize-handle::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 3px;
+            height: 30px;
+            border-left: 1px dotted var(--text-muted);
+            border-right: 1px dotted var(--text-muted);
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .resize-handle:hover::after {
+            opacity: 1;
+        }
+
+        /* ── RIGHT PANEL: AI Agent ── */
+        .ai-panel {
+            width: 380px;
+            min-width: 280px;
+            max-width: 600px;
+            display: flex;
+            flex-direction: column;
+            background: var(--bg-surface);
+            border-left: 1px solid var(--border);
+            overflow: hidden;
+        }
+
+        /* AI Panel Header */
+        .ai-panel-header {
+            padding: 12px 16px;
+            background: linear-gradient(135deg, rgba(139,92,246,0.08) 0%, rgba(79,142,247,0.06) 100%);
+            border-bottom: 1px solid var(--ai-border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-shrink: 0;
+        }
+
+        .ai-panel-title {
+            font-family: var(--font-code);
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: var(--ai-purple);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .ai-status-dot {
+            width: 6px; height: 6px;
+            border-radius: 50%;
+            background: var(--success);
+            box-shadow: 0 0 6px var(--success);
+            animation: pulse-dot 2s ease-in-out infinite;
+        }
+
+        .ai-clear-btn {
+            background: none;
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            font-size: 0.7rem;
+            cursor: pointer;
+            padding: 3px 8px;
+            border-radius: 4px;
+            transition: all 0.2s;
+            font-family: var(--font-code);
+        }
+
+        .ai-clear-btn:hover {
+            border-color: var(--danger-border);
+            color: var(--danger);
+        }
+
+        /* Chat Messages Area */
+        .ai-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .ai-welcome {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-muted);
+        }
+
+        .ai-welcome-icon {
+            font-size: 2.5rem;
+            margin-bottom: 16px;
+            display: block;
+            background: linear-gradient(135deg, var(--ai-purple), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .ai-welcome h3 {
+            font-family: var(--font-code);
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .ai-welcome p {
+            font-size: 0.8rem;
+            line-height: 1.6;
+            max-width: 280px;
+            margin: 0 auto;
+        }
+
+        .ai-suggestions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            justify-content: center;
+            margin-top: 16px;
+        }
+
+        .ai-suggestion-btn {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            font-size: 0.72rem;
+            padding: 5px 10px;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: var(--font-ui);
+        }
+
+        .ai-suggestion-btn:hover {
+            border-color: var(--ai-border);
+            color: var(--ai-purple);
+            background: var(--ai-dim);
+        }
+
+        /* Chat Bubble */
+        .chat-msg {
+            display: flex;
+            gap: 10px;
+            animation: msg-in 0.25s ease;
+        }
+
+        @keyframes msg-in {
+            from { opacity: 0; transform: translateY(6px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .chat-msg.user {
+            flex-direction: row-reverse;
+        }
+
+        .chat-avatar {
+            width: 28px; height: 28px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.72rem;
+            font-weight: 700;
+        }
+
+        .chat-msg.user .chat-avatar {
+            background: var(--accent-dim);
+            color: var(--accent);
+            border: 1px solid var(--accent-border);
+        }
+
+        .chat-msg.assistant .chat-avatar {
+            background: var(--ai-dim);
+            color: var(--ai-purple);
+            border: 1px solid var(--ai-border);
+        }
+
+        .chat-bubble {
+            max-width: 85%;
+            padding: 10px 14px;
+            border-radius: 12px;
+            font-size: 0.84rem;
+            line-height: 1.65;
+            color: var(--text-secondary);
+            word-break: break-word;
+        }
+
+        .chat-msg.user .chat-bubble {
+            background: var(--accent-dim);
+            border: 1px solid var(--accent-border);
+            border-top-right-radius: 4px;
+            color: var(--text-primary);
+        }
+
+        .chat-msg.assistant .chat-bubble {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-top-left-radius: 4px;
+        }
+
+        /* Markdown rendering in chat */
+        .chat-bubble code {
+            background: rgba(255,255,255,0.08);
+            padding: 1px 5px;
+            border-radius: 3px;
+            font-family: var(--font-code);
+            font-size: 0.78rem;
+            color: var(--text-code);
+        }
+
+        .chat-bubble pre {
+            background: #0d1117;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 10px 12px;
+            margin: 8px 0;
+            overflow-x: auto;
+            font-size: 0.78rem;
+            line-height: 1.5;
+        }
+
+        .chat-bubble pre code {
+            background: none;
+            padding: 0;
+            color: #c9d1d9;
+        }
+
+        .chat-bubble b, .chat-bubble strong {
+            color: var(--ai-purple);
+            font-weight: 700;
+        }
+
+        .chat-bubble ul, .chat-bubble ol {
+            margin-left: 16px;
+            margin-top: 6px;
+            margin-bottom: 6px;
+        }
+
+        .chat-bubble li {
+            margin-bottom: 4px;
+        }
+
+        /* Typing indicator */
+        .typing-indicator {
+            display: flex;
+            gap: 4px;
+            padding: 8px 4px;
+        }
+
+        .typing-dot {
+            width: 6px; height: 6px;
+            border-radius: 50%;
+            background: var(--ai-purple);
+            animation: typing-bounce 1.2s ease-in-out infinite;
+        }
+
+        .typing-dot:nth-child(2) { animation-delay: 0.15s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.3s; }
+
+        @keyframes typing-bounce {
+            0%, 60%, 100% { opacity: 0.3; transform: translateY(0); }
+            30% { opacity: 1; transform: translateY(-4px); }
+        }
+
+        /* Chat Input */
+        .ai-input-area {
+            border-top: 1px solid var(--border);
+            padding: 12px;
+            background: var(--bg-card);
+            flex-shrink: 0;
+        }
+
+        .ai-input-wrap {
+            display: flex;
+            gap: 8px;
+            align-items: flex-end;
+        }
+
+        .ai-input {
+            flex: 1;
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            color: var(--text-primary);
+            padding: 9px 14px;
+            font-family: var(--font-ui);
+            font-size: 0.84rem;
+            outline: none;
+            resize: none;
+            max-height: 100px;
+            min-height: 38px;
+            line-height: 1.4;
+            transition: border-color 0.2s;
+        }
+
+        .ai-input:focus {
+            border-color: var(--ai-border);
+        }
+
+        .ai-input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .ai-send-btn {
+            width: 38px; height: 38px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--ai-purple), #6d28d9);
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+
+        .ai-send-btn:hover {
+            box-shadow: 0 0 16px rgba(139,92,246,0.4);
+            transform: translateY(-1px);
+        }
+
+        .ai-send-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .ai-context-badge {
+            font-size: 0.68rem;
+            color: var(--text-muted);
+            margin-top: 6px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .ai-context-badge i {
+            font-size: 0.62rem;
+        }
+
+        /* ── RUN BUTTON ANIMATIONS ── */
+        .btn-run {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-run.running {
+            pointer-events: none;
+        }
+
+        .btn-run.running::after {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+            animation: shimmer-btn 1s infinite;
+        }
+
+        @keyframes shimmer-btn {
+            to { left: 100%; }
+        }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 900px) {
+            .pg-container {
+                flex-direction: column;
+            }
+            .editor-panel {
+                min-width: 100%;
+                flex: none;
+                height: 55vh;
+            }
+            .resize-handle {
+                display: none;
+            }
+            .ai-panel {
+                width: 100%;
+                max-width: 100%;
+                height: 45vh;
+                border-left: none;
+                border-top: 1px solid var(--border);
+            }
+        }
+
+        @media (max-width: 640px) {
+            .pg-header { padding: 0 10px; }
+            .pg-title { display: none; }
+            .line-numbers { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="pg-header">
+        <div class="header-left">
+            <a href="index.html" class="pg-brand">
+                <span class="brand-dot"></span>GTS
+            </a>
+            <div class="pg-title">
+                <i class="fa-solid fa-flask"></i>
+                Thử Nghiệm — Playground
+            </div>
+        </div>
+        <div class="header-right">
+            <a href="problems.html" class="btn-nav-link">
+                <i class="fa-solid fa-code"></i> Bài tập
+            </a>
+            <div class="header-user" id="user-info">
+                <i class="fa-solid fa-circle-user"></i> Đang tải...
+            </div>
+        </div>
+    </header>
+
+    <div class="pg-container">
+
+        <!-- LEFT: Code Editor Panel -->
+        <div class="editor-panel" id="editor-panel">
+            <!-- Toolbar -->
+            <div class="editor-toolbar">
+                <select id="language" class="lang-select" onchange="onLanguageChange()">
+                    <option value="python">Python</option>
+                    <option value="cpp">C++</option>
+                    <option value="c">C</option>
+                    <option value="java">Java</option>
+                    <option value="javascript">JavaScript</option>
+                    <option value="pascal">Pascal</option>
+                </select>
+
+                <div class="toolbar-spacer"></div>
+
+                <button class="btn btn-ghost btn-sm" onclick="clearAll()" title="Xóa tất cả">
+                    <i class="fa-solid fa-eraser"></i> Xóa
+                </button>
+                <div class="toolbar-divider"></div>
+                <button id="btn-run" class="btn btn-success btn-sm btn-run" onclick="runCode()">
+                    <i class="fa-solid fa-play"></i> Chạy Code
+                </button>
+            </div>
+
+            <!-- Code Area -->
+            <div class="code-area">
+                <div class="code-editor-wrap">
+                    <div class="line-numbers" id="line-numbers">1</div>
+                    <textarea id="code" class="code-editor" spellcheck="false"
+                        placeholder="// Nhập code của bạn tại đây...&#10;// Chọn ngôn ngữ bên trên và nhấn ▶ Chạy Code!"></textarea>
+                </div>
+
+                <!-- Stdin Input -->
+                <div class="stdin-panel">
+                    <div class="panel-header" onclick="toggleStdin()">
+                        <span class="panel-label">
+                            <i class="fa-solid fa-keyboard"></i> Input (stdin)
+                        </span>
+                        <i class="fa-solid fa-chevron-up panel-toggle" id="stdin-toggle"></i>
+                    </div>
+                    <textarea id="stdin" class="stdin-editor"
+                        placeholder="Nhập dữ liệu đầu vào cho chương trình tại đây (mỗi dòng một giá trị)..."></textarea>
+                </div>
+
+                <!-- Output -->
+                <div class="output-panel">
+                    <div class="output-header">
+                        <span class="panel-label">
+                            <i class="fa-solid fa-terminal"></i> Output
+                        </span>
+                        <div class="output-meta">
+                            <span class="exec-time" id="exec-time"></span>
+                            <span class="exec-status" id="exec-status"></span>
+                        </div>
+                    </div>
+                    <div id="output-log">
+                        <span style="color:var(--text-muted);">Nhấn <b style="color:var(--success);">▶ Chạy Code</b> để thực thi chương trình của bạn...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Resize Handle -->
+        <div class="resize-handle" id="resize-handle"></div>
+
+        <!-- RIGHT: AI Agent Panel -->
+        <div class="ai-panel" id="ai-panel">
+            <!-- AI Header -->
+            <div class="ai-panel-header">
+                <div class="ai-panel-title">
+                    <i class="fa-solid fa-robot"></i>
+                    AI Agent
+                    <span class="ai-status-dot"></span>
+                </div>
+                <button class="ai-clear-btn" onclick="clearChat()">
+                    <i class="fa-solid fa-rotate-right"></i> Mới
+                </button>
+            </div>
+
+            <!-- Chat Messages -->
+            <div class="ai-messages" id="ai-messages">
+                <div class="ai-welcome" id="ai-welcome">
+                    <span class="ai-welcome-icon"><i class="fa-solid fa-robot"></i></span>
+                    <h3>GTS AI Agent</h3>
+                    <p>Chào bạn! Mình là trợ lý AI, sẵn sàng giúp bạn debug, giải thích code, và gợi ý thuật toán.</p>
+                    <div class="ai-suggestions">
+                        <button class="ai-suggestion-btn" onclick="sendSuggestion('Giải thích code này cho mình')">💡 Giải thích code</button>
+                        <button class="ai-suggestion-btn" onclick="sendSuggestion('Tìm lỗi trong code')">🐛 Debug code</button>
+                        <button class="ai-suggestion-btn" onclick="sendSuggestion('Gợi ý cải thiện code')">✨ Cải thiện</button>
+                        <button class="ai-suggestion-btn" onclick="sendSuggestion('Viết code mẫu Hello World')">📝 Code mẫu</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chat Input -->
+            <div class="ai-input-area">
+                <div class="ai-input-wrap">
+                    <textarea id="ai-input" class="ai-input" rows="1"
+                        placeholder="Hỏi AI bất kỳ điều gì..."
+                        onkeydown="handleAIKeydown(event)"
+                        oninput="autoResize(this)"></textarea>
+                    <button class="ai-send-btn" id="ai-send-btn" onclick="sendAIMessage()" title="Gửi">
+                        <i class="fa-solid fa-paper-plane"></i>
+                    </button>
+                </div>
+                <div class="ai-context-badge">
+                    <i class="fa-solid fa-link"></i>
+                    <span id="ai-context-info">Code sẽ được gửi kèm làm context</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script src="js/firebase-auth-check.js"></script>
+    <script>
+        // ================================================================
+        // STATE
+        // ================================================================
+        let currentUser = null;
+        let chatHistory = []; // [{role: 'user'|'assistant', content: '...'}]
+        let isRunning = false;
+        let isAITyping = false;
+
+        const CODE_TEMPLATES = {
+            python: `# Python — Thử Nghiệm\n# Nhập code tại đây rồi nhấn Chạy!\n\nname = input("Tên bạn là gì? ")\nprint(f"Xin chào, {name}! 🎉")\nprint("Chào mừng đến với GTS Playground!")\n`,
+            cpp: `// C++ — Thử Nghiệm\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    string name;\n    cout << "Tên bạn là gì? ";\n    getline(cin, name);\n    cout << "Xin chào, " << name << "! 🎉" << endl;\n    cout << "Chào mừng đến với GTS Playground!" << endl;\n    return 0;\n}\n`,
+            c: `// C — Thử Nghiệm\n#include <stdio.h>\n\nint main() {\n    char name[100];\n    printf("Tên bạn là gì? ");\n    fgets(name, 100, stdin);\n    printf("Xin chào, %s", name);\n    printf("Chào mừng đến với GTS Playground!\\n");\n    return 0;\n}\n`,
+            java: `// Java — Thử Nghiệm\nimport java.util.Scanner;\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        System.out.print("Tên bạn là gì? ");\n        String name = sc.nextLine();\n        System.out.println("Xin chào, " + name + "! 🎉");\n        System.out.println("Chào mừng đến với GTS Playground!");\n    }\n}\n`,
+            javascript: `// JavaScript (Node.js) — Thử Nghiệm\nconst readline = require('readline');\nconst rl = readline.createInterface({ input: process.stdin });\n\nconsole.log("Chào mừng đến với GTS Playground! 🎉");\nconsole.log("2 + 3 =", 2 + 3);\n`,
+            pascal: `{ Pascal — Thử Nghiệm }\nprogram Playground;\nvar name: string;\nbegin\n    write('Tên bạn là gì? ');\n    readln(name);\n    writeln('Xin chào, ', name, '! 🎉');\n    writeln('Chào mừng đến với GTS Playground!');\nend.\n`
+        };
+
+        // ================================================================
+        // AUTH
+        // ================================================================
+        auth.onAuthStateChanged(user => {
+            if (user) {
+                currentUser = user;
+                document.getElementById('user-info').innerHTML =
+                    `<i class="fa-solid fa-circle-user"></i> ${user.displayName || user.email}`;
+            } else {
+                document.getElementById('user-info').innerHTML =
+                    '<i class="fa-solid fa-circle-user"></i> Chưa đăng nhập';
+            }
+        });
+
+        // ================================================================
+        // CODE EDITOR
+        // ================================================================
+
+        // Initialize with default template
+        document.getElementById('code').value = CODE_TEMPLATES.python;
+        updateLineNumbers();
+
+        function onLanguageChange() {
+            const lang = document.getElementById('language').value;
+            const codeArea = document.getElementById('code');
+            // Only replace if code is a template or empty
+            const isTemplate = Object.values(CODE_TEMPLATES).some(t => codeArea.value.trim() === t.trim());
+            if (!codeArea.value.trim() || isTemplate) {
+                codeArea.value = CODE_TEMPLATES[lang] || '';
+                updateLineNumbers();
+            }
+        }
+
+        // Line numbers
+        function updateLineNumbers() {
+            const code = document.getElementById('code');
+            const lineNumEl = document.getElementById('line-numbers');
+            const lines = code.value.split('\n').length;
+            let html = '';
+            for (let i = 1; i <= lines; i++) {
+                html += i + '\n';
+            }
+            lineNumEl.textContent = html;
+        }
+
+        const codeEl = document.getElementById('code');
+        codeEl.addEventListener('input', updateLineNumbers);
+        codeEl.addEventListener('scroll', function() {
+            document.getElementById('line-numbers').scrollTop = this.scrollTop;
+        });
+
+        // Tab support
+        codeEl.addEventListener('keydown', function(e) {
+            if (e.key === 'Tab') {
+                e.preventDefault();
+                const start = this.selectionStart;
+                const end = this.selectionEnd;
+                this.value = this.value.substring(0, start) + '    ' + this.value.substring(end);
+                this.selectionStart = this.selectionEnd = start + 4;
+                updateLineNumbers();
+            }
+            // Ctrl+Enter to run
+            if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+                e.preventDefault();
+                runCode();
+            }
+        });
+
+        // ================================================================
+        // STDIN TOGGLE
+        // ================================================================
+        let stdinOpen = true;
+        function toggleStdin() {
+            stdinOpen = !stdinOpen;
+            const stdinEditor = document.getElementById('stdin');
+            const toggle = document.getElementById('stdin-toggle');
+            stdinEditor.style.display = stdinOpen ? 'block' : 'none';
+            toggle.style.transform = stdinOpen ? 'rotate(0deg)' : 'rotate(180deg)';
+        }
+
+        // ================================================================
+        // RUN CODE
+        // ================================================================
+        async function runCode() {
+            if (isRunning) return;
+
+            const code = document.getElementById('code').value;
+            const lang = document.getElementById('language').value;
+            const stdin = document.getElementById('stdin').value;
+
+            if (!code.trim()) {
+                alert('Bạn chưa nhập code!');
+                return;
+            }
+
+            // Check auth
+            if (!currentUser) {
+                alert('Vui lòng đăng nhập để chạy code!');
+                window.location.href = 'login.html';
+                return;
+            }
+
+            isRunning = true;
+            const btnRun = document.getElementById('btn-run');
+            const outputLog = document.getElementById('output-log');
+            const execTime = document.getElementById('exec-time');
+            const execStatus = document.getElementById('exec-status');
+
+            btnRun.classList.add('running');
+            btnRun.innerHTML = '<span class="btn-spinner"></span> Đang chạy...';
+
+            outputLog.innerHTML = '<span style="color:var(--warning)">⏳ Đang biên dịch và thực thi...</span>';
+            execTime.style.display = 'none';
+            execStatus.textContent = 'Đang xử lý';
+            execStatus.style.color = 'var(--warning)';
+
+            try {
+                const token = await currentUser.getIdToken();
+                const response = await fetch(API_BASE + '/playground/run', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + token,
+                    },
+                    body: JSON.stringify({ code, language: lang, stdin }),
+                });
+
+                const data = await response.json();
+
+                // Display execution time
+                if (data.execution_time !== undefined && data.execution_time > 0) {
+                    execTime.textContent = `${data.execution_time}s`;
+                    execTime.style.display = 'inline-block';
+                }
+
+                if (data.success && data.exit_code === 0) {
+                    // Success
+                    execStatus.textContent = '✅ Thành công';
+                    execStatus.style.color = 'var(--success)';
+
+                    let output = '';
+                    if (data.stdout) {
+                        output += data.stdout;
+                    }
+                    if (data.stderr) {
+                        output += (output ? '\n' : '') + '<span style="color:var(--warning)">' + escapeHtml(data.stderr) + '</span>';
+                    }
+                    if (!data.stdout && !data.stderr) {
+                        output = '<span style="color:var(--text-muted)">(Chương trình không có output)</span>';
+                    }
+                    outputLog.innerHTML = output.includes('<span') ? output : escapeHtml(output);
+
+                } else if (data.phase === 'compilation') {
+                    // Compilation error
+                    execStatus.textContent = '❌ Lỗi biên dịch';
+                    execStatus.style.color = 'var(--danger)';
+                    outputLog.innerHTML = '<span style="color:var(--danger)">Compilation Error:\n</span>' + escapeHtml(data.stderr || data.message || 'Unknown error');
+
+                } else if (data.stderr && data.stderr.includes('Time Limit')) {
+                    // TLE
+                    execStatus.textContent = '⏱️ Quá thời gian';
+                    execStatus.style.color = 'var(--danger)';
+                    outputLog.innerHTML = '<span style="color:var(--danger)">' + escapeHtml(data.stderr) + '</span>';
+
+                } else {
+                    // Runtime error or other failure
+                    execStatus.textContent = data.exit_code ? `❌ Exit code: ${data.exit_code}` : '❌ Lỗi';
+                    execStatus.style.color = 'var(--danger)';
+
+                    let output = '';
+                    if (data.stdout) output += escapeHtml(data.stdout) + '\n';
+                    if (data.stderr) output += '<span style="color:var(--danger)">' + escapeHtml(data.stderr) + '</span>';
+                    if (data.message) output += '<span style="color:var(--danger)">' + escapeHtml(data.message) + '</span>';
+                    outputLog.innerHTML = output || '<span style="color:var(--danger)">Lỗi không xác định</span>';
+                }
+
+            } catch (err) {
+                execStatus.textContent = '❌ Lỗi kết nối';
+                execStatus.style.color = 'var(--danger)';
+                outputLog.innerHTML = '<span style="color:var(--danger)">⚠️ Không thể kết nối tới server. Kiểm tra kết nối mạng hoặc server chưa khởi động.</span>';
+                console.error('Run error:', err);
+            }
+
+            btnRun.classList.remove('running');
+            btnRun.innerHTML = '<i class="fa-solid fa-play"></i> Chạy Code';
+            isRunning = false;
+        }
+
+        // ================================================================
+        // AI CHAT
+        // ================================================================
+
+        function handleAIKeydown(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendAIMessage();
+            }
+        }
+
+        function autoResize(textarea) {
+            textarea.style.height = 'auto';
+            textarea.style.height = Math.min(textarea.scrollHeight, 100) + 'px';
+        }
+
+        function sendSuggestion(text) {
+            document.getElementById('ai-input').value = text;
+            sendAIMessage();
+        }
+
+        async function sendAIMessage() {
+            if (isAITyping) return;
+
+            const input = document.getElementById('ai-input');
+            const message = input.value.trim();
+            if (!message) return;
+
+            if (!currentUser) {
+                alert('Vui lòng đăng nhập để sử dụng AI Agent!');
+                window.location.href = 'login.html';
+                return;
+            }
+
+            // Hide welcome
+            const welcome = document.getElementById('ai-welcome');
+            if (welcome) welcome.style.display = 'none';
+
+            // Add user message to UI
+            appendChatMessage('user', message);
+            chatHistory.push({ role: 'user', content: message });
+
+            input.value = '';
+            input.style.height = 'auto';
+            isAITyping = true;
+            document.getElementById('ai-send-btn').disabled = true;
+
+            // Show typing indicator
+            const typingEl = showTypingIndicator();
+
+            try {
+                const code = document.getElementById('code').value;
+                const lang = document.getElementById('language').value;
+                const token = await currentUser.getIdToken();
+
+                const response = await fetch(API_BASE + '/playground/ai-chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + token,
+                    },
+                    body: JSON.stringify({
+                        message,
+                        code,
+                        language: lang,
+                        history: chatHistory.slice(-10),
+                    }),
+                });
+
+                const data = await response.json();
+
+                // Remove typing indicator
+                typingEl.remove();
+
+                if (data.success) {
+                    appendChatMessage('assistant', data.response);
+                    chatHistory.push({ role: 'assistant', content: data.response });
+                } else {
+                    appendChatMessage('assistant', data.response || '❌ Lỗi — không nhận được phản hồi.');
+                }
+
+            } catch (err) {
+                typingEl.remove();
+                appendChatMessage('assistant', '⚠️ Không thể kết nối tới AI. Kiểm tra kết nối mạng.');
+                console.error('AI chat error:', err);
+            }
+
+            isAITyping = false;
+            document.getElementById('ai-send-btn').disabled = false;
+        }
+
+        function appendChatMessage(role, content) {
+            const container = document.getElementById('ai-messages');
+            const msgEl = document.createElement('div');
+            msgEl.className = `chat-msg ${role}`;
+
+            const avatarIcon = role === 'user' ? 'U' : '🤖';
+            const bubbleContent = role === 'assistant' ? renderMarkdown(content) : escapeHtml(content);
+
+            msgEl.innerHTML = `
+                <div class="chat-avatar">${avatarIcon}</div>
+                <div class="chat-bubble">${bubbleContent}</div>
+            `;
+
+            container.appendChild(msgEl);
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function showTypingIndicator() {
+            const container = document.getElementById('ai-messages');
+            const typingEl = document.createElement('div');
+            typingEl.className = 'chat-msg assistant';
+            typingEl.id = 'typing-indicator';
+            typingEl.innerHTML = `
+                <div class="chat-avatar">🤖</div>
+                <div class="chat-bubble">
+                    <div class="typing-indicator">
+                        <div class="typing-dot"></div>
+                        <div class="typing-dot"></div>
+                        <div class="typing-dot"></div>
+                    </div>
+                </div>
+            `;
+            container.appendChild(typingEl);
+            container.scrollTop = container.scrollHeight;
+            return typingEl;
+        }
+
+        function clearChat() {
+            chatHistory = [];
+            const container = document.getElementById('ai-messages');
+            container.innerHTML = `
+                <div class="ai-welcome" id="ai-welcome">
+                    <span class="ai-welcome-icon"><i class="fa-solid fa-robot"></i></span>
+                    <h3>GTS AI Agent</h3>
+                    <p>Chào bạn! Mình là trợ lý AI, sẵn sàng giúp bạn debug, giải thích code, và gợi ý thuật toán.</p>
+                    <div class="ai-suggestions">
+                        <button class="ai-suggestion-btn" onclick="sendSuggestion('Giải thích code này cho mình')">💡 Giải thích code</button>
+                        <button class="ai-suggestion-btn" onclick="sendSuggestion('Tìm lỗi trong code')">🐛 Debug code</button>
+                        <button class="ai-suggestion-btn" onclick="sendSuggestion('Gợi ý cải thiện code')">✨ Cải thiện</button>
+                        <button class="ai-suggestion-btn" onclick="sendSuggestion('Viết code mẫu Hello World')">📝 Code mẫu</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        // ================================================================
+        // UTILITIES
+        // ================================================================
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function renderMarkdown(text) {
+            if (!text) return '';
+            let html = escapeHtml(text);
+
+            // Code blocks: ```lang\ncode\n```
+            html = html.replace(/```(\w*)\n([\s\S]*?)```/g, '<pre><code>$2</code></pre>');
+            html = html.replace(/```([\s\S]*?)```/g, '<pre><code>$1</code></pre>');
+
+            // Inline code: `code`
+            html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
+
+            // Bold: **text**
+            html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+
+            // Italic: *text*
+            html = html.replace(/(?<!\*)\*([^*]+)\*(?!\*)/g, '<em>$1</em>');
+
+            // Bullet points: - text
+            html = html.replace(/^- (.+)$/gm, '<li>$1</li>');
+            html = html.replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>');
+
+            // Numbered lists: 1. text
+            html = html.replace(/^\d+\. (.+)$/gm, '<li>$1</li>');
+
+            // Line breaks
+            html = html.replace(/\n/g, '<br>');
+
+            // Clean up <br> inside <pre>
+            html = html.replace(/<pre><code>([\s\S]*?)<\/code><\/pre>/g, (match, code) => {
+                return '<pre><code>' + code.replace(/<br>/g, '\n') + '</code></pre>';
+            });
+
+            return html;
+        }
+
+        function clearAll() {
+            const lang = document.getElementById('language').value;
+            document.getElementById('code').value = CODE_TEMPLATES[lang] || '';
+            document.getElementById('stdin').value = '';
+            document.getElementById('output-log').innerHTML =
+                '<span style="color:var(--text-muted);">Nhấn <b style="color:var(--success);">▶ Chạy Code</b> để thực thi chương trình của bạn...</span>';
+            document.getElementById('exec-time').style.display = 'none';
+            document.getElementById('exec-status').textContent = '';
+            updateLineNumbers();
+        }
+
+        // ================================================================
+        // RESIZE HANDLE
+        // ================================================================
+        const resizeHandle = document.getElementById('resize-handle');
+        const editorPanel = document.getElementById('editor-panel');
+        const aiPanel = document.getElementById('ai-panel');
+        let isResizing = false;
+
+        resizeHandle.addEventListener('mousedown', (e) => {
+            isResizing = true;
+            resizeHandle.classList.add('active');
+            document.body.style.cursor = 'col-resize';
+            document.body.style.userSelect = 'none';
+            e.preventDefault();
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (!isResizing) return;
+            const containerRect = document.querySelector('.pg-container').getBoundingClientRect();
+            const newEditorWidth = e.clientX - containerRect.left;
+            const minEditor = 350;
+            const minAI = 260;
+            const maxEditor = containerRect.width - minAI - 5;
+
+            if (newEditorWidth >= minEditor && newEditorWidth <= maxEditor) {
+                editorPanel.style.flex = 'none';
+                editorPanel.style.width = newEditorWidth + 'px';
+                aiPanel.style.width = (containerRect.width - newEditorWidth - 5) + 'px';
+            }
+        });
+
+        document.addEventListener('mouseup', () => {
+            if (isResizing) {
+                isResizing = false;
+                resizeHandle.classList.remove('active');
+                document.body.style.cursor = '';
+                document.body.style.userSelect = '';
+            }
+        });
+    </script>
+</body>
+</html>
