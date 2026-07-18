@@ -43,9 +43,9 @@ class Settings:
     LOG_DIR: str = str(BASE_DIR / os.getenv("LOG_DIR", "logs"))
     LOG_FORMAT: str = os.getenv("LOG_FORMAT", "json")  # "json" or "text"
 
-    # === AI (DeepSeek - uu tien) ===
-    DEEPSEEK_API_KEY: str = os.getenv("DEEPSEEK_API_KEY", "")
-    DEEPSEEK_MODEL: str = os.getenv("DEEPSEEK_MODEL", "deepseek-chat")
+    # === AI (NVIDIA - uu tien) ===
+    NVIDIA_API_KEY: str = os.getenv("NVIDIA_API_KEY", "")
+    NVIDIA_MODEL: str = os.getenv("NVIDIA_MODEL", "deepseek-ai/deepseek-r1")
 
     # === AI (Grok - xAI) ===
     GROK_API_KEY: str = os.getenv("GROK_API_KEY", "")

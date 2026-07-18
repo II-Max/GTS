@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Local AI Mentor (Không cần Login)</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #0d1117;
+            color: #c9d1d9;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .container {
+            width: 100%;
+            max-width: 800px;
+            background: #161b22;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            border: 1px solid #30363d;
+        }
+        h1 { text-align: center; color: #58a6ff; }
+        textarea {
+            width: 100%;
+            height: 100px;
+            background: #0d1117;
+            color: #c9d1d9;
+            border: 1px solid #30363d;
+            border-radius: 5px;
+            padding: 10px;
+            box-sizing: border-box;
+            font-family: inherit;
+            margin-bottom: 10px;
+            resize: vertical;
+        }
+        button {
+            background: #238636;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            width: 100%;
+        }
+        button:hover { background: #2ea043; }
+        button:disabled { background: #30363d; cursor: not-allowed; }
+        #chat-box {
+            margin-top: 20px;
+            padding: 15px;
+            background: #0d1117;
+            border-radius: 5px;
+            border: 1px solid #30363d;
+            min-height: 200px;
+            white-space: pre-wrap;
+            overflow-y: auto;
+            max-height: 400px;
+        }
+        .status { margin-bottom: 15px; font-weight: bold; text-align: center; }
+        .msg-user { color: #58a6ff; margin-bottom: 10px; font-weight: bold; }
+        .msg-ai { color: #3fb950; margin-bottom: 20px; border-left: 3px solid #3fb950; padding-left: 10px; }
+        .error { color: #f85149; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>🤖 Test AI Localhost (Bypass Login)</h1>
+    
+    <div id="auth-status" class="status" style="color: #3fb950;">
+        Chế độ Test Local (Đã bỏ qua Đăng nhập)
+    </div>
+    
+    <textarea id="ai-input" placeholder="Nhập câu hỏi cho AI ở đây..."></textarea>
+    <button id="btn-send">Gửi tới http://localhost:5000</button>
+    
+    <div id="chat-box"></div>
+</div>
+
+<script>
+    const chatBox = document.getElementById('chat-box');
+    const btnSend = document.getElementById('btn-send');
+    const input = document.getElementById('ai-input');
+
+    // Gọi trực tiếp localhost
+    const LOCAL_API_URL = 'http://localhost:5000/api/playground/ai-chat';
+    // Token bypass local (đã cấu hình cho phép ở backend khi bật DEBUG=true)
+    const BYPASS_TOKEN = 'local-test-token';
+
+    btnSend.addEventListener('click', async () => {
+        const message = input.value.trim();
+        if (!message) return;
+
+        chatBox.innerHTML += `<div class="msg-user">Bạn: ${message}</div>`;
+        input.value = '';
+        
+        btnSend.disabled = true;
+        btnSend.textContent = 'Đang gọi AI...';
+
+        try {
+            const res = await fetch(LOCAL_API_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${BYPASS_TOKEN}`
+                },
+                body: JSON.stringify({
+                    message: message,
+                    code: "print('Test Local AI without login')", // Fake code context
+                    language: "python"
+                })
+            });
+
+            const data = await res.json();
+            
+            if (data.success) {
+                chatBox.innerHTML += `<div class="msg-ai">AI: ${data.response}</div>`;
+            } else {
+                chatBox.innerHTML += `<div class="error">Lỗi từ Server: ${data.message || data.response}</div>`;
+            }
+        } catch (err) {
+            chatBox.innerHTML += `<div class="error">Lỗi kết nối Localhost: ${err.message}.<br>
+👉 Hãy chắc chắn rằng backend Python đang chạy ở port 5000.<br>
+👉 Hãy chắc chắn đã thêm <code>DEBUG=true</code> vào file <code>.env</code> ở backend và khởi động lại server.</div>`;
+        }
+
+        btnSend.disabled = false;
+        btnSend.textContent = 'Gửi tới http://localhost:5000';
+        chatBox.scrollTop = chatBox.scrollHeight;
+    });
+</script>
+
+</body>
+</html>

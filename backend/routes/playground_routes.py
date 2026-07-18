@@ -40,23 +40,31 @@ def playground_require_auth(f):
         if auth_header.startswith("Bearer "):
             token = auth_header[7:]
 
-        if not token:
-            return jsonify({"success": False, "message": "Thiếu token xác thực."}), 401
+        # Local debug bypass
+        if settings.DEBUG and token == "local-test-token":
+            payload = {
+                "uid": "local-test-uid",
+                "email": "local-test@gts.com",
+                "role": "student",
+            }
+        else:
+            if not token:
+                return jsonify({"success": False, "message": "Thiếu token xác thực."}), 401
 
-        # Try JWT first, then Firebase token
-        payload = auth_service.verify_jwt_token(token)
-        if not payload:
-            firebase_user = auth_service.verify_firebase_token(token)
-            if firebase_user:
-                uid = firebase_user.get("uid")
-                profile = auth_service.get_user_profile(uid) or {}
-                payload = {
-                    "uid": uid,
-                    "email": firebase_user.get("email", ""),
-                    "role": profile.get("role", "student"),
-                }
-            else:
-                return jsonify({"success": False, "message": "Token không hợp lệ."}), 401
+            # Try JWT first, then Firebase token
+            payload = auth_service.verify_jwt_token(token)
+            if not payload:
+                firebase_user = auth_service.verify_firebase_token(token)
+                if firebase_user:
+                    uid = firebase_user.get("uid")
+                    profile = auth_service.get_user_profile(uid) or {}
+                    payload = {
+                        "uid": uid,
+                        "email": firebase_user.get("email", ""),
+                        "role": profile.get("role", "student"),
+                    }
+                else:
+                    return jsonify({"success": False, "message": "Token không hợp lệ."}), 401
 
         kwargs["user"] = payload
         return f(*args, **kwargs)
@@ -239,7 +247,7 @@ def ai_chat(**kwargs):
         return jsonify({"success": False, "message": "Bạn chưa nhập tin nhắn!"}), 400
 
     # Build API key
-    api_key = getattr(settings, 'DEEPSEEK_API_KEY', None) or \
+    api_key = getattr(settings, 'NVIDIA_API_KEY', None) or \
               getattr(settings, 'OPENAI_API_KEY', None)
 
     if not api_key:
@@ -248,8 +256,8 @@ def ai_chat(**kwargs):
             "response": "⚠️ AI chưa được cấu hình. Liên hệ quản trị viên.",
         })
 
-    is_deepseek = bool(getattr(settings, 'DEEPSEEK_API_KEY', None))
-    api_url = AIService.DEEPSEEK_API_URL if is_deepseek \
+    is_nvidia = bool(getattr(settings, 'NVIDIA_API_KEY', None))
+    api_url = AIService.NVIDIA_API_URL if is_nvidia \
               else "https://api.openai.com/v1/chat/completions"
     model = AIService.get_default_model()
 

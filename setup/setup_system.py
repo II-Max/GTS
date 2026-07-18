@@ -134,11 +134,11 @@ ENV_TEMPLATE = r"""# ===========================================================
 CRED_PATH=service-account.json
 DB_URL=https://gtsv2-a93c5-default-rtdb.firebaseio.com
 
-# === AI (DeepSeek - khuyen dung, re nhat) ===
-# Dang ky key mien phi tai: https://platform.deepseek.com/
-DEEPSEEK_API_KEY=sk-your-deepseek-api-key
-DEEPSEEK_MODEL=deepseek-chat
-AI_MODEL=deepseek-chat
+# === AI (NVIDIA - khuyen dung) ===
+# Dang ky key tai: https://build.nvidia.com/
+NVIDIA_API_KEY=your-nvidia-api-key
+NVIDIA_MODEL=deepseek-ai/deepseek-r1
+AI_MODEL=deepseek-ai/deepseek-r1
 AI_TEMPERATURE=0.7
 AI_MAX_TOKENS=1000
 AI_TIMEOUT=20

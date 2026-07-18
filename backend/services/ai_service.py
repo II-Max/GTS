@@ -26,19 +26,19 @@ SYSTEM_INSTRUCTION = (
 class AIService:
     """AI Mentor Service. Supports DeepSeek (default) + OpenAI (fallback)."""
 
-    DEEPSEEK_API_URL = "https://api.deepseek.com/chat/completions"
+    NVIDIA_API_URL = "https://integrate.api.nvidia.com/v1/chat/completions"
 
     @classmethod
     def get_default_model(cls) -> str:
-        return getattr(settings, 'DEEPSEEK_MODEL', None) or \
-               getattr(settings, 'AI_MODEL', 'deepseek-chat')
+        return getattr(settings, 'NVIDIA_MODEL', None) or \
+               getattr(settings, 'AI_MODEL', 'deepseek-ai/deepseek-r1')
 
     @classmethod
     def review_code(cls, code: str, problem_description: str,
                     model: str = None) -> Dict[str, Any]:
         model = model or cls.get_default_model()
 
-        api_key = getattr(settings, 'DEEPSEEK_API_KEY', None) or \
+        api_key = getattr(settings, 'NVIDIA_API_KEY', None) or \
                   getattr(settings, 'OPENAI_API_KEY', None)
 
         if not api_key:
@@ -47,16 +47,16 @@ class AIService:
                 "success": False,
                 "response": (
                     "\u26a0\ufe0f AI chua duoc cau hinh. "
-                    "Them DEEPSEEK_API_KEY hoac OPENAI_API_KEY vao .env"
+                    "Them NVIDIA_API_KEY hoac OPENAI_API_KEY vao .env"
                 ),
                 "model": model,
                 "error": "API key missing",
             }
 
-        is_deepseek = bool(getattr(settings, 'DEEPSEEK_API_KEY', None))
-        api_url = cls.DEEPSEEK_API_URL if is_deepseek \
+        is_nvidia = bool(getattr(settings, 'NVIDIA_API_KEY', None))
+        api_url = cls.NVIDIA_API_URL if is_nvidia \
                   else "https://api.openai.com/v1/chat/completions"
-        provider_name = "DeepSeek" if is_deepseek else "OpenAI"
+        provider_name = "NVIDIA" if is_nvidia else "OpenAI"
 
         prompt = f"**De bai:**\n{problem_description}\n\n**Code cua hoc sinh:**\n```\n{code}\n```"
 
