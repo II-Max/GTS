@@ -239,21 +239,31 @@ class AuthService:
         return True
 
     def get_user_rank(self, limit: int = 50) -> list:
-        """Lấy bảng xếp hạng người dùng theo điểm."""
-        users = self.get_all_users()
-        ranked = []
-        for uid, data in users.items():
-            if isinstance(data, dict) and data.get("role") != "admin":
-                ranked.append({
-                    "uid": uid,
-                    "display_name": data.get("display_name", "Unknown"),
-                    "avatar": data.get("avatar", ""),
-                    "score": data.get("score", 0),
-                    "problems_solved": data.get("problems_solved", 0),
-                })
+        """Lấy bảng xếp hạng người dùng theo điểm (sử dụng public_leaderboard + server-side sorting)."""
+        from firebase_admin import db
+        try:
+            # Query from public_leaderboard, ordered by score, limited to top `limit`
+            query = db.reference("public_leaderboard").order_by_child("score").limit_to_last(limit).get()
+            if not query:
+                return []
 
-        ranked.sort(key=lambda x: x["score"], reverse=True)
-        return ranked[:limit]
+            ranked = []
+            for uid, data in query.items():
+                if isinstance(data, dict):
+                    ranked.append({
+                        "uid": uid,
+                        "display_name": data.get("display_name", "Unknown"),
+                        "avatar": data.get("avatar", ""),
+                        "score": data.get("score", 0),
+                        "problems_solved": data.get("problems_solved", 0),
+                    })
+
+            # Firebase returns in ascending order, we want descending
+            ranked.sort(key=lambda x: (x["score"], x["problems_solved"]), reverse=True)
+            return ranked
+        except Exception as e:
+            logger.error(f"Error getting user rank: {e}")
+            return []
 
     # ======================================================================
     # 6. ĐỒNG BỘ USER SAU KHI ĐĂNG NHẬP BẰNG OAuth
