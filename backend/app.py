@@ -21,6 +21,11 @@ logger = setup_logging()
 # Flask API Server
 # ======================================================================
 
+_stats_cache = {
+    "data": {"problems": 0, "users": 0, "submissions": 0},
+    "last_updated": 0
+}
+
 def create_api_app() -> Flask:
     """Create and configure the Flask API application."""
     app = Flask(__name__)
@@ -41,17 +46,26 @@ def create_api_app() -> Flask:
     # Platform Stats
     @app.route("/api/stats")
     def get_stats():
+        now = time.time()
+        # Cache for 60 seconds to avoid downloading full DB nodes
+        if now - _stats_cache.get("last_updated", 0) < 60 and _stats_cache.get("last_updated", 0) != 0:
+            return _stats_cache["data"]
+
         try:
             from backend.services.firebase_service import FirebaseService
             fb = FirebaseService()
             p = fb.get_data("problems")
             u = fb.get_data("users")
             s = fb.get_data("submissions")
-            return {
+
+            new_data = {
                 "problems": len(p) if p else 0,
                 "users": len(u) if u else 0,
                 "submissions": len(s) if s else 0
             }
+            _stats_cache["data"] = new_data
+            _stats_cache["last_updated"] = now
+            return new_data
         except Exception as e:
             return {"problems": 0, "users": 0, "submissions": 0}
 
