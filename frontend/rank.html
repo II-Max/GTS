@@ -241,7 +241,8 @@
 
             try {
                 // Doc tu public_leaderboard — node nay chi chua ten + diem, an toan 100%
-                const snap = await db.ref('public_leaderboard').once('value');
+                // Su dung query limitToLast de chi lay 50 nguoi dung co diem cao nhat
+                const snap = await db.ref('public_leaderboard').orderByChild('score').limitToLast(50).once('value');
 
                 if (!snap.exists()) {
                     listDiv.innerHTML = `
