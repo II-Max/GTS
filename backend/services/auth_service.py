@@ -239,21 +239,37 @@ class AuthService:
         return True
 
     def get_user_rank(self, limit: int = 50) -> list:
-        """Lấy bảng xếp hạng người dùng theo điểm."""
-        users = self.get_all_users()
+        """Lấy bảng xếp hạng người dùng theo điểm (sử dụng indexed query)."""
+        from firebase_admin import db
+        try:
+            # Query Firebase for top scores, limiting by requested amount
+            data = (
+                db.reference("public_leaderboard")
+                .order_by_child("score")
+                .limit_to_last(limit)
+                .get()
+            )
+        except Exception as e:
+            logger.error(f"Error fetching ranked users: {e}")
+            return []
+
+        if not data:
+            return []
+
         ranked = []
-        for uid, data in users.items():
-            if isinstance(data, dict) and data.get("role") != "admin":
+        for uid, user_data in data.items():
+            if isinstance(user_data, dict):
                 ranked.append({
                     "uid": uid,
-                    "display_name": data.get("display_name", "Unknown"),
-                    "avatar": data.get("avatar", ""),
-                    "score": data.get("score", 0),
-                    "problems_solved": data.get("problems_solved", 0),
+                    "display_name": user_data.get("display_name", "Unknown"),
+                    "avatar": user_data.get("avatar", ""),
+                    "score": user_data.get("score", 0),
+                    "problems_solved": user_data.get("problems_solved", 0),
                 })
 
+        # Sort descending because limit_to_last returns ascending order
         ranked.sort(key=lambda x: x["score"], reverse=True)
-        return ranked[:limit]
+        return ranked
 
     # ======================================================================
     # 6. ĐỒNG BỘ USER SAU KHI ĐĂNG NHẬP BẰNG OAuth
