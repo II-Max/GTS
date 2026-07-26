@@ -44,9 +44,11 @@ def create_api_app() -> Flask:
         try:
             from backend.services.firebase_service import FirebaseService
             fb = FirebaseService()
-            p = fb.get_data("problems")
-            u = fb.get_data("users")
-            s = fb.get_data("submissions")
+            # ⚡ Bolt: Use shallow=True to only fetch top-level keys instead of pulling all nested data.
+            # This drastically reduces payload size and memory usage for large collections.
+            p = fb.get_data("problems", shallow=True)
+            u = fb.get_data("users", shallow=True)
+            s = fb.get_data("submissions", shallow=True)
             return {
                 "problems": len(p) if p else 0,
                 "users": len(u) if u else 0,
