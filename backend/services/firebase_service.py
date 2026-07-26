@@ -46,10 +46,15 @@ class FirebaseService:
 
     # ---- Generic operations ----
 
-    def get_data(self, path: str) -> Optional[Dict[str, Any]]:
-        """Get all data at a database path."""
+    def get_data(self, path: str, shallow: bool = False) -> Optional[Dict[str, Any]]:
+        """Get all data at a database path.
+
+        Args:
+            path: Database path to read
+            shallow: If True, only fetches keys without nested data (great for counting)
+        """
         try:
-            return db.reference(path).get()
+            return db.reference(path).get(shallow=shallow)
         except Exception as e:
             logger.error(f"Error reading {path}: {e}")
             return None

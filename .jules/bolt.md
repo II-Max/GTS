@@ -1,0 +1,3 @@
+## 2024-05-18 - [Firebase RTDB Collection Counting Bottleneck]
+**Learning:** Fetching entire collections (like `users` or `submissions`) in Firebase Realtime Database just to count their size (using `len(data)`) pulls all nested data into memory, creating massive performance and memory bottlenecks on large datasets. This is exactly what the `/api/stats` endpoint was doing.
+**Action:** When only keys are needed or counting the size of a top-level node, use `shallow=True` in `get()` to only fetch the top-level keys without pulling nested data. This dramatically reduces payload size and memory footprint.
