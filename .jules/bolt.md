@@ -1,0 +1,3 @@
+## 2024-05-18 - [Firebase Shallow Reads for Counts]
+**Learning:** Firebase Realtime Database pulls the entire nested JSON tree by default. When we only need the count of items in a large node (like `submissions` or `users`), this is extremely inefficient. The `firebase-admin` python SDK supports a `shallow=True` flag in `db.reference(path).get(shallow=True)` that returns just the top-level keys without pulling any nested data, drastically reducing bandwidth and memory consumption.
+**Action:** Use `shallow=True` for any operation that only requires the list of keys or count of elements at a specific path, especially in API endpoints returning aggregate stats.
