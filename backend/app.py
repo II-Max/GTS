@@ -44,9 +44,13 @@ def create_api_app() -> Flask:
         try:
             from backend.services.firebase_service import FirebaseService
             fb = FirebaseService()
-            p = fb.get_data("problems")
-            u = fb.get_data("users")
-            s = fb.get_data("submissions")
+
+            # ⚡ Bolt: Using shallow=True for performance optimization
+            # Avoids pulling entire nested nodes when only counting keys.
+            p = fb.get_data("problems", shallow=True)
+            u = fb.get_data("users", shallow=True)
+            s = fb.get_data("submissions", shallow=True)
+
             return {
                 "problems": len(p) if p else 0,
                 "users": len(u) if u else 0,

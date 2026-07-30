@@ -1,0 +1,3 @@
+## 2024-05-19 - Firebase Shallow Fetching for Counting Data
+**Learning:** The `get_data` operations for computing platform stats were unnecessarily downloading full problem, user, and submission structures just to count the keys. This is an O(N) memory and bandwidth operation per user request, creating a massive potential bottleneck on a heavily used endpoint. The Firebase Realtime Database Python SDK natively supports a `shallow` argument for the `get()` method to only retrieve top-level keys.
+**Action:** When counting children of a Firebase node or fetching only a list of IDs without caring about nested details, always use `shallow=True` in `firebase_admin.db.Reference.get(shallow=True)`.
