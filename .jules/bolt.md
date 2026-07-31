@@ -1,0 +1,3 @@
+## 2024-10-24 - Firebase Data Counting Optimization
+**Learning:** In Firebase Realtime Database, when retrieving data purely for counting items (e.g., total users, problems, submissions), fetching the entire node downloads all nested data (like user info, problem test cases, or submission code), creating a massive performance bottleneck as the data grows. The Python SDK natively supports a `shallow` argument for `get()`.
+**Action:** Always use `shallow=True` (e.g. `db.reference(path).get(shallow=True)`) when the goal is to count keys or iterate top-level items without needing their nested properties.
