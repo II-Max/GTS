@@ -21,6 +21,7 @@ logger = setup_logging()
 # Flask API Server
 # ======================================================================
 
+
 def create_api_app() -> Flask:
     """Create and configure the Flask API application."""
     app = Flask(__name__)
@@ -28,9 +29,11 @@ def create_api_app() -> Flask:
 
     # Register blueprints
     from backend.routes.auth_routes import auth_bp
+
     app.register_blueprint(auth_bp)
 
     from backend.routes.playground_routes import playground_bp
+
     app.register_blueprint(playground_bp)
 
     # Health check
@@ -43,14 +46,17 @@ def create_api_app() -> Flask:
     def get_stats():
         try:
             from backend.services.firebase_service import FirebaseService
+
             fb = FirebaseService()
-            p = fb.get_data("problems")
-            u = fb.get_data("users")
-            s = fb.get_data("submissions")
+            # ⚡ Bolt Optimization: Use shallow=True to fetch only top-level keys
+            # instead of downloading the entire nested dataset just to count them.
+            p = fb.get_data("problems", shallow=True)
+            u = fb.get_data("users", shallow=True)
+            s = fb.get_data("submissions", shallow=True)
             return {
                 "problems": len(p) if p else 0,
                 "users": len(u) if u else 0,
-                "submissions": len(s) if s else 0
+                "submissions": len(s) if s else 0,
             }
         except Exception as e:
             return {"problems": 0, "users": 0, "submissions": 0}
@@ -77,6 +83,7 @@ class JudgeApplication:
         """Initialize backend services."""
         try:
             from backend.services.firebase_service import FirebaseService
+
             self._firebase = FirebaseService()
             self._firebase.initialize()
         except Exception as e:
@@ -106,15 +113,21 @@ class JudgeApplication:
         from backend.core.judge import JudgeEngine
 
         submission = Submission.from_firebase(key, data)
-        logger.info(f"Grading submission {key} ({submission.language}) for problem {submission.problem_id}")
+        logger.info(
+            f"Grading submission {key} ({submission.language}) for problem {submission.problem_id}"
+        )
 
         import tempfile
-        
+
         with tempfile.TemporaryDirectory() as temp_dir:
             # Step 1: Compile
-            cmd, err = Compiler.compile(submission.language, f"main", submission.code, temp_dir)
+            cmd, err = Compiler.compile(
+                submission.language, f"main", submission.code, temp_dir
+            )
             if err:
-                self._firebase.update_submission(table, key, 0, f"Compilation Error:\n{err}")
+                self._firebase.update_submission(
+                    table, key, 0, f"Compilation Error:\n{err}"
+                )
                 logger.warning(f"Submission {key}: Compilation failed")
                 return
 
@@ -122,17 +135,27 @@ class JudgeApplication:
             problem = self._firebase.get_problem(submission.problem_id)
             if not problem or "testcases" not in problem:
                 self._firebase.update_submission(
-                    table, key, 0,
-                    f"Error: Problem '{submission.problem_id}' not found or has no test cases."
+                    table,
+                    key,
+                    0,
+                    f"Error: Problem '{submission.problem_id}' not found or has no test cases.",
                 )
-                logger.warning(f"Submission {key}: Problem {submission.problem_id} not found")
+                logger.warning(
+                    f"Submission {key}: Problem {submission.problem_id} not found"
+                )
                 return
 
             # Step 3: Grade
-            result = JudgeEngine.grade_all(cmd, problem["testcases"], timeout=settings.JUDGE_TIMEOUT)
-            self._firebase.update_submission(table, key, result["score"], result["summary"])
+            result = JudgeEngine.grade_all(
+                cmd, problem["testcases"], timeout=settings.JUDGE_TIMEOUT
+            )
+            self._firebase.update_submission(
+                table, key, result["score"], result["summary"]
+            )
 
-            logger.info(f"Submission {key}: {result['passed']}/{result['total']} passed (score: {result['score']})")
+            logger.info(
+                f"Submission {key}: {result['passed']}/{result['total']} passed (score: {result['score']})"
+            )
 
         # Step 4: Cap nhat diem va public leaderboard
         try:
