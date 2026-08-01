@@ -46,10 +46,10 @@ class FirebaseService:
 
     # ---- Generic operations ----
 
-    def get_data(self, path: str) -> Optional[Dict[str, Any]]:
+    def get_data(self, path: str, shallow: bool = False) -> Optional[Dict[str, Any]]:
         """Get all data at a database path."""
         try:
-            return db.reference(path).get()
+            return db.reference(path).get(shallow=shallow)
         except Exception as e:
             logger.error(f"Error reading {path}: {e}")
             return None
@@ -90,10 +90,7 @@ class FirebaseService:
         """
         try:
             data = (
-                db.reference(table)
-                .order_by_child("status")
-                .equal_to("pending")
-                .get()
+                db.reference(table).order_by_child("status").equal_to("pending").get()
             )
         except Exception as e:
             logger.warning(f"Indexed query failed for {table}, falling back: {e}")
@@ -108,13 +105,18 @@ class FirebaseService:
                 pending.append((key, val))
         return pending
 
-    def update_submission(self, table: str, key: str, score: int, message: str, status: str = "completed"):
+    def update_submission(
+        self, table: str, key: str, score: int, message: str, status: str = "completed"
+    ):
         """Update a submission with grading results."""
-        self.update(f"{table}/{key}", {
-            "status": status,
-            "score": score,
-            "message": message,
-        })
+        self.update(
+            f"{table}/{key}",
+            {
+                "status": status,
+                "score": score,
+                "message": message,
+            },
+        )
 
     def get_problem(self, problem_id: str) -> Optional[Dict[str, Any]]:
         """Get problem data with test cases."""
@@ -153,20 +155,30 @@ class FirebaseService:
         """Mark an AI request as being processed."""
         self.update(f"ai_requests/{key}", {"status": "processing"})
 
-    def update_public_leaderboard(self, uid: str, display_name: str, score: int, problems_solved: int, avatar: str = ""):
+    def update_public_leaderboard(
+        self,
+        uid: str,
+        display_name: str,
+        score: int,
+        problems_solved: int,
+        avatar: str = "",
+    ):
         """
         Ghi thong tin diem so vao node public_leaderboard (doc duoc boi moi nguoi).
         Chi chua thong tin public — KHONG chua email, uid cu the hay thong tin nhay cam.
         Backend duoc goi sau moi lan cham bai hoan thanh.
         """
         try:
-            self.update(f"public_leaderboard/{uid}", {
-                "display_name": display_name,
-                "avatar": avatar,
-                "score": score,
-                "problems_solved": problems_solved,
-                "updated_at": datetime.now().isoformat(),
-            })
+            self.update(
+                f"public_leaderboard/{uid}",
+                {
+                    "display_name": display_name,
+                    "avatar": avatar,
+                    "score": score,
+                    "problems_solved": problems_solved,
+                    "updated_at": datetime.now().isoformat(),
+                },
+            )
         except Exception as e:
             logger.error(f"Error updating public_leaderboard for {uid}: {e}")
 
@@ -174,33 +186,38 @@ class FirebaseService:
         """Tính lại tổng điểm và số bài hoàn thành của user từ submissions, sau đó cập nhật vào users và public_leaderboard."""
         try:
             user = self.get_child("users", uid) or {}
-            
+
             # Lấy tất cả bài nộp của user
             subs = db.reference("submissions").order_by_child("uid").equal_to(uid).get()
-            
+
             problem_scores = {}
             if subs:
                 for sub_id, sub_data in subs.items():
-                    if isinstance(sub_data, dict) and sub_data.get("status") == "completed":
+                    if (
+                        isinstance(sub_data, dict)
+                        and sub_data.get("status") == "completed"
+                    ):
                         pid = sub_data.get("problem_id")
                         score = int(sub_data.get("score", 0))
                         if pid and score > problem_scores.get(pid, 0):
                             problem_scores[pid] = score
-                            
+
             total_score = sum(problem_scores.values())
             problems_solved = sum(1 for s in problem_scores.values() if s == 100)
-            
+
             # Cập nhật vào node users
-            self.update(f"users/{uid}", {
-                "score": total_score,
-                "problems_solved": problems_solved
-            })
-            
+            self.update(
+                f"users/{uid}",
+                {"score": total_score, "problems_solved": problems_solved},
+            )
+
             # Cập nhật public_leaderboard
             display_name = user.get("display_name") or user.get("name") or "Ẩn danh"
             avatar = user.get("avatar", "")
-            
-            self.update_public_leaderboard(uid, display_name, total_score, problems_solved, avatar)
+
+            self.update_public_leaderboard(
+                uid, display_name, total_score, problems_solved, avatar
+            )
             return total_score
         except Exception as e:
             logger.warning(f"Error recalculating user score for {uid}: {e}")
