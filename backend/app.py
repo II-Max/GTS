@@ -44,9 +44,12 @@ def create_api_app() -> Flask:
         try:
             from backend.services.firebase_service import FirebaseService
             fb = FirebaseService()
-            p = fb.get_data("problems")
-            u = fb.get_data("users")
-            s = fb.get_data("submissions")
+            # ⚡ Bolt: Optimize by using shallow reads.
+            # This fetches only top-level keys instead of the entire objects,
+            # which drastically reduces memory usage and bandwidth for counts.
+            p = fb.get_data("problems", shallow=True)
+            u = fb.get_data("users", shallow=True)
+            s = fb.get_data("submissions", shallow=True)
             return {
                 "problems": len(p) if p else 0,
                 "users": len(u) if u else 0,

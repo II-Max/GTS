@@ -1,0 +1,3 @@
+## 2026-08-04 - Firebase Shallow Reads for Efficient Counting
+**Learning:** In Firebase Realtime Database, when only needing to count the number of top-level children in a node (e.g., total users, problems, or submissions), fetching the entire nested object is a massive and unnecessary performance bottleneck. The `firebase_admin.db.Reference.get(shallow=True)` argument allows efficient shallow reads that only fetch the top-level keys without retrieving the nested child node values.
+**Action:** Always use `shallow=True` when querying Firebase data solely for the purpose of counting items or checking for the existence of top-level keys, to significantly reduce memory footprint and bandwidth.
