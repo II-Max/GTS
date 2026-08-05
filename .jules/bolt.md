@@ -1,0 +1,3 @@
+## 2024-11-20 - Fast Firebase Collection Counting
+**Learning:** In Firebase Realtime Database, pulling a whole collection just to count its size causes massive payload downloads and severe performance degradation, especially for growing nodes like `submissions` or `users`. The Python Admin SDK supports `shallow=True` natively (e.g., `ref.get(shallow=True)`). This returns a dictionary of keys without their nested data.
+**Action:** Always pass `shallow=True` when only top-level collection keys are needed (e.g., when building API stats).
