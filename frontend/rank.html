@@ -241,7 +241,8 @@
 
             try {
                 // Doc tu public_leaderboard — node nay chi chua ten + diem, an toan 100%
-                const snap = await db.ref('public_leaderboard').once('value');
+                // Optimized: Fetch only top 50 directly from Firebase
+                const snap = await db.ref('public_leaderboard').orderByChild('score').limitToLast(50).once('value');
 
                 if (!snap.exists()) {
                     listDiv.innerHTML = `
@@ -252,15 +253,23 @@
                     return;
                 }
 
-                const data = snap.val();
+                const rankArray = [];
+                snap.forEach(child => {
+                    const uid = child.key;
+                    const u = child.val();
+                    rankArray.push({
+                        uid,
+                        name: u.display_name || 'Ẩn danh',
+                        avatar: u.avatar || '',
+                        total: u.score || 0,
+                        solvedCount: u.problems_solved || 0,
+                    });
+                });
+                // Firebase returns ascending order by score, we need descending
+                rankArray.reverse();
 
-                const rankArray = Object.entries(data).map(([uid, u]) => ({
-                    uid,
-                    name: u.display_name || 'Ẩn danh',
-                    avatar: u.avatar || '',
-                    total: u.score || 0,
-                    solvedCount: u.problems_solved || 0,
-                })).sort((a, b) => b.total !== a.total ? b.total - a.total : b.solvedCount - a.solvedCount);
+                // To match original behavior for same-score tie breaking (problems solved)
+                rankArray.sort((a, b) => b.total !== a.total ? b.total - a.total : b.solvedCount - a.solvedCount);
 
                 if (rankArray.length === 0) {
                     listDiv.innerHTML = `<div class="rank-empty"><i class="fa-solid fa-chart-bar"></i>Chưa có dữ liệu.</div>`;
@@ -269,7 +278,7 @@
 
                 const medals = ['🥇', '🥈', '🥉'];
 
-                listDiv.innerHTML = rankArray.slice(0, 50).map((u, idx) => {
+                listDiv.innerHTML = rankArray.map((u, idx) => {
                     const rank     = idx + 1;
                     const topClass = rank <= 3 ? `top-${rank}` : '';
                     const meClass  = u.uid === currentUid ? 'me' : '';
