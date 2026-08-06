@@ -1,0 +1,3 @@
+## 2024-08-06 - Firebase Database Query Optimization
+**Learning:** In the Firebase Realtime Database, a common anti-pattern is fetching an entire node (e.g. `public_leaderboard`) to the client just to sort and slice the top N items using `once('value')`.
+**Action:** Use `.orderByChild('score').limitToLast(50).once('value')` to let the database handle sorting and truncating. This reduces network payload from O(N) to O(50), drastically improving load times and memory usage for scaling leaderboards. Since Firebase sorts in ascending order, remember to iterate using `.forEach` (to preserve the order) and then reverse the results locally.
