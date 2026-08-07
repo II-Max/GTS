@@ -240,8 +240,11 @@
             const listDiv = document.getElementById('rank-list');
 
             try {
-                // Doc tu public_leaderboard — node nay chi chua ten + diem, an toan 100%
-                const snap = await db.ref('public_leaderboard').once('value');
+                // Fetch top 50 from public_leaderboard sorted by score
+                const snap = await db.ref('public_leaderboard')
+                    .orderByChild('score')
+                    .limitToLast(50)
+                    .once('value');
 
                 if (!snap.exists()) {
                     listDiv.innerHTML = `
@@ -269,7 +272,7 @@
 
                 const medals = ['🥇', '🥈', '🥉'];
 
-                listDiv.innerHTML = rankArray.slice(0, 50).map((u, idx) => {
+                listDiv.innerHTML = rankArray.map((u, idx) => {
                     const rank     = idx + 1;
                     const topClass = rank <= 3 ? `top-${rank}` : '';
                     const meClass  = u.uid === currentUid ? 'me' : '';

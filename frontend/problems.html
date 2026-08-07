@@ -843,23 +843,27 @@
                 
                 myScoresMap = myScores;
                 
-                // Lay rank tu public_leaderboard (vi khong con quyen doc toan bo users/submissions)
-                db.ref('public_leaderboard').once('value').then(lbSnap => {
-                    if (lbSnap.exists()) {
-                        const lbData = lbSnap.val();
-                        const rankList = Object.entries(lbData).map(([uid, u]) => ({
-                            uid, total: u.score || 0
-                        })).sort((a, b) => b.total - a.total);
+                // Tinh rank: chi lay du lieu cua minh va dem so nguoi co diem cao hon, tra ve ket qua nhanh nhat
+                db.ref(`public_leaderboard/${currentUser.uid}`).once('value').then(mySnap => {
+                    if (mySnap.exists()) {
+                        const myData = mySnap.val();
+                        const myScore = myData.score || 0;
+                        document.getElementById('d-score').textContent = myScore;
                         
-                        const me = rankList.find(u => u.uid === currentUser.uid);
-                        if (me) {
-                            document.getElementById('d-score').textContent = me.total;
-                            document.getElementById('d-rank').textContent = '#' + (rankList.indexOf(me) + 1);
-                        } else {
-                            document.getElementById('d-score').textContent = '0';
-                        }
+                        db.ref('public_leaderboard')
+                          .orderByChild('score')
+                          .startAt(myScore + 1)
+                          .once('value')
+                          .then(higherSnap => {
+                              const higherCount = higherSnap.exists() ? Object.keys(higherSnap.val()).length : 0;
+                              document.getElementById('d-rank').textContent = '#' + (higherCount + 1);
+                              computeStatsAndRender();
+                          });
+                    } else {
+                        document.getElementById('d-score').textContent = '0';
+                        document.getElementById('d-rank').textContent = '#?';
+                        computeStatsAndRender();
                     }
-                    computeStatsAndRender();
                 }).catch(err => {
                     console.error("Khong the doc public_leaderboard:", err);
                     computeStatsAndRender();

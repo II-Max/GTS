@@ -2,7 +2,6 @@
   "rules": {
     ".read": false,
     ".write": false,
-
     "users": {
       "$uid": {
         ".read": "auth != null && ($uid === auth.uid || root.child('users/' + auth.uid + '/role').val() === 'teacher')",
@@ -18,19 +17,22 @@
         }
       }
     },
-
     "public_leaderboard": {
       ".read": true,
-      ".write": false
+      ".write": false,
+      ".indexOn": [
+        "score"
+      ]
     },
-
     "problems": {
       ".read": true,
       ".write": "auth != null && root.child('users/' + auth.uid + '/role').val() === 'teacher'"
     },
-
     "submissions": {
-      ".indexOn": ["uid", "status"],
+      ".indexOn": [
+        "uid",
+        "status"
+      ],
       ".read": "auth != null && (root.child('users/' + auth.uid + '/role').val() === 'teacher' || (query.orderByChild === 'uid' && query.equalTo === auth.uid))",
       "$submission_id": {
         ".read": "auth != null && (data.child('uid').val() === auth.uid || root.child('users/' + auth.uid + '/role').val() === 'teacher')",
@@ -38,9 +40,11 @@
         ".validate": "newData.child('uid').val() === auth.uid && newData.child('status').val() === 'pending'"
       }
     },
-
     "contest_submissions": {
-      ".indexOn": ["uid", "status"],
+      ".indexOn": [
+        "uid",
+        "status"
+      ],
       ".read": "auth != null && (root.child('users/' + auth.uid + '/role').val() === 'teacher' || (query.orderByChild === 'uid' && query.equalTo === auth.uid))",
       "$submission_id": {
         ".read": "auth != null && (data.child('uid').val() === auth.uid || root.child('users/' + auth.uid + '/role').val() === 'teacher')",
@@ -48,14 +52,15 @@
         ".validate": "newData.child('uid').val() === auth.uid && newData.child('status').val() === 'pending'"
       }
     },
-
     "contests": {
       ".read": "auth != null",
       ".write": "auth != null && root.child('users/' + auth.uid + '/role').val() === 'teacher'"
     },
-
     "ai_requests": {
-      ".indexOn": ["uid", "status"],
+      ".indexOn": [
+        "uid",
+        "status"
+      ],
       ".read": "auth != null && (root.child('users/' + auth.uid + '/role').val() === 'teacher' || (query.orderByChild === 'uid' && query.equalTo === auth.uid))",
       "$request_id": {
         ".read": "auth != null && (data.child('uid').val() === auth.uid || root.child('users/' + auth.uid + '/role').val() === 'teacher')",
@@ -63,17 +68,14 @@
         ".validate": "newData.child('uid').val() === auth.uid && newData.child('status').val() === 'pending'"
       }
     },
-
     "documents": {
       ".read": "auth != null",
       ".write": "auth != null && root.child('users/' + auth.uid + '/role').val() === 'teacher'"
     },
-
     "videos": {
       ".read": "auth != null",
       ".write": "auth != null && root.child('users/' + auth.uid + '/role').val() === 'teacher'"
     },
-
     "global_chat": {
       ".read": "auth != null",
       "$message_id": {

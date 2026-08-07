@@ -1,0 +1,3 @@
+## 2026-08-07 - Inefficient full-table Firebase scans in frontend
+**Learning:** The frontend was downloading the ENTIRE `public_leaderboard` node to display the top 50 users and to calculate the current user's rank. For a growing user base, this is an O(N) bandwidth and memory bottleneck. Firebase RTDB does not support client-side count queries, but we can combine `orderByChild` with `limitToLast` or `startAt` to dramatically reduce the payload.
+**Action:** Always add `.indexOn` rules for queried fields in `database.rules.json`. Use `limitToLast(N)` for top-N leaderboards, and use `startAt(score + 1)` to count higher-ranked users without downloading lower-ranked ones.
