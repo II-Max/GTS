@@ -844,22 +844,33 @@
                 myScoresMap = myScores;
                 
                 // Lay rank tu public_leaderboard (vi khong con quyen doc toan bo users/submissions)
-                db.ref('public_leaderboard').once('value').then(lbSnap => {
+                db.ref('public_leaderboard').orderByChild('score').limitToLast(100).once('value').then(lbSnap => {
                     if (lbSnap.exists()) {
-                        const lbData = lbSnap.val();
-                        const rankList = Object.entries(lbData).map(([uid, u]) => ({
-                            uid, total: u.score || 0
-                        })).sort((a, b) => b.total - a.total);
+                        const rankList = [];
+                        lbSnap.forEach(childSnap => {
+                            rankList.push({ uid: childSnap.key, total: childSnap.val().score || 0 });
+                        });
+                        rankList.sort((a, b) => b.total - a.total);
                         
-                        const me = rankList.find(u => u.uid === currentUser.uid);
-                        if (me) {
-                            document.getElementById('d-score').textContent = me.total;
-                            document.getElementById('d-rank').textContent = '#' + (rankList.indexOf(me) + 1);
+                        const meIndex = rankList.findIndex(u => u.uid === currentUser.uid);
+                        if (meIndex !== -1) {
+                            document.getElementById('d-score').textContent = rankList[meIndex].total;
+                            document.getElementById('d-rank').textContent = '#' + (meIndex + 1);
+                            computeStatsAndRender();
                         } else {
-                            document.getElementById('d-score').textContent = '0';
+                            db.ref('public_leaderboard/' + currentUser.uid).once('value').then(mySnap => {
+                                if (mySnap.exists()) {
+                                    document.getElementById('d-score').textContent = mySnap.val().score || 0;
+                                } else {
+                                    document.getElementById('d-score').textContent = '0';
+                                }
+                                document.getElementById('d-rank').textContent = '>100';
+                                computeStatsAndRender();
+                            }).catch(() => computeStatsAndRender());
                         }
+                    } else {
+                        computeStatsAndRender();
                     }
-                    computeStatsAndRender();
                 }).catch(err => {
                     console.error("Khong the doc public_leaderboard:", err);
                     computeStatsAndRender();
