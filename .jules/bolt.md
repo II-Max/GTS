@@ -1,0 +1,3 @@
+## 2024-08-11 - Client-side full node download for ranking data
+**Learning:** Querying a large flat node like `public_leaderboard` on the client side without limit/pagination forces a full-node download to the client device. Sorting/slicing on the client side (`Object.entries(data).sort(...)`) becomes a significant O(N) bandwidth and memory bottleneck as userbase grows, particularly for real-time listener methods.
+**Action:** Always set `.indexOn` rules in `database.rules.json` for fields we need to query and combine them with `.orderByChild()` and `.limitToLast()` (or `.startAt()`) when querying Firebase from the frontend to ensure efficient payloads.
