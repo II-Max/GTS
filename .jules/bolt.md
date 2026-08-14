@@ -1,0 +1,3 @@
+## 2024-05-24 - [Optimize Firebase Leaderboard Queries]
+**Learning:** Client-side Firebase RTDB queries like `db.ref('public_leaderboard').once('value')` fetch the entire node contents, leading to O(N) bandwidth bottlenecks and performance degradation as the user base grows.
+**Action:** Always add `.indexOn` rules in `database.rules.json` for queried fields (e.g., `score`) and use `orderByChild().limitToLast()` or `.startAt()` in client code to only fetch the required subset of data and minimize payload size.
