@@ -241,7 +241,9 @@
 
             try {
                 // Doc tu public_leaderboard — node nay chi chua ten + diem, an toan 100%
-                const snap = await db.ref('public_leaderboard').once('value');
+                // ⚡ Bolt Optimization: Use orderByChild and limitToLast to prevent O(N) full-node download.
+                // It drastically reduces the payload size, making the leaderboard rendering faster.
+                const snap = await db.ref('public_leaderboard').orderByChild('score').limitToLast(50).once('value');
 
                 if (!snap.exists()) {
                     listDiv.innerHTML = `
