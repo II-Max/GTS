@@ -20,6 +20,7 @@
     },
 
     "public_leaderboard": {
+      ".indexOn": ["score"],
       ".read": true,
       ".write": false
     },
