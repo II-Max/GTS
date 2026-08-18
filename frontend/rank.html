@@ -241,7 +241,11 @@
 
             try {
                 // Doc tu public_leaderboard — node nay chi chua ten + diem, an toan 100%
-                const snap = await db.ref('public_leaderboard').once('value');
+                // ⚡ Bolt: Query optimization - Only download top 50 users by score to avoid O(N) bandwidth scaling
+                const snap = await db.ref('public_leaderboard')
+                    .orderByChild('score')
+                    .limitToLast(50)
+                    .once('value');
 
                 if (!snap.exists()) {
                     listDiv.innerHTML = `
@@ -252,15 +256,25 @@
                     return;
                 }
 
-                const data = snap.val();
+                // ⚡ Bolt: Use snap.forEach to preserve Firebase ordering, then sort client-side for tie-breakers
+                let rawRankArray = [];
+                snap.forEach(childSnap => {
+                    const uid = childSnap.key;
+                    const u = childSnap.val();
+                    rawRankArray.push({
+                        uid,
+                        name: u.display_name || 'Ẩn danh',
+                        avatar: u.avatar || '',
+                        total: u.score || 0,
+                        solvedCount: u.problems_solved || 0,
+                    });
+                });
 
-                const rankArray = Object.entries(data).map(([uid, u]) => ({
-                    uid,
-                    name: u.display_name || 'Ẩn danh',
-                    avatar: u.avatar || '',
-                    total: u.score || 0,
-                    solvedCount: u.problems_solved || 0,
-                })).sort((a, b) => b.total !== a.total ? b.total - a.total : b.solvedCount - a.solvedCount);
+                // limitToLast returns in ascending order, so we sort it descending
+                // We keep the client side tie breaker logic since Firebase doesn't support multiple sorting fields
+                const rankArray = rawRankArray.sort((a, b) =>
+                    b.total !== a.total ? b.total - a.total : b.solvedCount - a.solvedCount
+                );
 
                 if (rankArray.length === 0) {
                     listDiv.innerHTML = `<div class="rank-empty"><i class="fa-solid fa-chart-bar"></i>Chưa có dữ liệu.</div>`;
@@ -269,7 +283,7 @@
 
                 const medals = ['🥇', '🥈', '🥉'];
 
-                listDiv.innerHTML = rankArray.slice(0, 50).map((u, idx) => {
+                listDiv.innerHTML = rankArray.map((u, idx) => {
                     const rank     = idx + 1;
                     const topClass = rank <= 3 ? `top-${rank}` : '';
                     const meClass  = u.uid === currentUid ? 'me' : '';
