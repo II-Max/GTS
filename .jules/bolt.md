@@ -1,0 +1,3 @@
+## 2024-08-21 - [Preventing O(N) Bandwidth Bottlenecks with Firebase Queries]
+**Learning:** When querying Firebase RTDB on the client-side for ranked data (e.g., leaderboards), downloading the entire node is an O(N) bandwidth operation that scales poorly. Additionally, standard JavaScript object iteration (e.g., via `Object.entries(snap.val())`) does not preserve the order of elements returned by Firebase.
+**Action:** Always set `.indexOn` in `database.rules.json` and use `orderByChild` combined with `limitToLast` or `startAt` to drastically reduce payload sizes. Furthermore, use `snap.forEach()` instead of `Object.entries(snap.val())` to correctly preserve the order when iterating over snapshot results.
