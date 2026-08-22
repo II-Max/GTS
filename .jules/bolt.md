@@ -1,0 +1,3 @@
+## 2024-08-22 - Optimize public_leaderboard query to prevent O(N) full node download
+**Learning:** Avoid full-node downloads for leaderboards by setting `.indexOn` in `database.rules.json` and using `orderByChild().limitToLast()` on the client side. When iterating over Firebase RTDB snapshot results ordered via `orderByChild`, use `snap.forEach()` instead of retrieving raw values (e.g., via `Object.entries(snap.val())`) because standard JavaScript objects do not guarantee order preservation.
+**Action:** Always check Firebase read queries for `.once('value')` on potentially large lists (like `public_leaderboard` or `submissions`). Ensure proper indices exist and utilize limit/pagination queries, being mindful to iterate with `snap.forEach()`.
