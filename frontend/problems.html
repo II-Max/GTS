@@ -843,25 +843,43 @@
                 
                 myScoresMap = myScores;
                 
-                // Lay rank tu public_leaderboard (vi khong con quyen doc toan bo users/submissions)
-                db.ref('public_leaderboard').once('value').then(lbSnap => {
-                    if (lbSnap.exists()) {
-                        const lbData = lbSnap.val();
-                        const rankList = Object.entries(lbData).map(([uid, u]) => ({
-                            uid, total: u.score || 0
-                        })).sort((a, b) => b.total - a.total);
+                // Optimize loading rank: avoid O(N) download of full leaderboard
+                db.ref(`public_leaderboard/${currentUser.uid}`).once('value').then(meSnap => {
+                    let myScore = 0;
+                    if (meSnap.exists()) {
+                        myScore = meSnap.val().score || 0;
+                        document.getElementById('d-score').textContent = myScore;
+                    } else {
+                        document.getElementById('d-score').textContent = '0';
+                    }
+
+                    // Query users with score >= myScore to calculate rank
+                    const queryScore = Math.max(1, myScore);
+                    return db.ref('public_leaderboard').orderByChild('score').startAt(queryScore).once('value');
+                }).then(lbSnap => {
+                    if (lbSnap && lbSnap.exists()) {
+                        const rankArray = [];
+                        lbSnap.forEach(childSnap => {
+                            const u = childSnap.val();
+                            rankArray.push({
+                                uid: childSnap.key,
+                                total: u.score || 0,
+                                solvedCount: u.problems_solved || 0
+                            });
+                        });
+
+                        rankArray.sort((a, b) => b.total !== a.total ? b.total - a.total : b.solvedCount - a.solvedCount);
                         
-                        const me = rankList.find(u => u.uid === currentUser.uid);
+                        const me = rankArray.find(u => u.uid === currentUser.uid);
                         if (me) {
-                            document.getElementById('d-score').textContent = me.total;
-                            document.getElementById('d-rank').textContent = '#' + (rankList.indexOf(me) + 1);
+                            document.getElementById('d-rank').textContent = '#' + (rankArray.indexOf(me) + 1);
                         } else {
-                            document.getElementById('d-score').textContent = '0';
+                            document.getElementById('d-rank').textContent = '—';
                         }
                     }
                     computeStatsAndRender();
                 }).catch(err => {
-                    console.error("Khong the doc public_leaderboard:", err);
+                    console.error("Lỗi khi tải xếp hạng:", err);
                     computeStatsAndRender();
                 });
             })
