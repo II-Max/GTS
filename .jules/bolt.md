@@ -1,0 +1,3 @@
+## 2024-05-19 - Firebase Realtime Database Query Optimization
+**Learning:** When querying Firebase RTDB on the client-side for ranked data (e.g., leaderboards), avoid full-node downloads. Using `.indexOn` in `database.rules.json` and combining it with `orderByChild` + `limitToLast` drastically reduces payload sizes and prevents O(N) bandwidth bottlenecks. Because JS objects do not guarantee order preservation, `snap.forEach()` must be used to iterate over ordered results before final client-side sorting (for tie-breakers).
+**Action:** Always index heavily queried metrics (like `score`) in `.rules` and use `.orderByChild().limitTo...` in client code rather than downloading an entire node and sorting in JS. Iterate with `.forEach()` when order matters.
