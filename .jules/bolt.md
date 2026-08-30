@@ -1,0 +1,6 @@
+## 2024-05-15 - Identify bottleneck in public leaderboard
+**Learning:** Found potential performance optimization in frontend/rank.html where client-side downloads the entire public_leaderboard node for ranking, which takes O(N) bandwidth, though it is then sorted locally. Realtime DB orderByChild with limitToLast can be used to only download the top N items directly from the server.
+**Action:** Use Firebase RTDB queries like .orderByChild('score').limitToLast(50) on the client side for rendering top 50 users instead of .once('value') on the entire unindexed node.
+## 2025-02-15 - Prevent O(N) client-side data downloads from Firebase RTDB
+**Learning:** Found an anti-pattern in the codebase where ranking fetched entire unindexed collections (e.g. `public_leaderboard`). The client downloaded an O(N) payload and sorted it locally using `Object.entries()`.
+**Action:** Always define `.indexOn` rules and use `.orderByChild('key').limitToLast(N)` to push the filtering/sorting load to Firebase and reduce client download sizes. Additionally, use `snap.forEach()` instead of `snap.val()` when iterating over sorted RTDB snapshots to preserve order since native JS objects do not guarantee key order.
