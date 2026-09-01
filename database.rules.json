@@ -21,7 +21,8 @@
 
     "public_leaderboard": {
       ".read": true,
-      ".write": false
+      ".write": false,
+      ".indexOn": ["score"]
     },
 
     "problems": {

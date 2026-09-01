@@ -241,7 +241,7 @@
 
             try {
                 // Doc tu public_leaderboard — node nay chi chua ten + diem, an toan 100%
-                const snap = await db.ref('public_leaderboard').once('value');
+                const snap = await db.ref('public_leaderboard').orderByChild('score').limitToLast(50).once('value');
 
                 if (!snap.exists()) {
                     listDiv.innerHTML = `
@@ -252,15 +252,22 @@
                     return;
                 }
 
-                const data = snap.val();
+                const rankArray = [];
 
-                const rankArray = Object.entries(data).map(([uid, u]) => ({
-                    uid,
-                    name: u.display_name || 'Ẩn danh',
-                    avatar: u.avatar || '',
-                    total: u.score || 0,
-                    solvedCount: u.problems_solved || 0,
-                })).sort((a, b) => b.total !== a.total ? b.total - a.total : b.solvedCount - a.solvedCount);
+                snap.forEach((childSnap) => {
+                    const u = childSnap.val();
+                    const uid = childSnap.key;
+                    rankArray.push({
+                        uid,
+                        name: u.display_name || 'Ẩn danh',
+                        avatar: u.avatar || '',
+                        total: u.score || 0,
+                        solvedCount: u.problems_solved || 0,
+                    });
+                });
+
+                // Xep hang giam dan theo diem, sau do la bai tap da hoan thanh
+                rankArray.sort((a, b) => b.total !== a.total ? b.total - a.total : b.solvedCount - a.solvedCount);
 
                 if (rankArray.length === 0) {
                     listDiv.innerHTML = `<div class="rank-empty"><i class="fa-solid fa-chart-bar"></i>Chưa có dữ liệu.</div>`;
