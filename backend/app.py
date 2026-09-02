@@ -39,19 +39,33 @@ def create_api_app() -> Flask:
         return {"status": "ok", "service": "GTS", "version": "2.0"}
 
     # Platform Stats
+    _stats_cache = {}
+    _stats_cache_time = 0
+
     @app.route("/api/stats")
     def get_stats():
+
+        nonlocal _stats_cache_time, _stats_cache
+        current_time = time.time()
+
+        # Cache for 60 seconds to prevent O(N) database reads
+        if current_time - _stats_cache_time < 60 and _stats_cache:
+            return _stats_cache
+
         try:
             from backend.services.firebase_service import FirebaseService
             fb = FirebaseService()
             p = fb.get_data("problems")
             u = fb.get_data("users")
             s = fb.get_data("submissions")
-            return {
+
+            _stats_cache = {
                 "problems": len(p) if p else 0,
                 "users": len(u) if u else 0,
                 "submissions": len(s) if s else 0
             }
+            _stats_cache_time = current_time
+            return _stats_cache
         except Exception as e:
             return {"problems": 0, "users": 0, "submissions": 0}
 
