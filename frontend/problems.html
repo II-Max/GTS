@@ -843,25 +843,55 @@
                 
                 myScoresMap = myScores;
                 
-                // Lay rank tu public_leaderboard (vi khong con quyen doc toan bo users/submissions)
-                db.ref('public_leaderboard').once('value').then(lbSnap => {
-                    if (lbSnap.exists()) {
-                        const lbData = lbSnap.val();
-                        const rankList = Object.entries(lbData).map(([uid, u]) => ({
-                            uid, total: u.score || 0
-                        })).sort((a, b) => b.total - a.total);
-                        
-                        const me = rankList.find(u => u.uid === currentUser.uid);
-                        if (me) {
-                            document.getElementById('d-score').textContent = me.total;
-                            document.getElementById('d-rank').textContent = '#' + (rankList.indexOf(me) + 1);
-                        } else {
-                            document.getElementById('d-score').textContent = '0';
-                        }
+                // Lay rank tu public_leaderboard (toi uu: chi truy van user cao diem hon thay vi tai toan bo data)
+                db.ref(`public_leaderboard/${currentUser.uid}`).once('value').then(meSnap => {
+                    if (meSnap.exists()) {
+                        const meData = meSnap.val();
+                        const myScore = meData.score || 0;
+                        const mySolvedCount = meData.problems_solved || 0;
+                        document.getElementById('d-score').textContent = myScore;
+
+                        // Truy van nhung nguoi co diem >= myScore
+                        db.ref('public_leaderboard')
+                            .orderByChild('score')
+                            .startAt(myScore)
+                            .once('value')
+                            .then(higherSnap => {
+                                let rank = 1;
+                                if (higherSnap.exists()) {
+                                    higherSnap.forEach(childSnap => {
+                                        const u = childSnap.val();
+                                        if (childSnap.key === currentUser.uid) return;
+
+                                        const uScore = u.score || 0;
+                                        const uSolvedCount = u.problems_solved || 0;
+
+                                        // Handle tie-breakers on client side as RTDB doesn't natively support sorting by multiple keys
+                                        if (uScore > myScore) {
+                                            rank++;
+                                        } else if (uScore === myScore) {
+                                            if (uSolvedCount > mySolvedCount) {
+                                                rank++;
+                                            } else if (uSolvedCount === mySolvedCount && childSnap.key < currentUser.uid) {
+                                                rank++;
+                                            }
+                                        }
+                                    });
+                                }
+                                document.getElementById('d-rank').textContent = '#' + rank;
+                                computeStatsAndRender();
+                            })
+                            .catch(err => {
+                                console.error("Khong the doc rank:", err);
+                                computeStatsAndRender();
+                            });
+                    } else {
+                        document.getElementById('d-score').textContent = '0';
+                        document.getElementById('d-rank').textContent = '#?';
+                        computeStatsAndRender();
                     }
-                    computeStatsAndRender();
                 }).catch(err => {
-                    console.error("Khong the doc public_leaderboard:", err);
+                    console.error("Khong the doc thong tin diem cua user:", err);
                     computeStatsAndRender();
                 });
             })
