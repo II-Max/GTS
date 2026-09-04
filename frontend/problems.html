@@ -844,24 +844,56 @@
                 myScoresMap = myScores;
                 
                 // Lay rank tu public_leaderboard (vi khong con quyen doc toan bo users/submissions)
-                db.ref('public_leaderboard').once('value').then(lbSnap => {
-                    if (lbSnap.exists()) {
-                        const lbData = lbSnap.val();
-                        const rankList = Object.entries(lbData).map(([uid, u]) => ({
-                            uid, total: u.score || 0
-                        })).sort((a, b) => b.total - a.total);
-                        
-                        const me = rankList.find(u => u.uid === currentUser.uid);
-                        if (me) {
-                            document.getElementById('d-score').textContent = me.total;
-                            document.getElementById('d-rank').textContent = '#' + (rankList.indexOf(me) + 1);
-                        } else {
-                            document.getElementById('d-score').textContent = '0';
-                        }
+                db.ref(`public_leaderboard/${currentUser.uid}`).once('value').then(myLbSnap => {
+                    if (!myLbSnap.exists()) {
+                        document.getElementById('d-score').textContent = '0';
+                        document.getElementById('d-rank').textContent = '#?';
+                        computeStatsAndRender();
+                        return;
                     }
-                    computeStatsAndRender();
+
+                    const myData = myLbSnap.val();
+                    const myScore = myData.score || 0;
+                    const mySolvedCount = myData.problems_solved || 0;
+                    document.getElementById('d-score').textContent = myScore;
+
+                    // Fetch users with score >= myScore to compute rank without downloading the whole leaderboard
+                    db.ref('public_leaderboard').orderByChild('score').startAt(myScore).once('value').then(lbSnap => {
+                        let rank = 1;
+                        if (lbSnap.exists()) {
+                            lbSnap.forEach(childSnap => {
+                                const u = childSnap.val();
+                                const uScore = u.score || 0;
+                                const uSolvedCount = u.problems_solved || 0;
+
+                                if (uScore > myScore) {
+                                    rank++;
+                                } else if (uScore === myScore) {
+                                    if (uSolvedCount > mySolvedCount) {
+                                        rank++;
+                                    } else if (uSolvedCount === mySolvedCount && childSnap.key !== currentUser.uid) {
+                                        // tie-breaker: fallback to default if any, here we just don't guarantee strict stable alphabetical order
+                                        // or we can fallback to key comparison if we want strict equality with original.
+                                        // The original code was: rankList.sort((a, b) => b.total - a.total).
+                                        // Original code didn't use problems_solved for tie-breaking in problems.html, but it did in rank.html.
+                                        // Let's use the simple logic: if score is same, we might just be equal.
+                                        // Let's match original simple tie-breaker which was just array order (unstable).
+                                        // We will just do a simple uid comparison to ensure consistent tie breaking.
+                                        if (childSnap.key < currentUser.uid) {
+                                            rank++;
+                                        }
+                                    }
+                                }
+                            });
+                        }
+                        document.getElementById('d-rank').textContent = '#' + rank;
+                        computeStatsAndRender();
+                    }).catch(err => {
+                        console.error("Loi khi query public_leaderboard >= score:", err);
+                        computeStatsAndRender();
+                    });
                 }).catch(err => {
-                    console.error("Khong the doc public_leaderboard:", err);
+                    console.error("Khong the doc public_leaderboard ca nhan:", err);
                     computeStatsAndRender();
                 });
             })
