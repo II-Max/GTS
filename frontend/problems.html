@@ -843,25 +843,52 @@
                 
                 myScoresMap = myScores;
                 
-                // Lay rank tu public_leaderboard (vi khong con quyen doc toan bo users/submissions)
-                db.ref('public_leaderboard').once('value').then(lbSnap => {
-                    if (lbSnap.exists()) {
-                        const lbData = lbSnap.val();
-                        const rankList = Object.entries(lbData).map(([uid, u]) => ({
-                            uid, total: u.score || 0
-                        })).sort((a, b) => b.total - a.total);
-                        
-                        const me = rankList.find(u => u.uid === currentUser.uid);
-                        if (me) {
-                            document.getElementById('d-score').textContent = me.total;
-                            document.getElementById('d-rank').textContent = '#' + (rankList.indexOf(me) + 1);
-                        } else {
-                            document.getElementById('d-score').textContent = '0';
-                        }
+                // ⚡ Bolt Optimization: Calculate global rank without downloading entire leaderboard (O(1) bandwidth instead of O(N))
+                db.ref(`public_leaderboard/${currentUser.uid}`).once('value').then(mySnap => {
+                    const myData = mySnap.val() || {};
+                    const myScore = myData.score || 0;
+                    const mySolved = myData.problems_solved || 0;
+
+                    document.getElementById('d-score').textContent = myScore;
+
+                    if (myScore === 0) {
+                        document.getElementById('d-rank').textContent = '—';
+                        computeStatsAndRender();
+                        return;
                     }
-                    computeStatsAndRender();
+
+                    // Query users with score >= myScore to count rank locally
+                    db.ref('public_leaderboard').orderByChild('score').startAt(myScore).once('value').then(lbSnap => {
+                        let rank = 1;
+                        if (lbSnap.exists()) {
+                            lbSnap.forEach(childSnap => {
+                                const u = childSnap.val();
+                                const uid = childSnap.key;
+                                if (uid === currentUser.uid) return;
+
+                                const uScore = u.score || 0;
+                                const uSolved = u.problems_solved || 0;
+
+                                if (uScore > myScore) {
+                                    rank++;
+                                } else if (uScore === myScore) {
+                                    // Local tie-breaker matching rank.html
+                                    if (uSolved > mySolved) {
+                                        rank++;
+                                    } else if (uSolved === mySolved && uid < currentUser.uid) {
+                                        rank++;
+                                    }
+                                }
+                            });
+                        }
+                        document.getElementById('d-rank').textContent = '#' + rank;
+                        computeStatsAndRender();
+                    }).catch(err => {
+                        console.error("Khong the doc public_leaderboard (query):", err);
+                        computeStatsAndRender();
+                    });
                 }).catch(err => {
-                    console.error("Khong the doc public_leaderboard:", err);
+                    console.error("Khong the doc public_leaderboard (my score):", err);
                     computeStatsAndRender();
                 });
             })
