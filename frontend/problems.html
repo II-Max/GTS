@@ -843,25 +843,57 @@
                 
                 myScoresMap = myScores;
                 
-                // Lay rank tu public_leaderboard (vi khong con quyen doc toan bo users/submissions)
-                db.ref('public_leaderboard').once('value').then(lbSnap => {
-                    if (lbSnap.exists()) {
-                        const lbData = lbSnap.val();
-                        const rankList = Object.entries(lbData).map(([uid, u]) => ({
-                            uid, total: u.score || 0
-                        })).sort((a, b) => b.total - a.total);
-                        
-                        const me = rankList.find(u => u.uid === currentUser.uid);
-                        if (me) {
-                            document.getElementById('d-score').textContent = me.total;
-                            document.getElementById('d-rank').textContent = '#' + (rankList.indexOf(me) + 1);
-                        } else {
-                            document.getElementById('d-score').textContent = '0';
-                        }
+                // Lay rank tu public_leaderboard (toi uu hoa bang cach chi lay nguoi bang hoac hon diem minh)
+                db.ref(`public_leaderboard/${currentUser.uid}`).once('value').then(userSnap => {
+                    let myScore = 0;
+                    let mySolved = 0;
+                    if (userSnap.exists()) {
+                        const uData = userSnap.val();
+                        myScore = uData.score || 0;
+                        mySolved = uData.problems_solved || 0;
                     }
-                    computeStatsAndRender();
+
+                    document.getElementById('d-score').textContent = myScore;
+
+                    if (myScore > 0 || mySolved > 0) {
+                        db.ref('public_leaderboard')
+                            .orderByChild('score')
+                            .startAt(myScore)
+                            .once('value')
+                            .then(higherSnap => {
+                                if (higherSnap.exists()) {
+                                    const rankList = [];
+                                    higherSnap.forEach(childSnap => {
+                                        const u = childSnap.val();
+                                        rankList.push({
+                                            uid: childSnap.key,
+                                            total: u.score || 0,
+                                            solvedCount: u.problems_solved || 0
+                                        });
+                                    });
+                                    // Tie-breaker logic
+                                    rankList.sort((a, b) => b.total !== a.total ? b.total - a.total : b.solvedCount - a.solvedCount);
+
+                                    const meIdx = rankList.findIndex(u => u.uid === currentUser.uid);
+                                    if (meIdx !== -1) {
+                                        document.getElementById('d-rank').textContent = '#' + (meIdx + 1);
+                                    } else {
+                                        document.getElementById('d-rank').textContent = '—';
+                                    }
+                                } else {
+                                    document.getElementById('d-rank').textContent = '#1';
+                                }
+                                computeStatsAndRender();
+                            }).catch(err => {
+                                console.error("Khong the doc public_leaderboard (startAt):", err);
+                                computeStatsAndRender();
+                            });
+                    } else {
+                        document.getElementById('d-rank').textContent = '—';
+                        computeStatsAndRender();
+                    }
                 }).catch(err => {
-                    console.error("Khong the doc public_leaderboard:", err);
+                    console.error("Khong the doc diem currentUser:", err);
                     computeStatsAndRender();
                 });
             })
